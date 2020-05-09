@@ -1,0 +1,24 @@
+{
+  "name": "simple_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./dist/* && npx webpack",
+    "serve": "npx http-server ./dist -p 8080 -o -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "phaser": "^3.22.0"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "http-server": "^0.12.1",
+    "ts-loader": "^6.2.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  }
+}
