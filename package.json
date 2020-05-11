@@ -6,11 +6,15 @@
   "scripts": {
     "build": "rm -rf ./dist/* && npx webpack",
     "serve": "npx http-server ./dist -p 8080 -o -c-1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2",
     "phaser": "^3.22.0"
   },
   "devDependencies": {
