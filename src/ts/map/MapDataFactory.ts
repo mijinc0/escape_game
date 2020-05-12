@@ -8,7 +8,7 @@ import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 type LayeredMapData = Map<number, number[][]>;
 
 export class MapDataFactory {
-  static createFromJson(mapJson: any, tileJson: any,): MapData {
+  static createFromJson(mapJson: any, tileJson: any, tileImage: string): MapData {
     const layeredMapData = LayeredMapDataFactory.createFromJson(mapJson);
     const tileSize = this._getTileSizeFromJson(mapJson);
     const tileInfos = TileInfosFactory.createFromJson(tileJson);
@@ -19,6 +19,7 @@ export class MapDataFactory {
       layeredMapData,
       tileSize,
       tileInfos,
+      tileImage,
       worldBounce,
       actorEntries,
     );

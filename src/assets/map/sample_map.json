@@ -1,0 +1,32 @@
+{ "compressionlevel":-1,
+ "height":10,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 7, 7, 7, 7, 7, 8, 1, 1, 1, 11, 12, 12, 12, 12, 12, 13, 1, 1, 1, 11, 12, 12, 12, 12, 12, 10, 8, 1, 1, 16, 17, 17, 14, 12, 12, 12, 13, 1, 1, 1, 1, 1, 11, 12, 12, 12, 13, 1, 1, 6, 7, 7, 9, 12, 12, 12, 13, 1, 1, 11, 12, 12, 12, 12, 12, 12, 13, 1, 1, 16, 17, 17, 17, 17, 17, 17, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         "height":10,
+         "id":1,
+         "name":"Tile Layer 1",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":10,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":2,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.3.3",
+ "tileheight":32,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"..\/..\/..\/tiled\/sample_tile.tsx"
+        }],
+ "tilewidth":32,
+ "type":"map",
+ "version":1.2,
+ "width":10
+}
