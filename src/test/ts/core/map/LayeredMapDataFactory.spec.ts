@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { LayeredMapDataFactory } from '../../../ts/map/LayeredMapDataFactory';
+import { LayeredMapDataFactory } from '../../../../ts/core/maps/LayeredMapDataFactory';
 
 describe('LayeredMapDataFactory.createFromJson()', () => {
   context('normal', () => {

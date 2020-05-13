@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { TileInfosFactory } from '../../../ts/map/TileInfosFactory';
+import { TileInfosFactory } from '../../../../ts/core/maps/TileInfosFactory';
 
 describe('TileInfosFactory.createFromJson()', () => {
   context('normal', () => {

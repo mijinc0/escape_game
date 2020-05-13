@@ -6,7 +6,7 @@ const distDirPath = path.resolve(__dirname, 'dist/');
 module.exports = {
   mode: 'development',
   entry: {
-    main: './src/ts/main.ts',
+    main: './src/ts/core/main.ts',
   },
   output: {
     filename: '[name].js',

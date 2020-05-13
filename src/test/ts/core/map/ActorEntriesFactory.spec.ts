@@ -1,6 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
-import { ActorEntriesFactory } from '../../../ts/map/ActorEntriesFactory';
+import { ActorEntriesFactory } from '../../../../ts/core/maps/ActorEntriesFactory';
 
 describe('ActorEntriesFactory.createFromJson()', () => {
   context('normal', () => {
