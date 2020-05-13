@@ -1,3 +1,5 @@
+import { GameFlags } from '../models/GameFlags';
+
 export interface IActorSprite {
   x: number;
 

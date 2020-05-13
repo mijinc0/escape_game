@@ -3,6 +3,7 @@ import { IActor } from './IActor';
 import { IActorSprite } from './IActorSprite';
 import { Direction } from '../models/Direction';
 import { IControllable } from '../models/IControllable';
+import { GameFlags } from '../models/GameFlags';
 import { Keys } from '../models/Keys';
 
 type EventCallback = (...args: any[]) => void;
@@ -13,6 +14,8 @@ export class Actor extends EventEmitter implements IActor, IControllable {
   readonly id: number;
   
   readonly sprite: IActorSprite;
+
+  readonly flags: GameFlags;
   
   direction: Direction;
   
@@ -29,6 +32,7 @@ export class Actor extends EventEmitter implements IActor, IControllable {
     this.name = name;
     this.sprite = sprite;
     this.direction = direction ? direction : Direction.Down;
+    this.flags = new GameFlags();
     this.keys = null;
   }
 

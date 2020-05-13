@@ -1,3 +1,7 @@
+import { GameFlags } from '../models/GameFlags';
+
 export interface IActor {
-  name: string,
+  name: string;
+
+  flags: GameFlags;
 }
