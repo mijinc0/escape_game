@@ -37,9 +37,6 @@ export class TestScene extends Phaser.Scene {
     this.actorFactory.loadMultipileAssets([
       {  name: 'hero', spritesheetPath: 'assets/sprites/actor.png', frameWidth: 32, frameHeight: 32},
     ]);
-
-    this.load.spritesheet('actorA', 'assets/sprites/actor.png', {frameWidth: 32, frameHeight: 32});
-    this.load.spritesheet('actor_attr', 'assets/sprites/actor_attr.png', {frameWidth: 32, frameHeight: 32});
   }
   
   create(): void {
