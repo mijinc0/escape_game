@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { Actor } from './Actor';
 import { ActorSprite } from './ActorSprite';
+import { Direction } from '../models/Direction';
 
 type SpriteConfig = {
   name: string,
@@ -19,6 +20,16 @@ type AnimConfig = {
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
+type ActorConstructor = new (...args: ConstructorParameters<typeof Actor>) => Actor;
+
+type ActorCreationConfig = {
+  name: string,
+  x: number,
+  y: number,
+  frame?: number,
+  actorConstructor?: ActorConstructor
+};
+
 export class ActorFactory {
   private scene: Phaser.Scene;
   private id: number;
@@ -26,6 +37,12 @@ export class ActorFactory {
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
     this.id = 0;
+  }
+
+  loadMultipileAssets(configs: SpriteConfig[]): void {
+    configs.forEach((config: SpriteConfig) => {
+      this.loadAssets(config);
+    });
   }
 
   loadAssets(config: SpriteConfig): void {
@@ -39,20 +56,58 @@ export class ActorFactory {
     );
   }
 
-  create(actorName: string): Actor {
+  createMultipile(configs: ActorCreationConfig[]): void {
+    configs.forEach((config: ActorCreationConfig) => {
+      this.create(
+        config.name,
+        config.x,
+        config.y,
+        config.frame,
+        config.actorConstructor
+      );
+    });
+  }
+
+  create(
+    actorName: string,
+    x: number,
+    y: number,
+    frame = 0,
+    actorConstructor: ActorConstructor = Actor
+  ): Actor {
     // 1. create sprite
-    const sprite = new ActorSprite(this.scene, 0, 0, actorName);
+    const sprite = this._crateSprite(actorName, x, y, frame);
     
     // 2. create actor
-    const actor = new Actor(this.id, actorName, sprite);
+    const actor = new actorConstructor(this.id, actorName, sprite, Direction.Left);
     
     // 3. set actor anims
     this._setActorAnims(actor);
 
+    // 4. add actor into scene
+    this.scene.add.existing(sprite);
+    this.scene.physics.add.existing(sprite);
+
+    // 5. increment id
+    this.id++;
+
     return actor;
   }
 
+  private _crateSprite(
+    actorName: string,
+    x: number,
+    y: number,
+    frame: number,
+  ): ActorSprite {
+    const sprite = new ActorSprite(this.scene, x, y, actorName, frame);
+    sprite.setOrigin(0);
+
+    return sprite
+  }
+
   private _setActorAnims(actor: Actor): void {
+    // アニメーションは歩行グラフィック決め打ち
     const configs = [
       {key: 'walkLeft', startFrame: 0, endFrame: 3, frameRate: 5, repeat: 0},
       {key: 'walkRight', startFrame: 4, endFrame: 7, frameRate: 5, repeat: 0},

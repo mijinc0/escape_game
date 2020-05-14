@@ -12,7 +12,10 @@ export class TileInfosFactory {
   }
 
   private static _createTileInfo(tileData: any): TileInfo {
-    const id = ValueTypeUtil.isNumber(tileData.id) ? tileData.id : -1;
+    // idを (tileData.id + 1) とするのは、Tiledのマップデータでは何もない場所のタイルIDを0とし、
+    // タイルデータに含まれる最初のタイルのIDを1とするのに対して、タイルデータは最初のタイルIDを0とするため、
+    // マップデータとタイルデータを合わせた時にIDがひとつずれてしまうため、タイルIDを+1して修正している
+    const id = ValueTypeUtil.isNumber(tileData.id) ? (tileData.id + 1) : -1;
     const properties = this._parsePropertiesObject(tileData.properties);
     const collide = ValueTypeUtil.isBoolean(properties.get('collide')) ? properties.get('collide') : false;
     return {

@@ -1,16 +1,24 @@
 import * as Phaser from 'phaser';
 
 import { SceneTilemapFactory } from '../maps/SceneTilemapFactory';
+import { Keys } from '../models/Keys';
 import { Actor } from '../actors/Actor';
 import { ActorSprite } from '../actors/ActorSprite';
-import { LayeredSprite } from '../actors/LayeredSprite';
+import { ActorFactory } from '../actors/ActorFactory';
+import { Hero } from '../../actors/Hero';
 
 export class TestScene extends Phaser.Scene {
+  private keys: Keys;
   private tilemapFactory: SceneTilemapFactory;
+  private actorFactory: ActorFactory;
   private primaryActor: Actor;
 
   init(): void {
     console.log('start scene TestScene');
+
+    const cursorKeys = this.input.keyboard.createCursorKeys();
+    const actionKey = cursorKeys.space;
+    this.keys = new Keys(cursorKeys, actionKey);
 
     this.tilemapFactory = new SceneTilemapFactory(
       this,
@@ -18,10 +26,16 @@ export class TestScene extends Phaser.Scene {
       'assets/tileset/sample_tile.json',
       'assets/tileset/sample_tile.png'
     );
+
+    this.actorFactory = new ActorFactory(this);
   }
 
   preload (): void {
     this.tilemapFactory.loadAssets();
+
+    this.actorFactory.loadMultipileAssets([
+      {  name: 'hero', spritesheetPath: 'assets/sprites/actor.png', frameWidth: 32, frameHeight: 32},
+    ]);
 
     this.load.spritesheet('actorA', 'assets/sprites/actor.png', {frameWidth: 32, frameHeight: 32});
     this.load.spritesheet('actor_attr', 'assets/sprites/actor_attr.png', {frameWidth: 32, frameHeight: 32});
@@ -29,34 +43,20 @@ export class TestScene extends Phaser.Scene {
   
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
-    this.tilemapFactory.create();
+    const tilemapData = this.tilemapFactory.create();
 
-    this.anims.create({
-      key: 'actorLeft',
-      frames: this.anims.generateFrameNumbers('actorA', {start: 0, end: 3}),
-      frameRate: 5,
-      repeat: -1,
-    });
+    this.primaryActor = this.actorFactory.create('hero', 100, 90, 0, Hero);
+    this.primaryActor.keys = this.keys;
 
-    this.anims.create({
-      frames: this.anims.generateFrameNumbers('actor_attr', {start: 0, end: 3}),
-      frameRate: 5,
-      repeat: -1,
-    });
-
-    const actor = new ActorSprite(this, 100, 100, 'actorA', 1);
-    this.add.existing(actor);
-
-    const actorAnim = this.anims.get('actorLeft');
-    actor.anims.play(actorAnim);
+    if (this.primaryActor.sprite instanceof ActorSprite) {
+      this.physics.add.collider(this.primaryActor.sprite, tilemapData.staticLayers);
+    }
   }
   
   private frame = 0;
 
   update(): void {
-    if (this.frame === 300) {
-      //this.primaryActor.stop(9);
-    }
+    this.primaryActor.update(this.frame);
 
     this.frame++;
   }

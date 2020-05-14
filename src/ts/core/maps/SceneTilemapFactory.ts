@@ -4,6 +4,10 @@ import { MapData } from './MapData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
+
+type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
+
+type SceneTilemapData = {staticLayers: StaticLayer[], mapData: MapData};
  
 export class SceneTilemapFactory {
   private scene: Phaser.Scene;
@@ -33,7 +37,7 @@ export class SceneTilemapFactory {
     this.scene.load.image(tilesetImageName, this.tilesetImagePath);
   }
 
-  create(): MapData {
+  create(): SceneTilemapData {
     const mapFileName = this._getFileName(this.mapFilePath);
     const tilesetFileName = this._getFileName(this.tilesetFilePath);
     const tilesetImageName = this._getFileName(this.tilesetImagePath);
@@ -49,11 +53,12 @@ export class SceneTilemapFactory {
     return this._createMap(jsonMapDataFile, jsonTilesetInfos, tilesetImageName);
   }
 
-  private _createMap(mapJson: any, tileJson: any, tilesetImageName: string): MapData {
+  private _createMap(mapJson: any, tileJson: any, tilesetImageName: string): SceneTilemapData {
     // 1. create map data
     const mapData = MapDataFactory.createFromJson(mapJson, tileJson, tilesetImageName);
 
     // 2. create static layers into the scene
+    const staticLayers: StaticLayer[] = [];
     mapData.data.forEach((data: number[][], layerId: number) => {
       const staticLayer = this._createStaticLayer(
         data,
@@ -63,9 +68,11 @@ export class SceneTilemapFactory {
       );
 
       this._addColliders(staticLayer, mapData.tileInfos);
+
+      staticLayers.push(staticLayer);
     });
 
-    return mapData;
+    return {staticLayers: staticLayers, mapData: mapData};
   }
 
   private _getFileName(filePath: string): string {
@@ -79,7 +86,7 @@ export class SceneTilemapFactory {
     tileSize: Size,
     tilesetName: string,
     layerId: number,
-  ): Phaser.Tilemaps.StaticTilemapLayer {
+  ): StaticLayer {
     // 1. create phaser's tilemap
     const tilemap = this.scene.make.tilemap({
       data: data,
@@ -104,8 +111,9 @@ export class SceneTilemapFactory {
     return tilemap.createStaticLayer(id, tileset, 0, 0);
   }
 
-  private _addColliders(staticLayer: Phaser.Tilemaps.StaticTilemapLayer, tileInfos: TileInfo[]): void {
-    const collisionTileIndexes = tileInfos.filter((tileInfo: TileInfo) => (tileInfo.collide));
-    staticLayer.setCollision(collisionTileIndexes, true);
+  private _addColliders(staticLayer: StaticLayer, tileInfos: TileInfo[]): void {
+    tileInfos.forEach((tileInfo: TileInfo) => {
+      if (tileInfo.collide) staticLayer.setCollision(tileInfo.id);
+    });
   }
 }
