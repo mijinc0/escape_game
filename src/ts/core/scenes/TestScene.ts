@@ -5,6 +5,7 @@ import { Keys } from '../models/Keys';
 import { Actor } from '../actors/Actor';
 import { ActorSprite } from '../actors/ActorSprite';
 import { ActorFactory } from '../actors/ActorFactory';
+import { ActorSearchEvent } from '../../actors/ActorSearchEvent';
 import { Hero } from '../../actors/Hero';
 
 export class TestScene extends Phaser.Scene {
@@ -48,8 +49,18 @@ export class TestScene extends Phaser.Scene {
     this.primaryActor = this.actorFactory.create('hero', 100, 90, 0, Hero);
     this.primaryActor.keys = this.keys;
 
+    const searchEvent = new ActorSearchEvent(this);
+    searchEvent.setEvent(this.primaryActor);
+
+    const sprite = this.physics.add.sprite(200, 200, 'actorA', 9);
+    sprite.body.immovable = true;
+    sprite.on('search', () => {
+      console.log('is searched!!!!!');
+    });
+
     if (this.primaryActor.sprite instanceof ActorSprite) {
       this.physics.add.collider(this.primaryActor.sprite, tilemapData.staticLayers);
+      this.physics.world.addCollider(sprite, this.primaryActor.sprite);
     }
   }
   

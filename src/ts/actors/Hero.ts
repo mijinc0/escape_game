@@ -16,6 +16,8 @@ export class Hero extends Actor {
           'search',
           this.sprite.x,
           this.sprite.y,
+          this.sprite.width,
+          this.sprite.height,
           this.direction,
         );
       }
