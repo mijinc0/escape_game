@@ -16,7 +16,6 @@ export abstract class PhaserObjectNode extends Node {
 
   abstract getGameObjects(): Phaser.GameObjects.GameObject[];
 
-  /* protected */
   protected _updateInvisible(): void {
     // 自身から祖先ノードを辿って、どこかしらのノードにInvisibleがセットされていたら非表示にする
     if (this.hasStatus(NodeStatus.Invisible, true)) {

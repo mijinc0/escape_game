@@ -44,7 +44,6 @@ export class Button extends PhaserObjectNode {
     return [this.rectangleObject, this.textObject];
   }
 
-  /* private */
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
     if (this.rectangleObject) this.rectangleObject.destroy();
 

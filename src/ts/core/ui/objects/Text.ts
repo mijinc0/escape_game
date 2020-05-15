@@ -48,7 +48,6 @@ export class Text extends PhaserObjectNode {
     return [this.textObject];
   }
 
-  /* private */
   private _createTextObject(): Phaser.GameObjects.Text {
     if (this.textObject) this.textObject.destroy();
 

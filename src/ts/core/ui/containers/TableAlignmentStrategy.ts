@@ -50,7 +50,6 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     }
   }
 
-  /* private */
   private _getNodePosition(
     baseX: number,
     baseY: number,

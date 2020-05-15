@@ -1,20 +1,20 @@
-import { UiContainer } from './UiContainer';
+import { Container } from './Container';
 import { CenterAlignmentStrategy } from './CenterAlignmentStrategy';
 import { RangeAlignmentStrategy } from './RangeAlignmentStrategy'; 
 import { TableAlignmentStrategy } from './TableAlignmentStrategy';
 import { Direction } from '../Direction';
 
-export class UiCointainerFactory {
+export class CointainerFactory {
   static createCenter(
     width: number,
     height: number,
     x?: number,
     y?: number,
     maxNodes?: number,
-  ): UiContainer {
+  ): Container {
     const ras = new CenterAlignmentStrategy()
 
-    return new UiContainer(width, height, ras, x, y, maxNodes);
+    return new Container(width, height, ras, x, y, maxNodes);
   }
 
   static createRightRange(
@@ -24,10 +24,10 @@ export class UiCointainerFactory {
     x?: number,
     y?: number,
     maxNodes?: number,
-  ): UiContainer {
+  ): Container {
     const ras = new RangeAlignmentStrategy(margin, Direction.Right)
 
-    return new UiContainer(width, height, ras, x, y, maxNodes);
+    return new Container(width, height, ras, x, y, maxNodes);
   }
 
   static createDownRange(
@@ -37,10 +37,10 @@ export class UiCointainerFactory {
     x?: number,
     y?: number,
     maxNodes?: number,
-  ): UiContainer {
+  ): Container {
     const ras = new RangeAlignmentStrategy(margin, Direction.Down)
 
-    return new UiContainer(width, height, ras, x, y, maxNodes);
+    return new Container(width, height, ras, x, y, maxNodes);
   }
   
   static createTable(
@@ -52,9 +52,9 @@ export class UiCointainerFactory {
     x?: number,
     y?: number,
     maxNodes?: number,
-  ): UiContainer {
+  ): Container {
     const tas = new TableAlignmentStrategy(rowSize, marginX, marginY);
 
-    return new UiContainer(width, height, tas, x, y,  maxNodes);
+    return new Container(width, height, tas, x, y,  maxNodes);
   }
 } 

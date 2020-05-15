@@ -2,7 +2,7 @@ import { Node } from '../Node';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 
-export class UiContainer extends Node {
+export class Container extends Node {
   private maxNodes: number;
   private alignmentStrategy: IAlignmentStrategy;
 
@@ -51,7 +51,6 @@ export class UiContainer extends Node {
     return nextNodeIndex;
   }
 
-  /* private */
   private _alignNodes(): void {
     this.alignmentStrategy.align(this);
   }

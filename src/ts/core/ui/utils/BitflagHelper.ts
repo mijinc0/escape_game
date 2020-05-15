@@ -23,8 +23,7 @@ export class BitflagHelper {
     const mask = ~flag;
     return flagField & mask;
   }
-  
-  /* private */
+
   private static _checkFlags(flags: number): void {
     if (flags > 0xffffffff) throw Error('bitflags size is too big (max 32bit)');
   }

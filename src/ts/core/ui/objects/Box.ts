@@ -35,7 +35,6 @@ export class Box extends PhaserObjectNode {
     return [this.rectangleObject];
   }
 
-  /* private */
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
     if (this.rectangleObject) this.rectangleObject.destroy();
 

@@ -1,4 +1,4 @@
-import { UiContainer } from '../containers/UiContainer';
+import { Container } from '../containers/Container';
 import { Keys } from '../../models/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 import { Direction } from '../Direction';
@@ -10,13 +10,13 @@ export class NodeSelector {
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
   public cooldownTime: number;
 
-  private container: UiContainer;
+  private container: Container;
   private cursor: ISelectorCursor;
   private currentNodeIndex: number;
   private cooldownCount: number;
 
   constructor(
-    container: UiContainer,
+    container: Container,
     cursor: ISelectorCursor,
     keys?: Keys,
   ) {
@@ -55,7 +55,6 @@ export class NodeSelector {
     }
   }
 
-  /* private */
   private _goNext(direction: Direction): void {
     // 次のノードのindexを要求する
     const nextNodeIndex = this.container.getNextNodeIndex(this.currentNodeIndex, direction);
@@ -89,6 +88,7 @@ export class NodeSelector {
 
     const currentNode = this.container.children[this.currentNodeIndex];
     currentNode.select();
+
     this.cooldownCount = this.cooldownTime;
   }
 }

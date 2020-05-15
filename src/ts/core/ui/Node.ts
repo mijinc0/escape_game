@@ -158,7 +158,6 @@ export class Node extends EventEmitter {
     return this.pDirty;
   }
 
-  /* protected */
   protected _updateActive(): void {}
 
   protected _updateDisable(): void {}
