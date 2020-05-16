@@ -10,6 +10,14 @@ export class SelectorCursor implements ISelectorCursor {
     this.rectangleObject.setOrigin(0);
   }
 
+  update(): void {}
+
+  destroy(): null {
+    this.rectangleObject.destroy();
+
+    return null;
+  }
+
   visible(): void {
     this.rectangleObject.visible = true;
   } 

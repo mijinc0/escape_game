@@ -1,13 +1,9 @@
-export class ScenarioEvent {
-  isGoing: boolean;
+import { Keys } from '../models/Keys';
+
+export interface ScenarioEvent {
+  keys: Keys;
+  isComplete: boolean;
   isAsync: boolean;
 
-  constructor() {
-    this.isGoing = false;
-    this.isAsync = false;
-  }
-
-  update(frame?: number): void {
-    
-  }
+  update(frame: number): void;
 }

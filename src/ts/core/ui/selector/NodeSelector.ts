@@ -1,10 +1,11 @@
+import { Element } from '../Element';
 import { Container } from '../containers/Container';
 import { Keys } from '../../models/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 import { Direction } from '../Direction';
 import { NodeStatus } from '../NodeStatus';
 
-export class NodeSelector {
+export class NodeSelector implements Element {
   public keys: Keys;
   public disable: boolean;
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
@@ -53,6 +54,12 @@ export class NodeSelector {
     } else if (this.keys.action.isDown) {
       this._select();
     }
+  }
+
+  destroy(): null {
+    this.cursor.destroy();
+
+    return null;
   }
 
   private _goNext(direction: Direction): void {

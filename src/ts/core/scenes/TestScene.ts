@@ -8,6 +8,9 @@ import { ActorFactory } from '../actors/ActorFactory';
 import { ActorSearchEvent } from '../../actors/ActorSearchEvent';
 import { Hero } from '../../actors/Hero';
 
+import { TextBox } from '../ui/objects/TextBox';
+import { MessageCard } from '../events/ui/MessageCard';
+
 export class TestScene extends Phaser.Scene {
   private keys: Keys;
   private tilemapFactory: SceneTilemapFactory;
@@ -59,12 +62,21 @@ export class TestScene extends Phaser.Scene {
       this.physics.add.collider(this.primaryActor.sprite, tilemapData.staticLayers);
       this.physics.world.addCollider(sprite, this.primaryActor.sprite);
     }
+
+    this.text = new MessageCard(
+      this,
+      `[john]\n this is test this is test this is test\\!this is test this is test this is test this is test this is test this is test`,
+    );
+    this.text.keys = this.keys;
   }
   
   private frame = 0;
+  private text: MessageCard;
 
   update(): void {
     this.primaryActor.update(this.frame);
+
+    this.text.update(this.frame);
 
     this.frame++;
   }

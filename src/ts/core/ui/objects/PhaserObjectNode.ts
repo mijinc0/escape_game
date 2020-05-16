@@ -6,12 +6,12 @@ export abstract class PhaserObjectNode extends Node {
   /**
    * 関連するPhaser.GameObjectをdestroyするようにする
    */
-  destroy(): void {
+  destroy(): null {
     this.getGameObjects().forEach((gameObject: Phaser.GameObjects.GameObject) => {
       gameObject.destroy();
     });
 
-    super.destroy();
+    return super.destroy();
   }
 
   abstract getGameObjects(): Phaser.GameObjects.GameObject[];

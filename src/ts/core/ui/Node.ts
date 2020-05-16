@@ -1,11 +1,12 @@
 import { EventEmitter } from 'events';
+import { Element } from './Element';
 import { BitflagHelper } from './utils/BitflagHelper';
 import { Position } from '../models/Position';
 import { Size } from '../models/Size';
 
 type SelectNodeEventCallback = (thisNode: Node) => void;
 
-export class Node extends EventEmitter {
+export class Node extends EventEmitter implements Element {
   position: Position;
 
   size: Size;
@@ -120,10 +121,12 @@ export class Node extends EventEmitter {
     }); 
   }
 
-  destroy(): void {
+  destroy(): null {
     this.children.forEach((child: Node) => {
       child.destroy();
     });
+
+    return null;
   }
 
   getRight(): number {
