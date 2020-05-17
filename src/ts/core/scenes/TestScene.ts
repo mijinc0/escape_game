@@ -9,7 +9,7 @@ import { ActorSearchEvent } from '../../actors/ActorSearchEvent';
 import { Hero } from '../../actors/Hero';
 
 import { TextBox } from '../ui/objects/TextBox';
-import { MessageCard } from '../events/ui/MessageCard';
+import { Message } from '../events/commands/Message';
 
 export class TestScene extends Phaser.Scene {
   private keys: Keys;
@@ -63,7 +63,7 @@ export class TestScene extends Phaser.Scene {
       this.physics.world.addCollider(sprite, this.primaryActor.sprite);
     }
 
-    this.text = new MessageCard(
+    this.text = new Message(
       this,
       `[john]\n this is test this is test this is test\\!this is test this is test this is test this is test this is test this is test`,
     );
@@ -71,7 +71,7 @@ export class TestScene extends Phaser.Scene {
   }
   
   private frame = 0;
-  private text: MessageCard;
+  private text: Message;
 
   update(): void {
     this.primaryActor.update(this.frame);

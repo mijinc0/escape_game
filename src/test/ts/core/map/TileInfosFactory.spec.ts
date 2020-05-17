@@ -64,7 +64,8 @@ describe('TileInfosFactory.createFromJson()', () => {
 
       const firstInfo = tileInfos[0];
 
-      expect(firstInfo.id).is.equal(0);
+      // idはmapdataのidと合わせるためにtiledJsonTilesetDataのidに+1した値にする
+      expect(firstInfo.id).is.equal(1);
       expect(firstInfo.collide).is.true;
     });
   });

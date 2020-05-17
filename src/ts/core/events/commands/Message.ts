@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
-import { ScenarioEvent } from '../ScenarioEvent';
+import { IScenarioEvent } from '../IScenarioEvent';
 import { Keys } from '../../models/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
-export class MessageCard {
+export class Message {
   keys: Keys;
 
   private textBox: TextBox;
