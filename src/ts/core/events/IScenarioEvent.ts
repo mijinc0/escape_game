@@ -1,3 +1,5 @@
+import { Keys } from '../models/Keys';
+ 
 export interface IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
@@ -7,7 +9,7 @@ export interface IScenarioEvent {
    * @param frame 実行時のフレーム
    * @param asyncEvents このイベントと一緒に実行されるイベント群
    */
-  update(frame: number, asyncEvents: IScenarioEvent[]): void;
+  update(frame: number,  keys?: Keys, asyncEvents?: IScenarioEvent[]): void;
 
   complete(frame: number): void;
 }

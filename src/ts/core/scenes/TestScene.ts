@@ -67,7 +67,6 @@ export class TestScene extends Phaser.Scene {
       this,
       `[john]\n this is test this is test this is test\\!this is test this is test this is test this is test this is test this is test`,
     );
-    this.text.keys = this.keys;
   }
   
   private frame = 0;
@@ -76,7 +75,7 @@ export class TestScene extends Phaser.Scene {
   update(): void {
     this.primaryActor.update(this.frame);
 
-    this.text.update(this.frame);
+    this.text.update(this.frame, this.keys);
 
     this.frame++;
   }

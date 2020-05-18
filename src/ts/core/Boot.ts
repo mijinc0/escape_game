@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
-
 import { TestScene } from './scenes/TestScene';
+import { GameFlags } from './models/GameFlags';
+import { GameVariables } from './models/GameVariables';
 
-export default class Boot extends Phaser.Game {
+export class Boot extends Phaser.Game {
   constructor() {
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
@@ -27,6 +28,15 @@ export default class Boot extends Phaser.Game {
   }
   
   on(): void {
+    this._initGameGlobal();
     this.scene.start('opening');
+  }
+
+  private _initGameGlobal(): void {
+    window.gameGlobal = {
+      flags: new GameFlags(),
+      variables: new GameVariables(),
+      items: [],
+    };
   }
 }

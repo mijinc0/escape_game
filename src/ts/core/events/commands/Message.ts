@@ -3,8 +3,9 @@ import { IScenarioEvent } from '../IScenarioEvent';
 import { Keys } from '../../models/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
-export class Message {
-  keys: Keys;
+export class Message implements IScenarioEvent{
+  isComplete: boolean;
+  isAsync: boolean;
 
   private textBox: TextBox;
   private messageBuffers: string[];
@@ -14,10 +15,10 @@ export class Message {
   constructor(
     scene: Phaser.Scene,
     message: string,
+    async = false,
     align = 'left',
     hasBackground = true,
     justify = 'bottom',
-    keys?: Keys,
   ) {
     this.messageChunkSize = 4;
 
@@ -27,24 +28,30 @@ export class Message {
     this.waitingCursor = this._createWaitingCursor(scene);
     this._beInvisibleWaitingCursor();
     
-    this.keys = keys ? keys : null;
+    this.isAsync = async;
+    this.isComplete = false; 
   }
 
-  update(frame: number): void {
-    if (this.messageBuffers.length === 0) {
-      // 出力すべきメッセージが何もない
-      return; 
-      
-    } else if (this.messageBuffers[0].length > 0) {
+  update(frame: number, keys?: Keys): void {
+    if (!this.textBox) return;
+
+    if (this._hasReadiedMessage()) {
       // 一番前のバッファからメッセージを出力する
       this._messageOutputFromBuffer();
-      return;
-
     } else {
       // 入力待ち
-      this._waitKeyInput(frame);
-      return;
+      this._waitKeyInput(frame, keys);
+      // バッファが空になったら完了
+      if (this.messageBuffers.length === 0) this.complete(frame);
     }
+  }
+
+  complete(frame: number): void {
+    // オブジェクトを削除する
+    this.waitingCursor.destroy();
+    this.waitingCursor = null
+    this.textBox = this.textBox.destroy();
+    this.isComplete = true;
   }
 
   setMessage(message: string): void {
@@ -121,6 +128,10 @@ export class Message {
     }
   }
 
+  private _hasReadiedMessage(): boolean {
+    return this.messageBuffers[0] && this.messageBuffers[0].length > 0;
+  }
+
   private _messageOutputFromBuffer(): void {
     if (this.messageBuffers.length === 0) return;
 
@@ -130,10 +141,10 @@ export class Message {
     this.messageBuffers[0] = this.messageBuffers[0].slice(this.messageChunkSize);
   }
 
-  private _waitKeyInput(frame: number): void {
+  private _waitKeyInput(frame: number, keys?: Keys): void {
     this._flashingKeyWaitCursor(frame);
 
-    if (!this.keys || !this.keys.action.isDown) return;
+    if (!keys || !keys.action.isDown) return;
 
     // テキストをクリアして、最初のバッファを削除する
     this._beInvisibleWaitingCursor();

@@ -16,7 +16,7 @@ class TestEvent implements IScenarioEvent {
     this.execComplete = false;
   }
 
-  update(frame: number, asyncEvents: IScenarioEvent[]): void {
+  update(frame: number): void {
     this.isComplete = true;
   }
 

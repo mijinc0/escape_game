@@ -1,4 +1,5 @@
 import { IScenarioEvent } from './IScenarioEvent';
+import { Keys } from '../models/Keys';
 
 /*
 {
@@ -27,10 +28,12 @@ import { IScenarioEvent } from './IScenarioEvent';
 */
 
 export class ScenarioEventManager {
+  keys: Keys;
   private currentEvent: IScenarioEvent[];
   private eventQueue: IScenarioEvent[];
 
-  constructor() {
+  constructor(keys?: Keys) {
+    this.keys = keys ? keys : null;
     this.currentEvent = [];
     this.eventQueue = [];
   }
@@ -85,7 +88,7 @@ export class ScenarioEventManager {
 
   // private
   private _update(frame: number, event: IScenarioEvent): void {
-    event.update(frame, this.currentEvent);
+    event.update(frame, this.keys, this.currentEvent);
 
     if (event.isComplete) event.complete(frame);
   }
