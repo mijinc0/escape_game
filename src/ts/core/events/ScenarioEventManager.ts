@@ -1,3 +1,4 @@
+import { IScenarioEventManager } from './IScenarioEventManager';
 import { IScenarioEvent } from './IScenarioEvent';
 import { Keys } from '../models/Keys';
 
@@ -7,9 +8,9 @@ import { Keys } from '../models/Keys';
   event: [
     cmd.message('saeoigjoiajieg', true),
 
-    op.if('flag:100:on')(
-      cmd.message('asegoeasio'),
+    op.if(() => {GameFlag.hasFlag('sometiong')},
 
+      cmd.message('asegoeasio'),
     ).elseIf('var: 100')(
       cmd.message('asegoeasio'),
 
@@ -27,7 +28,7 @@ import { Keys } from '../models/Keys';
 }
 */
 
-export class ScenarioEventManager {
+export class ScenarioEventManager implements IScenarioEventManager {
   keys: Keys;
   private currentEvent: IScenarioEvent[];
   private eventQueue: IScenarioEvent[];
@@ -84,6 +85,10 @@ export class ScenarioEventManager {
 
   getAllEventSize(): number {
     return this.currentEvent.length + this.eventQueue.length;
+  }
+
+  interrupt(...events: IScenarioEvent[]): void {
+    this.eventQueue.unshift(...events);
   }
 
   // private

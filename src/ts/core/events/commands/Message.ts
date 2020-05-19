@@ -3,7 +3,7 @@ import { IScenarioEvent } from '../IScenarioEvent';
 import { Keys } from '../../models/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
-export class Message implements IScenarioEvent{
+export class Message implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
 

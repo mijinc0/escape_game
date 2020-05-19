@@ -2,7 +2,7 @@ import { IScenarioEvent } from '../IScenarioEvent';
 import { Item as ItemObject } from '../../models/Item';
 import { IGameGlobal } from '../../IGameGlobal';
 
-export class Item implements IScenarioEvent{
+export class Item implements IScenarioEvent {
   static readonly maxOwnItems = 99;
 
   isComplete: boolean;
