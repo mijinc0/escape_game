@@ -1,7 +1,9 @@
 export class Item {
-  name: string;
+  readonly name: string;
+  readonly description: string;
 
-  constructor(name: string) {
+  constructor(name: string, description: string) {
     this.name = name;
+    this.description = description;
   }
 }

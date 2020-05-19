@@ -1,7 +1,9 @@
 import * as Phaser from 'phaser';
+import { GameGlobal } from './GameGlobal';
 import { TestScene } from './scenes/TestScene';
 import { GameFlags } from './models/GameFlags';
 import { GameVariables } from './models/GameVariables';
+import { GameItems } from './models/GameItems';
 
 export class Boot extends Phaser.Game {
   constructor() {
@@ -28,15 +30,6 @@ export class Boot extends Phaser.Game {
   }
   
   on(): void {
-    this._initGameGlobal();
     this.scene.start('opening');
-  }
-
-  private _initGameGlobal(): void {
-    window.gameGlobal = {
-      flags: new GameFlags(),
-      variables: new GameVariables(),
-      items: [],
-    };
   }
 }

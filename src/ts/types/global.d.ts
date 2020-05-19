@@ -1,9 +1,9 @@
-import { GameGlobal } from '../core/models/GameGlobal';
+import { IGameGlobal } from '../core/IGameGlobal';
 
 declare global {
   namespace NodeJS {
     interface Global {
-      gameGlobal: GameGlobal;
+      gameGlobal: IGameGlobal;
     }
   }
 }
