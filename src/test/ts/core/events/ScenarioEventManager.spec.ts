@@ -7,38 +7,33 @@ class TestEvent implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
 
-  execComplete: boolean;
+  canBeComplete: boolean;
 
-  constructor(isComplete: boolean, isAsync: boolean) {
-    this.isComplete = isComplete;
+  constructor(canBeComplete: boolean, isAsync: boolean) {
+    this.isComplete = false;
     this.isAsync = isAsync;
-
-    this.execComplete = false;
+    this.canBeComplete = canBeComplete;
   }
 
   update(frame: number): void {
-    this.isComplete = true;
+    this.isComplete = this.canBeComplete;
   }
-
-  complete(frame: number): void {
-    this.execComplete = true;
-  };
 }
 
 describe('scenarioEventManager.start()', () => {
-  context('normal(async:2, sync3)', () => {
+  context('normal', () => {
     const sem = new ScenarioEventManager();
     const events = [
-      new TestEvent(false, true),
-      new TestEvent(false, true),
-      new TestEvent(false, false),
-      new TestEvent(false, false),
-      new TestEvent(false, false),
+      new TestEvent(true, true),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
+      new TestEvent(true, false),
+      new TestEvent(true, false),
     ];
     sem.start(events);
 
     it('event should be going', () => {
-      expect(sem.isGoing()).is.true;
+      expect(sem.isGoing).is.true;
     });
 
     it('current event size should be 3 ', () => {
@@ -49,83 +44,67 @@ describe('scenarioEventManager.start()', () => {
       expect(sem.getAllEventSize()).is.equals(5);
     });
   });
-
-  context('normal(async: 3)', () => {
-    const sem = new ScenarioEventManager();
-    const events = [
-      new TestEvent(false, true),
-      new TestEvent(false, true),
-      new TestEvent(false, true),
-    ];
-    sem.start(events);
-
-    it('evnet should be going', () => {
-      expect(sem.isGoing()).is.true;
-    });
-
-    it('current event size should be 3', () => {
-      expect(sem.getCurrentEventSize()).is.equals(3);
-    });
-
-    it('all event size should be 3', () => {
-      expect(sem.getAllEventSize()).is.equals(3);
-    });
-  });
-});
-
-describe('scenarioEventManager.clearEvent()', () => {
-  context('normal', () => {
-    const sem = new ScenarioEventManager();
-    const events = [
-      new TestEvent(false, true),
-      new TestEvent(false, true),
-      new TestEvent(false, true),
-    ];
-    sem.clearEvent();
-
-    it('evnet should be going', () => {
-      expect(sem.isGoing()).is.false;
-    });
-
-    it('all event size should be 0', () => {
-      expect(sem.getAllEventSize()).is.equals(0);
-    });
-  });
 });
 
 describe('scenarioEventManager.update()', () => {
   context('normal', () => {
     const sem = new ScenarioEventManager();
-    // あとからイベントの中身を確認できるように外で一つ作っておく
-    const trapEvent = new TestEvent(false, false);
+    const events = [
+      new TestEvent(true, true),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
+    ];
+    sem.start(events);
+
+    sem.update(0);
+    // 最初の3つのイベントが上記updateで終了し、
+    // 残りの2つのイベント(非同期1,同期1)がcurrentEventsにセットされる
+    it('current event size should be 2 ', () => {
+      expect(sem.getCurrentEventSize()).is.equals(2);
+    });
+  });
+
+  context('normal 2', () => {
+    const sem = new ScenarioEventManager();
     const events = [
       new TestEvent(false, true),
       new TestEvent(false, true),
-      new TestEvent(false, false),
-      trapEvent,
-      new TestEvent(false, false),
+      new TestEvent(true, false),
+      new TestEvent(true, true),
+      new TestEvent(true, true),
     ];
     sem.start(events);
-    // 1回目 : 0,1,2が終了
-    // 2回目 : 3が終了
-    // 結果  : 4だけが残る
+
+    sem.update(0);
+    // 最初の2つのイベントはupdateしても完了せず、3つ目の同期イベントが完了するため、
+    // 次の4,5個目の非同期イベントをcurrentEventに追加して合計4つになるはず
+    it('current event size should be 4 ', () => {
+      expect(sem.getCurrentEventSize()).is.equals(4);
+    });
+  });
+
+  context('normal 3', () => {
+    const sem = new ScenarioEventManager();
+    const events = [
+      new TestEvent(true, true),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
+      new TestEvent(true, true),
+      new TestEvent(true, true),
+    ];
+    sem.start(events);
+
     sem.update(0);
     sem.update(1);
-
-    it('current event size should equal 1', () => {
-      expect(sem.getCurrentEventSize()).is.equals(1);
+    // 上記2回のupdadeで、全てのイベントが完了するはず
+    it('current event size should be 0', () => {
+      expect(sem.getCurrentEventSize()).is.equals(0);
     });
 
-    it('all event size should equal 1', () => {
-      expect(sem.getAllEventSize()).is.equals(1);
-    });
-
-    it('event[3] should be completed', () => {
-      expect(trapEvent.isComplete).is.true;
-    });
-
-    it('event[3].complete() should be executed', () => {
-      expect(trapEvent.execComplete).is.true;
+    it('event should stop (not isGoint)', () => {
+      expect(sem.isGoing).is.false;
     });
   });
 });

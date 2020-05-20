@@ -30,83 +30,102 @@ import { Keys } from '../models/Keys';
 
 export class ScenarioEventManager implements IScenarioEventManager {
   keys: Keys;
-  private currentEvent: IScenarioEvent[];
-  private eventQueue: IScenarioEvent[];
+  isGoing: boolean;
+  
+  private events: IScenarioEvent[];
+  private currentEvents: IScenarioEvent[];
+  private nextIndex: number;
 
   constructor(keys?: Keys) {
     this.keys = keys ? keys : null;
-    this.currentEvent = [];
-    this.eventQueue = [];
+    this.events = [];
+    this.nextIndex = 0;
+    this.isGoing = false;
   }
 
   start(events: IScenarioEvent[]): void {
-    // 既にイベントがある場合は無視する
-    if (this.isGoing()) {
+    if (this.isGoing) {
       console.warn('scenario event manager already has events');
       return;
     }
 
-    this.eventQueue = events;
+    this.events = events;
+    this.currentEvents = []
+    this.nextIndex = 0;
+    this.isGoing = true;
 
-    // 最初のイベントをキューから押し出すために、一度updateをする
+    // 最初のイベントをcurrentEventsにセットするために一度updateする必要がある
     this.update(0);
+  }
+
+  endEvent(): void {
+    this.clearEvent();
   }
 
   update(frame: number): void {
     // 走らせるイベントが無い場合は即return
-    if (!this.isGoing()) return;
+    if (!this.isGoing) return;
   
-    // 各イベントのupdate
-    this.currentEvent.forEach((event: IScenarioEvent) => {
-      this._update(frame, event);
+    this.currentEvents.forEach((event: IScenarioEvent) => {
+      event.update(frame, this.keys);
     });
 
-    // 終了したイベントを削除
-    this.currentEvent = this.currentEvent.filter((event: IScenarioEvent) => (!event.isComplete));
+    // 完了したイベントを削除
+    this.currentEvents = this._getIncompleteEnvets(this.currentEvents);
 
-    // 全てのイベントが終了したらcurrentEventが空になるので、次のイベントを取り出す
-    if (this.currentEvent.length === 0) {
-      this.currentEvent = this._getNextEventFromQueue();
+    // currentEventsから同期イベントがなくなれば次のイベントを取得する
+    const hasSyncEvent = !!this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
+
+    if (this._isEnd()) {
+      // 終了
+      this.endEvent();
+  
+    } else if (hasSyncEvent || this.nextIndex >= this.events.length) {
+      // currentEventsの終了待ち
+      return;
+
+    } else { 
+      // 次のイベントを取得する
+      this._goNextEvents();
     }
   }
 
-  isGoing(): boolean {
-    return (this.currentEvent.length > 0) || (this.eventQueue.length > 0);
-  }
-
   clearEvent(): void {
-    this.currentEvent = [];
-    this.eventQueue = [];
+    this.events = [];
+    this.currentEvents = [];
+    this.nextIndex = 0;
+    this.isGoing = false;
   }
 
   getCurrentEventSize(): number {
-    return this.currentEvent.length;
+    return this.isGoing ? this.currentEvents.length : 0;
   }
 
   getAllEventSize(): number {
-    return this.currentEvent.length + this.eventQueue.length;
-  }
-
-  interrupt(...events: IScenarioEvent[]): void {
-    this.eventQueue.unshift(...events);
+    return this.events.length;
   }
 
   // private
-  private _update(frame: number, event: IScenarioEvent): void {
-    event.update(frame, this.keys, this.currentEvent);
+  private _goNextEvents(): void {
+    const nextEvent = this.events[this.nextIndex];
 
-    if (event.isComplete) event.complete(frame);
+    if (!nextEvent) return;
+
+    // 次のイベントに完了フラグラ立っていなければcurrentsEventsの中に押し込む
+    if (!nextEvent.isComplete) this.currentEvents.push(nextEvent);
+
+    // インデックスをひとつ進める
+    this.nextIndex++;
+
+    // 次のイベントが非同期イベントまたは完了済みイベントなら、その次のイベントを取得する
+    if (nextEvent.isAsync || nextEvent.isComplete) this._goNextEvents();
+  }
+ 
+  private _getIncompleteEnvets(events: IScenarioEvent[]): IScenarioEvent[] {
+    return events.filter((event: IScenarioEvent) => (!event.isComplete));
   }
 
-  private _getNextEventFromQueue(): IScenarioEvent[] {
-    const nextEvent = this.eventQueue.shift();
-
-    if (!nextEvent) return [];
-
-    // 次のイベントが非同期イベントの場合、その次のイベントを取り出して合わせたものを返す
-    // これは再起するので、連続した非同期イベントを全て取り出す
-    return nextEvent.isAsync ?
-      [nextEvent].concat(this._getNextEventFromQueue()) :
-      [nextEvent];
-  }  
+  private _isEnd(): boolean {
+    return (this.currentEvents.length === 0) && (this.nextIndex >= this.events.length);
+  }
 }

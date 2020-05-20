@@ -1,59 +1,60 @@
-import { Conditional } from './Conditional';
-import { Else } from './Else';
 import { IScenarioEvent } from '../IScenarioEvent';
+import { ScenarioEventManager } from '../ScenarioEventManager';
+import { Keys } from '../../models/Keys';
 
+// 条件分岐の条件
 type ConditionCallback = () => boolean;
-type EventInterruptionCallback = (...events: IScenarioEvent[]) => void;
+type ConditionEntry = {conditionCallback: ConditionCallback, events: IScenarioEvent[]};
 
-export class If extends Conditional {
-  private beforeConditional: Conditional;
-  private nextConditional: Conditional;
+export class If implements IScenarioEvent {
+  readonly isAsync = false;
 
-  constructor (
-    eventInterruptionCallback: EventInterruptionCallback,
-    conditionCallback: ConditionCallback,
-    ...events: IScenarioEvent[]
-  ) {
-    super(eventInterruptionCallback, conditionCallback, ...events);
+  isComplete: boolean;
 
-    this.beforeConditional = null;
-    this.nextConditional = null;
+  private sceneEventManager: ScenarioEventManager;
+  private events: ConditionEntry[];
+
+  constructor (conditionCallback: ConditionCallback, ...events: IScenarioEvent[]) {
+    this.sceneEventManager = new ScenarioEventManager();
+    this.events = [{conditionCallback: conditionCallback, events: events}];
+    this.isComplete = false;
   }
 
+  update(frame: number, keys?: Keys): void {
+    if (this.isComplete) return;
 
-  update(frame: number): void {
-    if (this.conditionCallback()) {
-      this.eventInterruptionCallback(...this.events);
-    } else if (this.nextConditional) {
-      // もし、nextConditional(elseIf または else)を持っていれば、それをupdateする
-      this.nextConditional.update(frame);
+    if (this.sceneEventManager.isGoing) {
+      this._update(frame, keys)
+    } else {
+      this._start();
     }
-
-    this.complete(frame);
   }
-  
+
   elseIf(conditionCallback: ConditionCallback, ...events: IScenarioEvent[]): If {
-    if (this.nextConditional) throw Error('this "if" already has a next conditional');
-
-    const elseIf = new If(this.eventInterruptionCallback, conditionCallback, ...events);
-
-    this.nextConditional = elseIf;
-    elseIf.beforeConditional = this;
-
-    return elseIf;
+    this.events.push({conditionCallback: conditionCallback, events: events});
+    return this;
   }
 
-  else(...events: IScenarioEvent[]): If {
-    if (this.nextConditional) throw Error('this "if" already has a next conditional');
-
-    const _else = new Else(this.eventInterruptionCallback, ...events);
-
-    this.nextConditional = _else;
-
-    return this.endIf();
+  else (...events: IScenarioEvent[]): void {
+    this.events.push({conditionCallback: () => (true), events: events});
   }
 
-  endIf(): If {
-    return this.beforeConditional instanceof If ? this.beforeConditional.endIf() : this;
+  private _update(frame: number, keys?: Keys): void {
+    this.sceneEventManager.keys = keys;
+    this.sceneEventManager.update(frame);
+    // 上記のupdateで終了していればcomplete
+    if (!this.sceneEventManager.isGoing) this.isComplete = true;
+  }
+
+  private _start(): void {
+    // 1. conditionCallbackの結果が最初にtrueになるentryを取得する
+    const entry = this.events.find((entry: ConditionEntry) => (entry.conditionCallback()));
+
+    // 2. entryがある場合はstart、無ければ即終了
+    if (entry) {
+      this.sceneEventManager.start(entry.events);
+    } else {
+      this.isComplete = true;
+    }
   }
 }

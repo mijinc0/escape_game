@@ -3,18 +3,15 @@ import { Keys } from '../models/Keys';
 
 export interface IScenarioEventManager {
   keys: Keys;
+  isGoing: boolean;
 
   start(events: IScenarioEvent[]): void;
 
-  update(frame: number): void ;
-
-  isGoing(): boolean;
+  update(frame: number): void;
 
   clearEvent(): void;
 
   getCurrentEventSize(): number;
 
   getAllEventSize(): number;
-
-  interrupt(...events: IScenarioEvent[]): void; 
 }

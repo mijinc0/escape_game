@@ -9,7 +9,5 @@ export interface IScenarioEvent {
    * @param frame 実行時のフレーム
    * @param asyncEvents このイベントと一緒に実行されるイベント群
    */
-  update(frame: number,  keys?: Keys, asyncEvents?: IScenarioEvent[]): void;
-
-  complete(frame: number): void;
+  update(frame: number,  keys?: Keys): void;
 }
