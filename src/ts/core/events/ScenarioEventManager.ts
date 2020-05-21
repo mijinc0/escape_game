@@ -67,7 +67,7 @@ export class ScenarioEventManager implements IScenarioEventManager {
     if (!this.isGoing) return;
   
     this.currentEvents.forEach((event: IScenarioEvent) => {
-      event.update(frame, this.keys);
+      event.update(frame, this.keys, this);
     });
 
     // 完了したイベントを削除
