@@ -1,17 +1,14 @@
 import { IScenarioEvent } from './IScenarioEvent';
+import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
+import { RelationalChunk } from './RelationalChunk';
 import { Keys } from '../models/Keys';
 
 export interface IScenarioEventManager {
   keys: Keys;
-  isGoing: boolean;
 
-  start(events: IScenarioEvent[]): void;
+  start(eventChunk: RelationalChunk<IScenarioEvent>): void;
 
-  update(frame: number): void;
-
-  clearEvent(): void;
+  update(frame: number, config: ScenarioEventUpdateConfig): void;
 
   getCurrentEventSize(): number;
-
-  getAllEventSize(): number;
 }

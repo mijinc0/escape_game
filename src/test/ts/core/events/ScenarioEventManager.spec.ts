@@ -1,12 +1,12 @@
 import 'mocha';
 import { expect } from 'chai';
 import { ScenarioEventManager } from '../../../../ts/core/events/ScenarioEventManager';
+import { IRelationalChunk } from '../../../../ts/core/events/IRelationalChunk';
 import { IScenarioEvent } from '../../../../ts/core/events/IScenarioEvent';
 
 class TestEvent implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
-
   canBeComplete: boolean;
 
   constructor(canBeComplete: boolean, isAsync: boolean) {
@@ -20,28 +20,51 @@ class TestEvent implements IScenarioEvent {
   }
 }
 
+class TestRelationalChunk implements IRelationalChunk<IScenarioEvent> {
+  events: IScenarioEvent[];
+  
+  currentIndex: number;
+
+  backPoint: {chunk: IRelationalChunk<IScenarioEvent>, index: number};
+
+  constructor(events: IScenarioEvent[]) {
+    this.events = events;
+    this.currentIndex = -1;
+    this.backPoint = null;
+  }
+
+  next(): IteratorResult<IScenarioEvent, IScenarioEvent> {
+    this.currentIndex++;
+    const value = this.events[this.currentIndex];
+    const done = !this.events[this.currentIndex + 1];
+
+    return {value: value, done: done};
+  }
+
+  isComplete(): boolean {
+    return this.currentIndex >= (this.events.length - 1);
+  };
+
+  getRootChunk(): IRelationalChunk<IScenarioEvent> {
+    return this; // ここでは使わないので適当
+  };
+}
+
 describe('scenarioEventManager.start()', () => {
   context('normal', () => {
     const sem = new ScenarioEventManager();
-    const events = [
+    const chunk = new TestRelationalChunk([
       new TestEvent(true, true),
       new TestEvent(true, true),
       new TestEvent(true, false),
       new TestEvent(true, false),
       new TestEvent(true, false),
-    ];
-    sem.start(events);
+    ]);
 
-    it('event should be going', () => {
-      expect(sem.isGoing).is.true;
-    });
+    sem.start(chunk);
 
     it('current event size should be 3 ', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);
-    });
-
-    it('all event size should be 5', () => {
-      expect(sem.getAllEventSize()).is.equals(5);
     });
   });
 });
@@ -49,62 +72,69 @@ describe('scenarioEventManager.start()', () => {
 describe('scenarioEventManager.update()', () => {
   context('normal', () => {
     const sem = new ScenarioEventManager();
-    const events = [
+    const chunk = new TestRelationalChunk([
       new TestEvent(true, true),
       new TestEvent(true, true),
       new TestEvent(true, false),
-      new TestEvent(true, true),
       new TestEvent(true, false),
-    ];
-    sem.start(events);
+      new TestEvent(true, false),
+    ]);
+
+    sem.start(chunk);
 
     sem.update(0);
-    // 最初の3つのイベントが上記updateで終了し、
-    // 残りの2つのイベント(非同期1,同期1)がcurrentEventsにセットされる
-    it('current event size should be 2 ', () => {
-      expect(sem.getCurrentEventSize()).is.equals(2);
+
+    it('current event size should be 1 ', () => {
+      expect(sem.getCurrentEventSize()).is.equals(1);
     });
   });
 
-  context('normal 2', () => {
+  context('normal', () => {
     const sem = new ScenarioEventManager();
-    const events = [
+    const chunk = new TestRelationalChunk([
       new TestEvent(false, true),
-      new TestEvent(false, true),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
       new TestEvent(true, false),
       new TestEvent(true, true),
       new TestEvent(true, true),
-    ];
-    sem.start(events);
+      new TestEvent(true, false),
+    ]);
+
+    sem.start(chunk);
 
     sem.update(0);
-    // 最初の2つのイベントはupdateしても完了せず、3つ目の同期イベントが完了するため、
-    // 次の4,5個目の非同期イベントをcurrentEventに追加して合計4つになるはず
+    sem.update(1);
+
+    // 最初の終了しないイベント+最後のイベント*3が残るので、4つになるはず
     it('current event size should be 4 ', () => {
       expect(sem.getCurrentEventSize()).is.equals(4);
     });
   });
 
-  context('normal 3', () => {
+  context('normal', () => {
     const sem = new ScenarioEventManager();
-    const events = [
+    const chunk = new TestRelationalChunk([
+      new TestEvent(false, true),
+      new TestEvent(true, true),
+      new TestEvent(true, false),
+
+      new TestEvent(true, false),
+
       new TestEvent(true, true),
       new TestEvent(true, true),
       new TestEvent(true, false),
-      new TestEvent(true, true),
-      new TestEvent(true, true),
-    ];
-    sem.start(events);
+    ]);
+
+    sem.start(chunk);
 
     sem.update(0);
     sem.update(1);
-    // 上記2回のupdadeで、全てのイベントが完了するはず
-    it('current event size should be 0', () => {
-      expect(sem.getCurrentEventSize()).is.equals(0);
-    });
+    sem.update(2);
 
-    it('event should stop (not isGoint)', () => {
-      expect(sem.isGoing).is.false;
+    // 最初の終了しないイベントのみが残るはず
+    it('current event size should be 1', () => {
+      expect(sem.getCurrentEventSize()).is.equals(1);
     });
   });
 });

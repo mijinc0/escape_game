@@ -1,131 +1,72 @@
 import { IScenarioEventManager } from './IScenarioEventManager';
 import { IScenarioEvent } from './IScenarioEvent';
+import { IRelationalChunk } from './IRelationalChunk';
 import { Keys } from '../models/Keys';
 
-/*
-{
-  id: 1,
-  event: [
-    cmd.message('saeoigjoiajieg', true),
-
-    op.if(() => {GameFlag.hasFlag('sometiong')},
-
-      cmd.message('asegoeasio'),
-    ).elseIf('var: 100')(
-      cmd.message('asegoeasio'),
-
-    ).endIf(),
-
-    op.while('times:5')(
-      cmd.message('asegoeasio'),
-      cmd.item('stick', -1),
-      cmd.message('asegoeasio'),
-      cmd.flag('opening', true), 
-      cmd.message('asegoeasio'),
-      cmd.var('stage', 10),
-    ),
-  ]
-}
-*/
+type EventChunk = IRelationalChunk<IScenarioEvent>;
 
 export class ScenarioEventManager implements IScenarioEventManager {
   keys: Keys;
-  isGoing: boolean;
-  
-  private events: IScenarioEvent[];
+
+  private currentChunk: EventChunk;
   private currentEvents: IScenarioEvent[];
-  private nextIndex: number;
 
   constructor(keys?: Keys) {
     this.keys = keys ? keys : null;
-    this.events = [];
-    this.nextIndex = 0;
-    this.isGoing = false;
+    this.currentChunk = null;
+    this.currentEvents = [];
   }
 
-  start(events: IScenarioEvent[]): void {
-    if (this.isGoing) {
+  start(eventChunk: EventChunk): void {
+    if (this.currentChunk && !this.currentChunk.isComplete()) {
       console.warn('scenario event manager already has events');
       return;
     }
 
-    this.events = events;
-    this.currentEvents = []
-    this.nextIndex = 0;
-    this.isGoing = true;
-
-    // 最初のイベントをcurrentEventsにセットするために一度updateする必要がある
-    this.update(0);
-  }
-
-  endEvent(): void {
-    this.clearEvent();
+    this.currentChunk = eventChunk;
+    this.currentEvents = [];
+    this._setNextEvnet();
   }
 
   update(frame: number): void {
-    // 走らせるイベントが無い場合は即return
-    if (!this.isGoing) return;
-  
+    if (!this.currentChunk) return;
+
     this.currentEvents.forEach((event: IScenarioEvent) => {
-      event.update(frame, this.keys, this);
+      event.update(
+        frame,
+        {
+          keys: this.keys,
+          belongingChunk: this.currentChunk,
+        }, 
+      );
     });
 
-    // 完了したイベントを削除
-    this.currentEvents = this._getIncompleteEnvets(this.currentEvents);
+    // 未完了イベントのみを残す
+    this.currentEvents = this.currentEvents.filter((event: IScenarioEvent) => (!event.isComplete));
 
-    // currentEventsから同期イベントがなくなれば次のイベントを取得する
-    const hasSyncEvent = !!this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
-
-    if (this._isEnd()) {
-      // 終了
-      this.endEvent();
-  
-    } else if (hasSyncEvent || this.nextIndex >= this.events.length) {
-      // currentEventsの終了待ち
-      return;
-
-    } else { 
-      // 次のイベントを取得する
-      this._goNextEvents();
+    // currentChunkから全てのイベントを取得済みではない、かつ、
+    // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
+    if (!this.currentChunk.isComplete() && this._hasNoSyncEvnetIntoCurrentEvents()) {
+      this._setNextEvnet();
     }
   }
 
-  clearEvent(): void {
-    this.events = [];
-    this.currentEvents = [];
-    this.nextIndex = 0;
-    this.isGoing = false;
-  }
-
   getCurrentEventSize(): number {
-    return this.isGoing ? this.currentEvents.length : 0;
+    return this.currentEvents.length;
   }
 
-  getAllEventSize(): number {
-    return this.events.length;
+  private _setNextEvnet(): void {
+    if (this.currentChunk.isComplete()) return;
+
+    const next = this.currentChunk.next();
+
+    this.currentEvents.push(next.value);
+
+    // もし、次のイベントが最後でないかつ非同期イベントであれば、その次も取得する。
+    if (!next.done && next.value.isAsync) this._setNextEvnet();
   }
 
-  // private
-  private _goNextEvents(): void {
-    const nextEvent = this.events[this.nextIndex];
-
-    if (!nextEvent) return;
-
-    // 次のイベントに完了フラグラ立っていなければcurrentsEventsの中に押し込む
-    if (!nextEvent.isComplete) this.currentEvents.push(nextEvent);
-
-    // インデックスをひとつ進める
-    this.nextIndex++;
-
-    // 次のイベントが非同期イベントまたは完了済みイベントなら、その次のイベントを取得する
-    if (nextEvent.isAsync || nextEvent.isComplete) this._goNextEvents();
-  }
- 
-  private _getIncompleteEnvets(events: IScenarioEvent[]): IScenarioEvent[] {
-    return events.filter((event: IScenarioEvent) => (!event.isComplete));
-  }
-
-  private _isEnd(): boolean {
-    return (this.currentEvents.length === 0) && (this.nextIndex >= this.events.length);
+  private _hasNoSyncEvnetIntoCurrentEvents(): boolean {
+    return !this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
   }
 }
