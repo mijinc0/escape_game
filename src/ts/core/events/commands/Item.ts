@@ -32,10 +32,10 @@ export class Item implements IScenarioEvent {
       this._lostItem(this.itemName, this.delta * -1);
     }
 
-    this.complete(frame);
+    this.complete();
   }
 
-  complete(frame: number): void {
+  complete(): void {
     this.isComplete = true;
   }
 

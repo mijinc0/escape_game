@@ -10,4 +10,6 @@ export interface IScenarioEvent {
    * @param asyncEvents このイベントと一緒に実行されるイベント群
    */
   update(frame: number, config: ScenarioEventUpdateConfig): void;
+
+  complete(): void;
 }

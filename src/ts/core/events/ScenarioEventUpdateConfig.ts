@@ -1,8 +1,11 @@
 import { IScenarioEvent } from './IScenarioEvent';
-import { IRelationalChunk } from './IRelationalChunk';
+import { IRange } from './IRange';
 import { Keys } from '../models/Keys';
 
 export type ScenarioEventUpdateConfig = {
   keys?: Keys,
-  belongingChunk?: IRelationalChunk<IScenarioEvent>,
+
+  events: IRange<IScenarioEvent>[],
+
+  currentEvents: IScenarioEvent[];
 }

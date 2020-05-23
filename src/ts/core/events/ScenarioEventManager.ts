@@ -1,42 +1,42 @@
-import { IScenarioEventManager } from './IScenarioEventManager';
 import { IScenarioEvent } from './IScenarioEvent';
-import { IRelationalChunk } from './IRelationalChunk';
+import { IRange } from './IRange';
 import { Keys } from '../models/Keys';
 
-type EventChunk = IRelationalChunk<IScenarioEvent>;
+type EventRange = IRange<IScenarioEvent>;
 
-export class ScenarioEventManager implements IScenarioEventManager {
+export class ScenarioEventManager {
   keys: Keys;
 
-  private currentChunk: EventChunk;
+  private events: EventRange[];
   private currentEvents: IScenarioEvent[];
 
   constructor(keys?: Keys) {
     this.keys = keys ? keys : null;
-    this.currentChunk = null;
+    this.events = [];
     this.currentEvents = [];
   }
 
-  start(eventChunk: EventChunk): void {
-    if (this.currentChunk && !this.currentChunk.isComplete()) {
+  start(eventRange: EventRange): void {
+    if (this.currentEvents.length > 0 ) {
       console.warn('scenario event manager already has events');
       return;
     }
 
-    this.currentChunk = eventChunk;
+    this.events.push(eventRange);
     this.currentEvents = [];
     this._setNextEvnet();
   }
 
   update(frame: number): void {
-    if (!this.currentChunk) return;
+    if (this.currentEvents.length === 0) return;
 
     this.currentEvents.forEach((event: IScenarioEvent) => {
       event.update(
         frame,
         {
           keys: this.keys,
-          belongingChunk: this.currentChunk,
+          events: this.events,
+          currentEvents: this.currentEvents,
         }, 
       );
     });
@@ -44,9 +44,9 @@ export class ScenarioEventManager implements IScenarioEventManager {
     // 未完了イベントのみを残す
     this.currentEvents = this.currentEvents.filter((event: IScenarioEvent) => (!event.isComplete));
 
-    // currentChunkから全てのイベントを取得済みではない、かつ、
+    // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
-    if (!this.currentChunk.isComplete() && this._hasNoSyncEvnetIntoCurrentEvents()) {
+    if (this.events.length > 0 && this._hasNoSyncEvnetIntoCurrentEvents()) {
       this._setNextEvnet();
     }
   }
@@ -56,14 +56,22 @@ export class ScenarioEventManager implements IScenarioEventManager {
   }
 
   private _setNextEvnet(): void {
-    if (this.currentChunk.isComplete()) return;
+    if (this.events.length === 0) return;
 
-    const next = this.currentChunk.next();
+    const frontRange = this.events[0];
 
-    this.currentEvents.push(next.value);
+    const next = frontRange.next();
+
+    // 次のイベントの完了フラグが立っていない時だけ、イベントを追加する
+    if (!next.isComplete) this.currentEvents.push(next);
+
+    // 最初のイベントレンジが終了した(全てのイベントを取得した等の)場合、削除する
+    if (frontRange.isComplete()) {
+      this.events = this.events.slice(1);
+    }
 
     // もし、次のイベントが最後でないかつ非同期イベントであれば、その次も取得する。
-    if (!next.done && next.value.isAsync) this._setNextEvnet();
+    if (this.events.length > 0 && next.isAsync) this._setNextEvnet();
   }
 
   private _hasNoSyncEvnetIntoCurrentEvents(): boolean {

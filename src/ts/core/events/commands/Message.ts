@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { IScenarioEvent } from '../IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
 import { Keys } from '../../models/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
@@ -32,7 +33,7 @@ export class Message implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  update(frame: number, keys?: Keys): void {
+  update(frame: number, config: ScenarioEventUpdateConfig): void {
     if (!this.textBox) return;
 
     if (this._hasReadiedMessage()) {
@@ -40,13 +41,13 @@ export class Message implements IScenarioEvent {
       this._messageOutputFromBuffer();
     } else {
       // 入力待ち
-      this._waitKeyInput(frame, keys);
+      this._waitKeyInput(frame, config.keys);
       // バッファが空になったら完了
-      if (this.messageBuffers.length === 0) this.complete(frame);
+      if (this.messageBuffers.length === 0) this.complete();
     }
   }
 
-  complete(frame: number): void {
+  complete(): void {
     // オブジェクトを削除する
     this.waitingCursor.destroy();
     this.waitingCursor = null
