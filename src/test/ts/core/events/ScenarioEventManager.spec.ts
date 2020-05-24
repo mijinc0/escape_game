@@ -123,5 +123,22 @@ describe('scenarioEventManager.update()', () => {
       expect(sem.getCurrentEventSize()).is.equals(0);
     });
   });
+
+  context('normal 4', () => {
+    const sem = new ScenarioEventManager();
+    const eventRange = new LineRange([
+      new TestEvent(false, true),
+      new TestEvent(false, true),
+      new TestEvent(false, true),
+    ]);
+
+    sem.start(eventRange);
+
+    sem.update(0);
+
+    it('current event size should be 3', () => {
+      expect(sem.getCurrentEventSize()).is.equals(3);
+    });
+  });
 });
 

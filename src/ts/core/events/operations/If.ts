@@ -39,4 +39,22 @@ export class If implements IScenarioEvent {
   complete(): void {
     this.isComplete = true;
   }
+
+  elseIf(conditionCallback: ConditionCallback): (...events: IScenarioEvent[]) => If {
+    return ((...events: IScenarioEvent[]) => {
+      this.entries.push({
+        conditionCallback: conditionCallback,
+        events: events,
+      });
+
+      return this;
+    }).bind(this);
+  }
+
+  else(...events: IScenarioEvent[]): void {
+    this.entries.push({
+      conditionCallback: () => (true),
+      events: events,
+    });
+  }
 }

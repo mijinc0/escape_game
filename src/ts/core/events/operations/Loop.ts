@@ -10,9 +10,9 @@ export class Loop implements IScenarioEvent {
   private eventRange: CircularRange<IScenarioEvent>;
 
   constructor(events: IScenarioEvent[]) {
-    // 全てのイベントが非同期イベントだと、非同期イベントが無限に増えることになりかねないので、それは禁止する
-    const hasSync = events.map((event: IScenarioEvent) => (!event.isAsync)).includes(true);
-    if (!hasSync) throw Error('Loop event must has sync event.');
+    // Loopに非同期イベントがあると不穏なのでとりあえず禁止しておく
+    const hasAsync = events.map((event: IScenarioEvent) => (event.isAsync)).includes(true);
+    if (hasAsync) throw Error('Loop event can not have async event.');
 
     this.eventRange = new CircularRange(events);
     this.isComplete = false;
