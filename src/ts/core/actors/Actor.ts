@@ -12,6 +12,8 @@ export class Actor extends EventEmitter implements IActor, IControllable {
   readonly name: string;
 
   readonly id: number;
+
+  readonly eventId: number;
   
   readonly sprite: IActorSprite;
 
@@ -23,12 +25,14 @@ export class Actor extends EventEmitter implements IActor, IControllable {
 
   constructor(
     id: number,
+    eventId: number,
     name: string,
     sprite: IActorSprite,
     direction?: Direction,
   ) {
     super();
     this.id = id;
+    this.eventId = eventId;
     this.name = name;
     this.sprite = sprite;
     this.direction = direction ? direction : Direction.Down;

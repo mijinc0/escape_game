@@ -24,6 +24,7 @@ type ActorConstructor = new (...args: ConstructorParameters<typeof Actor>) => Ac
 
 type ActorCreationConfig = {
   name: string,
+  eventId: number,
   x: number,
   y: number,
   frame?: number,
@@ -60,6 +61,7 @@ export class ActorFactory {
     configs.forEach((config: ActorCreationConfig) => {
       this.create(
         config.name,
+        config.eventId,
         config.x,
         config.y,
         config.frame,
@@ -70,6 +72,7 @@ export class ActorFactory {
 
   create(
     actorName: string,
+    eventId: number,
     x: number,
     y: number,
     frame = 0,
@@ -79,7 +82,7 @@ export class ActorFactory {
     const sprite = this._crateSprite(actorName, x, y, frame);
     
     // 2. create actor
-    const actor = new actorConstructor(this.id, actorName, sprite, Direction.Left);
+    const actor = new actorConstructor(this.id, eventId, actorName, sprite, Direction.Left);
     
     // 3. set actor anims
     this._setActorAnims(actor);
@@ -106,6 +109,22 @@ export class ActorFactory {
     return sprite
   }
 
+  /**
+   * Actorのアニメーションは簡単にするために歩行グラフィック4方向(各4フレームずつ)で決め打ち。
+   * 必ず "左歩行"　"右歩行" "下歩行" "上歩行" の順に4フレームずつ、計16フレームの素材を用意する(フレームの大きさは指定できる)
+   * 
+   * それぞれシーンには `_createActorAnimKey()` によって生成されたキーで登録される。
+   * 各Actorに直接登録されるアニメーションはシーンのキャッシュにあればそれを取り出して使う。
+   * 
+   * 各Actorに直接登録されるアニメーションはキャッシュに登録されるものと違ってシンプルなキー(walkLeftなどの)で登録される
+   * これにより、キャッシュから呼び出す場合はユニークなキーを取得しないと取得できないのに対し、シンプルなキーを使ってアニメーションを再生できる
+   * (
+   *    キャッシュから呼び出す場合には 'actorName_animationName' としないといけないのに対し、
+   *    各Actorに登録されたアニメーションを再生する時は 'animationName' だけで再生できる
+   * )
+   * 
+   * @param actor 
+   */
   private _setActorAnims(actor: Actor): void {
     // アニメーションは歩行グラフィック決め打ち
     const configs = [
@@ -119,7 +138,7 @@ export class ActorFactory {
       // このkeyはシーンのキャッシュに貯められるkey。
       const key = this._createActorAnimKey(actor.name, config.key);
       
-      // Actor毎に同じアニメーションを生成すると無駄なので、
+      // 同じSpriteのActor毎に同じアニメーションを生成すると無駄なので、
       // シーンのキャッシュにあればそれを使う。無ければ生成する。
       const anim = this.scene.anims.get(key) ? this.scene.anims.get(key) : this._createActorAnim(actor.name, config);
 

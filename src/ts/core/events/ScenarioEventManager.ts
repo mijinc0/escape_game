@@ -1,5 +1,5 @@
-import { IScenarioEvent } from './IScenarioEvent';
 import { IRange } from './IRange';
+import { IScenarioEvent } from './IScenarioEvent';
 import { Keys } from '../models/Keys';
 
 type EventRange = IRange<IScenarioEvent>;

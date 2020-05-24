@@ -46,7 +46,7 @@ export class TestScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(0x9955FF);
     const tilemapData = this.tilemapFactory.create();
 
-    this.primaryActor = this.actorFactory.create('hero', 100, 90, 0, Hero);
+    this.primaryActor = this.actorFactory.create('hero', 0, 100, 90, 0, Hero);
     this.primaryActor.keys = this.keys;
 
     const searchEvent = new ActorSearchEvent(this);
@@ -75,7 +75,7 @@ export class TestScene extends Phaser.Scene {
   update(): void {
     this.primaryActor.update(this.frame);
 
-    this.text.update(this.frame, this.keys);
+    this.text.update(this.frame, {keys: this.keys, currentEvents: [], events: []});
 
     this.frame++;
   }
