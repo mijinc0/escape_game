@@ -10,9 +10,9 @@ type ConditionCallback = () => boolean;
  * break,returnは同じものを使い回せば済むので関数ではなくreadonlyプロパティにしておく
  */
 export class SceneEventOprationsFactory {
-  readonly break = new Break();
+  static readonly break = new Break();
 
-  readonly return = new Return();
+  static readonly return = new Return();
 
   /**
    * わざわざIfを生成する関数オブジェクトを生成しているのは、使う場所で以下のように
@@ -36,13 +36,13 @@ export class SceneEventOprationsFactory {
    * 
    * @param conditionCallback 
    */
-  if(conditionCallback: ConditionCallback): (...events: IScenarioEvent[]) => If {
+  static if(conditionCallback: ConditionCallback): (...events: IScenarioEvent[]) => If {
     return (...events: IScenarioEvent[]) => (
       new If(conditionCallback, events)
     );
   }
 
-  loop(...events: IScenarioEvent[]): Loop {
+  static loop(...events: IScenarioEvent[]): Loop {
     return new Loop(events);
   }
 }

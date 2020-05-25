@@ -1,13 +1,10 @@
 import * as Phaser from 'phaser';
-
-import { MapData } from './MapData';
+import { ISceneTilemapData } from './ISceneTilemapData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
 
 type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
-
-type SceneTilemapData = {staticLayers: StaticLayer[], mapData: MapData};
  
 export class SceneTilemapFactory {
   private scene: Phaser.Scene;
@@ -37,7 +34,7 @@ export class SceneTilemapFactory {
     this.scene.load.image(tilesetImageName, this.tilesetImagePath);
   }
 
-  create(): SceneTilemapData {
+  create(): ISceneTilemapData {
     const mapFileName = this._getFileName(this.mapFilePath);
     const tilesetFileName = this._getFileName(this.tilesetFilePath);
     const tilesetImageName = this._getFileName(this.tilesetImagePath);
@@ -53,7 +50,7 @@ export class SceneTilemapFactory {
     return this._createMap(jsonMapDataFile, jsonTilesetInfos, tilesetImageName);
   }
 
-  private _createMap(mapJson: any, tileJson: any, tilesetImageName: string): SceneTilemapData {
+  private _createMap(mapJson: any, tileJson: any, tilesetImageName: string): ISceneTilemapData {
     // 1. create map data
     const mapData = MapDataFactory.createFromJson(mapJson, tileJson, tilesetImageName);
 

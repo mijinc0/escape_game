@@ -1,8 +1,8 @@
 import 'mocha';
 import { expect } from 'chai';
-import { ActorEntriesFactory } from '../../../../ts/core/maps/ActorEntriesFactory';
+import { ActorPositionsFactory } from '../../../../ts/core/maps/ActorPositionsFactory';
 
-describe('ActorEntriesFactory.createFromJson()', () => {
+describe('actorPositionsFactory.createFromJson()', () => {
   context('normal', () => {
     // Tiledのマップデータ
     // https://www.mapeditor.org/
@@ -83,7 +83,7 @@ describe('ActorEntriesFactory.createFromJson()', () => {
 
     it('can create', async () => {
       const json = JSON.parse(tiledJsonMapData);
-      const actorEntries = ActorEntriesFactory.createFromJson(json);
+      const actorEntries = ActorPositionsFactory.createFromJson(json);
       
       const firstEntry = actorEntries[0];
 

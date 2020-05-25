@@ -1,5 +1,7 @@
 import * as Phaser from 'phaser';
+import { GameGlobal } from '../GameGlobal';
 
+import { ISceneTilemapData } from '../maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../maps/SceneTilemapFactory';
 import { Keys } from '../models/Keys';
 import { Actor } from '../actors/Actor';
@@ -7,47 +9,65 @@ import { ActorSprite } from '../actors/ActorSprite';
 import { ActorFactory } from '../actors/ActorFactory';
 import { ActorSearchEvent } from '../../actors/ActorSearchEvent';
 import { Hero } from '../../actors/Hero';
+import { IActorSprite } from '../actors/IActorSprite';
 
-import { TextBox } from '../ui/objects/TextBox';
-import { Message } from '../events/commands/Message';
+import { IArea } from '../areas/IArea';
+import { ActorEntry } from '../areas/ActorEntry';
+
+import { ScenarioEventManager } from '../events/ScenarioEventManager';
+
+import * as Areas from '../../areas';
 
 export class TestScene extends Phaser.Scene {
+  private frame: number;
   private keys: Keys;
   private tilemapFactory: SceneTilemapFactory;
   private actorFactory: ActorFactory;
   private primaryActor: Actor;
+  private areaData: IArea; 
+  private actors: Actor[];
+  private scenarioEvent: ScenarioEventManager;
+  private tilemapData: ISceneTilemapData;
 
   init(): void {
     console.log('start scene TestScene');
+
+    this.frame = 0;
 
     const cursorKeys = this.input.keyboard.createCursorKeys();
     const actionKey = cursorKeys.space;
     this.keys = new Keys(cursorKeys, actionKey);
 
+    this.areaData = Areas.TestArea;
+
     this.tilemapFactory = new SceneTilemapFactory(
       this,
-      'assets/map/sample_map.json',
-      'assets/tileset/sample_tile.json',
-      'assets/tileset/sample_tile.png'
+      this.areaData.mapFilePath,
+      this.areaData.tilesetFilePath,
+      this.areaData.tilesetImagePath,
     );
 
     this.actorFactory = new ActorFactory(this);
+
+    this.scenarioEvent = new ScenarioEventManager(this.keys);
   }
 
   preload (): void {
     this.tilemapFactory.loadAssets();
 
-    this.actorFactory.loadMultipileAssets([
-      {  name: 'hero', spritesheetPath: 'assets/sprites/actor.png', frameWidth: 32, frameHeight: 32},
-    ]);
+    const actorSptiteConfigs = this.areaData.actors.map((entry: ActorEntry) => (entry.spriteConfig));
+    this.actorFactory.loadMultipileAssets(actorSptiteConfigs);
   }
   
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
-    const tilemapData = this.tilemapFactory.create();
+
+    this.tilemapData = this.tilemapFactory.create();
 
     this.primaryActor = this.actorFactory.create('hero', 0, 100, 90, 0, Hero);
     this.primaryActor.keys = this.keys;
+
+    this.actors = [];
 
     const searchEvent = new ActorSearchEvent(this);
     searchEvent.setEvent(this.primaryActor);
@@ -58,25 +78,32 @@ export class TestScene extends Phaser.Scene {
       console.log('is searched!!!!!');
     });
 
-    if (this.primaryActor.sprite instanceof ActorSprite) {
-      this.physics.add.collider(this.primaryActor.sprite, tilemapData.staticLayers);
-      this.physics.world.addCollider(sprite, this.primaryActor.sprite);
-    }
-
-    this.text = new Message(
-      this,
-      `[john]\n this is test this is test this is test\\!this is test this is test this is test this is test this is test this is test`,
-    );
+    this._addActorsCollider();
   }
-  
-  private frame = 0;
-  private text: Message;
 
   update(): void {
+    if (this.scenarioEvent.isGoing()) {
+      this.scenarioEvent.update(this.frame);
+      return;
+    }
+
     this.primaryActor.update(this.frame);
 
-    this.text.update(this.frame, {keys: this.keys, currentEvents: [], events: []});
+    this.actors.forEach((actor: Actor) => {
+      actor.update(this.frame);
+    });
 
     this.frame++;
+  }
+
+  private _addActorsCollider(): void {
+    const actorsSprite = <ActorSprite[]> this.actors
+      .map((actor: Actor) => (actor.sprite))
+      .filter((sprite: IActorSprite) => (sprite instanceof ActorSprite));
+
+    if (this.primaryActor.sprite instanceof ActorSprite) {
+      this.physics.add.collider(this.primaryActor.sprite, this.tilemapData.staticLayers);
+      this.physics.add.collider(this.primaryActor.sprite, actorsSprite);
+    }
   }
 }

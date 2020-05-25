@@ -1,8 +1,8 @@
-import { ActorEntry } from './ActorEntry';
+import { ActorPosition } from './ActorPosition';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
-export class ActorEntriesFactory {
-  static createFromJson(mapJson: any): ActorEntry[] {
+export class ActorPositionsFactory {
+  static createFromJson(mapJson: any): ActorPosition[] {
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data');
 
     const objectLayers = mapJson.layers.filter((layer: any) => (
@@ -33,7 +33,7 @@ export class ActorEntriesFactory {
     return result;
   }
 
-  private static _createEntryFromObjectData(objectData: any): ActorEntry {
+  private static _createEntryFromObjectData(objectData: any): ActorPosition {
     const properties = this._parsePropertiesObject(objectData.properties);
 
     if (!properties) throw Error('illegal object data');
@@ -43,7 +43,7 @@ export class ActorEntriesFactory {
     const positionY = ValueTypeUtil.isNumber(objectData.y) ? objectData.y : 0;
     const actorId = ValueTypeUtil.isNumber(properties.get('actorId')) ? properties.get('actorId') : id;
 
-    return new ActorEntry(
+    return new ActorPosition(
       id,
       actorId,
       {x: positionX, y: positionY},

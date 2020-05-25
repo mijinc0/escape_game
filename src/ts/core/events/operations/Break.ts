@@ -1,5 +1,5 @@
 import { CircularRange } from '../CircularRange';
-import { IRange } from '../IRange';
+import { EventRange } from '../EventRange';
 import { IScenarioEvent } from '../IScenarioEvent';
 import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
 
@@ -16,7 +16,7 @@ export class Break implements IScenarioEvent {
     // Breakは進行中のイベントリストのうち、最初のCircularRangeが見つかったところまでレンジを削除する
     // 見つからない場合は削除しない
     if (config.events) {
-      const circularRangeIndex = config.events.findIndex((range: IRange<IScenarioEvent>) => (event instanceof CircularRange));
+      const circularRangeIndex = config.events.findIndex((range: EventRange) => (event instanceof CircularRange));
       config.events = config.events.slice(circularRangeIndex + 1);
     }
 

@@ -1,14 +1,8 @@
 import * as Phaser from 'phaser';
 import { Actor } from './Actor';
+import { SpriteConfig } from './SpriteConfig';
 import { ActorSprite } from './ActorSprite';
 import { Direction } from '../models/Direction';
-
-type SpriteConfig = {
-  name: string,
-  spritesheetPath: string,
-  frameWidth: number,
-  frameHeight: number,
-};
 
 type AnimConfig = {
   key: string,
@@ -149,6 +143,7 @@ export class ActorFactory {
   }
 
   private _createActorAnim(actorName: string, config: AnimConfig): SpriteAnimation {
+    // ここはPhaserのanim
     const anim = this.scene.anims.create({
       key: this._createActorAnimKey(actorName, config.key),
       frames: this.scene.anims.generateFrameNumbers(actorName, {start: config.startFrame, end: config.endFrame}),

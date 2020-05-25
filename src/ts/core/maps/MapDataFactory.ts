@@ -1,5 +1,5 @@
 import { MapData } from './MapData';
-import { ActorEntriesFactory } from './ActorEntriesFactory';
+import { ActorPositionsFactory } from './ActorPositionsFactory';
 import { LayeredMapDataFactory } from './LayeredMapDataFactory';
 import { TileInfosFactory } from './TileInfosFactory';
 import { Size } from '../models/Size';
@@ -13,7 +13,7 @@ export class MapDataFactory {
     const tileSize = this._getTileSizeFromJson(mapJson);
     const tileInfos = TileInfosFactory.createFromJson(tileJson);
     const worldBounce = this._calcWorldBounce(layeredMapData, tileSize);
-    const actorEntries = ActorEntriesFactory.createFromJson(mapJson);
+    const actorPositions = ActorPositionsFactory.createFromJson(mapJson);
 
     return new MapData(
       layeredMapData,
@@ -21,7 +21,7 @@ export class MapDataFactory {
       tileInfos,
       tileImage,
       worldBounce,
-      actorEntries,
+      actorPositions,
     );
   }
 

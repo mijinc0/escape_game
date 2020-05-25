@@ -1,8 +1,6 @@
-import { IRange } from './IRange';
+import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
 import { Keys } from '../models/Keys';
-
-type EventRange = IRange<IScenarioEvent>;
 
 /**
  * 1. イベントはRangeと呼ばれる構造体にまとめられたものを1ブロックとして管理する
@@ -63,6 +61,10 @@ export class ScenarioEventManager {
 
   getCurrentEventSize(): number {
     return this.currentEvents.length;
+  }
+
+  isGoing(): boolean {
+    return this.currentEvents.length > 0;
   }
 
   private _setNextEvnet(): void {

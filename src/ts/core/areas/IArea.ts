@@ -11,4 +11,4 @@ export interface IArea {
   actors: ActorEntry[];
 
   events: EventEntry[];
-}
+};

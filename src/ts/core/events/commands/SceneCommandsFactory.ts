@@ -4,7 +4,7 @@ import { Item } from './Item';
 import { GameGlobal } from '../../GameGlobal';
 
 export class SceneCommandsFactory {
-  scene: Phaser.Scene;
+  private scene: Phaser.Scene;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;

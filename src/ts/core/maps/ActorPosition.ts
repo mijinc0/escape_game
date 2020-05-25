@@ -1,6 +1,6 @@
 import { Position } from '../models/Position';
 
-export class ActorEntry {
+export class ActorPosition {
   readonly id: number;
 
   actorId: number;

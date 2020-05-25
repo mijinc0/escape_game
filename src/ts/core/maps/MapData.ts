@@ -1,4 +1,4 @@
-import { ActorEntry } from './ActorEntry';
+import { ActorPosition } from './ActorPosition';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
 
@@ -13,8 +13,7 @@ export class MapData {
 
   worldBounce: Size;
 
-  actorEntries: ActorEntry[];
-
+  actorPositions: ActorPosition[];
 
   constructor (
     // Map<layerId: number, rawMapData: number[][]>
@@ -23,13 +22,13 @@ export class MapData {
     tileInfos: TileInfo[],
     tileImage: string,
     worldBounce: Size,
-    actorEntries: ActorEntry[],
+    actorPositions: ActorPosition[],
   ) {
     this.data = data;
     this.tileSize = tileSize;
     this.tileInfos = tileInfos;
     this.tileImage = tileImage;
     this.worldBounce = worldBounce;
-    this.actorEntries = actorEntries;
+    this.actorPositions = actorPositions;
   }
 }
