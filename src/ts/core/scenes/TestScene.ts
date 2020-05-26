@@ -49,7 +49,7 @@ export class TestScene extends Phaser.Scene {
 
     this.actorFactory = new ActorFactory(this);
 
-    this.scenarioEvent = new ScenarioEventManager(this, this.keys);
+    this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
   }
 
   preload (): void {

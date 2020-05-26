@@ -13,6 +13,11 @@ export class GameFlags {
     this.flags.set(key, false);
   }
 
+  toggle(key: string): void {
+    const toggled = this.flags.get(key) ? false : true;
+    this.flags.set(key, toggled);
+  }
+
   get(key: string): boolean {
     return !!this.flags.get(key);
   }

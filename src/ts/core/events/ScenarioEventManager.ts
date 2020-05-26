@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
 import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
+import { IGameGlobal } from '../IGameGlobal';
 import { Keys } from '../models/Keys';
 
 /**
@@ -17,12 +18,18 @@ import { Keys } from '../models/Keys';
 export class ScenarioEventManager {
   scene: Phaser.Scene;
   keys: Keys;
+  gameGlobal: IGameGlobal;
 
   private events: EventRange[];
   private currentEvents: IScenarioEvent[];
 
-  constructor(scene?: Phaser.Scene, keys?: Keys) {
+  constructor(
+    scene?: Phaser.Scene,
+    gameGlobal?: IGameGlobal,
+    keys?: Keys,
+  ) {
     this.scene = scene ? scene : null;
+    this.gameGlobal = gameGlobal ? gameGlobal : null;
     this.keys = keys ? keys : null;
     this.events = [];
     this.currentEvents = [];
@@ -102,6 +109,7 @@ export class ScenarioEventManager {
       keys: this.keys,
       events: this.events,
       currentEvents: this.currentEvents,
+      gameGlobal: this.gameGlobal,
     }
   }
 }

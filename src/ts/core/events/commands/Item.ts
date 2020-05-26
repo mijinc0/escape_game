@@ -5,21 +5,17 @@ import { IGameGlobal } from '../../IGameGlobal';
 
 export class Item implements IScenarioEvent {
   static readonly maxOwnItems = 99;
+  
+  readonly isAsync = true;
 
   isComplete: boolean;
-  isAsync: boolean;
 
   private itemName: string;
   private delta: number;
 
-  constructor(
-    itemName: string,
-    delta: number,
-    async = false,
-  ) {
+  constructor(itemName: string, delta: number) {
     this.itemName = itemName;
     this.delta = delta;
-    this.isAsync = async;
     this.isComplete = false; 
   }
 
@@ -30,6 +26,7 @@ export class Item implements IScenarioEvent {
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     if (!config.gameGlobal) {
       console.warn('ScenarioEventUpdateConfig has not game global store');
+      this.isComplete = true;
       return;
     }
 

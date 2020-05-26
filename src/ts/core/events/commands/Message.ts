@@ -4,6 +4,8 @@ import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
 import { Keys } from '../../models/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
+type MessageBufferFactoryCallback = (message: string) => string[];
+
 export class Message implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
@@ -22,12 +24,15 @@ export class Message implements IScenarioEvent {
   // 最低限表示する長さを決めるタイマー
   private waitTimer: number;
 
+  private messageBufferFactoryCallback: MessageBufferFactoryCallback;
+
   constructor(
     message: string,
     async = false,
     align = 'left',
     hasBackground = true,
     justify = 'bottom',
+    messageBufferFactoryCallback: MessageBufferFactoryCallback,
   ) {
     this.message = message;
     this.messageBuffers = [];
@@ -42,6 +47,8 @@ export class Message implements IScenarioEvent {
     this.textBox = null
     this.waitingCursor = null
     this.waitTimer = 0;
+
+    this.messageBufferFactoryCallback = messageBufferFactoryCallback;
   }
 
   init(frame: number, config: ScenarioEventUpdateConfig): void {
@@ -65,8 +72,8 @@ export class Message implements IScenarioEvent {
       // 一番前のバッファからメッセージを出力する
       this._messageOutputFromBuffer();
     
-    } else if(this.waitTimer < 24) {
-      // 一番前のバッファから全てのメッセージが出力された直後の一時停止 (24フレーム停止)
+    } else if(this.waitTimer < 20) {
+      // 一番前のバッファから全てのメッセージが出力された直後の一時停止 (20フレーム停止)
       this.waitTimer++;
 
     } else {
@@ -141,8 +148,7 @@ export class Message implements IScenarioEvent {
   }
 
   private _createMessageBuffer(message: string): string[] {
-    const bufferSepalator = '\\!';
-    return message.split(bufferSepalator);
+    return this.messageBufferFactoryCallback(message);
   }
 
   private _getPositionY(scene: Phaser.Scene, justify: string, boxHeight: number): number {
