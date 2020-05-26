@@ -7,30 +7,55 @@ import { TextBox } from '../../ui/objects/TextBox';
 export class Message implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
-
-  private textBox: TextBox;
+  
+  private message: string;
+  private hasBackground: boolean;
+  private align: string;
+  private justify: string;
   private messageBuffers: string[];
   private messageChunkSize: number;
+  private textBox: TextBox;
   private waitingCursor: Phaser.GameObjects.Text;
+  
+  // 全てのメッセージが表示された後にすぐキーの入力を受け付けると、
+  // 短い文章を表示した時にキー入力判定が起きて文章を飛ばしてしまうことがあるため、
+  // 最低限表示する長さを決めるタイマー
+  private waitTimer: number;
 
   constructor(
-    scene: Phaser.Scene,
     message: string,
     async = false,
     align = 'left',
     hasBackground = true,
     justify = 'bottom',
   ) {
-    this.messageChunkSize = 4;
+    this.message = message;
+    this.messageBuffers = [];
 
-    this.messageBuffers = this._createMessageBuffer(message);
-    this.textBox = this._createTextBox(scene, justify, align, hasBackground);
-    
-    this.waitingCursor = this._createWaitingCursor(scene);
-    this._beInvisibleWaitingCursor();
-    
+    this.messageChunkSize = 4;
     this.isAsync = async;
     this.isComplete = false; 
+    this.align = align;
+    this.hasBackground = hasBackground;
+    this.justify = justify;
+
+    this.textBox = null
+    this.waitingCursor = null
+    this.waitTimer = 0;
+  }
+
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+
+    if (!config.scene) {
+      console.warn('ScenarioEventUpdateConfig has not current scene');
+      return;
+    }
+
+    this.messageBuffers = this._createMessageBuffer(this.message);
+    this.textBox = this._createTextBox(config.scene, this.justify, this.align, this.hasBackground);
+    this.waitingCursor = this._createWaitingCursor(config.scene);
+    this._beInvisibleWaitingCursor();
   }
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
@@ -39,10 +64,18 @@ export class Message implements IScenarioEvent {
     if (this._hasReadiedMessage()) {
       // 一番前のバッファからメッセージを出力する
       this._messageOutputFromBuffer();
+    
+    } else if(this.waitTimer < 24) {
+      // 一番前のバッファから全てのメッセージが出力された直後の一時停止 (24フレーム停止)
+      this.waitTimer++;
+
     } else {
+      // 次のメッセージに進むためのキー入力待ち
+      this._flashingKeyWaitCursor(frame);
       // 入力待ち
-      this._waitKeyInput(frame, config.keys);
+      this._waitKeyInput(config.keys);
       // バッファが空になったら完了
+
       if (this.messageBuffers.length === 0) this.complete();
     }
   }
@@ -142,15 +175,14 @@ export class Message implements IScenarioEvent {
     this.messageBuffers[0] = this.messageBuffers[0].slice(this.messageChunkSize);
   }
 
-  private _waitKeyInput(frame: number, keys?: Keys): void {
-    this._flashingKeyWaitCursor(frame);
-
+  private _waitKeyInput(keys?: Keys): void {
     if (!keys || !keys.action.isDown) return;
 
     // テキストをクリアして、最初のバッファを削除する
     this._beInvisibleWaitingCursor();
     this.textBox.setText('');
     this.messageBuffers = this.messageBuffers.slice(1);
+    this.waitTimer = 0;
   }
 
   private _flashingKeyWaitCursor(frame: number): void {

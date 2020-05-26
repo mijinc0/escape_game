@@ -10,10 +10,14 @@ export class Return implements IScenarioEvent {
     this.isComplete = false;
   }
 
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+  }
+
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     // 全てのイベントレンジを破棄する
     if (config.events) {
-      config.events = [];
+      config.events.splice(0);
     }
 
     // 進行中のイベントを全てcompleteする

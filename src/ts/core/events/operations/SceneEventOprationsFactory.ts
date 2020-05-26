@@ -6,13 +6,14 @@ import { IScenarioEvent } from '../IScenarioEvent';
 
 type ConditionCallback = () => boolean;
 
-/**
- * break,returnは同じものを使い回せば済むので関数ではなくreadonlyプロパティにしておく
- */
 export class SceneEventOprationsFactory {
-  static readonly break = new Break();
+  static break(): Break {
+    return new Break();
+  }
 
-  static readonly return = new Return();
+  static return(): Return {
+    return new Return();
+  }
 
   /**
    * わざわざIfを生成する関数オブジェクトを生成しているのは、使う場所で以下のように

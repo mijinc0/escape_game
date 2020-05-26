@@ -21,6 +21,10 @@ export class If implements IScenarioEvent {
     }];
   }
 
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+  }
+
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     const matchedEntry = this.entries.find((entry: EventEntry) => (entry.conditionCallback()));
     
@@ -51,10 +55,12 @@ export class If implements IScenarioEvent {
     }).bind(this);
   }
 
-  else(...events: IScenarioEvent[]): void {
+  else(...events: IScenarioEvent[]): If {
     this.entries.push({
       conditionCallback: () => (true),
       events: events,
     });
+
+    return this;
   }
 }

@@ -1,5 +1,7 @@
+import * as Phaser from 'phaser';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
+import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
 import { Keys } from '../models/Keys';
 
 /**
@@ -13,18 +15,20 @@ import { Keys } from '../models/Keys';
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
 export class ScenarioEventManager {
+  scene: Phaser.Scene;
   keys: Keys;
 
   private events: EventRange[];
   private currentEvents: IScenarioEvent[];
 
-  constructor(keys?: Keys) {
+  constructor(scene?: Phaser.Scene, keys?: Keys) {
+    this.scene = scene ? scene : null;
     this.keys = keys ? keys : null;
     this.events = [];
     this.currentEvents = [];
   }
 
-  start(eventRange: EventRange): void {
+  start(frame: number, eventRange: EventRange): void {
     if (this.currentEvents.length > 0 ) {
       console.warn('scenario event manager already has events');
       return;
@@ -32,21 +36,15 @@ export class ScenarioEventManager {
 
     this.events.push(eventRange);
     this.currentEvents = [];
-    this._setNextEvnet();
+    this._setNextEvnet(frame);
   }
 
   update(frame: number): void {
     if (this.currentEvents.length === 0) return;
 
     this.currentEvents.forEach((event: IScenarioEvent) => {
-      event.update(
-        frame,
-        {
-          keys: this.keys,
-          events: this.events,
-          currentEvents: this.currentEvents,
-        }, 
-      );
+      const updateConfig = this._getUpdateConfig();
+      event.update(frame, updateConfig);
     });
 
     // 未完了イベントのみを残す
@@ -55,7 +53,7 @@ export class ScenarioEventManager {
     // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
     if (this.events.length > 0 && this._hasNoSyncEvnetIntoCurrentEvents()) {
-      this._setNextEvnet();
+      this._setNextEvnet(frame);
     }
   }
 
@@ -67,7 +65,7 @@ export class ScenarioEventManager {
     return this.currentEvents.length > 0;
   }
 
-  private _setNextEvnet(): void {
+  private _setNextEvnet(frame: number): void {
     if (this.events.length === 0) return;
 
     // 1. 先頭のレンジを取得する
@@ -76,8 +74,12 @@ export class ScenarioEventManager {
     // 2. 先頭のレンジから次のイベントを要求する
     const next = frontRange.next();
 
-    // 3. 次のイベントの完了フラグが立っていない時だけ、イベントを追加する
-    if (!next.isComplete) this.currentEvents.push(next);
+    // 3. 次のイベントがあれば、初期化してイベントを追加する
+    if (next) {
+      const updateConfig = this._getUpdateConfig();
+      next.init(frame, updateConfig);
+      this.currentEvents.push(next);
+    }
 
     // 4. 最初のイベントレンジが終了した(全てのイベントを取得した等の)場合、削除する
     if (frontRange.isComplete()) {
@@ -87,10 +89,19 @@ export class ScenarioEventManager {
     // 5. もし、次のイベントが最後でないかつ非同期イベントであれば、その次も取得する。
     //    イベントを全て取得したレンジは4の段階で破棄されているので、次があるかどうかは
     //    this.events.length > 0 で分かる
-    if (this.events.length > 0 && next.isAsync) this._setNextEvnet();
+    if (this.events.length > 0 && next.isAsync) this._setNextEvnet(frame);
   }
 
   private _hasNoSyncEvnetIntoCurrentEvents(): boolean {
     return !this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
+  }
+
+  private _getUpdateConfig(): ScenarioEventUpdateConfig {
+    return {
+      scene: this.scene,
+      keys: this.keys,
+      events: this.events,
+      currentEvents: this.currentEvents,
+    }
   }
 }

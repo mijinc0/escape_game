@@ -49,7 +49,7 @@ export class TestScene extends Phaser.Scene {
 
     this.actorFactory = new ActorFactory(this);
 
-    this.scenarioEvent = new ScenarioEventManager(this.keys);
+    this.scenarioEvent = new ScenarioEventManager(this, this.keys);
   }
 
   preload (): void {
@@ -75,25 +75,36 @@ export class TestScene extends Phaser.Scene {
     const sprite = this.physics.add.sprite(200, 200, 'actorA', 9);
     sprite.body.immovable = true;
     sprite.on('search', () => {
-      console.log('is searched!!!!!');
+      const event = this.areaData.events[0]
+
+      if (event) {
+        const eventRange = event.getEvents();
+        if (eventRange) this.scenarioEvent.start(this.frame, eventRange);
+      }
     });
 
     this._addActorsCollider();
   }
 
   update(): void {
+    this.frame++;
+
     if (this.scenarioEvent.isGoing()) {
+      // ポーズしないとPhysicsは非同期で動くのでvelocityの設定に従ってスプライトが動いてしまう
+      this.physics.world.pause();
       this.scenarioEvent.update(this.frame);
       return;
     }
 
+    // resume()内部で判定していないので判定する
+    // (判定が無いと関数内部で無駄に内部でイベントエミッターをemitしたりしてしまう)
+    if (this.physics.world.isPaused) this.physics.world.resume();
+    
     this.primaryActor.update(this.frame);
 
     this.actors.forEach((actor: Actor) => {
       actor.update(this.frame);
     });
-
-    this.frame++;
   }
 
   private _addActorsCollider(): void {

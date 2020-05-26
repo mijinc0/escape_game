@@ -12,12 +12,17 @@ export class Break implements IScenarioEvent {
     this.isComplete = false;
   }
 
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+  }
+
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     // Breakは進行中のイベントリストのうち、最初のCircularRangeが見つかったところまでレンジを削除する
     // 見つからない場合は削除しない
     if (config.events) {
-      const circularRangeIndex = config.events.findIndex((range: EventRange) => (event instanceof CircularRange));
-      config.events = config.events.slice(circularRangeIndex + 1);
+      const circularRangeIndex = config.events.findIndex((range: EventRange) => (range instanceof CircularRange));
+      // 参照元の配列を破壊する
+      config.events.splice(0, circularRangeIndex + 1);
     }
 
     this.complete();

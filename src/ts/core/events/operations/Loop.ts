@@ -18,6 +18,10 @@ export class Loop implements IScenarioEvent {
     this.isComplete = false;
   }
 
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+  }
+
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     // 回転し続けるイベントレンジを割り込ませることで繰り返し処理を作る
     // このイベントレンジは自力では完了できないので、止める時は内部でBreakを使って外から破棄する必要がある

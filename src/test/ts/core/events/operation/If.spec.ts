@@ -13,6 +13,8 @@ class TestEvent implements IScenarioEvent {
     this.isAsync = false;
   }
 
+  init(): void {}
+
   update(frame: number): void {
     this.complete();
   }

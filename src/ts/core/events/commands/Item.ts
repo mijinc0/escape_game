@@ -1,4 +1,5 @@
 import { IScenarioEvent } from '../IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
 import { Item as ItemObject } from '../../models/Item';
 import { IGameGlobal } from '../../IGameGlobal';
 
@@ -8,28 +9,34 @@ export class Item implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
 
-  private gameGlobal: IGameGlobal;
   private itemName: string;
   private delta: number;
 
   constructor(
-    gameGlobal: IGameGlobal,
     itemName: string,
     delta: number,
     async = false,
   ) {
-    this.gameGlobal = gameGlobal;
     this.itemName = itemName;
     this.delta = delta;
     this.isAsync = async;
     this.isComplete = false; 
   }
 
-  update(frame: number): void {
+  init(frame: number, config: ScenarioEventUpdateConfig): void {
+    this.isComplete = false;
+  }
+
+  update(frame: number, config: ScenarioEventUpdateConfig): void {
+    if (!config.gameGlobal) {
+      console.warn('ScenarioEventUpdateConfig has not game global store');
+      return;
+    }
+
     if (this.delta > 0) {
-      this._getItem(this.itemName, this.delta);
+      this._getItem(this.itemName, this.delta, config.gameGlobal);
     } else {
-      this._lostItem(this.itemName, this.delta * -1);
+      this._lostItem(this.itemName, this.delta * -1, config.gameGlobal);
     }
 
     this.complete();
@@ -39,21 +46,21 @@ export class Item implements IScenarioEvent {
     this.isComplete = true;
   }
 
-  private _getItem(itemName: string, num: number): ItemObject|null {
-    const item = this.gameGlobal.items.get(itemName);
+  private _getItem(itemName: string, num: number, gameGlobal: IGameGlobal): ItemObject|null {
+    const item = gameGlobal.items.get(itemName);
 
     // アイテムデータが存在しない
     if (!item) return null;
 
-    this.gameGlobal.ownItems.add(item, num);
+    gameGlobal.ownItems.add(item, num);
   }
 
-  private _lostItem(itemName: string, num: number): void {
-    const item = this.gameGlobal.items.get(itemName);
+  private _lostItem(itemName: string, num: number, gameGlobal: IGameGlobal): void {
+    const item = gameGlobal.items.get(itemName);
 
     // アイテムデータが存在しない
     if (!item) return null;
 
-    this.gameGlobal.ownItems.lost(item, num);
+    gameGlobal.ownItems.lost(item, num);
   }
 }
