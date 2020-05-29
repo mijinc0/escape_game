@@ -10,6 +10,10 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     this.sprites = new Map<string, IActorSprite>();
   }
 
+  get spriteKey(): string {
+    return this.primary.spriteKey;
+  }
+
   get x(): number {
     return this.primary.x;
   };

@@ -12,7 +12,7 @@ export class Break implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(frame: number, config: ScenarioEventUpdateConfig): void {
+  init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
   }
 

@@ -2,7 +2,7 @@ import { Actor } from '../core/actors/Actor';
 import { Direction } from '../core/models/Direction';
 
 export class Hero extends Actor {
-  update(frame?: number): void {
+  update(frame: number): void {
     if (!this.keys) {
       super.update(frame);
       return;

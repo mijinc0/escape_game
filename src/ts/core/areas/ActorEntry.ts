@@ -1,30 +1,24 @@
-import { Actor } from '../actors/Actor';
-import { SpriteConfig } from '../actors/SpriteConfig';
+import { IActorEntry } from './IActorEntry';
+import { IActorStatusPage } from './IActorStatusPage';
+import { IActor } from '../actors/IActor';
 import { Position } from '../models/Position';
+import { Direction } from '../models/Direction';
 
-type ActorConstructor = new (...args: ConstructorParameters<typeof Actor>) => Actor;
-
-export class ActorEntry {
-  readonly actorName: string;
-  readonly eventId: number;
+export class ActorEntry implements IActorEntry {
+  readonly actorObject: IActor;
   readonly position: Position;
-  readonly spriteConfig: SpriteConfig;
-  readonly initFrame: number;
-  readonly actorConstructor: ActorConstructor;
+  readonly direction: Direction;
+  readonly statusPages: IActorStatusPage[];
 
   constructor(  
-    actorName: string,
-    eventId: number,
+    actorObject: IActor,
     position: Position,
-    spriteConfig: SpriteConfig,
-    initFrame: number,
-    actorConstructor: ActorConstructor,
+    direction: Direction,
+    statusPages: IActorStatusPage[],
   ){
-    this.actorName = actorName;
-    this.eventId = eventId;
+    this.actorObject = actorObject;
     this.position = position;
-    this.spriteConfig = spriteConfig;
-    this.initFrame = initFrame;
-    this.actorConstructor = actorConstructor;
+    this.direction = direction;
+    this.statusPages = statusPages;
   }
 }

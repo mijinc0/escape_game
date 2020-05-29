@@ -10,12 +10,21 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     scene: Phaser.Scene,
     x: number,
     y: number,
-    texture: string,
+    spriteKey: string,
     frame?: string | integer,
   ) {
-    super(scene, x, y, texture, frame);
+    super(scene, x, y, spriteKey, frame);
 
+    this.spriteKey = spriteKey;
     this.spriteAnims = new Map<string, SpriteAnimation>();
+  }
+
+  get spriteKey(): string {
+    return this.texture.key;
+  }
+
+  set spriteKey(key: string) {
+    this.setTexture(key);
   }
 
   setAnim(animKey: string, animObject: SpriteAnimation): void {
@@ -30,7 +39,7 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
       this.anims.play(anim, ignoreIfPlaying);
     } else {
       // 自身にキャッシュされていないKeyであれば、グローバルに保管されているアニメーションを探す
-      this.play(animKey, ignoreIfPlaying);
+      this.anims.play(animKey, ignoreIfPlaying);
     }
     
     return this;

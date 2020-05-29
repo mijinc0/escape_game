@@ -4,30 +4,33 @@ import { GameGlobal } from '../GameGlobal';
 import { ISceneTilemapData } from '../maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../maps/SceneTilemapFactory';
 import { Keys } from '../models/Keys';
-import { Actor } from '../actors/Actor';
-import { ActorSprite } from '../actors/ActorSprite';
-import { ActorFactory } from '../actors/ActorFactory';
-import { ActorSearchEvent } from '../../actors/ActorSearchEvent';
-import { Hero } from '../../actors/Hero';
-import { IActorSprite } from '../actors/IActorSprite';
+import { IActor } from '../actors/IActor';
+import { ActorSpriteFactory } from '../actors/ActorSpriteFactory';
+import { ActorAnimsFactory } from '../actors/ActorAnimsFactory';
 
 import { IArea } from '../areas/IArea';
-import { ActorEntry } from '../areas/ActorEntry';
+import { ActorColliderRegistrar } from '../areas/ActorColliderRegistrar';
 
+import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
+import { ActorSpawner } from '../areas/ActorSpawner';
 
 import * as Areas from '../../areas';
+import * as Actors from '../../actors';
 
 export class TestScene extends Phaser.Scene {
   private frame: number;
   private keys: Keys;
   private tilemapFactory: SceneTilemapFactory;
-  private actorFactory: ActorFactory;
-  private primaryActor: Actor;
+  private primaryActor: IActor;
   private areaData: IArea; 
-  private actors: Actor[];
+  private actors: IActor[];
   private scenarioEvent: ScenarioEventManager;
   private tilemapData: ISceneTilemapData;
+  private actorSpawner: ActorSpawner;
+  private actorSpriteFactory: ActorSpriteFactory;
+  private actorAnimsFactory: ActorAnimsFactory;
+  private actorColliderRegistrar: ActorColliderRegistrar;
 
   init(): void {
     console.log('start scene TestScene');
@@ -47,16 +50,30 @@ export class TestScene extends Phaser.Scene {
       this.areaData.tilesetImagePath,
     );
 
-    this.actorFactory = new ActorFactory(this);
-
     this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
+
+    this.actorSpriteFactory = new ActorSpriteFactory(this);
+
+    this.actorAnimsFactory = new ActorAnimsFactory(this);
+
+    this.actorSpawner = new ActorSpawner(
+      this.areaData.actors,
+      this.actorSpriteFactory,
+      this.actorAnimsFactory,
+      () => {},
+      this._addSpawnActorsCollider.bind(this),
+      ((actor: IActor) => {this.actors.push(actor)}).bind(this),
+    );
+
+    this.actorColliderRegistrar = new ActorColliderRegistrar(this);
+
+    this.actors = [];
   }
 
   preload (): void {
     this.tilemapFactory.loadAssets();
 
-    const actorSptiteConfigs = this.areaData.actors.map((entry: ActorEntry) => (entry.spriteConfig));
-    this.actorFactory.loadMultipileAssets(actorSptiteConfigs);
+    this.actorSpawner.preload();
   }
   
   create(): void {
@@ -64,26 +81,9 @@ export class TestScene extends Phaser.Scene {
 
     this.tilemapData = this.tilemapFactory.create();
 
-    this.primaryActor = this.actorFactory.create('hero', 0, 100, 90, 0, Hero);
-    this.primaryActor.keys = this.keys;
+    this.primaryActor = this._createPrimaryActor();
 
-    this.actors = [];
-
-    const searchEvent = new ActorSearchEvent(this);
-    searchEvent.setEvent(this.primaryActor);
-
-    const sprite = this.physics.add.sprite(200, 200, 'actorA', 9);
-    sprite.body.immovable = true;
-    sprite.on('search', () => {
-      const event = this.areaData.events[0]
-
-      if (event) {
-        const eventRange = event.getEvents();
-        if (eventRange) this.scenarioEvent.start(this.frame, eventRange);
-      }
-    });
-
-    this._addActorsCollider();
+    this.actorSpawner.spawn();
   }
 
   update(): void {
@@ -102,19 +102,41 @@ export class TestScene extends Phaser.Scene {
     
     this.primaryActor.update(this.frame);
 
-    this.actors.forEach((actor: Actor) => {
+    this.actors.forEach((actor: IActor) => {
       actor.update(this.frame);
     });
   }
 
-  private _addActorsCollider(): void {
-    const actorsSprite = <ActorSprite[]> this.actors
-      .map((actor: Actor) => (actor.sprite))
-      .filter((sprite: IActorSprite) => (sprite instanceof ActorSprite));
+  private _createPrimaryActor(): IActor {
+    const actor = new Actors.Hero(3030, 'hero');
+    const sprite = this.actorSpriteFactory.create(150,100, 'hero', 0);
+    actor.sprite = sprite;
+    actor.keys = this.keys;
+    this.actorAnimsFactory.setAnims(sprite);
 
-    if (this.primaryActor.sprite instanceof ActorSprite) {
-      this.physics.add.collider(this.primaryActor.sprite, this.tilemapData.staticLayers);
-      this.physics.add.collider(this.primaryActor.sprite, actorsSprite);
+    const searchEvent = new ActorSearchEvent(this);
+    searchEvent.setEvent(actor);
+
+    this.actorColliderRegistrar.registActorAndGameObject(actor, this.tilemapData.staticLayers);
+
+    return actor;
+  }
+
+  private _addSpawnActorsCollider(spawnActor: IActor): void {
+    // set immovable
+    if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
+      spawnActor.sprite.setImmovable(true);
     }
+
+    // with primary actor
+    this.actorColliderRegistrar.registActorPair(spawnActor, this.primaryActor);
+
+    // with other actors that has already spawned
+    this.actors.forEach((actor: IActor) => {
+      this.actorColliderRegistrar.registActorPair(spawnActor, actor);
+    });
+
+    // with tilemap
+    this.actorColliderRegistrar.registActorAndGameObject(spawnActor, this.tilemapData.staticLayers);
   }
 }

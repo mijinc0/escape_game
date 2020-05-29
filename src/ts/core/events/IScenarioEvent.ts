@@ -9,10 +9,9 @@ export interface IScenarioEvent {
    * これは、同じイベントを2度呼び出した時に、前回の処理で isCompleteフラグが立ってしまっているから
    * 
    * イベントはinitによって初期化され、使いまわされるので、状態内部の破壊的な処理を避けること
-   * @param frame 
    * @param config 
    */
-  init(frame: number, config: ScenarioEventUpdateConfig): void;
+  init(config: ScenarioEventUpdateConfig): void;
 
   /**
    * 

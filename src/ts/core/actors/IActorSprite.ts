@@ -1,4 +1,6 @@
 export interface IActorSprite {
+  spriteKey: string;
+
   x: number;
 
   y: number;

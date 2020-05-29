@@ -25,7 +25,7 @@ export class Variable implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(frame: number, config: ScenarioEventUpdateConfig): void {
+  init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
   }
 

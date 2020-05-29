@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
-import { Actor } from '../core/actors/Actor';
-import { Direction } from '../core/models/Direction';
-import { Position } from '../core/models/Position';
-import { Zone } from '../core/models/Zone';
+import { Actor } from '../actors/Actor';
+import { Direction } from '../models/Direction';
+import { Position } from '../models/Position';
+import { Zone } from '../models/Zone';
 
 export class ActorSearchEvent {
   private scene: Phaser.Scene;

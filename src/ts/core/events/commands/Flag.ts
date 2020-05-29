@@ -2,7 +2,7 @@ import { IScenarioEvent } from '../IScenarioEvent';
 import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
 
 export class Flag implements IScenarioEvent {
-  readonly isAsync = false;;
+  readonly isAsync = true;
 
   isComplete: boolean;
 
@@ -19,7 +19,7 @@ export class Flag implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(frame: number, config: ScenarioEventUpdateConfig): void {
+  init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
   }
 

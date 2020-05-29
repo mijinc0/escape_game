@@ -35,7 +35,7 @@ export class ScenarioEventManager {
     this.currentEvents = [];
   }
 
-  start(frame: number, eventRange: EventRange): void {
+  start(eventRange: EventRange): void {
     if (this.currentEvents.length > 0 ) {
       console.warn('scenario event manager already has events');
       return;
@@ -43,7 +43,7 @@ export class ScenarioEventManager {
 
     this.events.push(eventRange);
     this.currentEvents = [];
-    this._setNextEvnet(frame);
+    this._setNextEvnet();
   }
 
   update(frame: number): void {
@@ -60,7 +60,7 @@ export class ScenarioEventManager {
     // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
     if (this.events.length > 0 && this._hasNoSyncEvnetIntoCurrentEvents()) {
-      this._setNextEvnet(frame);
+      this._setNextEvnet();
     }
   }
 
@@ -72,7 +72,7 @@ export class ScenarioEventManager {
     return this.currentEvents.length > 0;
   }
 
-  private _setNextEvnet(frame: number): void {
+  private _setNextEvnet(): void {
     if (this.events.length === 0) return;
 
     // 1. 先頭のレンジを取得する
@@ -84,7 +84,7 @@ export class ScenarioEventManager {
     // 3. 次のイベントがあれば、初期化してイベントを追加する
     if (next) {
       const updateConfig = this._getUpdateConfig();
-      next.init(frame, updateConfig);
+      next.init(updateConfig);
       this.currentEvents.push(next);
     }
 
@@ -96,7 +96,7 @@ export class ScenarioEventManager {
     // 5. もし、次のイベントが最後でないかつ非同期イベントであれば、その次も取得する。
     //    イベントを全て取得したレンジは4の段階で破棄されているので、次があるかどうかは
     //    this.events.length > 0 で分かる
-    if (this.events.length > 0 && next.isAsync) this._setNextEvnet(frame);
+    if (this.events.length > 0 && next.isAsync) this._setNextEvnet();
   }
 
   private _hasNoSyncEvnetIntoCurrentEvents(): boolean {

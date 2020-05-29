@@ -4,6 +4,10 @@ import { IScenarioEvent } from './IScenarioEvent';
 import { IGameGlobal } from '../IGameGlobal';
 import { Keys } from '../models/Keys';
 
+/**
+ * シナリオイベントに色々と渡したいときにはこれを使うことで
+ * オブジェクトがやたらめったら参照を持たないで済む
+ */
 export type ScenarioEventUpdateConfig = {
   
   scene?: Phaser.Scene,

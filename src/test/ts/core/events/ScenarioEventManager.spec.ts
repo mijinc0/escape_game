@@ -38,7 +38,7 @@ describe('scenarioEventManager.start()', () => {
       new TestEvent(true, false),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     it('current event size should be 3 ', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);
@@ -57,7 +57,7 @@ describe('scenarioEventManager.update()', () => {
       new TestEvent(true, false),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     sem.update(0);
 
@@ -76,7 +76,7 @@ describe('scenarioEventManager.update()', () => {
       new TestEvent(true, false),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     sem.update(0);
 
@@ -95,7 +95,7 @@ describe('scenarioEventManager.update()', () => {
       new TestEvent(true, false),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     sem.update(0);
     sem.update(1);
@@ -115,7 +115,7 @@ describe('scenarioEventManager.update()', () => {
       new TestEvent(true, false),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     sem.update(0);
     sem.update(1);
@@ -134,7 +134,7 @@ describe('scenarioEventManager.update()', () => {
       new TestEvent(false, true),
     ]);
 
-    sem.start(0, eventRange);
+    sem.start(eventRange);
 
     sem.update(0);
 

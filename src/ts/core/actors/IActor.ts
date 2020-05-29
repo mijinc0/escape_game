@@ -1,5 +1,6 @@
 import { IActorSprite } from './IActorSprite';
 import { GameFlags } from '../models/GameFlags';
+import { Direction } from '../models/Direction';
 
 export interface IActor {
   name: string;
@@ -8,7 +9,17 @@ export interface IActor {
 
   eventId: number;
 
+  flags: GameFlags;
+
   sprite: IActorSprite;
 
-  flags: GameFlags;
+  direction: Direction;
+
+  update(frame: number): void;
+
+  emit(event: string, ...args: any[]): boolean;
+
+  on(event: string, listener: (...args: any[]) => void): this;
+
+  removeAllListeners(event?: string): this;
 }

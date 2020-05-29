@@ -9,15 +9,15 @@ import { Keys } from '../models/Keys';
 type EventCallback = (...args: any[]) => void;
 
 export class Actor extends EventEmitter implements IActor, IControllable {
+  readonly id: number;
+  
   readonly name: string;
 
-  readonly id: number;
-
-  readonly eventId: number;
-  
-  readonly sprite: IActorSprite;
-
   readonly flags: GameFlags;
+
+  eventId: number;
+  
+  sprite: IActorSprite;
   
   direction: Direction;
   
@@ -25,22 +25,22 @@ export class Actor extends EventEmitter implements IActor, IControllable {
 
   constructor(
     id: number,
-    eventId: number,
     name: string,
-    sprite: IActorSprite,
+    eventId?: number,
+    sprite?: IActorSprite,
     direction?: Direction,
   ) {
     super();
     this.id = id;
-    this.eventId = eventId;
     this.name = name;
-    this.sprite = sprite;
-    this.direction = direction ? direction : Direction.Down;
     this.flags = new GameFlags();
+    this.eventId = eventId ? eventId : -1;
+    this.sprite = sprite ? sprite : null;
+    this.direction = direction ? direction : Direction.Down;
     this.keys = null;
   }
 
-  update(frame?: number): void {
+  update(frame: number): void {
     this.emit('update', this, frame);
   }
 

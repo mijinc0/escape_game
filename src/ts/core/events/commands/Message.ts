@@ -51,7 +51,7 @@ export class Message implements IScenarioEvent {
     this.messageBufferFactoryCallback = messageBufferFactoryCallback;
   }
 
-  init(frame: number, config: ScenarioEventUpdateConfig): void {
+  init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
 
     if (!config.scene) {
