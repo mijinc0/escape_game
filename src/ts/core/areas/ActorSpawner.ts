@@ -1,6 +1,6 @@
 import { IActorEntry } from './IActorEntry';
 import { IActorStatusPage } from './IActorStatusPage';
-import { IActorSpawnCondition } from './IActorSpawnCondition';
+import { IActorSpawnCriteria } from './IActorSpawnCriteria';
 import { IActor } from '../actors/IActor';
 import { IActorSpriteFactory } from '../actors/IActorSpriteFactory';
 import { IActorAnimsFactory } from '../actors/IActorAnimsFactory';
@@ -63,9 +63,9 @@ export class ActorSpawner {
   }
 
   private _updateActor(actor: IActor, entry: IActorEntry): void {
-    // 1. get status page that matches current condition
+    // 1. get status page that matches current criteria
     const page = entry.statusPages.find((page: IActorStatusPage) => (
-      this._checkSpawnCondition(page.spawnCondition)
+      this._checkSpawnCriteria(page.spawnCriteria)
     ));
 
     // 2. if not found, continue current status
@@ -116,19 +116,19 @@ export class ActorSpawner {
 
   private _getSpawnPage(entry: IActorEntry): IActorStatusPage|null {
     const page = entry.statusPages.find((page: IActorStatusPage) => (
-      this._checkSpawnCondition(page.spawnCondition)
+      this._checkSpawnCriteria(page.spawnCriteria)
     ));
 
     return page ? page : null;
   }
 
-  private _checkSpawnCondition(condition: IActorSpawnCondition|undefined): boolean {
+  private _checkSpawnCriteria(criteria: IActorSpawnCriteria|undefined): boolean {
     // 条件はoptional。これがundefinedの場合は無条件にスポーンするものとしてtrueを返す
-    if (!condition) return true;
+    if (!criteria) return true;
 
     // ターゲットのオブジェクトの指定プロパティがconditonとequalsならスポーンするものとしてtrueをかえす
-    const targetIsObject = (typeof(condition.targetObject) === 'object');
-    const property = targetIsObject ? condition.targetObject[condition.property] : condition;
-    return property === condition.value;
+    const targetIsObject = (typeof(criteria.targetObject) === 'object');
+    const property = targetIsObject ? criteria.targetObject[criteria.property] : criteria;
+    return property === criteria.value;
   }
 }

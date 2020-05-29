@@ -1,8 +1,8 @@
-import { IActorSpawnCondition } from './IActorSpawnCondition';
+import { IActorSpawnCriteria } from './IActorSpawnCriteria';
 import { SpriteConfig } from '../actors/SpriteConfig';
 
 export interface IActorStatusPage {
-  spawnCondition?: IActorSpawnCondition;
+  spawnCriteria?: IActorSpawnCriteria;
   eventId: number;
   eventEmitType: string;
   spriteConfig: SpriteConfig;

@@ -2,8 +2,8 @@ import { IScenarioEvent } from '../IScenarioEvent';
 import { LineRange } from '../LineRange';
 import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
  
-type ConditionCallback = () => boolean;
-type EventEntry = {conditionCallback: ConditionCallback, events: IScenarioEvent[]};
+type CriteriaCallback = () => boolean;
+type EventEntry = {criteriaCallback: CriteriaCallback, events: IScenarioEvent[]};
 
 export class If implements IScenarioEvent {
   readonly isAsync = false;
@@ -12,11 +12,11 @@ export class If implements IScenarioEvent {
 
   private entries: EventEntry[];
 
-  constructor(conditionCallback: ConditionCallback, events: IScenarioEvent[]) {
+  constructor(criteriaCallback: CriteriaCallback, events: IScenarioEvent[]) {
     this.isComplete = false;
 
     this.entries = [{
-      conditionCallback: conditionCallback,
+      criteriaCallback: criteriaCallback,
       events: events,
     }];
   }
@@ -26,7 +26,7 @@ export class If implements IScenarioEvent {
   }
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
-    const matchedEntry = this.entries.find((entry: EventEntry) => (entry.conditionCallback()));
+    const matchedEntry = this.entries.find((entry: EventEntry) => (entry.criteriaCallback()));
     
     // 条件判定コールバックの結果がtrueになるエントリーがあれば、そこに含まれるeventRangeを進行中のイベントに割り込ませる
     if (matchedEntry && config.events) {
@@ -44,10 +44,10 @@ export class If implements IScenarioEvent {
     this.isComplete = true;
   }
 
-  elseIf(conditionCallback: ConditionCallback): (...events: IScenarioEvent[]) => If {
+  elseIf(criteriaCallback: CriteriaCallback): (...events: IScenarioEvent[]) => If {
     return ((...events: IScenarioEvent[]) => {
       this.entries.push({
-        conditionCallback: conditionCallback,
+        criteriaCallback: criteriaCallback,
         events: events,
       });
 
@@ -57,7 +57,7 @@ export class If implements IScenarioEvent {
 
   else(...events: IScenarioEvent[]): If {
     this.entries.push({
-      conditionCallback: () => (true),
+      criteriaCallback: () => (true),
       events: events,
     });
 

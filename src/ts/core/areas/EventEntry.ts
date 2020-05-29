@@ -1,7 +1,7 @@
 import { EventRange } from '../events/EventRange';
 import { EventRangeFactory } from '../events/EventRangeFactory';
 
-type ConditionCallback = () => boolean;
+type CriteriaCallback = () => boolean;
 
 export class EventEntry {
   readonly id: number;

@@ -4,7 +4,7 @@ import { Loop } from './Loop';
 import { Return } from './Return';
 import { IScenarioEvent } from '../IScenarioEvent';
 
-type ConditionCallback = () => boolean;
+type CriteriaCallback = () => boolean;
 
 export class SceneEventOprationsFactory {
   static break(): Break {
@@ -19,12 +19,12 @@ export class SceneEventOprationsFactory {
    * わざわざIfを生成する関数オブジェクトを生成しているのは、使う場所で以下のように
    * 記述できるようにするため
    * 
-   * if(conditionCallback)(
+   * if(criteriaCallback)(
    *   event,
    *   event,
    *   event,
    * 
-   * ).elseIf(conditionCallback)(
+   * ).elseIf(criteriaCallback)(
    *   event,
    *   event,
    *   event,
@@ -35,11 +35,11 @@ export class SceneEventOprationsFactory {
    *   event,
    * );
    * 
-   * @param conditionCallback 
+   * @param criteriaCallback 
    */
-  static if(conditionCallback: ConditionCallback): (...events: IScenarioEvent[]) => If {
+  static if(criteriaCallback: CriteriaCallback): (...events: IScenarioEvent[]) => If {
     return (...events: IScenarioEvent[]) => (
-      new If(conditionCallback, events)
+      new If(criteriaCallback, events)
     );
   }
 
