@@ -10,6 +10,7 @@ import { ActorAnimsFactory } from '../actors/ActorAnimsFactory';
 
 import { IArea } from '../areas/IArea';
 import { ActorColliderRegistrar } from '../areas/ActorColliderRegistrar';
+import { ActorEventRegistrar } from '../areas/ActorEventRegistrar';
 
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
@@ -55,12 +56,13 @@ export class TestScene extends Phaser.Scene {
     this.actorSpriteFactory = new ActorSpriteFactory(this);
 
     this.actorAnimsFactory = new ActorAnimsFactory(this);
-
+    
+    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
     this.actorSpawner = new ActorSpawner(
       this.areaData.actors,
       this.actorSpriteFactory,
       this.actorAnimsFactory,
-      () => {},
+      actorEventRegistrar.regist.bind(actorEventRegistrar),
       this._addSpawnActorsCollider.bind(this),
       ((actor: IActor) => {this.actors.push(actor)}).bind(this),
     );
@@ -114,7 +116,7 @@ export class TestScene extends Phaser.Scene {
     actor.keys = this.keys;
     this.actorAnimsFactory.setAnims(sprite);
 
-    const searchEvent = new ActorSearchEvent(this);
+    const searchEvent = new ActorSearchEvent(this.actors);
     searchEvent.setEvent(actor);
 
     this.actorColliderRegistrar.registActorAndGameObject(actor, this.tilemapData.staticLayers);

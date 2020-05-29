@@ -1,5 +1,6 @@
 import { IActorSprite } from './IActorSprite';
 import { ILayeredSprite } from './ILayeredSprite';
+import { IActorBody } from './IActorBody';
 
 export class LayeredSprite implements ILayeredSprite, IActorSprite {
   private primary: IActorSprite;
@@ -8,6 +9,10 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
   constructor(primary: IActorSprite) {
     this.primary = primary;
     this.sprites = new Map<string, IActorSprite>();
+  }
+
+  get body(): IActorBody {
+    return this.primary.body;
   }
 
   get spriteKey(): string {

@@ -1,3 +1,5 @@
+import { IActorBody } from './IActorBody';
+
 export interface IActorSprite {
   spriteKey: string;
 
@@ -8,6 +10,8 @@ export interface IActorSprite {
   width: number;
 
   height: number;
+
+  body: IActorBody;
 
   setAnim(animKey: string, animationObject: any): void;
   

@@ -1,19 +1,18 @@
-import * as Phaser from 'phaser';
-import { Actor } from '../actors/Actor';
+import { IActor } from '../actors/IActor';
 import { Direction } from '../models/Direction';
 import { Position } from '../models/Position';
 import { Zone } from '../models/Zone';
 
 export class ActorSearchEvent {
-  private scene: Phaser.Scene;
+  private actors: IActor[];
   private zoneRange: Position; 
 
-  constructor(scene: Phaser.Scene) {
-    this.scene = scene;
+  constructor(candidateActors: IActor[]) {
+    this.actors = candidateActors;
     this.zoneRange = {x: 4, y: 4};
   }
 
-  setEvent(actor: Actor): void {
+  setEvent(actor: IActor): void {
     actor.on('search', this.search.bind(this));
   }
 
@@ -72,23 +71,24 @@ export class ActorSearchEvent {
   }
 
   private _search(zone: Zone): void {
-    this.scene.physics.world.bodies.entries.forEach((body: Phaser.Physics.Arcade.Body) => {
-      if (this._isOverlappingSearchZone(zone, body)) {
-        body.gameObject.emit('search');
+    this.actors.forEach((actor: IActor) => {
+      if (this._isOverlappingSearchZone(zone, actor)) {
+        actor.emit('search');
       }
     });
   }
 
-  private _isOverlappingSearchZone(zone: Zone, targetBody: Phaser.Physics.Arcade.Body): boolean {
+  private _isOverlappingSearchZone(zone: Zone, target: IActor): boolean {
     const searchLeft = zone.x;
     const searchRight = zone.x + zone.width;
     const searchTop = zone.y;
     const searchBottom = zone.y + zone.height;
 
-    const targetLeft = targetBody.x;
-    const targetRight = targetBody.x + targetBody.width;
-    const targetTop = targetBody.y;
-    const targetBottom = targetBody.y + targetBody.height;
+    const targetBody = target.sprite.body;
+    const targetLeft = target.sprite.x + targetBody.offset.x;
+    const targetRight = targetLeft + targetBody.width;
+    const targetTop = target.sprite.y + targetBody.offset.y;
+    const targetBottom = targetTop + targetBody.height;
 
     const overlapX = (targetLeft < searchRight) && (targetRight > searchLeft);
     const overlapY = (targetTop < searchBottom) && (targetBottom > searchTop);
