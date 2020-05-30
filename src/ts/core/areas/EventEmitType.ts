@@ -1,4 +1,4 @@
 export enum EventEmitType {
   Search = 'search',
-  Collision = 'collision',
+  Collide = 'collide',
 }

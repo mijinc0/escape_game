@@ -1,9 +1,10 @@
 import { IActorEntry } from './IActorEntry';
 import { IActorStatusPage } from './IActorStatusPage';
-import { IActorSpawnCriteria } from './IActorSpawnCriteria';
 import { IActor } from '../actors/IActor';
 import { IActorSpriteFactory } from '../actors/IActorSpriteFactory';
 import { IActorAnimsFactory } from '../actors/IActorAnimsFactory';
+import { Predicate } from '../models/Predicate';
+import { IGameGlobal } from '../IGameGlobal';
 
 type MappedEntry = {
   entry: IActorEntry,
@@ -11,10 +12,11 @@ type MappedEntry = {
 };
 
 type EventSettingCallback = (spawnActor: IActor, page: IActorStatusPage) => void;
-type CollisionSettingCallback = (spawnActor: IActor) => void;
+type CollisionSettingCallback = (spawnActor: IActor, isOverlap: boolean) => void;
 type AfterSpawnCallback = (spawnActor: IActor) => void;
 
 export class ActorSpawner {
+  private gameGlobal: IGameGlobal;
   private actorEntries: MappedEntry[];
   private actorSpriteFactory: IActorSpriteFactory;
   private actorAnimsFactory: IActorAnimsFactory;
@@ -24,6 +26,7 @@ export class ActorSpawner {
   private afterSpawnCallback: AfterSpawnCallback; 
 
   constructor(
+    gameGlobal: IGameGlobal,
     actorEntries: IActorEntry[],
     actorSpriteFactory: IActorSpriteFactory,
     actorAnimsFactory: IActorAnimsFactory,
@@ -31,6 +34,7 @@ export class ActorSpawner {
     collisionSettingCallback: CollisionSettingCallback,
     afterSpawnCallback?: AfterSpawnCallback,
   ) {
+    this.gameGlobal = gameGlobal;
     this.actorEntries = actorEntries.map((entry: IActorEntry) => ({entry: entry, actor: null}));
     this.actorSpriteFactory = actorSpriteFactory;
     this.actorAnimsFactory = actorAnimsFactory;
@@ -46,13 +50,13 @@ export class ActorSpawner {
     });
   }
 
-  spawn(): void {
+  spawnEntries(): void {
     this.actorEntries.forEach((entry: MappedEntry) => {      
       this._spawnActor(entry.entry);
     });
   }
 
-  update(frame: number): void {
+  update(): void {
     this.actorEntries.forEach((entry: MappedEntry) => {
       if (entry.actor) {
         this._updateActor(entry.actor, entry.entry);
@@ -65,7 +69,7 @@ export class ActorSpawner {
   private _updateActor(actor: IActor, entry: IActorEntry): void {
     // 1. get status page that matches current criteria
     const page = entry.statusPages.find((page: IActorStatusPage) => (
-      this._checkSpawnCriteria(page.spawnCriteria)
+      this._checkSpawnCriteria(page.criteria)
     ));
 
     // 2. if not found, continue current status
@@ -75,7 +79,8 @@ export class ActorSpawner {
     this.actorAnimsFactory.setAnims(actor.sprite, page.spriteConfig.key);
 
     // 4. events setting
-    actor.removeAllListeners();
+    actor.removeAllListeners('search');
+    actor.removeAllListeners('collide');
     this.eventSettingCallback(actor, page);
   }
 
@@ -108,7 +113,7 @@ export class ActorSpawner {
     this.eventSettingCallback(actor, page);
 
     // 5. collision setting
-    this.collisionSettingCallback(actor);
+    this.collisionSettingCallback(actor, page.isOverlap);
 
     // 6. call after spawn callback
     if (this.afterSpawnCallback) this.afterSpawnCallback(actor);
@@ -116,19 +121,16 @@ export class ActorSpawner {
 
   private _getSpawnPage(entry: IActorEntry): IActorStatusPage|null {
     const page = entry.statusPages.find((page: IActorStatusPage) => (
-      this._checkSpawnCriteria(page.spawnCriteria)
+      this._checkSpawnCriteria(page.criteria)
     ));
 
     return page ? page : null;
   }
 
-  private _checkSpawnCriteria(criteria: IActorSpawnCriteria|undefined): boolean {
+  private _checkSpawnCriteria(criteria: Predicate<IGameGlobal>|undefined): boolean {
     // 条件はoptional。これがundefinedの場合は無条件にスポーンするものとしてtrueを返す
     if (!criteria) return true;
 
-    // ターゲットのオブジェクトの指定プロパティがconditonとequalsならスポーンするものとしてtrueをかえす
-    const targetIsObject = (typeof(criteria.targetObject) === 'object');
-    const property = targetIsObject ? criteria.targetObject[criteria.property] : criteria;
-    return property === criteria.value;
+    return criteria(this.gameGlobal);
   }
 }

@@ -11,10 +11,11 @@ import { ActorAnimsFactory } from '../actors/ActorAnimsFactory';
 import { IArea } from '../areas/IArea';
 import { ActorColliderRegistrar } from '../areas/ActorColliderRegistrar';
 import { ActorEventRegistrar } from '../areas/ActorEventRegistrar';
+import { ActorSpawner } from '../areas/ActorSpawner';
+import { EventEmitType } from '../areas/EventEmitType';
 
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
-import { ActorSpawner } from '../areas/ActorSpawner';
 
 import * as Areas from '../../areas';
 import * as Actors from '../../actors';
@@ -44,12 +45,7 @@ export class TestScene extends Phaser.Scene {
 
     this.areaData = Areas.TestArea;
 
-    this.tilemapFactory = new SceneTilemapFactory(
-      this,
-      this.areaData.mapFilePath,
-      this.areaData.tilesetFilePath,
-      this.areaData.tilesetImagePath,
-    );
+    this.tilemapFactory = new SceneTilemapFactory(this, this.areaData.mapFilePath, this.areaData.tilesetFilePath, this.areaData.tilesetImagePath);
 
     this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
 
@@ -59,6 +55,7 @@ export class TestScene extends Phaser.Scene {
     
     const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
     this.actorSpawner = new ActorSpawner(
+      GameGlobal,
       this.areaData.actors,
       this.actorSpriteFactory,
       this.actorAnimsFactory,
@@ -85,7 +82,7 @@ export class TestScene extends Phaser.Scene {
 
     this.primaryActor = this._createPrimaryActor();
 
-    this.actorSpawner.spawn();
+    this.actorSpawner.spawnEntries();
   }
 
   update(): void {
@@ -124,18 +121,28 @@ export class TestScene extends Phaser.Scene {
     return actor;
   }
 
-  private _addSpawnActorsCollider(spawnActor: IActor): void {
+  private _addSpawnActorsCollider(spawnActor: IActor, isOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
     }
 
     // with primary actor
-    this.actorColliderRegistrar.registActorPair(spawnActor, this.primaryActor);
+    this.actorColliderRegistrar.registActorPair(
+      spawnActor,
+      this.primaryActor,
+      () => {spawnActor.emit(EventEmitType.Collide);},
+      isOverlap,
+    );
 
     // with other actors that has already spawned
     this.actors.forEach((actor: IActor) => {
-      this.actorColliderRegistrar.registActorPair(spawnActor, actor);
+      this.actorColliderRegistrar.registActorPair(
+        spawnActor,
+        actor,
+        undefined,
+        isOverlap,
+      );
     });
 
     // with tilemap
