@@ -76,13 +76,13 @@ export class TestScene extends Phaser.Scene {
   }
   
   create(): void {
-    this.cameras.main.setBackgroundColor(0x9955FF);
-
     this.tilemapData = this.tilemapFactory.create();
 
     this.primaryActor = this._createPrimaryActor();
 
     this.actorSpawner.spawnEntries();
+
+    this._cameraSetting();
   }
 
   update(): void {
@@ -108,7 +108,7 @@ export class TestScene extends Phaser.Scene {
 
   private _createPrimaryActor(): IActor {
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = this.actorSpriteFactory.create(150,100, 'hero', 0);
+    const sprite = this.actorSpriteFactory.create(150, 100, 'hero', 0, {size: 0.6, origin: {x: 0.5, y: 1}});
     actor.sprite = sprite;
     actor.keys = this.keys;
     this.actorAnimsFactory.setAnims(sprite);
@@ -121,7 +121,7 @@ export class TestScene extends Phaser.Scene {
     return actor;
   }
 
-  private _addSpawnActorsCollider(spawnActor: IActor, isOverlap: boolean): void {
+  private _addSpawnActorsCollider(spawnActor: IActor, onlyOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
@@ -132,7 +132,7 @@ export class TestScene extends Phaser.Scene {
       spawnActor,
       this.primaryActor,
       () => {spawnActor.emit(EventEmitType.Collide);},
-      isOverlap,
+      onlyOverlap,
     );
 
     // with other actors that has already spawned
@@ -141,11 +141,17 @@ export class TestScene extends Phaser.Scene {
         spawnActor,
         actor,
         undefined,
-        isOverlap,
+        onlyOverlap,
       );
     });
 
     // with tilemap
     this.actorColliderRegistrar.registActorAndGameObject(spawnActor, this.tilemapData.staticLayers);
+  }
+
+  private _cameraSetting(): void {
+    const worldBounds = this.tilemapData.mapData.worldBounce;
+    this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
+    this.cameras.main.startFollow(this.primaryActor.sprite);
   }
 }

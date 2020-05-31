@@ -12,7 +12,7 @@ type MappedEntry = {
 };
 
 type EventSettingCallback = (spawnActor: IActor, page: IActorStatusPage) => void;
-type CollisionSettingCallback = (spawnActor: IActor, isOverlap: boolean) => void;
+type CollisionSettingCallback = (spawnActor: IActor, onlyOverlap: boolean) => void;
 type AfterSpawnCallback = (spawnActor: IActor) => void;
 
 export class ActorSpawner {
@@ -95,7 +95,7 @@ export class ActorSpawner {
     const spriteKey = page.spriteConfig.key;
     const initFrame = page.initFrame;
     
-    const sprite = this.actorSpriteFactory.create(x, y, spriteKey, initFrame);
+    const sprite = this.actorSpriteFactory.create(x, y, spriteKey, initFrame, page.bodyConfig);
     
     // 2. create & set walking anims
     this.actorAnimsFactory.setAnims(sprite);
@@ -113,7 +113,8 @@ export class ActorSpawner {
     this.eventSettingCallback(actor, page);
 
     // 5. collision setting
-    this.collisionSettingCallback(actor, page.isOverlap);
+    const overlapOnly = page.bodyConfig ? page.bodyConfig.overlapOnly : false;
+    this.collisionSettingCallback(actor, overlapOnly);
 
     // 6. call after spawn callback
     if (this.afterSpawnCallback) this.afterSpawnCallback(actor);

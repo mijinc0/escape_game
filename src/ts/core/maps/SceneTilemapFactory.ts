@@ -105,7 +105,7 @@ export class SceneTilemapFactory {
 
     // 3. create static layer
     const id = layerId - 1; // TiledのIdは1から始まるが、0から始めたいので
-    return tilemap.createStaticLayer(id, tileset, 0, 0);
+    return tilemap.createStaticLayer(0, tileset, 0, 0);
   }
 
   private _addColliders(staticLayer: StaticLayer, tileInfos: TileInfo[]): void {

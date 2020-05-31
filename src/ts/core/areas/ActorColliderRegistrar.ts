@@ -14,7 +14,7 @@ export class ActorColliderRegistrar {
     actor: IActor,
     phaserGameObject: Phaser.GameObjects.GameObject | Phaser.GameObjects.GameObject[],
     collideCallback?: ActorCollideCallback,
-    isOverlap?: boolean,
+    onlyOverlap?: boolean,
   ): boolean {
     const sprite = (actor.sprite instanceof Phaser.Physics.Arcade.Sprite) ? actor.sprite : null; 
 
@@ -24,7 +24,7 @@ export class ActorColliderRegistrar {
       return false;
     }
 
-    if (isOverlap) {
+    if (onlyOverlap) {
       this.scene.physics.world.addOverlap(sprite, phaserGameObject, collideCallback);
     } else {
       this.scene.physics.world.addCollider(sprite, phaserGameObject, collideCallback);
@@ -37,7 +37,7 @@ export class ActorColliderRegistrar {
     actorA: IActor,
     actorB: IActor,
     collideCallback?: ActorCollideCallback,
-    isOverlap?: boolean,
+    onlyOverlap?: boolean,
   ): boolean {
     const spriteA = (actorA.sprite instanceof Phaser.Physics.Arcade.Sprite) ? actorA.sprite : null; 
     const spriteB = (actorB.sprite instanceof Phaser.Physics.Arcade.Sprite) ? actorB.sprite : null;
@@ -48,7 +48,7 @@ export class ActorColliderRegistrar {
       return false;
     }
 
-    if (isOverlap) {
+    if (onlyOverlap) {
       this.scene.physics.world.addOverlap(spriteA, spriteB, collideCallback);
     } else {
       this.scene.physics.world.addCollider(spriteA, spriteB, collideCallback);

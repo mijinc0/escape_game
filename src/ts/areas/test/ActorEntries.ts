@@ -14,8 +14,11 @@ export const ActorEntries: ActorEntry[] = [
         eventId: 0,
         eventEmitType: EventEmitType.Search,
         spriteConfig: SpriteConfigs.hero,
-        isOverlap: true,
         initFrame: 0,
+        bodyConfig: {
+          overlapOnly: true,
+          size: 0.8
+        },
       },
     ],
   ),
@@ -29,7 +32,6 @@ export const ActorEntries: ActorEntry[] = [
         eventId: 0,
         eventEmitType: EventEmitType.Collide,
         spriteConfig: SpriteConfigs.hero,
-        isOverlap: false,
         initFrame: 0,
       },
     ],
