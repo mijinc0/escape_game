@@ -61,7 +61,7 @@ export class TestScene extends Phaser.Scene {
       this.actorAnimsFactory,
       actorEventRegistrar.regist.bind(actorEventRegistrar),
       this._addSpawnActorsCollider.bind(this),
-      ((actor: IActor) => {this.actors.push(actor)}).bind(this),
+      this._afterActorSpawn.bind(this),
     );
 
     this.actorColliderRegistrar = new ActorColliderRegistrar(this);
@@ -118,7 +118,15 @@ export class TestScene extends Phaser.Scene {
 
     this.actorColliderRegistrar.registActorAndGameObject(actor, this.tilemapData.staticLayers);
 
+    this._syncActorsDepthAndY(actor);
+
     return actor;
+  }
+
+  private _afterActorSpawn(spawnActor: IActor): void {
+    this.actors.push(spawnActor);
+
+    this._syncActorsDepthAndY(spawnActor);
   }
 
   private _addSpawnActorsCollider(spawnActor: IActor, onlyOverlap: boolean): void {
@@ -153,5 +161,20 @@ export class TestScene extends Phaser.Scene {
     const worldBounds = this.tilemapData.mapData.worldBounce;
     this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
     this.cameras.main.startFollow(this.primaryActor.sprite);
+  }
+
+  private _syncActorsDepthAndY(actor: IActor): void {
+    let currentY = actor.sprite.y;
+
+    Object.defineProperty(actor.sprite, 'y', {
+      get: () => {
+        return currentY;
+      },
+
+      set: (newY: number) => {
+        currentY = newY;
+        actor.sprite.depth = newY;
+      },
+    });
   }
 }

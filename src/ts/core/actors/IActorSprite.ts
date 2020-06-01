@@ -11,6 +11,8 @@ export interface IActorSprite {
 
   height: number;
 
+  depth: number;
+
   body: IActorBody;
 
   setAnim(animKey: string, animationObject: any): void;

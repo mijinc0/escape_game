@@ -56,13 +56,8 @@ export class SceneTilemapFactory {
 
     // 2. create static layers into the scene
     const staticLayers: StaticLayer[] = [];
-    mapData.data.forEach((data: number[][], layerId: number) => {
-      const staticLayer = this._createStaticLayer(
-        data,
-        mapData.tileSize,
-        tilesetImageName,
-        layerId,
-      );
+    mapData.data.forEach((data: number[][]) => {
+      const staticLayer = this._createStaticLayer(data, mapData.tileSize, tilesetImageName);
 
       this._addColliders(staticLayer, mapData.tileInfos);
 
@@ -82,7 +77,6 @@ export class SceneTilemapFactory {
     data: number[][],
     tileSize: Size,
     tilesetName: string,
-    layerId: number,
   ): StaticLayer {
     // 1. create phaser's tilemap
     const tilemap = this.scene.make.tilemap({
@@ -93,18 +87,12 @@ export class SceneTilemapFactory {
 
     // 2. create phaser's tileset
     // 最後の引数のgidは大事。タイルのidを1からにしないと、マップファイルのデータとindexが1つずれてしまう。
-    const tileset = tilemap.addTilesetImage(
-      tilesetName,
-      undefined,
-      tileSize.width,
-      tileSize.height,
-      0,
-      0,
-      1,
-    );
+    const tileset = tilemap.addTilesetImage(tilesetName, undefined, tileSize.width, tileSize.height, 0, 0, 1);
 
     // 3. create static layer
-    const id = layerId - 1; // TiledのIdは1から始まるが、0から始めたいので
+    // idは、tilemapオブジェクトの中に含まれているレイヤーデータのインデックスを指定する
+    // 今回は、各レイヤーの生データを取り出して一つずつstaticLayerを生成しているので、
+    // 全てtilemap中のindexは0になる
     return tilemap.createStaticLayer(0, tileset, 0, 0);
   }
 

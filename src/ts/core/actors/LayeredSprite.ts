@@ -26,6 +26,10 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
   get y(): number {
     return this.primary.y;
   };
+
+  get depth(): number {
+    return this.primary.depth;
+  }
   
   get width(): number {
     return this.primary.width;
