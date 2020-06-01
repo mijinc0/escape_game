@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
 import { BoxConfig } from './BoxConfig';
+import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class Box extends PhaserObjectNode {
   private scene: Phaser.Scene;
@@ -47,6 +48,8 @@ export class Box extends PhaserObjectNode {
       this.config.alpha,
     );
     rectangle.setOrigin(0);
+    
+    UiRenderOrder.base(rectangle);
 
     return rectangle;
   }

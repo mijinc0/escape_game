@@ -17,6 +17,9 @@ import { EventEmitType } from '../areas/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
 
+import { ActorRenderOrder } from '../renders/ActorRenderOrder';
+import { SaticLayerRenderOerder } from '../renders/SaticLayerRenderOerder';
+
 import * as Areas from '../../areas';
 import * as Actors from '../../actors';
 
@@ -76,7 +79,7 @@ export class TestScene extends Phaser.Scene {
   }
   
   create(): void {
-    this.tilemapData = this.tilemapFactory.create();
+    this._createTilemap();
 
     this.primaryActor = this._createPrimaryActor();
 
@@ -106,6 +109,21 @@ export class TestScene extends Phaser.Scene {
     });
   }
 
+  private _createTilemap(): void {
+    this.tilemapData = this.tilemapFactory.create();
+
+    // set depth
+    const base = this.tilemapData.staticLayers[0];
+    const underActor = this.tilemapData.staticLayers[1];
+    const overActor = this.tilemapData.staticLayers[2];
+
+    console.log(this.tilemapData.staticLayers);
+
+    if (base) SaticLayerRenderOerder.baseLayer(base);
+    if (underActor) SaticLayerRenderOerder.underActorLayer(underActor);
+    if (overActor) SaticLayerRenderOerder.overActorLayer(overActor);
+  }
+
   private _createPrimaryActor(): IActor {
     const actor = new Actors.Hero(3030, 'hero');
     const sprite = this.actorSpriteFactory.create(150, 100, 'hero', 0, {size: 0.6, origin: {x: 0.5, y: 1}});
@@ -118,7 +136,7 @@ export class TestScene extends Phaser.Scene {
 
     this.actorColliderRegistrar.registActorAndGameObject(actor, this.tilemapData.staticLayers);
 
-    this._syncActorsDepthAndY(actor);
+    ActorRenderOrder.prioritizeY(actor.sprite);
 
     return actor;
   }
@@ -126,7 +144,7 @@ export class TestScene extends Phaser.Scene {
   private _afterActorSpawn(spawnActor: IActor): void {
     this.actors.push(spawnActor);
 
-    this._syncActorsDepthAndY(spawnActor);
+    ActorRenderOrder.prioritizeY(spawnActor.sprite);
   }
 
   private _addSpawnActorsCollider(spawnActor: IActor, onlyOverlap: boolean): void {
@@ -161,20 +179,5 @@ export class TestScene extends Phaser.Scene {
     const worldBounds = this.tilemapData.mapData.worldBounce;
     this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
     this.cameras.main.startFollow(this.primaryActor.sprite);
-  }
-
-  private _syncActorsDepthAndY(actor: IActor): void {
-    let currentY = actor.sprite.y;
-
-    Object.defineProperty(actor.sprite, 'y', {
-      get: () => {
-        return currentY;
-      },
-
-      set: (newY: number) => {
-        currentY = newY;
-        actor.sprite.depth = newY;
-      },
-    });
   }
 }

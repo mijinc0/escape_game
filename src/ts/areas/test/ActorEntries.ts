@@ -7,7 +7,7 @@ import { Direction } from '../../core/models/Direction';
 export const ActorEntries: ActorEntry[] = [
   new ActorEntry(
     new Actor(0, 'hero'),
-    {x: 100, y: 100},
+    {x: 240, y: 500},
     Direction.Down,
     [
       {

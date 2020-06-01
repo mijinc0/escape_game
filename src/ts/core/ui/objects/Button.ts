@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
 import { ButtonConfig } from './ButtonConfig';
+import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class Button extends PhaserObjectNode {
   private scene: Phaser.Scene;
@@ -57,6 +58,8 @@ export class Button extends PhaserObjectNode {
     );
     rectangle.setOrigin(0);
 
+    UiRenderOrder.base(rectangle);
+
     return rectangle;
   }
 
@@ -68,6 +71,8 @@ export class Button extends PhaserObjectNode {
       this.position.y,
       this.config.text,
     );
+
+    UiRenderOrder.base(text);
 
     return text;
   }

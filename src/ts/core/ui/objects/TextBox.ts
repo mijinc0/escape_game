@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
 import { TextConfig } from './TextConfig';
+import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class TextBox extends PhaserObjectNode {
   
@@ -68,6 +69,8 @@ export class TextBox extends PhaserObjectNode {
       this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
     rectangle.setOrigin(0);
+    
+    UiRenderOrder.base(rectangle);
 
     return rectangle;
   }
@@ -79,6 +82,8 @@ export class TextBox extends PhaserObjectNode {
 
     const text = this.scene.add.text(x, y, this.config.text);
     text.setOrigin(0);
+    
+    UiRenderOrder.base(text);
 
     return text;
   }
