@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
 import { IGameGlobal } from '../IGameGlobal';
-import { Keys } from '../models/Keys';
+import { Keys } from '../input/Keys';
 
 /**
  * シナリオイベントに色々と渡したいときにはこれを使うことで

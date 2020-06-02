@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import { IScenarioEvent } from '../IScenarioEvent';
 import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
-import { Keys } from '../../models/Keys';
+import { Keys } from '../../input/Keys';
 import { TextBox } from '../../ui/objects/TextBox';
 
 type MessageBufferFactoryCallback = (message: string) => string[];

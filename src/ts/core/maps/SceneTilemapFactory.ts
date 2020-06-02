@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { ISceneTilemapData } from './ISceneTilemapData';
+import { ILayerData } from './ILayerData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
@@ -54,9 +55,14 @@ export class SceneTilemapFactory {
     // 1. create map data
     const mapData = MapDataFactory.createFromJson(mapJson, tileJson, tilesetImageName);
 
-    // 2. create static layers into the scene
+    // 2. extract table data from mapData in order of id
+    const rawData = mapData.layers
+      .sort((a: ILayerData, b: ILayerData) => (a.id - b.id))
+      .map((layer: ILayerData) => (layer.data));
+    
+    // 3. create static layers into the scene
     const staticLayers: StaticLayer[] = [];
-    mapData.data.forEach((data: number[][]) => {
+    rawData.forEach((data: number[][]) => {
       const staticLayer = this._createStaticLayer(data, mapData.tileSize, tilesetImageName);
 
       this._addColliders(staticLayer, mapData.tileInfos);

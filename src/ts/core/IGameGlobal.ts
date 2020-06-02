@@ -2,7 +2,6 @@ import { GameFlags } from './models/GameFlags';
 import { GameVariables } from './models/GameVariables';
 import { GameItems } from './models/GameItems';
 import { ItemBag } from './models/ItemBag';
-import { SpriteConfig } from './actors/SpriteConfig';
 
 /**
  * グローバルに置いておきたいもの

@@ -1,6 +1,6 @@
 import { Element } from '../Element';
 import { Container } from '../containers/Container';
-import { Keys } from '../../models/Keys';
+import { Keys } from '../../input/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 import { Direction } from '../Direction';
 import { NodeStatus } from '../NodeStatus';

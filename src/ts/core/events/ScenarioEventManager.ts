@@ -3,7 +3,7 @@ import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
 import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
 import { IGameGlobal } from '../IGameGlobal';
-import { Keys } from '../models/Keys';
+import { Keys } from '../input/Keys';
 
 /**
  * 1. イベントはRangeと呼ばれる構造体にまとめられたものを1ブロックとして管理する

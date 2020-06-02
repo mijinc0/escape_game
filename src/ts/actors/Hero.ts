@@ -8,7 +8,7 @@ export class Hero extends Actor {
       return;
     };
 
-    if (this.keys.cursors.space.isDown) {
+    if (this.keys.action.isDown) {
       // 連射防止
       if (!this.flags.get('search')) {
         this.flags.on('search');

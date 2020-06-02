@@ -3,7 +3,7 @@ import { GameGlobal } from '../GameGlobal';
 
 import { ISceneTilemapData } from '../maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../maps/SceneTilemapFactory';
-import { Keys } from '../models/Keys';
+import { Keys } from '../input/Keys';
 import { IActor } from '../actors/IActor';
 import { ActorSpriteFactory } from '../actors/ActorSpriteFactory';
 import { ActorAnimsFactory } from '../actors/ActorAnimsFactory';
@@ -44,7 +44,8 @@ export class TestScene extends Phaser.Scene {
 
     const cursorKeys = this.input.keyboard.createCursorKeys();
     const actionKey = cursorKeys.space;
-    this.keys = new Keys(cursorKeys, actionKey);
+    const escapeKey = cursorKeys.shift;
+    this.keys = new Keys(cursorKeys, actionKey, escapeKey);
 
     this.areaData = Areas.TestArea;
 
@@ -113,6 +114,11 @@ export class TestScene extends Phaser.Scene {
     this.tilemapData = this.tilemapFactory.create();
 
     // set depth
+    // マップのレイヤーは
+    //  0 : base       : 地面になるレイヤー
+    //  1 : underActor : Actorより下に描写されるレイヤー(衝突あり)
+    //  2 : overActor  : Actorより上に描写されるレイヤー(衝突なし)
+    // で決め打ち(楽なので)
     const base = this.tilemapData.staticLayers[0];
     const underActor = this.tilemapData.staticLayers[1];
     const overActor = this.tilemapData.staticLayers[2];
@@ -134,7 +140,7 @@ export class TestScene extends Phaser.Scene {
     const searchEvent = new ActorSearchEvent(this.actors);
     searchEvent.setEvent(actor);
 
-    this.actorColliderRegistrar.registActorAndGameObject(actor, this.tilemapData.staticLayers);
+    this._tilemapCollisionSetting(actor);
 
     ActorRenderOrder.prioritizeY(actor.sprite);
 
@@ -172,7 +178,17 @@ export class TestScene extends Phaser.Scene {
     });
 
     // with tilemap
-    this.actorColliderRegistrar.registActorAndGameObject(spawnActor, this.tilemapData.staticLayers);
+    this._tilemapCollisionSetting(spawnActor);
+  }
+
+  private _tilemapCollisionSetting(spawnActor: IActor): void {
+    // overActorのレイヤーは衝突しない
+    const overActorLayerIndex = 2;
+    this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
+      if (index < overActorLayerIndex) {
+        this.actorColliderRegistrar.registActorAndGameObject(spawnActor, layer);
+      }
+    });
   }
 
   private _cameraSetting(): void {

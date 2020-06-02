@@ -1,4 +1,4 @@
-import { Keys } from './Keys';
+import { Keys } from '../input/Keys';
 
 export interface IControllable {
   keys: Keys;

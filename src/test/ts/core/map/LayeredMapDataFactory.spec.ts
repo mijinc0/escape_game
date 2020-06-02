@@ -74,8 +74,8 @@ describe('LayeredMapDataFactory.createFromJson()', () => {
         [11,12,13,14,15,16,17,18,19,20],
       ].join('|');
       
-      expect(layerdMapData.get(0).join('|')).is.equal(expectedLayer0);
-      expect(layerdMapData.get(1).join('|')).is.equal(expectedLayer1);
+      expect(layerdMapData[0].data.join('|')).is.equal(expectedLayer0);
+      expect(layerdMapData[1].data.join('|')).is.equal(expectedLayer1);
     });
   });
 });

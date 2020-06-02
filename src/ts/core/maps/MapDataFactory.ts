@@ -2,21 +2,20 @@ import { MapData } from './MapData';
 import { ActorPositionsFactory } from './ActorPositionsFactory';
 import { LayeredMapDataFactory } from './LayeredMapDataFactory';
 import { TileInfosFactory } from './TileInfosFactory';
+import { ILayerData } from './ILayerData';
 import { Size } from '../models/Size';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
-type LayeredMapData = Map<number, number[][]>;
-
 export class MapDataFactory {
   static createFromJson(mapJson: any, tileJson: any, tileImage: string): MapData {
-    const layeredMapData = LayeredMapDataFactory.createFromJson(mapJson);
+    const layerData = LayeredMapDataFactory.createFromJson(mapJson);
     const tileSize = this._getTileSizeFromJson(mapJson);
     const tileInfos = TileInfosFactory.createFromJson(tileJson);
-    const worldBounce = this._calcWorldBounce(layeredMapData, tileSize);
+    const worldBounce = this._calcWorldBounce(layerData, tileSize);
     const actorPositions = ActorPositionsFactory.createFromJson(mapJson);
 
     return new MapData(
-      layeredMapData,
+      layerData,
       tileSize,
       tileInfos,
       tileImage,
@@ -31,30 +30,30 @@ export class MapDataFactory {
     return {width: tileWidth, height: tileHeight};
   }
 
-  private static _calcWorldBounce(layeredMapData: LayeredMapData, tileSize: Size): Size {
-    const maxRowSize = this._getMaxRowSize(layeredMapData);
-    const maxColumnSize = this._getMaxColumnSize(layeredMapData);
+  private static _calcWorldBounce(layerData: ILayerData[], tileSize: Size): Size {
+    const maxRowSize = this._getMaxRowSize(layerData);
+    const maxColumnSize = this._getMaxColumnSize(layerData);
     return {
       width: maxRowSize * tileSize.width,
       height: maxColumnSize * tileSize.height,
     };
   }
 
-  private static _getMaxRowSize(layeredMapData: LayeredMapData): number {
+  private static _getMaxRowSize(layerData: ILayerData[]): number {
     const rowsSize: number[] = [];
 
-    layeredMapData.forEach((layer: number[][]) => {
-      rowsSize.push(layer[0] ? layer[0].length : 0);
+    layerData.forEach((layer: ILayerData) => {
+      rowsSize.push(layer.data[0] ? layer.data[0].length : 0);
     });
 
     return Math.max(...rowsSize);
   }
 
-  private static _getMaxColumnSize(layeredMapData: LayeredMapData): number {
+  private static _getMaxColumnSize(layerData: ILayerData[]): number {
     const columnSize: number[] = [];
 
-    layeredMapData.forEach((layer: number[][]) => {
-      columnSize.push(layer.length);
+    layerData.forEach((layer: ILayerData) => {
+      columnSize.push(layer.data.length);
     });
 
     return Math.max(...columnSize);

@@ -1,8 +1,9 @@
+import { ILayerData } from './ILayerData';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
 export class LayeredMapDataFactory {
-  static createFromJson(mapJson: any): Map<number, number[][]> {
-    const result = new Map<number, number[][]>();
+  static createFromJson(mapJson: any): ILayerData[] {
+    const result:ILayerData[] = [];
 
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data.');
 
@@ -15,7 +16,7 @@ export class LayeredMapDataFactory {
     mapLayers.forEach((layer: any) => {
       const id = ValueTypeUtil.isNumber(layer.id) ? layer.id : -99;
       const data = this._extractMapData(layer, id);
-      result.set(id, data);
+      result.push({id: id, data: data});
     });
 
     return result;

@@ -4,7 +4,7 @@ import { IActorSprite } from './IActorSprite';
 import { Direction } from '../models/Direction';
 import { IControllable } from '../models/IControllable';
 import { GameFlags } from '../models/GameFlags';
-import { Keys } from '../models/Keys';
+import { Keys } from '../input/Keys';
 
 type EventCallback = (...args: any[]) => void;
 
