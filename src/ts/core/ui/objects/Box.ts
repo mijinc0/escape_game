@@ -39,9 +39,11 @@ export class Box extends PhaserObjectNode {
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
     if (this.rectangleObject) this.rectangleObject.destroy();
 
+    const basePosition = this.scene.cameras.main.worldView;
+
     const rectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
+      basePosition.x + this.position.x,
+      basePosition.y + this.position.y,
       this.size.width,
       this.size.height,
       this.config.color,

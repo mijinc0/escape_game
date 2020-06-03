@@ -1,6 +1,11 @@
 import { ActorPosition } from './ActorPosition';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
+/**
+ * Tiledのオブジェクトレイヤーは全てActorPositionとして読み込む
+ * オブジェクトレイヤーにあるオブジェクトとActorのマッピングは "actorId"により行う
+ * オブジェクトにactorIdプロパティが無い場合は、idをそのままactorIdとして読み込む
+ */
 export class ActorPositionsFactory {
   static createFromJson(mapJson: any): ActorPosition[] {
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data');

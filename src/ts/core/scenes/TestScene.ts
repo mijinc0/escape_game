@@ -13,12 +13,15 @@ import { ActorColliderRegistrar } from '../areas/ActorColliderRegistrar';
 import { ActorEventRegistrar } from '../areas/ActorEventRegistrar';
 import { ActorSpawner } from '../areas/ActorSpawner';
 import { EventEmitType } from '../areas/EventEmitType';
+import { ActorPosition } from '../maps/ActorPosition';
 
-import { ActorSearchEvent } from '../events/ActorSearchEvent';
+import { ActorSearchEvent } from '../../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
 
 import { ActorRenderOrder } from '../renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../renders/SaticLayerRenderOerder';
+
+import { TextBox } from '../ui/objects/TextBox';
 
 import * as Areas from '../../areas';
 import * as Actors from '../../actors';
@@ -83,8 +86,8 @@ export class TestScene extends Phaser.Scene {
     this._createTilemap();
 
     this.primaryActor = this._createPrimaryActor();
-
-    this.actorSpawner.spawnEntries();
+    
+    this._createActors();
 
     this._cameraSetting();
   }
@@ -110,6 +113,21 @@ export class TestScene extends Phaser.Scene {
     });
   }
 
+  private _createActors(): void {
+    this.actorSpawner.spawnEntries();
+
+    this.tilemapData.mapData.actorPositions.forEach((actorPosition: ActorPosition) => {
+      const actor = this.actors.find((actor: IActor) => (
+        actor.id === actorPosition.actorId
+      ));
+
+      if (actor) {
+        actor.sprite.x = actorPosition.positon.x;
+        actor.sprite.y = actorPosition.positon.y;
+      }
+    });
+  }
+
   private _createTilemap(): void {
     this.tilemapData = this.tilemapFactory.create();
 
@@ -123,8 +141,6 @@ export class TestScene extends Phaser.Scene {
     const underActor = this.tilemapData.staticLayers[1];
     const overActor = this.tilemapData.staticLayers[2];
 
-    console.log(this.tilemapData.staticLayers);
-
     if (base) SaticLayerRenderOerder.baseLayer(base);
     if (underActor) SaticLayerRenderOerder.underActorLayer(underActor);
     if (overActor) SaticLayerRenderOerder.overActorLayer(overActor);
@@ -132,7 +148,7 @@ export class TestScene extends Phaser.Scene {
 
   private _createPrimaryActor(): IActor {
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = this.actorSpriteFactory.create(150, 100, 'hero', 0, {size: 0.6, origin: {x: 0.5, y: 1}});
+    const sprite = this.actorSpriteFactory.create(600, 100, 'hero', 0, {size: 0.6, origin: {x: 0.5, y: 1}});
     actor.sprite = sprite;
     actor.keys = this.keys;
     this.actorAnimsFactory.setAnims(sprite);

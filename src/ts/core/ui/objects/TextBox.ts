@@ -43,7 +43,7 @@ export class TextBox extends PhaserObjectNode {
     this.textObject.setPosition(
       this.textObject.x + deltaX,
       this.textObject.y + deltaY,
-    );
+    ); 
 
     this.rectangleObject.setPosition(
       this.textObject.x + deltaX,
@@ -60,15 +60,18 @@ export class TextBox extends PhaserObjectNode {
   }
 
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
+    const basePosition = this.scene.cameras.main.worldView;
+
     const rectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
+      basePosition.x + this.position.x,
+      basePosition.y + this.position.y,
       this.size.width,
       this.size.height,
       this.config.backgroundColor ? this.config.backgroundColor : 0x000000,
       this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
     rectangle.setOrigin(0);
+    rectangle.setScrollFactor(1);
     
     UiRenderOrder.base(rectangle);
 
@@ -76,12 +79,15 @@ export class TextBox extends PhaserObjectNode {
   }
 
   private _createTextObject(): Phaser.GameObjects.Text {
-    const padding = (this.config.hasBackground && this.config.padding) ? this.config.padding : 0;
-    const x = this.position.x + padding;
-    const y = this.position.y + padding; 
+    const basePosition = this.scene.cameras.main.worldView;
+
+    const padding = this.config.padding ? this.config.padding : 0;
+    const x = basePosition.x + this.position.x + padding;
+    const y = basePosition.y + this.position.y + padding; 
 
     const text = this.scene.add.text(x, y, this.config.text);
     text.setOrigin(0);
+    text.setScrollFactor(1);
     
     UiRenderOrder.base(text);
 
@@ -89,11 +95,15 @@ export class TextBox extends PhaserObjectNode {
   }
 
   private _setTextStyle(): void {
-    this.textObject.setFontSize(this.config.fontSize);
-    this.textObject.setFontFamily(this.config.fontFamily);
-    this.textObject.setColor(this.config.color);
+    const fontSize = this.config.fontSize ? this.config.fontSize : 12;
+    const fontFamily = this.config.fontFamily ? this.config.fontFamily : 'monospace';
+    const fontColor = this.config.color ? this.config.color : 'white';
+
+    this.textObject.setFontSize(fontSize);
+    this.textObject.setFontFamily(fontFamily);
+    this.textObject.setColor(fontColor);
     
-    const padding = (this.config.hasBackground && this.config.padding) ? this.config.padding : 0;
+    const padding = this.config.padding ? this.config.padding : 0;
     const textWidth = this.size.width - (padding * 2);
     const textHeight = this.size.height - (padding * 2);
     

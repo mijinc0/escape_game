@@ -1,7 +1,7 @@
-import { IActor } from '../actors/IActor';
-import { Direction } from '../models/Direction';
-import { Position } from '../models/Position';
-import { Zone } from '../models/Zone';
+import { IActor } from '../core/actors/IActor';
+import { Direction } from '../core/models/Direction';
+import { Position } from '../core/models/Position';
+import { Zone } from '../core/models/Zone';
 
 export class ActorSearchEvent {
   private actors: IActor[];
@@ -39,9 +39,9 @@ export class ActorSearchEvent {
       case Direction.Down :
         return {
           x : actorX,
-          y : actorY + actorHeight,
+          y : actorY,
           width: actorWidth,
-          height: this.zoneRange.y,
+          height: this.zoneRange.y + actorHeight,
         };
         
       case Direction.Up :
@@ -49,14 +49,14 @@ export class ActorSearchEvent {
           x : actorX,
           y : actorY - this.zoneRange.y,
           width: actorWidth,
-          height: this.zoneRange.y,
+          height: this.zoneRange.y + actorHeight,
         };
       
       case Direction.Right :
         return {
-          x : actorX + actorWidth,
+          x : actorX,
           y : actorY,
-          width: this.zoneRange.x,
+          width: this.zoneRange.x + actorWidth,
           height: actorHeight,
         };
       
@@ -64,7 +64,7 @@ export class ActorSearchEvent {
         return {
           x : actorX - this.zoneRange.x,
           y : actorY,
-          width: this.zoneRange.x,
+          width: this.zoneRange.x + actorWidth,
           height: actorHeight,
         };
     }
