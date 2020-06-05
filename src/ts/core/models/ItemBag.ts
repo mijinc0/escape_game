@@ -1,11 +1,12 @@
 import { Item } from './Item';
+import { IItemBag } from './IItemBag';
 
 type ItemEntry = {
   item: Item,
   size: number,
 };
 
-export class ItemBag {
+export class ItemBag implements IItemBag {
   static maxItems = 99;
 
   private items: Map<string, ItemEntry>;

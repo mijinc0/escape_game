@@ -53,8 +53,8 @@ export class Button extends PhaserObjectNode {
       this.position.y,
       this.size.width,
       this.size.height,
-      this.config.backgroundColor,
-      this.config.backgroundAlpha,
+      this.config.backgroundColor ? this.config.backgroundColor : 0x000000,
+      this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
     rectangle.setOrigin(0);
 
@@ -80,9 +80,13 @@ export class Button extends PhaserObjectNode {
   private _setTextStyle(): void {
     const basePosition = this.scene.cameras.main.worldView;
 
-    this.textObject.setFontSize(this.config.fontSize);
-    this.textObject.setFontFamily(this.config.fontFamily);
-    this.textObject.setColor(this.config.fontColor);
+    const fontSize = this.config.fontSize ? this.config.fontSize : 12;
+    const fontFamily = this.config.fontFamily ? this.config.fontFamily : 'monospace';
+    const fontColor = this.config.fontColor ? this.config.fontColor : 'white';
+
+    this.textObject.setFontSize(fontSize);
+    this.textObject.setFontFamily(fontFamily);
+    this.textObject.setColor(fontColor);
     this.textObject.setAlign('center');
     
     const centerX = basePosition.x + this.position.x + (this.size.width / 2);

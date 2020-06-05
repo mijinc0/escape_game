@@ -1,16 +1,16 @@
-import { Element } from '../Element';
+import { INodeSelector } from './INodeSelector';
 import { Container } from '../containers/Container';
 import { Keys } from '../../input/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 import { Direction } from '../Direction';
 import { NodeStatus } from '../NodeStatus';
 
-export class NodeSelector implements Element {
-  public keys: Keys;
-  public disable: boolean;
+export class NodeSelector implements INodeSelector {
+  keys: Keys;
+  disable: boolean;
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
-  public cooldownTime: number;
-
+  cooldownTime: number;
+  
   private container: Container;
   private cursor: ISelectorCursor;
   private currentNodeIndex: number;
@@ -30,7 +30,7 @@ export class NodeSelector implements Element {
     this.cooldownCount = 0; 
   }
 
-  update(frame?: number): void {
+  update(frame: number): void {
     if (!this.keys || this.disable) return;
 
     // 毎フレームキーの入力を受け付けるとセレクタが高速で移動しすぎるので、
@@ -53,13 +53,41 @@ export class NodeSelector implements Element {
 
     } else if (this.keys.action.isDown) {
       this._select();
-    }
+
+    }　else if (this.keys.cancel.isDown) {
+      this._cancel();
+    }　
   }
 
   destroy(): null {
     this.cursor.destroy();
 
     return null;
+  }
+
+  setContainer(container: Container, destroy?: boolean): void {
+    if (destroy) this.container.destroy();
+
+    this.container = container;
+    this.currentNodeIndex = -1;
+  }
+
+  private _select(): void {
+    if (this.currentNodeIndex < 0 || this.currentNodeIndex >= this.container.children.length) return;
+
+    const currentNode = this.container.children[this.currentNodeIndex];
+    currentNode.select();
+
+    this.cooldownCount = this.cooldownTime;
+  }
+
+  private _cancel(): void {
+    if (this.currentNodeIndex < 0 || this.currentNodeIndex >= this.container.children.length) return;
+
+    const currentNode = this.container.children[this.currentNodeIndex];
+    currentNode.cancel();
+
+    this.cooldownCount = this.cooldownTime;
   }
 
   private _goNext(direction: Direction): void {
@@ -87,15 +115,6 @@ export class NodeSelector implements Element {
     this.currentNodeIndex = nextNodeIndex;
 
     // クールダウンを設定して終了
-    this.cooldownCount = this.cooldownTime;
-  }
-
-  private _select(): void {
-    if (this.currentNodeIndex < 0 || this.currentNodeIndex >= this.container.children.length) return;
-
-    const currentNode = this.container.children[this.currentNodeIndex];
-    currentNode.select();
-
     this.cooldownCount = this.cooldownTime;
   }
 }

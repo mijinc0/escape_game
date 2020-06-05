@@ -10,7 +10,8 @@ export abstract class PhaserObjectNode extends Node {
     this.getGameObjects().forEach((gameObject: Phaser.GameObjects.GameObject) => {
       gameObject.destroy();
     });
-
+    
+    // Nodeクラスには子ノードも連動してdestroyする命令が入っているのでNodeクラスのdestroyも実行する
     return super.destroy();
   }
 

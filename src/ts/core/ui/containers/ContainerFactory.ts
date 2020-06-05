@@ -4,7 +4,7 @@ import { RangeAlignmentStrategy } from './RangeAlignmentStrategy';
 import { TableAlignmentStrategy } from './TableAlignmentStrategy';
 import { Direction } from '../Direction';
 
-export class CointainerFactory {
+export class ContainerFactory {
   static createCenter(
     width: number,
     height: number,

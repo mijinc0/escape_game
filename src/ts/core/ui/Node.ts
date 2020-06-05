@@ -62,6 +62,10 @@ export class Node extends EventEmitter implements Element {
     return result;
   }
 
+  /**
+   * 指定したフラグのいずれも持っていない場合にtrue,一つでも持っていればfalse
+   * @param status 
+   */
   neitherStatus(status: number): boolean {
     // 反転したステータスの対象のフラグが全て立っていれば全て持っていないことになる
     return BitflagHelper.has(~this.status, status);
@@ -95,8 +99,6 @@ export class Node extends EventEmitter implements Element {
     this._updateOn();
     
     this._updateSelect();
-   
-    this._updateInvisible();
 
     this.children.forEach((child: Node) => {
       child.update(frame);
@@ -141,8 +143,16 @@ export class Node extends EventEmitter implements Element {
     this.on('select', event);
   }
 
+  addCancelEvent(event: SelectNodeEventCallback): void {
+    this.on('cancel', event);
+  }
+
   select(): void {
     this.emit('select', this);
+  }
+
+  cancel(): void {
+    this.emit('cancel', this);
   }
 
   dirty(): void {
