@@ -1,4 +1,4 @@
-import { Node } from '../Node';
+import { INode } from '../INode';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 import { Position } from '../../models/Position';
@@ -18,11 +18,11 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     this.margin = {x: marginX, y: marginY};
   }
 
-  align(parentNode: Node): void {
+  align(parentNode: INode): void {
     const baseX = parentNode.position.x;
     const baseY = parentNode.position.y;
 
-    parentNode.children.forEach((node: Node, index: number) => {
+    parentNode.children.forEach((node: INode, index: number) => {
       const nextPosition = this._getNodePosition(
         baseX,
         baseY,
@@ -54,7 +54,7 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     baseX: number,
     baseY: number,
     index: number,
-    nodes: Node[],
+    nodes: INode[],
   ): Position {
     if (index < 0 || index >= nodes.length) throw Error(`illegal node index : ${index}`);
 
@@ -75,7 +75,7 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     };
   }
 
-  private _getBottomOfRow(nodes: Node[], rows: number, baseY: number): number {
+  private _getBottomOfRow(nodes: INode[], rows: number, baseY: number): number {
     // 自身が一番上の行の場合はbaseY
     if (rows < 0) return baseY;
   
@@ -83,7 +83,7 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     const upperNodesStartIndex = rows * this.rowSize;
     const upperNodes = nodes.slice(upperNodesStartIndex, upperNodesStartIndex + this.rowSize);
 
-    const nodeBottoms = upperNodes.map((node: Node) => (node.getBottom()));
+    const nodeBottoms = upperNodes.map((node: INode) => (node.getBottom()));
 
     return Math.max(...nodeBottoms);
   }

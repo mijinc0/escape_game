@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { Element } from '../../core/ui/Element';
 import { Node } from '../../core/ui/Node';
+import { INode } from '../../core/ui/INode';
 import { ContainerFactory } from '../../core/ui/containers/ContainerFactory';
 import { Container } from '../../core/ui/containers/Container';
 import { NodeSelector } from '../../core/ui/selector/NodeSelector';
@@ -30,7 +31,6 @@ export class FieldMenu implements Element {
     return null;
   };
 
-
   addMenu(...menus: Node[]): void {
     this.rootContainer.pushNode(...menus);
 
@@ -43,7 +43,7 @@ export class FieldMenu implements Element {
   private _addSelectEventIntoMenu(menu: Node): void {
     menu.addSelectEvent((() => {
       // メニューノードの子供の中から、コンテナノードを取得して、存在すればセレクターの管理しているコンテナノードを切り替える
-      const container = menu.children.find((node: Node) => (node instanceof Container));
+      const container = menu.children.find((node: INode) => (node instanceof Container));
 
       if (container instanceof Container) {
         this.nodeSelector.setContainer(container)

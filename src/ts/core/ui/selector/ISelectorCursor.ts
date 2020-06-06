@@ -1,10 +1,10 @@
 import { Element } from '../Element';
-import { Node } from '../Node';
+import { INode } from '../INode';
 
 export interface ISelectorCursor extends Element {
   visible(): void;
 
   invisible(): void;
 
-  on(targetNode: Node): void;
+  on(targetNode: INode): void;
 }

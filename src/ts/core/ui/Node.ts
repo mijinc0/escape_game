@@ -1,48 +1,56 @@
 import { EventEmitter } from 'events';
-import { Element } from './Element';
+import { INode } from './INode';
 import { BitflagHelper } from './utils/BitflagHelper';
 import { Position } from '../models/Position';
 import { Size } from '../models/Size';
 
-type SelectNodeEventCallback = (thisNode: Node) => void;
+type SelectNodeEventCallback = (thisNode: INode) => void;
 
-export class Node extends EventEmitter implements Element {
+export class Node extends EventEmitter implements INode {
   position: Position;
 
   size: Size;
   
-  parent: Node;
+  parent: INode;
   
-  children: Node[];
+  children: INode[];
   
   private status: number;
   
   private pDirty: boolean;
 
   constructor(
-    width = 0,
-    height = 0,
-    x = 0,
-    y = 0,
+    width?: number,
+    height?: number,
+    x?: number,
+    y?: number,
   ) {
     super();
 
-    this.position = {x: x, y: y};
-    this.size = {width: width, height: height};
+    this.position = {
+      x: x ? x : 0,
+      y: y ? y : 0,
+    };
+
+    this.size = {
+      width: width ? width : 0,
+      height: height ? height : 0,
+    };
+    
     this.status = 0;
     this.parent = null;
     this.children = [];
     this.pDirty =false;
   }
 
-  pushNode(...children: Node[]): void {
+  pushNode(...children: INode[]): number {
     this._setAsParent(children);
-    this.children.push(...children);
+    return this.children.push(...children);
   }
 
-  unshiftNode(...children: Node[]): void {
+  unshiftNode(...children: INode[]): number {
     this._setAsParent(children);
-    this.children.unshift(...children);
+    return this.children.unshift(...children);
   }
 
   /**
@@ -100,7 +108,7 @@ export class Node extends EventEmitter implements Element {
     
     this._updateSelect();
 
-    this.children.forEach((child: Node) => {
+    this.children.forEach((child: INode) => {
       child.update(frame);
     });
 
@@ -118,13 +126,13 @@ export class Node extends EventEmitter implements Element {
     this.position.x += deltaX;
     this.position.y += deltaY;
 
-    this.children.forEach((child: Node) => {
+    this.children.forEach((child: INode) => {
       child.movePosition(deltaX, deltaY);
     }); 
   }
 
   destroy(): null {
-    this.children.forEach((child: Node) => {
+    this.children.forEach((child: INode) => {
       child.destroy();
     });
 
@@ -162,7 +170,7 @@ export class Node extends EventEmitter implements Element {
     if (this.parent && !this.parent.isDirty()) this.parent.dirty();
 
     // 子供に向かってdirtyを実行していく
-    this.children.forEach((child: Node) => {
+    this.children.forEach((child: INode) => {
       child.dirty();
     });
   }
@@ -189,8 +197,8 @@ export class Node extends EventEmitter implements Element {
   protected _updateSelect(): void {}
 
   /* private */
-  private _setAsParent(children: Node[]): void {
-    children.forEach((child: Node) => {
+  private _setAsParent(children: INode[]): void {
+    children.forEach((child: INode) => {
       if (child.parent) throw Error('chid already has a parent.');
       
       child.parent = this;

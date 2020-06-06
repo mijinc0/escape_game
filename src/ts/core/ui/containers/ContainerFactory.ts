@@ -6,55 +6,55 @@ import { Direction } from '../Direction';
 
 export class ContainerFactory {
   static createCenter(
-    width: number,
-    height: number,
+    width?: number,
+    height?: number,
     x?: number,
     y?: number,
     maxNodes?: number,
   ): Container {
     const ras = new CenterAlignmentStrategy()
 
-    return new Container(width, height, ras, x, y, maxNodes);
+    return new Container(ras, width, height, x, y, maxNodes);
   }
 
   static createRightRange(
-    width: number,
-    height: number,
     margin: number,
+    width?: number,
+    height?: number,
     x?: number,
     y?: number,
     maxNodes?: number,
   ): Container {
     const ras = new RangeAlignmentStrategy(margin, Direction.Right)
 
-    return new Container(width, height, ras, x, y, maxNodes);
+    return new Container(ras, width, height, x, y, maxNodes);
   }
 
   static createDownRange(
-    width: number,
-    height: number,
     margin: number,
+    width?: number,
+    height?: number,
     x?: number,
     y?: number,
     maxNodes?: number,
   ): Container {
     const ras = new RangeAlignmentStrategy(margin, Direction.Down)
 
-    return new Container(width, height, ras, x, y, maxNodes);
+    return new Container(ras, width, height, x, y, maxNodes);
   }
   
   static createTable(
-    width: number,
-    height: number,
-    rowSize: number,
     marginX: number,
     marginY: number,
+    rowSize: number,
+    width?: number,
+    height?: number,
     x?: number,
     y?: number,
     maxNodes?: number,
   ): Container {
     const tas = new TableAlignmentStrategy(rowSize, marginX, marginY);
 
-    return new Container(width, height, tas, x, y,  maxNodes);
+    return new Container(tas, width, height, x, y,  maxNodes);
   }
 } 

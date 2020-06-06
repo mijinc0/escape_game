@@ -92,7 +92,7 @@ export class NodeSelector implements INodeSelector {
 
   private _goNext(direction: Direction): void {
     // 次のノードのindexを要求する
-    const nextNodeIndex = this.container.getNextNodeIndex(this.currentNodeIndex, direction);
+    const nextNodeIndex = this.container.getNextIndex(this.currentNodeIndex, direction);
 
     // 要求が無効であれば-1が返ってくるので即return
     if (nextNodeIndex < 0) return;

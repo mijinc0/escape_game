@@ -1,8 +1,8 @@
-import { Node } from '../Node';
+import { INode } from '../INode';
 import { Position } from '../../models/Position';
 
 export class RangeAlignmentNextPostionCallbacks {
-  static down(index: number, nodes: Node[], margin: number): Position {
+  static down(index: number, nodes: INode[], margin: number): Position {
     const previous = nodes[index - 1];
     return {
       x: previous.position.x,
@@ -10,7 +10,7 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static right(index: number, nodes: Node[], margin: number): Position {
+  static right(index: number, nodes: INode[], margin: number): Position {
     const previous = nodes[index - 1];
     return {
       x: previous.getRight() + margin,
@@ -18,7 +18,7 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static left(index: number, nodes: Node[], margin: number): Position {
+  static left(index: number, nodes: INode[], margin: number): Position {
     const current = nodes[index];
     const previous = nodes[index - 1];
     return {
@@ -27,7 +27,7 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static up(index: number, nodes: Node[], margin: number): Position {
+  static up(index: number, nodes: INode[], margin: number): Position {
     const current = nodes[index];
     const previous = nodes[index - 1];
     return {

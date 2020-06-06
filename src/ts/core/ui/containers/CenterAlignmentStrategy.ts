@@ -1,15 +1,15 @@
-import { Node } from '../Node';
+import { INode } from '../INode';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 
 export class CenterAlignmentStrategy implements IAlignmentStrategy {
-  align(parentNode: Node): void {
+  align(parentNode: INode): void {
     const parentCenter = {
       x: parentNode.position.x + (parentNode.size.width / 2),
       y: parentNode.position.y + (parentNode.size.height / 2),
     };
 
-    parentNode.children.forEach((node: Node) => {
+    parentNode.children.forEach((node: INode) => {
       const childHalfWidth = node.size.width / 2;
       const childHalfHeight = node.size.height / 2;
 

@@ -1,11 +1,11 @@
-import { Node } from '../Node';
+import { INode } from '../INode';
 import { RangeAlignmentNextPostionCallbacks } from './RangeAlignmentNextPostionCallbacks';
 import { RangeAlignmentNextNodeIndexCallbacks } from './RangeAlignmentNextNodeIndexCallbacks';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 import { Position } from '../../models/Position';
 
-type NextPositionCallback = (index: number, children: Node[], margin: number) => Position;
+type NextPositionCallback = (index: number, children: INode[], margin: number) => Position;
 type NextNodeIndexCallback = (index: number, direction: Direction) => number;
 
 export class RangeAlignmentStrategy implements IAlignmentStrategy {
@@ -40,8 +40,8 @@ export class RangeAlignmentStrategy implements IAlignmentStrategy {
     }
   }
 
-  align(parentNode: Node): void {
-    parentNode.children.forEach((node: Node, index: number) => {
+  align(parentNode: INode): void {
+    parentNode.children.forEach((node: INode, index: number) => {
       const nextPosition = (index === 0) ?
         parentNode.position :
         this.nextPositionCallback(index, parentNode.children, this.margin);
