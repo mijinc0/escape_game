@@ -6,34 +6,23 @@ type SelectNodeEventCallback = (thisNode: INode) => void;
 
 export interface INode extends Element {
   position: Position;
-
+  
   size: Size;
   
   parent: INode;
   
   children: INode[];
+  
+  customProperties: Map<string, any>;
+
+  /**
+   * ステータスは`enum NodeStatus`参照
+   */
+  status: number;
 
   pushNode(...children: INode[]): number;
 
   unshiftNode(...children: INode[]): number;
-
-  /**
-   * 親のフラグの影響を受けたい場合には第2引数の`recrusive`を使って調べる
-   * こうすることで、各ノードのステータスは個別に保存したまま親のフラグの影響を受けることが出来る
-   * @param status 
-   * @param recrusive 自身の祖先ノードを辿っていずれかのノードのフラグが立っていたら結果をtrueとする 
-   */
-  hasStatus(status: number, recrusive: boolean): boolean;
-
-  /**
-   * 指定したフラグのいずれも持っていない場合にtrue,一つでも持っていればfalse
-   * @param status 
-   */
-  neitherStatus(status: number): boolean;
-
-  setStatus(status: number): void;
-
-  removeStatus(status: number): void;
 
   update(frame?: number): void;
 
@@ -59,7 +48,15 @@ export interface INode extends Element {
 
   cancel(): void;
 
-  dirty(): void;
+  /**
+   * 変化の検知はdirty checkで行う
+   * 1. 親ノードも再帰的にdirtyを実行していく
+   * 2. 子ノードは`childInsulation`が`true`でなければ子ノードもdirtyを実行していく
+   * 上記により、変更があったノードの子孫ノードと、先祖ノードのみにdirtyフラグを立てることが出来る
+   * 
+   * @param childInsulation trueであれば子ノードは再帰的にdirtyを実行しない(子ノードは絶縁する)
+   */
+  dirty(childInsulation?: boolean): void;
 
   isDirty(): boolean;
 }

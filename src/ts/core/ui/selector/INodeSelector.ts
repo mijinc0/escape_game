@@ -1,4 +1,4 @@
-import { Container } from '../containers/Container';
+import { IContainer } from '../containers/IContainer';
 import { Element } from '../Element';
 import { Keys } from '../../input/Keys';
 
@@ -7,5 +7,5 @@ export interface INodeSelector extends Element {
  
   disable: boolean;
 
-  setContainer(container: Container): void;
+  setContainer(container: IContainer): void;
 }

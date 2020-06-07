@@ -20,7 +20,6 @@ export class FieldMenuFactory {
     const button = new Button(scene, {text: 'item'}, 104, 64);
 
     const itemContainer = ContainerFactory.createDownRange(320, 240, 10, 100, 100, 10);
-    itemContainer.setStatus(NodeStatus.Invisible);
 
     return button;
   }

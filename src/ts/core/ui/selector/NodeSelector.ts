@@ -1,9 +1,10 @@
 import { INodeSelector } from './INodeSelector';
-import { Container } from '../containers/Container';
+import { IContainer } from '../containers/IContainer';
 import { Keys } from '../../input/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 import { Direction } from '../Direction';
 import { NodeStatus } from '../NodeStatus';
+import { NodeStatusUtil } from '../utils/NodeStatusUtil';
 
 export class NodeSelector implements INodeSelector {
   keys: Keys;
@@ -11,13 +12,12 @@ export class NodeSelector implements INodeSelector {
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
   cooldownTime: number;
   
-  private container: Container;
+  private container: IContainer;
   private cursor: ISelectorCursor;
-  private currentNodeIndex: number;
   private cooldownCount: number;
 
   constructor(
-    container: Container,
+    container: IContainer,
     cursor: ISelectorCursor,
     keys?: Keys,
   ) {
@@ -25,7 +25,6 @@ export class NodeSelector implements INodeSelector {
     this.cursor = cursor;
     this.keys = keys ? keys : null;
     this.disable = false;
-    this.currentNodeIndex = -1;
     this.cooldownTime = 10;
     this.cooldownCount = 0; 
   }
@@ -65,54 +64,52 @@ export class NodeSelector implements INodeSelector {
     return null;
   }
 
-  setContainer(container: Container, destroy?: boolean): void {
+  setContainer(container: IContainer, destroy?: boolean): void {
     if (destroy) this.container.destroy();
 
     this.container = container;
-    this.currentNodeIndex = -1;
   }
 
   private _select(): void {
-    if (this.currentNodeIndex < 0 || this.currentNodeIndex >= this.container.children.length) return;
+    const currentNode = this.container.getCurrent();
 
-    const currentNode = this.container.children[this.currentNodeIndex];
+    if (!currentNode) return;
+
     currentNode.select();
 
     this.cooldownCount = this.cooldownTime;
   }
 
   private _cancel(): void {
-    if (this.currentNodeIndex < 0 || this.currentNodeIndex >= this.container.children.length) return;
+    const currentNode = this.container.getCurrent();
 
-    const currentNode = this.container.children[this.currentNodeIndex];
+    if (!currentNode) return;
+
     currentNode.cancel();
 
     this.cooldownCount = this.cooldownTime;
   }
 
   private _goNext(direction: Direction): void {
-    // 次のノードのindexを要求する
-    const nextNodeIndex = this.container.getNextIndex(this.currentNodeIndex, direction);
+    const currentNode = this.container.getCurrent();
+    const nextNode = this.container.getNext(direction);
 
-    // 要求が無効であれば-1が返ってくるので即return
-    if (nextNodeIndex < 0) return;
+    // 次のノードが無ければ即return 何もしない
+    if (!nextNode) return;
     
-    // 現在のnodeからOnを消してDirtyを付与
+    // 現在のnodeがある場合はOnを消してDirtyを付与
     // カーソルが-1(初期値)の状態などではcurrentNodeが取得できない可能性がある
-    const currentNode = this.container.children[this.currentNodeIndex];
     if (currentNode) {
-      currentNode.removeStatus(NodeStatus.On);
+      NodeStatusUtil.removeStatus(currentNode, NodeStatus.On);
       currentNode.dirty();
     }
 
     // 次のnodeにOnとDirtyを付与
-    const nextNode = this.container.children[nextNodeIndex];
-    nextNode.setStatus(NodeStatus.On);
+    NodeStatusUtil.setStatus(nextNode, NodeStatus.On);
     nextNode.dirty();
 
     // カーソルを移動させる
     this.cursor.on(nextNode);
-    this.currentNodeIndex = nextNodeIndex;
 
     // クールダウンを設定して終了
     this.cooldownCount = this.cooldownTime;

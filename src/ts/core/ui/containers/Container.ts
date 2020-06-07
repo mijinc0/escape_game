@@ -1,25 +1,28 @@
+import { IContainer } from './IContainer';
 import { Node } from '../Node';
 import { INode } from '../INode';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 
-export class Container extends Node {
-  protected maxNodes: number;
+export class Container extends Node implements IContainer {
+  maxNodes: number;
+  currentIndex: number;
   
   private alignmentStrategy: IAlignmentStrategy;
 
   constructor(
     alignmentStrategy: IAlignmentStrategy,
+    maxNodes?: number,
     width?: number,
     height?: number,
     x?: number,
     y?: number,
-    maxNodes?: number,
   ) {
     super(width, height, x, y);
 
-    this.alignmentStrategy = alignmentStrategy;
+    this.currentIndex = -1;
     this.maxNodes = maxNodes ? maxNodes : -1;
+    this.alignmentStrategy = alignmentStrategy;
   }
 
   pushNode(...node: INode[]): number {
@@ -31,7 +34,7 @@ export class Container extends Node {
       pushout.forEach((node: INode) => {node.destroy()});
     }
     
-    this._alignNodes();
+    this.alignNodes();
 
     return this.children.length;
   }
@@ -43,19 +46,32 @@ export class Container extends Node {
     const pushout = this.children.splice(this.maxNodes, (childSize - this.maxNodes));
     pushout.forEach((node: INode) => {node.destroy()});
 
-    this._alignNodes();
+    this.alignNodes();
 
     return this.children.length;
   }
 
-  get(index: number): INode|null {
-    return this.children[index] ? this.children[index] : null;
+  getCurrent(): INode|null {
+    return this._get(this.currentIndex);
   }
 
-  getNext(index: number, direction: Direction): INode|null {
-    const nextIndex = this.getNextIndex(index, direction);
+  getNext(direction: Direction): INode|null {
+    const nextIndex = this._getNextIndex(direction);
+    const nextNode = this._get(nextIndex);
 
-    return this.get(nextIndex);
+    if (!nextNode) return null;
+
+    this.currentIndex = nextIndex;
+    
+    return nextNode;
+  }
+
+  alignNodes(): void {
+    this.alignmentStrategy.align(this);
+  }
+
+  protected _get(index: number): INode|null {
+    return this.children[index] ? this.children[index] : null;
   }
 
   /**
@@ -64,16 +80,12 @@ export class Container extends Node {
    * @param direction 
    * @param limit trueならalignmentStrategyから取得した値がchildrenの範囲から出ていた時は-1を返す(リミットを設ける)
    */
-  getNextIndex(index: number, direction: Direction, limit = true): number {
-    let nextNodeIndex = this.alignmentStrategy.getNextNodeIndex(index, direction);
+  protected _getNextIndex(direction: Direction, limit = true): number {
+    let nextNodeIndex = this.alignmentStrategy.getNextNodeIndex(this.currentIndex, direction);
     
     const overLimit = (nextNodeIndex < 0 || nextNodeIndex >= this.children.length);
     
     // limitが設定されており、かつ取得したindexがchildrenに対して有効なindexでない(limitを超えている)場合には-1を返す
     return (limit || overLimit) ? -1 : nextNodeIndex;
-  }
-
-  private _alignNodes(): void {
-    this.alignmentStrategy.align(this);
   }
 }
