@@ -43,8 +43,10 @@ export class Container extends Node implements IContainer {
     const childSize = super.unshiftNode(...node);
     
     // 後ろを押し出す
-    const pushout = this.children.splice(this.maxNodes, (childSize - this.maxNodes));
-    pushout.forEach((node: INode) => {node.destroy()});
+    if (this.maxNodes > 0) {
+      const pushout = this.children.splice(this.maxNodes);
+      pushout.forEach((node: INode) => {node.destroy()});
+    }
 
     this.alignNodes();
 
@@ -86,6 +88,6 @@ export class Container extends Node implements IContainer {
     const overLimit = (nextNodeIndex < 0 || nextNodeIndex >= this.children.length);
     
     // limitが設定されており、かつ取得したindexがchildrenに対して有効なindexでない(limitを超えている)場合には-1を返す
-    return (limit || overLimit) ? -1 : nextNodeIndex;
+    return (limit && overLimit) ? -1 : nextNodeIndex;
   }
 }
