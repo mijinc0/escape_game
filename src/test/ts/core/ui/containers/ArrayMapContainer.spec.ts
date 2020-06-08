@@ -152,20 +152,20 @@ describe('arrayMapContainer.getNext()', () => {
     });
 
     // indexが1つ増えるのに対して、dataAddingSize分のノードが追加されていることの確認
-    it('before last node is created by mappedData[3]', async () => {
+    it('before last node is created by 4', async () => {
       expect(beforeLastChild.size.width).equals(4);
     });
 
-    it('before last node is created by mappedData[3 + dataAddingSize]', async () => {
-      expect(afterLastChild.size.width).equals(4 + dataAddingSize);
+    it('before last node is created by 7', async () => {
+      expect(afterLastChild.size.width).equals(7);
     });
 
     // nextNodeの結果が正しいことの確認
-    it('current node is created by mappedData[3]', async () => {
+    it('current node is created by 4', async () => {
       expect(current.size.width).equals(4);
     });
 
-    it('next node is created by mappedData[4]', async () => {
+    it('next node is created by 5', async () => {
       expect(next.size.width).equals(5);
     });
   });
@@ -222,6 +222,53 @@ describe('arrayMapContainer.getNext()', () => {
 
     it('next node is created by 5', async () => {
       expect(next.size.width).equals(5);
+    });
+  });
+
+  // arrayDataが操作途中で終端に到達したパターン
+  context('normal 4', () => {
+    const mappedData: number[] = [1, 2, 3];
+
+    // どのnumberから生成されたか分かるようにwidthにmappedDataの数字を入れる
+    const uiNodeFactoryCallback = (arg: number) => {
+      return new Node(arg);
+    };
+
+    const as = new AlignmentStrategy(1);
+    const dataAddingSize = 2;
+    const maxNodes = 2;
+
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    arrayMapContainer.currentIndex = 1;
+
+    const beforeChildrenSize = arrayMapContainer.children.length;
+    const beforeLastChild = arrayMapContainer.children[1];
+    const next = arrayMapContainer.getNext(Direction.Up);
+    const afterChildrenSize = arrayMapContainer.children.length;
+    const afterLastChild = arrayMapContainer.children[1];
+
+    // 操作前も後もmaxNodesであることの確認
+    it('before children size equals maxNodes', async () => {
+      expect(beforeChildrenSize).equals(maxNodes);
+    });
+
+    it('after children size equals maxNodes', async () => {
+      expect(afterChildrenSize).equals(maxNodes);
+    });
+
+    // indexが1つ増えるのに対して、dataAddingSize分のノードを加えようとしたが、
+    // arrayDataの終端に達してしまったので可能な範囲で追加されたことを確認する
+    it('after first node is created by 2', async () => {
+      expect(beforeLastChild.size.width).equals(2);
+    });
+
+    it('after first node is created by 3', async () => {
+      expect(afterLastChild.size.width).equals(3);
+    });
+
+    // nextNodeの結果が正しいことの確認
+    it('next node is created by 3', async () => {
+      expect(next.size.width).equals(3);
     });
   });
 });

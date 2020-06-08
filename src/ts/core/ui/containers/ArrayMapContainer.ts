@@ -63,11 +63,13 @@ export class ArrayMapContainer<T> extends Container {
     let nextIndex = this._getNextIndex(direction, false);
     let nextNode = this._get(nextIndex);
 
+    // children内で取得できればそれを返して終了
     if (nextNode) {
       this.currentIndex = nextIndex;
       return nextNode;
     } 
 
+    // children内で取得できない場合、arrayDataからノードを生成して追加、取得を試みる
     // `nextIndex > 0`であれば現在のchildrenに続くノードをarrayDataをもとに生成して追加、
     // `nextIndex < 0`であれば現在のchildrenより前のノードをarrayDataをもとに生成して追加、
     // 追加後、インデックスを追加前に指していたノードの位置へ移動する
@@ -104,6 +106,24 @@ export class ArrayMapContainer<T> extends Container {
 
   /**
    * 
+   * @param startIndex 開始のインデックス
+   * @param endIndex 終了のインデックス (startIndex < endIndex) このインデックスは実際に生成する範囲に含めない
+   */
+  private _createNodesByArrayDataIndex(startIndex: number, endIndex: number): INode[] {
+    if (startIndex < 0 || startIndex > endIndex || endIndex > this.arrayData.length) {
+      throw Error(`illegal index (start: ${startIndex}, end: ${endIndex})`);
+    }
+
+    const sourceObjects = this.arrayData.slice(startIndex, endIndex);
+    const nodes = sourceObjects.map((sourceObject: T) => (
+      this.uiNodeFactoryCallback(sourceObject)
+    ));
+
+    return nodes;
+  }
+
+  /**
+   * 
    * @param size
    * @return number この操作によって実際に追加されたノードの数
    */
@@ -122,23 +142,11 @@ export class ArrayMapContainer<T> extends Container {
       return 0;  
     }
 
-    // 次にchildrenに加えられるノードの生成元となるarrayData上のオブジェクトのインデックスは
-    // 現在のchildrenの最後のノードの生成元のオブジェクトのインデックス + 1 である
-    const startNextChildrensIndex = sourceObjectIndex + 1;
+    // 新しいノード生成の開始に使うarrayDataのインデックスの範囲を決める
+    const startNextSourceIndex = sourceObjectIndex + 1;
+    const endNextSourceIndex = startNextSourceIndex + size;
 
-    const addedNodes: INode[] = [];
-    
-    for (let k = 0; k < size; k++) {
-      const sourceObject = this.arrayData[startNextChildrensIndex + k];
-
-      // ソースとなるオブジェクトが取れなくなったらそこで終了
-      if (!sourceObject) {
-        break;
-      }
-
-      const node = this.uiNodeFactoryCallback(sourceObject);
-      addedNodes.push(node);
-    }
+    const addedNodes = this._createNodesByArrayDataIndex(startNextSourceIndex, endNextSourceIndex);
 
     // this.pushNodeは禁止されているのでsuperでアクセス
     super.pushNode(...addedNodes);
@@ -165,23 +173,11 @@ export class ArrayMapContainer<T> extends Container {
       return 0;  
     }
 
-    // 次にchildrenに加えられるノードの生成元となるarrayData上のオブジェクトのインデックスは
-    // 現在のchildrenの先頭のノードの生成元のオブジェクトのインデックス - 1 である
-    const startBeforeChildrensIndex = sourceObjectIndex - 1;
+    // 新しいノード生成の開始に使うarrayDataのインデックスの範囲を決める
+    const endNextSourceIndex = sourceObjectIndex;
+    const startNextSourceIndex = endNextSourceIndex - size;
 
-    const addedNodes: INode[] = [];
-
-    for (let k = 0; k < size; k++) {
-      const sourceObject = this.arrayData[startBeforeChildrensIndex - k];
-
-      // ソースとなるオブジェクトが取れなくなったらそこで終了
-      if (!sourceObject) {
-        break;
-      }
-
-      const node = this.uiNodeFactoryCallback(sourceObject);
-      addedNodes.unshift(node);
-    }
+    const addedNodes = this._createNodesByArrayDataIndex(startNextSourceIndex, endNextSourceIndex);
 
     // this.unshiftNodeは禁止されているのでsuperでアクセス
     super.unshiftNode(...addedNodes);
@@ -201,9 +197,7 @@ export class ArrayMapContainer<T> extends Container {
   private _paddingAddedNodeSize(size: number): number {
     const fraction = size & this.dataAddingSize;
 
-    if (fraction === 0) {
-      return size;
-    }
+    if (fraction === 0) return size;
 
     // 余りがあった場合、`dataAddingSize`に対してキリの良い数字に整える
     const m = Math.floor(size / this.dataAddingSize) + 1;
