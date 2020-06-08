@@ -88,7 +88,7 @@ export class ArrayMapContainer<T> extends Container {
     // 上記の処理でノードが追加されてインデックスを調整しているので、次は取得できる可能性がある
     nextIndex = this._getNextIndex(direction, false);
     // まだ、arrayDataの配列の端に到達した時に、インデックスが飛び出してしまう可能性が残るため、クランプする
-    nextIndex = MathUtil.clamp(nextIndex, 0, this.children.length);
+    nextIndex = MathUtil.clamp(nextIndex, 0, (this.children.length - 1));
     
     // インデックスを移動して、取得する
     this.currentIndex = nextIndex;
@@ -114,17 +114,22 @@ export class ArrayMapContainer<T> extends Container {
 
     const lastChildIndex = this.children.length - 1;
     // このインデックスがarrayDataからノードを生成して追加していく基準になる
-    const startIndex = this._getSourceObjectIndexByChildNodeIndex(lastChildIndex);
+    const sourceObjectIndex = this._getSourceObjectIndexByChildNodeIndex(lastChildIndex);
 
     // 外部からarrayDataが操作されるなどしてsourceObjectがarrayDataに含まれていない場合(-1が返る)は警告を出して終了
-    if (startIndex < 0) {
+    if (sourceObjectIndex < 0) {
       console.warn('illegal sorce object. object is not included in arrayData');
       return 0;  
     }
 
+    // 次にchildrenに加えられるノードの生成元となるarrayData上のオブジェクトのインデックスは
+    // 現在のchildrenの最後のノードの生成元のオブジェクトのインデックス + 1 である
+    const startNextChildrensIndex = sourceObjectIndex + 1;
+
     const addedNodes: INode[] = [];
+    
     for (let k = 0; k < size; k++) {
-      const sourceObject = this.arrayData[startIndex + k];
+      const sourceObject = this.arrayData[startNextChildrensIndex + k];
 
       // ソースとなるオブジェクトが取れなくなったらそこで終了
       if (!sourceObject) {
@@ -152,17 +157,22 @@ export class ArrayMapContainer<T> extends Container {
     size = this._paddingAddedNodeSize(size);
 
     // このインデックスがarrayDataからノードを生成して追加していく基準になる
-    const startIndex = this._getSourceObjectIndexByChildNodeIndex(0);
+    const sourceObjectIndex = this._getSourceObjectIndexByChildNodeIndex(0);
 
     // 外部からarrayDataが操作されるなどしてsourceObjectがarrayDataに含まれていない場合(-1が返る)は警告を出して終了
-    if (startIndex < 0) {
+    if (sourceObjectIndex < 0) {
       console.warn('illegal sorce object. object is not included in arrayData');
       return 0;  
     }
 
+    // 次にchildrenに加えられるノードの生成元となるarrayData上のオブジェクトのインデックスは
+    // 現在のchildrenの先頭のノードの生成元のオブジェクトのインデックス - 1 である
+    const startBeforeChildrensIndex = sourceObjectIndex - 1;
+
     const addedNodes: INode[] = [];
+
     for (let k = 0; k < size; k++) {
-      const sourceObject = this.arrayData[startIndex - k];
+      const sourceObject = this.arrayData[startBeforeChildrensIndex - k];
 
       // ソースとなるオブジェクトが取れなくなったらそこで終了
       if (!sourceObject) {
@@ -202,7 +212,7 @@ export class ArrayMapContainer<T> extends Container {
 
   private _getSourceObjectIndexByChildNodeIndex(childNodeIndex: number): number {
     const childNode = this.children[childNodeIndex];
-    const sourceObject = childNode.customProperties.get('souceObject');
+    const sourceObject = childNode.customProperties.get('sourceObject');
 
     // 外部からchildrenが操作されるなどしてsourceObjectが無いノードが出てきた場合は警告を出して-1を返す
     if (!sourceObject) {
@@ -210,14 +220,14 @@ export class ArrayMapContainer<T> extends Container {
       return -1;
     }
 
-    return this.children.indexOf(sourceObject);
+    return this.arrayData.indexOf(sourceObject);
   }
 
   private _initChildren(): void {
     for (const data of this.arrayData) {
       const node = this._createNodeFromData(data);
 
-      this.pushNode(node);
+      super.pushNode(node);
 
       // コンテナがいっぱいになったらそこで終了
       if (this.children.length >= this.maxNodes) break;
