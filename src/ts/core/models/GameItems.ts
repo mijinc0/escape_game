@@ -4,17 +4,18 @@ import { Item } from './Item';
  * ゲームに登場する全てのアイテム情報はここに収められる
  */
 export class GameItems {
-  private items: Map<string, Item>;
+  private items: Item[];
 
   constructor() {
-    this.items = new Map<string, Item>();
+    this.items = [];
   }
 
   register(item: Item): void {
-    this.items.set(item.name, item);
+    this.items.push(item);
   }
 
   get(name: string): Item|null {
-    return this.items.get(name) ? this.items.get(name) : null;
+    const item = this.items.find((entry: Item) => (entry.name === name));
+    return item ? item : null;
   }
 }

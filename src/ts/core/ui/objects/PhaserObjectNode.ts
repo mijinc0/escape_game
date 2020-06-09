@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { Node } from '../Node';
 import { NodeStatus } from '../NodeStatus';
+import { NodeStatusUtil } from '../utils/NodeStatusUtil';
 
 export abstract class PhaserObjectNode extends Node {
   /**
@@ -19,7 +20,7 @@ export abstract class PhaserObjectNode extends Node {
 
   protected _updateInvisible(): void {
     // 自身から祖先ノードを辿って、どこかしらのノードにInvisibleがセットされていたら非表示にする
-    if (this.hasStatus(NodeStatus.Invisible, true)) {
+    if (NodeStatusUtil.hasStatus(this, NodeStatus.Invisible, true)) {
       this.getGameObjects().forEach((getGameObject: Phaser.GameObjects.GameObject) => {
         getGameObject.renderFlags &= ~1;
       });

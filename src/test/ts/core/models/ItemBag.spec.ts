@@ -6,7 +6,7 @@ import { ItemBag } from '../../../../ts/core/models/ItemBag';
 describe('itemBag.has()', () => {
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
 
     it('should be true (key: string)', async () => {
@@ -22,7 +22,7 @@ describe('itemBag.has()', () => {
 describe('itemBag.getSize()', () => {
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
 
     it('should have 10 items (key: string)', async () => {
@@ -38,7 +38,7 @@ describe('itemBag.getSize()', () => {
 describe('itemBag.add()', () => {
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
 
     it('should have 10 items', async () => {
@@ -48,7 +48,7 @@ describe('itemBag.add()', () => {
 
   context('normal (overlimit)', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 100);
 
     it('should have 99(max size) items', async () => {
@@ -60,7 +60,7 @@ describe('itemBag.add()', () => {
 describe('itemBag.lost()', () => {
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
     itemBag.lost(item, 5);
 
@@ -71,7 +71,7 @@ describe('itemBag.lost()', () => {
 
   context('normal (overlimit)', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
     itemBag.lost(item, 100);
 
@@ -84,7 +84,7 @@ describe('itemBag.lost()', () => {
 describe('itemBag.getItem()', () => {
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
     itemBag.add(item, 10);
 
     const storedItem = itemBag.getItem(item);
@@ -96,7 +96,7 @@ describe('itemBag.getItem()', () => {
 
   context('normal', () => {
     const itemBag = new ItemBag();
-    const item = new Item('item', 'test item');
+    const item = new Item('item', 'test item', '');
 
     const storedItem = itemBag.getItem(item);
 

@@ -1,7 +1,5 @@
 import { Item } from './Item';
 
-type ItemEntry = {item: Item, size: number};
-
 export interface IItemBag {
   has(item: string|Item): boolean;
 
@@ -11,5 +9,5 @@ export interface IItemBag {
 
   lost(item: Item, size: number): number;
 
-  getItem(item: string|Item): ItemEntry|null;
+  getItem(item: string|Item): Item|null;
 }

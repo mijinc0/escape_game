@@ -4,6 +4,7 @@ import { ILayerData } from './ILayerData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
+import { CacheKey } from '../utils/CacheKey';
 
 type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
  
@@ -26,34 +27,30 @@ export class SceneTilemapFactory {
   }
 
   loadAssets(): void {
-    const mapFileName = this._getFileName(this.mapFilePath);
-    const tilesetFileName = this._getFileName(this.tilesetFilePath);
-    const tilesetImageName = this._getFileName(this.tilesetImagePath);
+    const assetKeys = this._getTilemapAssetKeys(this.mapFilePath, this.tilesetFilePath, this.tilesetImagePath);
 
-    this.scene.load.json(mapFileName, this.mapFilePath);
-    this.scene.load.json(tilesetFileName, this.tilesetFilePath);
-    this.scene.load.image(tilesetImageName, this.tilesetImagePath);
+    this.scene.load.json(assetKeys.tilemap, this.mapFilePath);
+    this.scene.load.json(assetKeys.tileInfo, this.tilesetFilePath);
+    this.scene.load.image(assetKeys.tileImage, this.tilesetImagePath);
   }
 
   create(): ISceneTilemapData {
-    const mapFileName = this._getFileName(this.mapFilePath);
-    const tilesetFileName = this._getFileName(this.tilesetFilePath);
-    const tilesetImageName = this._getFileName(this.tilesetImagePath);
+    const assetKeys = this._getTilemapAssetKeys(this.mapFilePath, this.tilesetFilePath, this.tilesetImagePath);
 
     // get json data
-    const jsonMapDataFile = this.scene.cache.json.get(mapFileName);
-    const jsonTilesetInfos = this.scene.cache.json.get(tilesetFileName);
+    const jsonMapDataFile = this.scene.cache.json.get(assetKeys.tilemap);
+    const jsonTilesetInfos = this.scene.cache.json.get(assetKeys.tileInfo);
 
     // check existance
     if (!jsonTilesetInfos || !jsonMapDataFile) throw Error('json (mapdata or tilesetInfo) is not found.');
 
     // create
-    return this._createMap(jsonMapDataFile, jsonTilesetInfos, tilesetImageName);
+    return this._createMap(jsonMapDataFile, jsonTilesetInfos, assetKeys.tileImage);
   }
 
-  private _createMap(mapJson: any, tileJson: any, tilesetImageName: string): ISceneTilemapData {
+  private _createMap(mapJson: any, tileJson: any, tileImageKey: string): ISceneTilemapData {
     // 1. create map data
-    const mapData = MapDataFactory.createFromJson(mapJson, tileJson, tilesetImageName);
+    const mapData = MapDataFactory.createFromJson(mapJson, tileJson, tileImageKey);
 
     // 2. extract table data from mapData in order of id
     const rawData = mapData.layers
@@ -63,7 +60,7 @@ export class SceneTilemapFactory {
     // 3. create static layers into the scene
     const staticLayers: StaticLayer[] = [];
     rawData.forEach((data: number[][]) => {
-      const staticLayer = this._createStaticLayer(data, mapData.tileSize, tilesetImageName);
+      const staticLayer = this._createStaticLayer(data, mapData.tileSize, tileImageKey);
 
       this._addColliders(staticLayer, mapData.tileInfos);
 
@@ -73,6 +70,10 @@ export class SceneTilemapFactory {
     return {staticLayers: staticLayers, mapData: mapData};
   }
 
+  /**
+   * (e.g.) `root/map/testmap.json` => `testmap`
+   * @param filePath 
+   */
   private _getFileName(filePath: string): string {
     const splitByDir = filePath.split('/');
     const lastPart = splitByDir[splitByDir.length - 1];
@@ -82,7 +83,7 @@ export class SceneTilemapFactory {
   private _createStaticLayer(
     data: number[][],
     tileSize: Size,
-    tilesetName: string,
+    tileImageKey: string,
   ): StaticLayer {
     // 1. create phaser's tilemap
     const tilemap = this.scene.make.tilemap({
@@ -93,7 +94,7 @@ export class SceneTilemapFactory {
 
     // 2. create phaser's tileset
     // 最後の引数のgidは大事。タイルのidを1からにしないと、マップファイルのデータとindexが1つずれてしまう。
-    const tileset = tilemap.addTilesetImage(tilesetName, undefined, tileSize.width, tileSize.height, 0, 0, 1);
+    const tileset = tilemap.addTilesetImage(tileImageKey, undefined, tileSize.width, tileSize.height, 0, 0, 1);
 
     // 3. create static layer
     // idは、tilemapオブジェクトの中に含まれているレイヤーデータのインデックスを指定する
@@ -106,5 +107,26 @@ export class SceneTilemapFactory {
     tileInfos.forEach((tileInfo: TileInfo) => {
       if (tileInfo.collide) staticLayer.setCollision(tileInfo.id);
     });
+  }
+
+  private _getTilemapAssetKeys(
+    mapFilePath: string,
+    tilesetFilePath: string,
+    tilesetImagePath: string,
+  ): {tilemap: string, tileInfo: string, tileImage: string} {
+
+    const mapFileName = this._getFileName(mapFilePath);
+    const tilesetFileName = this._getFileName(tilesetFilePath);
+    const tilesetImageName = this._getFileName(tilesetImagePath);
+
+    const mapFileKey = CacheKey.tilemap(mapFileName);
+    const tilesetFileKey = CacheKey.tileInfo(tilesetFileName);
+    const tilesetImageKey = CacheKey.tileImage(tilesetImageName);
+
+    return {
+      tilemap: mapFileKey,
+      tileInfo: tilesetFileKey,
+      tileImage: tilesetImageKey,
+    };
   }
 }

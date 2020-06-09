@@ -46,7 +46,7 @@ export class FieldMenu implements Element {
       const container = menu.children.find((node: INode) => (node instanceof Container));
 
       if (container instanceof Container) {
-        this.nodeSelector.setContainer(container)
+        this.nodeSelector.setContainer(container);
 
       } else {
         console.warn('this menu has no container');
@@ -61,7 +61,7 @@ export class FieldMenu implements Element {
       const container = (menu.parent instanceof Container) ? menu.parent : null;
   
       if (container instanceof Container) {
-        this.nodeSelector.setContainer(container)
+        this.nodeSelector.setContainer(container);
   
       } else {
         console.warn('this node has no parent or parent node is not instance of Container');

@@ -27,19 +27,20 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     this.setTexture(key);
   }
 
-  setAnim(animKey: string, animObject: SpriteAnimation): void {
-    this.spriteAnims.set(animKey, animObject);
+  setAnim(animName: string, animObject: SpriteAnimation): void {
+    this.spriteAnims.set(animName, animObject);
   }
   
-  play(animKey: string, ignoreIfPlaying?: boolean): this {
-    const anim = this.spriteAnims.get(animKey);
+  play(animName: string, ignoreIfPlaying?: boolean): this {
+    const anim = this.spriteAnims.get(animName);
     
     if (anim) {
       // 自身にキャッシュされていればそのアニメーションを実行する
       this.anims.play(anim, ignoreIfPlaying);
     } else {
-      // 自身にキャッシュされていないKeyであれば、グローバルに保管されているアニメーションを探す
-      this.anims.play(animKey, ignoreIfPlaying);
+      // 自身にキャッシュされていないnameであれば、グローバルに保管されているアニメーションを探す
+      // この時、`animName`を`animKey`としてアニメーションを探す
+      this.anims.play(animName, ignoreIfPlaying);
     }
     
     return this;

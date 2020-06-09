@@ -1,9 +1,8 @@
 import * as Phaser from 'phaser';
-import { FieldMenu } from './FieldMenu';
-import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
-import { Node } from '../../core/ui/Node';
-import { Element } from '../../core/ui/Element';
+import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
+import { IScenarioEvent } from '../core/events/IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../core/events/ScenarioEventUpdateConfig';
+import { Element } from '../core/ui/Element';
 
 export class FieldMenuEvent implements IScenarioEvent {
   readonly isAsync = false;

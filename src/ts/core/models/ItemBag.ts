@@ -1,22 +1,17 @@
 import { Item } from './Item';
 import { IItemBag } from './IItemBag';
 
-type ItemEntry = {
-  item: Item,
-  size: number,
-};
-
 export class ItemBag implements IItemBag {
   static maxItems = 99;
 
-  private items: Map<string, ItemEntry>;
+  private items: Item[];
 
   constructor() {
-    this.items = new Map<string, ItemEntry>();
+    this.items = [];
   }
 
   has(item: string|Item): boolean {
-    return !!this.getItem(item);
+    return this.getSize(item) !== 0;
   }
 
   getSize(item: string|Item): number {
@@ -31,11 +26,10 @@ export class ItemBag implements IItemBag {
     if (this.has(item)) {
       this.getItem(item).size = newItemSize;
     } else {
-      const entry = {item: item, size: newItemSize};
-      this.items.set(item.name, entry);
+      this.items.push(item);
     }
 
-    return this.getSize(item.name);
+    return this.getSize(item);
   }
 
   lost(item: Item, size: number): number {
@@ -45,17 +39,16 @@ export class ItemBag implements IItemBag {
     if (this.has(item)) {
       this.getItem(item).size = newItemSize;
     } else {
-      const entry = {item: item, size: newItemSize};
-      this.items.set(item.name, entry);
+      this.items.push(item);
     }
 
-    return this.getSize(item.name);
+    return this.getSize(item);
   }
 
-  getItem(item: string|Item): ItemEntry|null {
+  getItem(item: string|Item): Item|null {
     const storedItem = (item instanceof Item) ?
-      this.items.get(item.name) :
-      this.items.get(item);
+      this.items.find((entry: Item) => (entry === item)) :
+      this.items.find((entry: Item) => (entry.name === item));
 
     return storedItem ? storedItem : null;
   }
