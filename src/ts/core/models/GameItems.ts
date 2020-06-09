@@ -1,21 +1,15 @@
 import { Item } from './Item';
+import { IGameItems } from './IGameItems';
 
-/**
- * ゲームに登場する全てのアイテム情報はここに収められる
- */
-export class GameItems {
-  private items: Item[];
+export class GameItems implements IGameItems {
+  readonly entries: Item[];
 
-  constructor() {
-    this.items = [];
-  }
-
-  register(item: Item): void {
-    this.items.push(item);
+  constructor(...items: Item[]) {
+    this.entries = items;
   }
 
   get(name: string): Item|null {
-    const item = this.items.find((entry: Item) => (entry.name === name));
+    const item = this.entries.find((entry: Item) => (entry.name === name));
     return item ? item : null;
   }
 }

@@ -1,9 +1,9 @@
-import { Message } from './Message';
-import { MessageBufferFactory } from './MessageBufferFactory';
-import { Item } from './Item';
-import { Flag } from './Flag';
-import { Variable } from './Variable';
-import { GameGlobal } from '../../GameGlobal';
+import { GameGlobal } from '../GameGlobal';
+import { Message } from '../core/events/commands/Message';
+import { MessageBufferFactory } from '../core/events/commands/MessageBufferFactory';
+import { Item } from '../core/events/commands/Item';
+import { Flag } from '../core/events/commands/Flag';
+import { Variable } from '../core/events/commands/Variable';
 
 export class SceneCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);

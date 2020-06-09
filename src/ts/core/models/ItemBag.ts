@@ -26,6 +26,7 @@ export class ItemBag implements IItemBag {
     if (this.has(item)) {
       this.getItem(item).size = newItemSize;
     } else {
+      item.size = newItemSize;
       this.items.push(item);
     }
 

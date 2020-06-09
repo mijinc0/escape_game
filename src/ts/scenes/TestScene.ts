@@ -1,30 +1,30 @@
 import * as Phaser from 'phaser';
+
 import { GameGlobal } from '../GameGlobal';
 
-import { ISceneTilemapData } from '../maps/ISceneTilemapData';
-import { SceneTilemapFactory } from '../maps/SceneTilemapFactory';
-import { Keys } from '../input/Keys';
-import { IActor } from '../actors/IActor';
-import { ActorSpriteFactory } from '../actors/ActorSpriteFactory';
-import { ActorAnimsFactory } from '../actors/ActorAnimsFactory';
+import { Keys } from '../core/input/Keys';
+import { Item } from '../core/models/Item';
+import { IActor } from '../core/actors/IActor';
+import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
+import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
+import { ActorPosition } from '../core/maps/ActorPosition';
+import { ActorSpriteFactory } from '../core/actors/ActorSpriteFactory';
+import { ActorAnimsFactory } from '../core/actors/ActorAnimsFactory';
+import { IArea } from '../core/areas/IArea';
+import { ActorColliderRegistrar } from '../core/areas/ActorColliderRegistrar';
+import { ActorEventRegistrar } from '../core/areas/ActorEventRegistrar';
+import { ActorSpawner } from '../core/areas/ActorSpawner';
+import { EventEmitType } from '../core/areas/EventEmitType';
+import { ActorSearchEvent } from '../events/ActorSearchEvent';
+import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
+import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
+import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
+import { CacheKey } from '../core/utils/CacheKey';
 
-import { IArea } from '../areas/IArea';
-import { ActorColliderRegistrar } from '../areas/ActorColliderRegistrar';
-import { ActorEventRegistrar } from '../areas/ActorEventRegistrar';
-import { ActorSpawner } from '../areas/ActorSpawner';
-import { EventEmitType } from '../areas/EventEmitType';
-import { ActorPosition } from '../maps/ActorPosition';
+import { TextBox } from '../core/ui/objects/TextBox';
 
-import { ActorSearchEvent } from '../../events/ActorSearchEvent';
-import { ScenarioEventManager } from '../events/ScenarioEventManager';
-
-import { ActorRenderOrder } from '../renders/ActorRenderOrder';
-import { SaticLayerRenderOerder } from '../renders/SaticLayerRenderOerder';
-
-import { TextBox } from '../ui/objects/TextBox';
-
-import * as Areas from '../../areas';
-import * as Actors from '../../actors';
+import * as Areas from '../areas';
+import * as Actors from '../actors';
 
 export class TestScene extends Phaser.Scene {
   private frame: number;
@@ -77,6 +77,8 @@ export class TestScene extends Phaser.Scene {
   }
 
   preload (): void {
+    this._loadItemIcons();
+
     this.tilemapFactory.loadAssets();
 
     this.actorSpawner.preload();
@@ -110,6 +112,17 @@ export class TestScene extends Phaser.Scene {
 
     this.actors.forEach((actor: IActor) => {
       actor.update(this.frame);
+    });
+  }
+
+  /**
+   * TODO: ここでloadしているのは暫定。Phaser3では全てのシーンで共有のキャッシュを使うので
+   *       どこのシーンでも使うアイテムの画像などはOpeningシーンで全てロードする
+   */
+  private _loadItemIcons(): void {
+    GameGlobal.items.entries.forEach((item: Item) => {
+      const iconKey = CacheKey.itemIcon(item.name);
+      this.load.image(iconKey, item.iconFilePath);
     });
   }
 
