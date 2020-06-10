@@ -36,6 +36,12 @@ export interface INode extends Element {
 
   destroy(): null;
 
+  /**
+   * Destroyedフラグが立っているノードをツリーから削除する
+   * この関数は再帰するので、ルートノードで実行する
+   */
+  removeDestroyedFromTree(): void;
+
   getRight(): number;
 
   getBottom(): number;

@@ -12,4 +12,6 @@ export enum NodeStatus {
   
   // そのコンポーネントが選択されているか
   Select = 0x00000010,
+
+  Destroyed = 0x00000020,
 }

@@ -1,5 +1,7 @@
 import { EventEmitter } from 'events';
 import { INode } from './INode';
+import { NodeStatus } from './NodeStatus';
+import { NodeStatusUtil } from './utils/NodeStatusUtil';
 import { Position } from '../models/Position';
 import { Size } from '../models/Size';
 
@@ -81,18 +83,28 @@ export class Node extends EventEmitter implements INode {
   }
 
   destroy(): null {
-    // 子ノードを消す
+    NodeStatusUtil.setStatus(this, NodeStatus.Destroyed);
+
+    // 子ノードもdestroyする
     this.children.forEach((child: INode) => {
       child.destroy();
-
-      // destroyした子ノードをchildrenから消す
-      const childIndex = this.children.indexOf(child);
-      if (childIndex >= 0) {
-        this.children.splice(childIndex, 1);
-      }
     });
 
     return null;
+  }
+
+  removeDestroyedFromTree(): void {
+    this.children.forEach((child: INode) => {
+      child.removeDestroyedFromTree();
+    });
+
+    // Destroyedされた子ノードを削除する
+    this.children = this.children.filter((child: INode) => (
+      !NodeStatusUtil.hasStatus(child, NodeStatus.Destroyed)
+    ));
+
+    // 親ノードの設定も解除する
+    this.parent = null;
   }
 
   getRight(): number {
