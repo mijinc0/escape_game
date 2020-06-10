@@ -1,16 +1,16 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
-import { BoxConfig } from './BoxConfig';
+import { IBoxConfig } from './IBoxConfig';
 import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class Box extends PhaserObjectNode {
   private scene: Phaser.Scene;
-  private config: BoxConfig;
+  private config: IBoxConfig;
   private rectangleObject: Phaser.GameObjects.Rectangle;
 
   constructor(
     scene: Phaser.Scene,
-    config: BoxConfig,
+    config: IBoxConfig,
     width: number,
     height: number,
     x?: number,
@@ -21,15 +21,6 @@ export class Box extends PhaserObjectNode {
     this.scene = scene;
     this.config = config;
     this.rectangleObject = this._createRectangleObject();
-  }
-
-  movePosition(deltaX: number, deltaY: number): void {
-    this.rectangleObject.setPosition(
-      this.rectangleObject.x + deltaX,
-      this.rectangleObject.y + deltaY,
-    );
-    
-    super.movePosition(deltaX, deltaY);
   }
 
   getGameObjects(): Phaser.GameObjects.GameObject[] {

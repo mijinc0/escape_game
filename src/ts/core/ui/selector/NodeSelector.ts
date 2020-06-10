@@ -1,4 +1,6 @@
+import { EventEmitter } from 'events';
 import { INodeSelector } from './INodeSelector';
+import { INode } from '../INode';
 import { IContainer } from '../containers/IContainer';
 import { Keys } from '../../input/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
@@ -6,7 +8,14 @@ import { Direction } from '../Direction';
 import { NodeStatus } from '../NodeStatus';
 import { NodeStatusUtil } from '../utils/NodeStatusUtil';
 
-export class NodeSelector implements INodeSelector {
+type SelectNodeCallback = (targetNode: INode, nodeSelector: INodeSelector) => void;
+
+/**
+ * NodeSelectorについて注意が必要なのは`select`と`cancel`で実行対象となるノードが違うということ
+ * select : 現在管理中のコンテナでgetCurentした時に得られたノードに対してselectを行う
+ * cancel : 現在管理中のコンテナをcancelするので、cancelを実行するのは現在管理中のコンテナ
+ */
+export class NodeSelector extends EventEmitter implements INodeSelector {
   keys: Keys;
   disable: boolean;
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
@@ -21,6 +30,8 @@ export class NodeSelector implements INodeSelector {
     cursor: ISelectorCursor,
     keys?: Keys,
   ) {
+    super();
+
     this.container = container;
     this.cursor = cursor;
     this.keys = keys ? keys : null;
@@ -70,22 +81,37 @@ export class NodeSelector implements INodeSelector {
     this.container = container;
   }
 
+  addSelectEvent(event: SelectNodeCallback): void {
+    this.addListener('select', event);
+  }
+
+  addCancelEvent(event: SelectNodeCallback): void {
+    this.addListener('cancel', event);
+  }
+
   private _select(): void {
     const currentNode = this.container.getCurrent();
 
     if (!currentNode) return;
 
+    // node.select => emit('select') の順番は大事
+    //  1. node.select : nodeが新しいウィンドウを生成などする
+    //  2. emit('select') : thisが管理ノードの変更を行う
+    // というような動きを想定しているため
     currentNode.select();
+    this.emit('select', currentNode, this);
 
     this.cooldownCount = this.cooldownTime;
   }
 
   private _cancel(): void {
-    const currentNode = this.container.getCurrent();
+    if (!this.container) return;
 
-    if (!currentNode) return;
-
-    currentNode.cancel();
+    //  1. emit('select') : thisが管理ノードの変更を行う
+    //  2. node.select : nodeがノードを(場合によっては)破棄する
+    // というような動きを想定しているため、this.emit => currentNode.cancel の順番
+    this.emit('cancel', this.container, this);
+    this.container.cancel();
 
     this.cooldownCount = this.cooldownTime;
   }

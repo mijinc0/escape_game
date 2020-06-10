@@ -39,13 +39,21 @@ export interface INode extends Element {
   getRight(): number;
 
   getBottom(): number;
-
+  
   addSelectEvent(event: SelectNodeEventCallback): void;
-
+  
   addCancelEvent(event: SelectNodeEventCallback): void;
 
+  /**
+   * ノードが選択時に決定アクションされたときのイベント。中身は`addSelectEvent`で登録されたイベントを発火するだけ
+   * 
+   */
   select(): void;
 
+  /**
+   * ノードが選択時にキャンセルアクションされたときのイベント。中身は`addCancelEvent`で登録されたイベントを発火するだけ
+   * 
+   */
   cancel(): void;
 
   /**
@@ -58,5 +66,8 @@ export interface INode extends Element {
    */
   dirty(childInsulation?: boolean): void;
 
+  /**
+   * このノードのdirtyフラグが立っているかどうか
+   */
   isDirty(): boolean;
 }

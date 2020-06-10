@@ -1,18 +1,18 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
-import { TextConfig } from './TextConfig';
+import { ITextConfig } from './ITextConfig';
 import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class TextBox extends PhaserObjectNode {
   
   protected scene: Phaser.Scene;
-  protected config: TextConfig;
+  protected config: ITextConfig;
   protected textObject: Phaser.GameObjects.Text;
   protected rectangleObject: Phaser.GameObjects.Rectangle;
 
   constructor(
     scene: Phaser.Scene,
-    config: TextConfig,
+    config: ITextConfig,
     width?: number,
     height?: number,
     x?: number,
@@ -37,20 +37,6 @@ export class TextBox extends PhaserObjectNode {
 
   addText(text: string): void {
     this.textObject.text += text;
-  }
-
-  movePosition(deltaX: number, deltaY: number): void {
-    this.textObject.setPosition(
-      this.textObject.x + deltaX,
-      this.textObject.y + deltaY,
-    ); 
-
-    this.rectangleObject.setPosition(
-      this.textObject.x + deltaX,
-      this.textObject.y + deltaY,
-    );
-    
-    super.movePosition(deltaX, deltaY);
   }
 
   getGameObjects(): Phaser.GameObjects.GameObject[] {

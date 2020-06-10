@@ -1,17 +1,17 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
-import { ButtonConfig } from './ButtonConfig';
+import { IButtonConfig } from './IButtonConfig';
 import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class Button extends PhaserObjectNode {
-  private scene: Phaser.Scene;
-  private config: ButtonConfig;
-  private rectangleObject: Phaser.GameObjects.Rectangle;
-  private textObject: Phaser.GameObjects.Text;
+  protected scene: Phaser.Scene;
+  protected config: IButtonConfig;
+  protected rectangleObject: Phaser.GameObjects.Rectangle;
+  protected textObject: Phaser.GameObjects.Text;
 
   constructor(
     scene: Phaser.Scene,
-    config: ButtonConfig,
+    config: IButtonConfig,
     width: number,
     height: number,
     x?: number,
@@ -25,20 +25,6 @@ export class Button extends PhaserObjectNode {
     this.textObject = this._createTextObject();
 
     this._setTextStyle();
-  }
-
-  movePosition(deltaX: number, deltaY: number): void {
-    this.rectangleObject.setPosition(
-      this.rectangleObject.x + deltaX,
-      this.rectangleObject.y + deltaY,
-    );
-
-    this.textObject.setPosition(
-      this.textObject.x + deltaX,
-      this.textObject.y + deltaY,
-    );
-    
-    super.movePosition(deltaX, deltaY);
   }
 
   getGameObjects(): Phaser.GameObjects.GameObject[] {

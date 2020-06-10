@@ -8,6 +8,7 @@ export class Hero extends Actor {
       return;
     };
 
+    // search
     if (this.keys.action.isDown) {
       // 連射防止
       if (!this.flags.get('search')) {
@@ -23,6 +24,17 @@ export class Hero extends Actor {
       }
     } else {
       this.flags.off('search');
+    }
+
+    // open field menu
+    if (this.keys.cancel.isDown) {
+      // 連射防止
+      if (!this.flags.get('fieldMenu')) {
+        this.flags.on('fieldMenu');
+        this.emit('fieldMenu');
+      }
+    } else {
+      this.flags.off('fieldMenu');
     }
 
     const speed = 184;

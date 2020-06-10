@@ -9,7 +9,7 @@ function createIconFilePath (filename: string) {
 
 export const AllItems = [
   {
-    name: 'testKey',
+    name: 'silverKey',
     description: 'this is test key',
     iconFileName: 'icon_silver_key',
   },

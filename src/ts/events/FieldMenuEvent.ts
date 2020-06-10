@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
+import { FieldMenuFactory } from '../ui/fieldMenu/FieldMenuFactory';
 import { IScenarioEvent } from '../core/events/IScenarioEvent';
 import { ScenarioEventUpdateConfig } from '../core/events/ScenarioEventUpdateConfig';
-import { Element } from '../core/ui/Element';
 
 export class FieldMenuEvent implements IScenarioEvent {
   readonly isAsync = false;
@@ -10,30 +10,35 @@ export class FieldMenuEvent implements IScenarioEvent {
   isComplete: boolean;
 
   private scene: Phaser.Scene;
-  private uiRoot: Element;
+  private fieldMenu: FieldMenu;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.uiRoot = null;
+    this.fieldMenu = null;
     this.isComplete = false;
   }
 
   init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
-    this.uiRoot = new FieldMenu(this.scene, config.keys);
+    this.fieldMenu = FieldMenuFactory.create(this.scene, config.gameGlobal.items.entries, config.keys);
   };
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!this.uiRoot) {
-      this.isComplete = true;
-      return;
-    }
+    if (this.isComplete) return;
 
-    this.uiRoot.update(frame);
+    if (!this.fieldMenu) {
+      this.isComplete = true;
+
+    } else if (this.fieldMenu.isClosed) {
+      this.complete();
+
+    } else {
+      this.fieldMenu.update(frame);
+    }
   };
 
   complete(): void {
-    this.uiRoot = this.uiRoot.destroy();
+    this.fieldMenu = this.fieldMenu.destroy();
     this.isComplete = true;
   };
 }

@@ -22,6 +22,8 @@ import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
 import { CacheKey } from '../core/utils/CacheKey';
 
 import { TextBox } from '../core/ui/objects/TextBox';
+import { FieldMenuEvent } from '../events/FieldMenuEvent';
+import { EventRangeFactory } from '../core/events/EventRangeFactory';
 
 import * as Areas from '../areas';
 import * as Actors from '../actors';
@@ -166,9 +168,18 @@ export class TestScene extends Phaser.Scene {
     actor.keys = this.keys;
     this.actorAnimsFactory.setAnims(sprite);
 
+    // search event
     const searchEvent = new ActorSearchEvent(this.actors);
     searchEvent.setEvent(actor);
 
+    // field menu event
+    actor.on('fieldMenu', (() => {
+      const fieldMenuEvent = new FieldMenuEvent(this);
+      const fieldMenuEventRange = new EventRangeFactory(fieldMenuEvent).create();
+      this.scenarioEvent.start(fieldMenuEventRange);
+    }).bind(this));
+
+    // collision
     this._tilemapCollisionSetting(actor);
 
     ActorRenderOrder.prioritizeY(actor.sprite);

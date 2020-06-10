@@ -20,23 +20,12 @@ export class Node extends EventEmitter implements INode {
 
   private pDirty: boolean;
 
-  constructor(
-    width?: number,
-    height?: number,
-    x?: number,
-    y?: number,
-  ) {
+  constructor(width = 0, height = 0, x = 0, y = 0) {
     super();
 
-    this.position = {
-      x: x ? x : 0,
-      y: y ? y : 0,
-    };
+    this.position = {x: x, y: y};
 
-    this.size = {
-      width: width ? width : 0,
-      height: height ? height : 0,
-    };
+    this.size = {width, height};
     
     this.status = 0;
     this.parent = null;
@@ -92,8 +81,15 @@ export class Node extends EventEmitter implements INode {
   }
 
   destroy(): null {
+    // 子ノードを消す
     this.children.forEach((child: INode) => {
       child.destroy();
+
+      // destroyした子ノードをchildrenから消す
+      const childIndex = this.children.indexOf(child);
+      if (childIndex >= 0) {
+        this.children.splice(childIndex, 1);
+      }
     });
 
     return null;
