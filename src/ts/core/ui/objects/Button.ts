@@ -12,12 +12,12 @@ export class Button extends PhaserObjectNode {
   constructor(
     scene: Phaser.Scene,
     config: IButtonConfig,
-    width: number,
-    height: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
     
     this.scene = scene;
     this.config = config;
@@ -43,7 +43,8 @@ export class Button extends PhaserObjectNode {
       this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
     rectangle.setOrigin(0);
-
+    rectangle.setScrollFactor(1);
+    
     UiRenderOrder.base(rectangle);
 
     return rectangle;
@@ -64,9 +65,7 @@ export class Button extends PhaserObjectNode {
   }
 
   private _setTextStyle(): void {
-    const basePosition = this.scene.cameras.main.worldView;
-
-    const fontSize = this.config.fontSize ? this.config.fontSize : 12;
+    const fontSize = this.config.fontSize ? this.config.fontSize : 20;
     const fontFamily = this.config.fontFamily ? this.config.fontFamily : 'monospace';
     const fontColor = this.config.fontColor ? this.config.fontColor : 'white';
 
@@ -75,9 +74,10 @@ export class Button extends PhaserObjectNode {
     this.textObject.setColor(fontColor);
     this.textObject.setAlign('center');
     
-    const centerX = basePosition.x + this.position.x + (this.size.width / 2);
-    const centerY = basePosition.y + this.position.y + (this.size.height / 2);
+    const centerX = this.position.x + (this.size.width / 2);
+    const centerY = this.position.y + (this.size.height / 2);
     this.textObject.setOrigin(0.5);
     this.textObject.setPosition(centerX, centerY);
+    this.textObject.setScrollFactor(1);
   }
 }

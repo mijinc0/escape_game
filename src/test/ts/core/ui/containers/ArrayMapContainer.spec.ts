@@ -32,9 +32,13 @@ describe('arrayMapContainer.pushNode()', () => {
     
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 5;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
 
     it('should throw', async () => {
       expect(() => {
@@ -54,9 +58,13 @@ describe('arrayMapContainer.unshiftNode()', () => {
     
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 5;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
 
     it('should throw', async () => {
       expect(() => {
@@ -76,9 +84,13 @@ describe('arrayMapContainer.getCurrent()', () => {
     
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 10;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
 
     const current = arrayMapContainer.getCurrent();
 
@@ -101,16 +113,20 @@ describe('arrayMapContainer.getNext()', () => {
     
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 10;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
 
     const beforeFrontCild = arrayMapContainer.children[0];
     const next = arrayMapContainer.getNext(Direction.Up);
     const afterFrontCild = arrayMapContainer.children[0];
 
     it('next node is created by mappedData[0]', async () => {
-      expect(next.size.width).equals(1);
+      expect(next.position.x).equals(1);
     });
 
     it('beforeFrontCild equals afterFrontCild', async () => {
@@ -123,16 +139,21 @@ describe('arrayMapContainer.getNext()', () => {
   context('normal 2 (index++)', () => {
     const mappedData: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-    // どのnumberから生成されたか分かるようにwidthにmappedDataの数字を入れる
+    // どのnumberから生成されたか分かるようにxにmappedDataの数字を入れる
     const uiNodeFactoryCallback = (arg: number) => {
       return new Node(arg);
     };
     
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 4;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
+
     arrayMapContainer.currentIndex = 3;
 
     const beforeChildrenSize = arrayMapContainer.children.length;
@@ -153,20 +174,20 @@ describe('arrayMapContainer.getNext()', () => {
 
     // indexが1つ増えるのに対して、dataAddingSize分のノードが追加されていることの確認
     it('before last node is created by 4', async () => {
-      expect(beforeLastChild.size.width).equals(4);
+      expect(beforeLastChild.position.x).equals(4);
     });
 
     it('before last node is created by 7', async () => {
-      expect(afterLastChild.size.width).equals(7);
+      expect(afterLastChild.position.x).equals(7);
     });
 
     // nextNodeの結果が正しいことの確認
     it('current node is created by 4', async () => {
-      expect(current.size.width).equals(4);
+      expect(current.position.x).equals(4);
     });
 
     it('next node is created by 5', async () => {
-      expect(next.size.width).equals(5);
+      expect(next.position.x).equals(5);
     });
   });
 
@@ -183,9 +204,14 @@ describe('arrayMapContainer.getNext()', () => {
     // new AlignmentStrategyの引数を負の値にすることでgetNextの度にインデックスが前に戻る
     const as = new AlignmentStrategy(-1);
     const dataAddingSize = 3;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 4;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
+
     // 後からarrayDataの配列に[1,2,3,4,5]を差し込むことでchildrenの操作が進んだ状態にする
     arrayMapContainer.arrayData.splice(0, 0, ...[3, 4, 5]);
     arrayMapContainer.currentIndex = 0;
@@ -208,20 +234,20 @@ describe('arrayMapContainer.getNext()', () => {
 
     // indexが1つ減るのに対して、dataAddingSize分のノードが前方に追加されていることの確認
     it('after first node is created by 6', async () => {
-      expect(beforeFirstChild.size.width).equals(6);
+      expect(beforeFirstChild.position.x).equals(6);
     });
 
     it('after first node is created by 3', async () => {
-      expect(afterFirstChild.size.width).equals(3);
+      expect(afterFirstChild.position.x).equals(3);
     });
 
     // nextNodeの結果が正しいことの確認
     it('current node is created by 6', async () => {
-      expect(current.size.width).equals(6);
+      expect(current.position.x).equals(6);
     });
 
     it('next node is created by 5', async () => {
-      expect(next.size.width).equals(5);
+      expect(next.position.x).equals(5);
     });
   });
 
@@ -236,9 +262,14 @@ describe('arrayMapContainer.getNext()', () => {
 
     const as = new AlignmentStrategy(1);
     const dataAddingSize = 2;
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
     const maxNodes = 2;
 
-    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, maxNodes);
+    const arrayMapContainer = new ArrayMapContainer(mappedData, uiNodeFactoryCallback, as, dataAddingSize, x, y, width, height, maxNodes);
+
     arrayMapContainer.currentIndex = 1;
 
     const beforeChildrenSize = arrayMapContainer.children.length;
@@ -259,16 +290,16 @@ describe('arrayMapContainer.getNext()', () => {
     // indexが1つ増えるのに対して、dataAddingSize分のノードを加えようとしたが、
     // arrayDataの終端に達してしまったので可能な範囲で追加されたことを確認する
     it('after first node is created by 2', async () => {
-      expect(beforeLastChild.size.width).equals(2);
+      expect(beforeLastChild.position.x).equals(2);
     });
 
     it('after first node is created by 3', async () => {
-      expect(afterLastChild.size.width).equals(3);
+      expect(afterLastChild.position.x).equals(3);
     });
 
     // nextNodeの結果が正しいことの確認
     it('next node is created by 3', async () => {
-      expect(next.size.width).equals(3);
+      expect(next.position.x).equals(3);
     });
   });
 });

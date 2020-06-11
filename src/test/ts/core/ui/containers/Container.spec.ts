@@ -33,7 +33,12 @@ describe('container.pushNode()', () => {
 
   context('maxNode = 5', () => {
     const as = new AlignmentStrategy();
-    const container = new Container(as, 5);
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
+    const maxNodes = 5;
+    const container = new Container(as, x, y, width, height, maxNodes);
     
     container.pushNode(
       new Node(),
@@ -56,7 +61,11 @@ describe('container.pushNode()', () => {
 describe('container.unshiftNode()', () => {
   context('maxNode = -1', () => {
     const as = new AlignmentStrategy();
-    const container = new Container(as);
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
+    const container = new Container(as, x, y, width, height);
 
     container.unshiftNode(
       new Node(),
@@ -73,7 +82,12 @@ describe('container.unshiftNode()', () => {
 
   context('maxNode = 5', () => {
     const as = new AlignmentStrategy();
-    const container = new Container(as, 5);
+    const x = 0;
+    const y = 0;
+    const width = 0;
+    const height = 0;
+    const maxNodes = 5;
+    const container = new Container(as, x, y, width, height, maxNodes);
     
     container.unshiftNode(
       new Node(),

@@ -14,10 +14,10 @@ export class FieldMenu implements Element {
   private rootContainer: Container;
   private nodeSelector: NodeSelector;
 
-  constructor(scene: Phaser.Scene, keys?: Keys) {
+  constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
     this.isClosed = false;
 
-    this.rootContainer = ContainerFactory.createRightRange(10, 200, 200, 20, 20);
+    this.rootContainer = ContainerFactory.createRightRange(10, x, y, 200, 200);
     
     this.rootContainer.addCancelEvent((() => {
       this.isClosed = true;

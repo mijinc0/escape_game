@@ -113,7 +113,7 @@ export class Message implements IScenarioEvent {
   ): TextBox {
     const width = scene.cameras.main.width - 20;
     const height = 160;
-    const x = 10;
+    const x = this._getPositionX(scene, 10);
     const y = this._getPositionY(scene, justify, height);
 
     return new TextBox(
@@ -131,10 +131,10 @@ export class Message implements IScenarioEvent {
         padding: 10,
         align: align,
       },
-      width,
-      height,
       x,
       y,
+      width,
+      height,
     );
   }
 
@@ -151,17 +151,24 @@ export class Message implements IScenarioEvent {
     return this.messageBufferFactoryCallback(message);
   }
 
+  private _getPositionX(scene: Phaser.Scene, x: number): number {
+    const displayArea = scene.cameras.main.worldView;
+    return displayArea.x + x;
+  }
+
   private _getPositionY(scene: Phaser.Scene, justify: string, boxHeight: number): number {
+    const displayArea = scene.cameras.main.worldView;
+
     // 10pxだけマージンをとる
     switch(justify) {
       case 'top' :
-        return 10;
+        return displayArea.y + 10;
 
       case 'center' :
-        return (scene.cameras.main.height - boxHeight) / 2 + 10;
+        return displayArea.y + (scene.cameras.main.height - boxHeight) / 2 + 10;
 
       case 'bottom' :
-        return scene.cameras.main.height - boxHeight - 10;
+        return displayArea.y + scene.cameras.main.height - boxHeight - 10;
 
       default :
         return 0;

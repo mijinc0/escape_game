@@ -11,12 +11,12 @@ export class Box extends PhaserObjectNode {
   constructor(
     scene: Phaser.Scene,
     config: IBoxConfig,
-    width: number,
-    height: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
     
     this.scene = scene;
     this.config = config;
@@ -30,17 +30,16 @@ export class Box extends PhaserObjectNode {
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
     if (this.rectangleObject) this.rectangleObject.destroy();
 
-    const basePosition = this.scene.cameras.main.worldView;
-
     const rectangle = this.scene.add.rectangle(
-      basePosition.x + this.position.x,
-      basePosition.y + this.position.y,
+      this.position.x,
+      this.position.y,
       this.size.width,
       this.size.height,
       this.config.color,
       this.config.alpha,
     );
     rectangle.setOrigin(0);
+    rectangle.setScrollFactor(1);
     
     UiRenderOrder.base(rectangle);
 

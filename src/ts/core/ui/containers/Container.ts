@@ -12,13 +12,13 @@ export class Container extends Node implements IContainer {
 
   constructor(
     alignmentStrategy: IAlignmentStrategy,
-    maxNodes?: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
+    maxNodes?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
 
     this.currentIndex = -1;
     this.maxNodes = maxNodes ? maxNodes : -1;
@@ -34,13 +34,14 @@ export class Container extends Node implements IContainer {
       pushout.forEach((node: INode) => {node.destroy()});
     }
     
+    
     this.alignNodes();
 
     return this.children.length;
   }
   
   unshiftNode(...node: INode[]): number {
-    const childSize = super.unshiftNode(...node);
+    super.unshiftNode(...node);
     
     // 後ろを押し出す
     if (this.maxNodes > 0) {

@@ -29,13 +29,13 @@ export class ArrayMapContainer<T> extends Container {
     uiNodeFactoryCallback: UiNodeFactoryCallback<T>,
     alignmentStrategy: IAlignmentStrategy,
     dataAddingSize: number,
-    maxNodes: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
+    maxNodes = 10,
   ) {
-    super(alignmentStrategy, maxNodes, width, height, x, y);
+    super(alignmentStrategy, x, y, width, height, maxNodes);
 
     this.arrayData = arrayData; 
     this.uiNodeFactoryCallback = uiNodeFactoryCallback;

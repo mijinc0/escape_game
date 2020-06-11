@@ -10,12 +10,12 @@ export class ItemMenuButton extends Ui.Button {
     scene: Phaser.Scene,
     items: Item[],
     config: Ui.IButtonConfig,
-    width: number,
-    height: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(scene, config, width, height, x, y);
+    super(scene, config, x, y, width, height);
 
     this.items = items;
   }

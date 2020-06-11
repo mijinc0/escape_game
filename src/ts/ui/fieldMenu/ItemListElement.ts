@@ -20,12 +20,12 @@ export class ItemListElement extends Ui.PhaserObjectNode {
     scene: Phaser.Scene,
     item: Item,
     config: IItemListElementConfig,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
     
     this.scene = scene;
     this.item = item;

@@ -11,12 +11,12 @@ export class Image extends PhaserObjectNode {
   constructor(
     scene: Phaser.Scene,
     config: IImageConfig,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
     
     this.scene = scene;
     this.config = config;
@@ -30,15 +30,14 @@ export class Image extends PhaserObjectNode {
   private _createImageObject(): Phaser.GameObjects.Image {
     if (this.imageObject) this.imageObject.destroy();
 
-    const basePosition = this.scene.cameras.main.worldView;
-
     const image = this.scene.add.image(
-      basePosition.x + this.position.x,
-      basePosition.y + this.position.y,
+      this.position.x,
+      this.position.y,
       this.config.key,
       this.config.frame,
     );
     image.setOrigin(0);
+    image.setScrollFactor(1);
     
     UiRenderOrder.base(image);
 

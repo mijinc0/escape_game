@@ -26,15 +26,7 @@ export class FieldMenuEvent implements IScenarioEvent {
   update(frame: number, config: ScenarioEventUpdateConfig): void {
     if (this.isComplete) return;
 
-    if (!this.fieldMenu) {
-      this.isComplete = true;
-
-    } else if (this.fieldMenu.isClosed) {
-      this.complete();
-
-    } else {
-      this.fieldMenu.update(frame);
-    }
+    this.fieldMenu.update(frame);
   };
 
   complete(): void {

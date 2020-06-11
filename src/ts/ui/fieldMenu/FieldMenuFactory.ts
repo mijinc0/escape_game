@@ -7,7 +7,11 @@ import { Item } from '../../core/models/Item';
 
 export class FieldMenuFactory {
   static create(scene: Phaser.Scene, ownItems: Item[], keys?: Keys): FieldMenu {
-    const fieldMenu = new FieldMenu(scene, keys);
+    const displayArea = scene.cameras.main.worldView;
+
+    const x = displayArea.left;
+    const y = displayArea.top;
+    const fieldMenu = new FieldMenu(scene, x, y, keys);
 
     const buttonWidth = 160;
     const buttonHeight = 40;
@@ -22,7 +26,7 @@ export class FieldMenuFactory {
   }
 
   private static _createItemButton(scene: Phaser.Scene, items: Item[], buttonWidth: number, buttonHeight: number): Ui.Button {
-    const button = new Ui.Button(scene, {text: 'item'}, 104, 40);
+    const button = new Ui.Button(scene, {text: 'item'}, 0, 0, 104, 40);
   
     return button;
 
@@ -40,13 +44,13 @@ export class FieldMenuFactory {
   }
 
   private static _createSaveButton(scene: Phaser.Scene): Ui.Button {
-    const button = new Ui.Button(scene, {text: 'save'}, 104, 40);
+    const button = new Ui.Button(scene, {text: 'save'}, 0, 0, 104, 40);
   
     return button;
   }
 
   private static _createBackButton(scene: Phaser.Scene): Ui.Button {
-    const button = new Ui.Button(scene, {text: 'back'}, 104, 40);
+    const button = new Ui.Button(scene, {text: 'back'}, 0, 0, 104, 40);
   
     return button;
   } 

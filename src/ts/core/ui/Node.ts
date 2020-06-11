@@ -22,7 +22,7 @@ export class Node extends EventEmitter implements INode {
 
   private pDirty: boolean;
 
-  constructor(width = 0, height = 0, x = 0, y = 0) {
+  constructor(x = 0, y = 0, width = 0, height = 0) {
     super();
 
     this.position = {x: x, y: y};

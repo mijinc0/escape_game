@@ -12,16 +12,16 @@ export class ArrayMapContainerFactory {
     arrayData: Array<T>,
     uiNodeFactoryCallback: UiNodeFactoryCallback<T>,
     dataAddingSize?: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
     maxNodes?: number,
   ): ArrayMapContainer<T> {
       
     const ras = new CenterAlignmentStrategy()
 
-    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, width, height, x, y, maxNodes);
+    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, dataAddingSize, x, y, width, height, maxNodes);
   }
 
   static createRightRange<T>(
@@ -29,16 +29,16 @@ export class ArrayMapContainerFactory {
     uiNodeFactoryCallback: UiNodeFactoryCallback<T>,
     margin: number,
     dataAddingSize?: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
     maxNodes?: number,
   ): ArrayMapContainer<T> {
     dataAddingSize = dataAddingSize ? dataAddingSize : 1;
     const ras = new RangeAlignmentStrategy(margin, Direction.Right)
 
-    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, dataAddingSize, width, height, x, y, maxNodes);
+    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, dataAddingSize, x, y, width, height, maxNodes);
   }
 
   static createDownRange<T>(
@@ -46,17 +46,17 @@ export class ArrayMapContainerFactory {
     uiNodeFactoryCallback: UiNodeFactoryCallback<T>,
     margin: number,
     dataAddingSize?: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
-    maxNodes?: number,
+    width?: number,
+    height?: number,
+    maxNodes?: number
   ): ArrayMapContainer<T> {
     dataAddingSize = dataAddingSize ? dataAddingSize : 1;
 
     const ras = new RangeAlignmentStrategy(margin, Direction.Down)
 
-    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, dataAddingSize, width, height, x, y, maxNodes);
+    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, ras, dataAddingSize, x, y, width, height, maxNodes);
   }
   
   static createTable<T>(
@@ -66,16 +66,16 @@ export class ArrayMapContainerFactory {
     marginY: number,
     rowSize: number,
     dataAddingSize?: number,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
-    maxNodes?: number,
+    width?: number,
+    height?: number,
+    maxNodes?: number
   ): ArrayMapContainer<T> {
     dataAddingSize = dataAddingSize ? dataAddingSize : rowSize;
 
     const tas = new TableAlignmentStrategy(rowSize, marginX, marginY);
 
-    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, tas, dataAddingSize, width, height, x, y, maxNodes);
+    return new ArrayMapContainer(arrayData, uiNodeFactoryCallback, tas, dataAddingSize, x, y, width, height, maxNodes);
   }
 }

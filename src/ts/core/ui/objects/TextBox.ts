@@ -13,18 +13,17 @@ export class TextBox extends PhaserObjectNode {
   constructor(
     scene: Phaser.Scene,
     config: ITextConfig,
-    width?: number,
-    height?: number,
     x?: number,
     y?: number,
+    width?: number,
+    height?: number,
   ) {
-    super(width, height, x, y);
+    super(x, y, width, height);
     
     this.scene = scene;
     this.config = config;
     this.rectangleObject = config.hasBackground ? this._createRectangleObject() : null;
     this.textObject = this._createTextObject();
-    this._setTextStyle();
   }
 
   get text(): string {
@@ -46,11 +45,9 @@ export class TextBox extends PhaserObjectNode {
   }
 
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
-    const basePosition = this.scene.cameras.main.worldView;
-
     const rectangle = this.scene.add.rectangle(
-      basePosition.x + this.position.x,
-      basePosition.y + this.position.y,
+      this.position.x,
+      this.position.y,
       this.size.width,
       this.size.height,
       this.config.backgroundColor ? this.config.backgroundColor : 0x000000,
@@ -65,36 +62,36 @@ export class TextBox extends PhaserObjectNode {
   }
 
   private _createTextObject(): Phaser.GameObjects.Text {
-    const basePosition = this.scene.cameras.main.worldView;
-
     const padding = this.config.padding ? this.config.padding : 0;
-    const x = basePosition.x + this.position.x + padding;
-    const y = basePosition.y + this.position.y + padding; 
+    const x = this.position.x + padding;
+    const y = this.position.y + padding; 
 
     const text = this.scene.add.text(x, y, this.config.text);
     text.setOrigin(0);
     text.setScrollFactor(1);
-    
+
+    this._setTextStyle(text);
+  
     UiRenderOrder.base(text);
 
     return text;
   }
 
-  private _setTextStyle(): void {
+  private _setTextStyle(textObject: Phaser.GameObjects.Text): void {
     const fontSize = this.config.fontSize ? this.config.fontSize : 12;
     const fontFamily = this.config.fontFamily ? this.config.fontFamily : 'monospace';
     const fontColor = this.config.color ? this.config.color : 'white';
 
-    this.textObject.setFontSize(fontSize);
-    this.textObject.setFontFamily(fontFamily);
-    this.textObject.setColor(fontColor);
+    textObject.setFontSize(fontSize);
+    textObject.setFontFamily(fontFamily);
+    textObject.setColor(fontColor);
     
     const padding = this.config.padding ? this.config.padding : 0;
     const textWidth = this.size.width - (padding * 2);
     const textHeight = this.size.height - (padding * 2);
     
-    if (this.config.align) this.textObject.setAlign(this.config.align);
-    if (this.config.isWraped) this.textObject.setWordWrapWidth(textWidth, false);
-    if (this.config.isCramped) this.textObject.setFixedSize(textWidth, textHeight);
+    if (this.config.align) textObject.setAlign(this.config.align);
+    if (this.config.isWraped) textObject.setWordWrapWidth(textWidth, false);
+    if (this.config.isCramped) textObject.setFixedSize(textWidth, textHeight);
   }
 }

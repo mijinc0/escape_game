@@ -10,7 +10,7 @@ export interface INodeSelector extends Element {
  
   disable: boolean;
 
-  setContainer(container: IContainer): void;
+  setContainer(container: IContainer, destroy?: boolean): void;
 
   addSelectEvent(event: SelectNodeCallback): void;
   
