@@ -59,20 +59,22 @@ export class ArrayMapContainer<T> extends Container {
     throw Error('illegal operation. ArrayMapContainer\'s "unshiftNode" can not be called from outside');
   }
 
-  getNext(direction: Direction): INode|null {
+  getNext(direction: Direction): INode {
     let nextIndex = this._getNextIndex(direction, false);
     let nextNode = this._get(nextIndex);
 
-    // children内で取得できればそれを返して終了
-    if (nextNode) {
+    // 1.現在のchildren内で取得できた場合
+    // - children内で取得できればそれを返して終了
+    if (nextNode) {      
       this.currentIndex = nextIndex;
       return nextNode;
     } 
 
-    // children内で取得できない場合、arrayDataからノードを生成して追加、取得を試みる
-    // `nextIndex > 0`であれば現在のchildrenに続くノードをarrayDataをもとに生成して追加、
-    // `nextIndex < 0`であれば現在のchildrenより前のノードをarrayDataをもとに生成して追加、
-    // 追加後、インデックスを追加前に指していたノードの位置へ移動する
+    // 2.現在のchildren内で取得できなかった場合
+    // - children内で取得できない場合、arrayDataからノードを生成して追加、取得を試みる
+    // - `nextIndex > 0`であれば現在のchildrenに続くノードをarrayDataをもとに生成して追加、
+    // - `nextIndex < 0`であれば現在のchildrenより前のノードをarrayDataをもとに生成して追加、
+    // - 追加後、インデックスを追加前に指していたノードの位置へ移動する
     if (nextIndex > 0) {
       // `nextIndex > 0`の時、不足ノード数は次のインデックスとchildrenの終端ノードのインデックスの差
       const shortageNodeSize = nextIndex - (this.children.length - 1);
@@ -102,24 +104,6 @@ export class ArrayMapContainer<T> extends Container {
     // 後からどのオブジェクトから生成したノードなのか分かるように情報を入れておく
     node.customProperties.set('sourceObject', data);
     return node;
-  }
-
-  /**
-   * 
-   * @param startIndex 開始のインデックス
-   * @param endIndex 終了のインデックス (startIndex < endIndex) このインデックスは実際に生成する範囲に含めない
-   */
-  private _createNodesByArrayDataIndex(startIndex: number, endIndex: number): INode[] {
-    if (startIndex < 0 || startIndex > endIndex || endIndex > this.arrayData.length) {
-      throw Error(`illegal index (start: ${startIndex}, end: ${endIndex})`);
-    }
-
-    const sourceObjects = this.arrayData.slice(startIndex, endIndex);
-    const nodes = sourceObjects.map((sourceObject: T) => (
-      this.uiNodeFactoryCallback(sourceObject)
-    ));
-
-    return nodes;
   }
 
   /**
@@ -200,8 +184,8 @@ export class ArrayMapContainer<T> extends Container {
     if (fraction === 0) return size;
 
     // 余りがあった場合、`dataAddingSize`に対してキリの良い数字に整える
-    const m = Math.floor(size / this.dataAddingSize) + 1;
-    return this.dataAddingSize * m;
+    const k = Math.round(size / this.dataAddingSize);
+    return this.dataAddingSize * k;
   }
 
   private _getSourceObjectIndexByChildNodeIndex(childNodeIndex: number): number {
@@ -215,6 +199,25 @@ export class ArrayMapContainer<T> extends Container {
     }
 
     return this.arrayData.indexOf(sourceObject);
+  }
+
+  /**
+   * 
+   * @param startIndex 開始のインデックス
+   * @param endIndex 終了のインデックス (startIndex < endIndex) このインデックスは実際に生成する範囲に含めない
+   */
+  private _createNodesByArrayDataIndex(startIndex: number, endIndex: number): INode[] {
+    // 無効なインデックスの場合は空配列を返す
+    if (startIndex < 0 || startIndex > endIndex || endIndex > this.arrayData.length) {
+      return [];
+    }
+
+    const sourceObjects = this.arrayData.slice(startIndex, endIndex);
+    const nodes = sourceObjects.map((sourceObject: T) => (
+      this.uiNodeFactoryCallback(sourceObject)
+    ));
+
+    return nodes;
   }
 
   private _initChildren(): void {

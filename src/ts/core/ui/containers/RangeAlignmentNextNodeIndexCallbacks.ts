@@ -6,9 +6,9 @@ export class RangeAlignmentNextNodeIndexCallbacks {
       case Direction.Down :
         return index + 1;
       case Direction.Right :
-        return -1; 
+        return index; 
       case Direction.Left :
-        return -1;
+        return index;
       case Direction.Up :
         return index - 1;
     }
@@ -17,26 +17,26 @@ export class RangeAlignmentNextNodeIndexCallbacks {
   static right(index: number, direction: Direction): number {
     switch (direction) {
       case Direction.Down :
-        return -1;
+        return index;
       case Direction.Right :
         return index + 1; 
       case Direction.Left :
         return index - 1;
       case Direction.Up :
-        return -1
+        return index;
     }
   }
 
   static left(index: number, direction: Direction): number {
     switch (direction) {
       case Direction.Down :
-        return -1;
+        return index;
       case Direction.Right :
         return index - 1; 
       case Direction.Left :
         return index + 1;
       case Direction.Up :
-        return -1
+        return index;
     }
   }
 
@@ -45,9 +45,9 @@ export class RangeAlignmentNextNodeIndexCallbacks {
       case Direction.Down :
         return index - 1;
       case Direction.Right :
-        return -1; 
+        return index;
       case Direction.Left :
-        return -1;
+        return index;
       case Direction.Up :
         return index + 1;
     }

@@ -60,7 +60,7 @@ export class Container extends Node implements IContainer {
     return this._get(this.currentIndex);
   }
 
-  getNext(direction: Direction): INode|null {
+  getNext(direction: Direction): INode {
     const nextIndex = this._getNextIndex(direction);
     const nextNode = this._get(nextIndex);
 
@@ -94,11 +94,14 @@ export class Container extends Node implements IContainer {
    * @param limit trueならalignmentStrategyから取得した値がchildrenの範囲から出ていた時は-1を返す(リミットを設ける)
    */
   protected _getNextIndex(direction: Direction, limit = true): number {
-    let nextNodeIndex = this.alignmentStrategy.getNextNodeIndex(this.currentIndex, direction);
+    const currentIndex = this.currentIndex;
+
+    if (currentIndex < 0) return 0;
+
+    const nextNodeIndex = this.alignmentStrategy.getNextNodeIndex(currentIndex, direction);
     
     const overLimit = (nextNodeIndex < 0 || nextNodeIndex >= this.children.length);
-    
-    // limitが設定されており、かつ取得したindexがchildrenに対して有効なindexでない(limitを超えている)場合には-1を返す
-    return (limit && overLimit) ? -1 : nextNodeIndex;
+    // limitが設定されており、かつ取得したindexがchildrenに対して有効なindexでない(limitを超えている)場合にはcurrentIndexを返す
+    return (limit && overLimit) ? this.currentIndex : nextNodeIndex;
   }
 }

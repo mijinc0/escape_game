@@ -83,12 +83,12 @@ export class Node extends EventEmitter implements INode {
   }
 
   destroy(): null {
-    NodeStatusUtil.setStatus(this, NodeStatus.Destroyed);
-
     // 子ノードもdestroyする
     this.children.forEach((child: INode) => {
       child.destroy();
     });
+    
+    NodeStatusUtil.setStatus(this, NodeStatus.Destroyed);
 
     return null;
   }

@@ -9,8 +9,18 @@ function createIconFilePath (filename: string) {
 
 export const AllItems = [
   {
-    name: 'silverKey',
-    description: 'this is test key',
+    name: 'silverKeyA',
+    description: 'this is test key A',
+    iconFileName: 'icon_silver_key',
+  },
+  {
+    name: 'silverKeyB',
+    description: 'this is test key B',
+    iconFileName: 'icon_silver_key',
+  },
+  {
+    name: 'silverKeyC',
+    description: 'this is test key C',
     iconFileName: 'icon_silver_key',
   },
 ].map((config: ItemConfig) => {

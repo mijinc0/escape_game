@@ -28,7 +28,7 @@ export class SelectorCursor implements ISelectorCursor {
 
   invisible(): void {
     this.rectangleObject.visible = false;
-  } 
+  }
 
   on(targetNode: Node): void {
     this.rectangleObject.setPosition(
@@ -40,5 +40,11 @@ export class SelectorCursor implements ISelectorCursor {
       targetNode.size.width,
       targetNode.size.height,
     );
+  }
+
+  off(): void {
+    this.rectangleObject.setPosition(0, 0);
+    
+    this.rectangleObject.setSize(0, 0);
   }
 }

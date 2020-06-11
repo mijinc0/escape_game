@@ -7,4 +7,6 @@ export interface ISelectorCursor extends Element {
   invisible(): void;
 
   on(targetNode: INode): void;
+
+  off(): void;
 }

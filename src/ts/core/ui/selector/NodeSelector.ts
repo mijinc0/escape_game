@@ -20,9 +20,9 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
   disable: boolean;
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
   cooldownTime: number;
+  cursor: ISelectorCursor;
   
   private container: IContainer;
-  private cursor: ISelectorCursor;
   private cooldownCount: number;
 
   constructor(
@@ -50,16 +50,16 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
 
     // 各キーを押した時の操作
     if (this.keys.cursors.down.isDown) {
-      this._goNext(Direction.Down);
+      this.goNext(Direction.Down);
 
     } else if (this.keys.cursors.right.isDown) {
-      this._goNext(Direction.Right);
+      this.goNext(Direction.Right);
     
     } else if (this.keys.cursors.left.isDown) {
-      this._goNext(Direction.Left);
+      this.goNext(Direction.Left);
     
     } else if (this.keys.cursors.up.isDown) {
-      this._goNext(Direction.Up);
+      this.goNext(Direction.Up);
 
     } else if (this.keys.action.isDown) {
       this._select();
@@ -79,47 +79,14 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
     if (destroy) this.container.destroy();
 
     this.container = container;
+
+    this._setCooldownTime();
   }
 
-  addSelectEvent(event: SelectNodeCallback): void {
-    this.addListener('select', event);
-  }
-
-  addCancelEvent(event: SelectNodeCallback): void {
-    this.addListener('cancel', event);
-  }
-
-  private _select(): void {
-    const currentNode = this.container.getCurrent();
-
-    if (!currentNode) return;
-
-    // node.select => emit('select') の順番は大事
-    //  1. node.select : nodeが新しいウィンドウを生成などする
-    //  2. emit('select') : thisが管理ノードの変更を行う
-    // というような動きを想定しているため
-    currentNode.select();
-    this.emit('select', currentNode, this);
-
-    this.cooldownCount = this.cooldownTime;
-  }
-
-  private _cancel(): void {
-    if (!this.container) return;
-
-    //  1. emit('select') : thisが管理ノードの変更を行う
-    //  2. node.select : nodeがノードを(場合によっては)破棄する
-    // というような動きを想定しているため、this.emit => currentNode.cancel の順番
-    this.emit('cancel', this.container, this);
-    this.container.cancel();
-
-    this.cooldownCount = this.cooldownTime;
-  }
-
-  private _goNext(direction: Direction): void {
+  goNext(direction: Direction): void {
     const currentNode = this.container.getCurrent();
     const nextNode = this.container.getNext(direction);
-
+      
     // 次のノードが無ければ即return 何もしない
     if (!nextNode) return;
     
@@ -138,6 +105,48 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
     this.cursor.on(nextNode);
 
     // クールダウンを設定して終了
+    this._setCooldownTime();
+  }
+
+  addSelectEvent(event: SelectNodeCallback): void {
+    this.addListener('select', event);
+  }
+
+  addCancelEvent(event: SelectNodeCallback): void {
+    this.addListener('cancel', event);
+  }
+
+  private _setCooldownTime(): void {
     this.cooldownCount = this.cooldownTime;
+  }
+
+  private _select(): void {
+    const currentNode = this.container.getCurrent();
+
+    if (!currentNode) return;
+
+    // node.select => emit('select') の順番は大事
+    //  1. node.select : nodeが新しいウィンドウを生成などする
+    //  2. emit('select') : thisが管理ノードの変更を行う
+    // というような動きを想定しているため
+    currentNode.select();
+    this.emit('select', currentNode, this);
+
+    this._setCooldownTime();
+  }
+
+  private _cancel(): void {
+    if (!this.container) return;
+
+    // 次のemitで管理ノードを切り替える可能性があるので現在のコンテナの参照を確保しておく
+    const curerntContainer = this.container;
+
+    //  1. emit('select') : thisが管理ノードの変更を行う
+    //  2. node.select : nodeがノードを(場合によっては)破棄する
+    // というような動きを想定しているため、this.emit => currentNode.cancel の順番
+    this.emit('cancel', this.container, this);
+    curerntContainer.cancel();
+
+    this._setCooldownTime();
   }
 }

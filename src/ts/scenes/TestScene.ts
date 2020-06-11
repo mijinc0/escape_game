@@ -122,6 +122,7 @@ export class TestScene extends Phaser.Scene {
    *       どこのシーンでも使うアイテムの画像などはOpeningシーンで全てロードする
    */
   private _loadItemIcons(): void {
+    // TODO: 同じアイコンを使っていると重複するものがある場合があるので削除する処理を先にやる
     GameGlobal.items.entries.forEach((item: Item) => {
       const iconKey = CacheKey.itemIcon(item.name);
       this.load.image(iconKey, item.iconFilePath);

@@ -10,7 +10,13 @@ export interface IContainer extends INode {
 
   getCurrent(): INode|null;
 
-  getNext(direction: Direction): INode|null;
+  /**
+   * currentIndexが指すノードに対する次のノードを取得する
+   * - 内部でcurrentIndexが進む
+   * - 次のノードが無い場合は現在のノードが返ってくる
+   * @param direction 
+   */
+  getNext(direction: Direction): INode;
 
   alignNodes(): void;
 

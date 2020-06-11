@@ -23,11 +23,11 @@ export class FieldMenuEvent implements IScenarioEvent {
   init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
     this.fieldMenu = FieldMenuFactory.create(this.scene, config.gameGlobal.items.entries, config.keys);
-    this.initCooldown = 20;
+    this.initCooldown = 15;
   };
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
-    // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐの時間にクールダウンを設ける
+    // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐあとにクールダウンを設ける
     if (this.initCooldown > 0) {
       this.initCooldown--;
       return;

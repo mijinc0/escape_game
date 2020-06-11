@@ -27,11 +27,12 @@ export class ItemMenuButton extends Ui.Button {
       10,
     );
 
-    // 自身にカーソルが載った状態でキャンセルアクションされたら自分自身をdestoryする
-    // NOTE: セレクタがコンテナをキャンセルした時の挙動はこうするとややこしくなって良くないかもしれない(暫定的にコレで行く)
-    itemList.addCancelEvent(() => {
-      itemList.destroy();
+    itemList.addCancelEvent((thisContainer: Ui.IContainer) => {
+      thisContainer.destroy();
+      thisContainer.removeDestroyedFromTree();
     });
+
+    this.pushNode(itemList);
 
     super.select();
   }
@@ -47,6 +48,10 @@ export class ItemMenuButton extends Ui.Button {
         fontSize: 16,
         fontColor: 'white',
       },
+      0,
+      0,
+      200,
+      48,
     );
   }
 }

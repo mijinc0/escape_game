@@ -26,7 +26,7 @@ export class FieldMenuFactory {
   }
 
   private static _createItemButton(scene: Phaser.Scene, items: Item[], buttonWidth: number, buttonHeight: number): Ui.Button {
-    const button = new Ui.Button(scene, {text: 'item'}, 0, 0, 104, 40);
+    const button = new ItemMenuButton(scene, items, {text: 'item'}, 0, 0, 104, 40);
   
     return button;
   }

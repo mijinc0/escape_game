@@ -8,7 +8,7 @@ export class FieldMenu implements Ui.Element {
   private rootContainer: Ui.Container;
   private nodeSelector: Ui.NodeSelector;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, keys: Keys) {
+  constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
     this.isClosed = false;
 
     this.rootContainer = Ui.ContainerFactory.createRightRange(10, x, y);
