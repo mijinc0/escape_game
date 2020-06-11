@@ -9,6 +9,7 @@ export class FieldMenuEvent implements IScenarioEvent {
 
   isComplete: boolean;
 
+  private initCooldown: number;
   private scene: Phaser.Scene;
   private fieldMenu: FieldMenu;
 
@@ -16,17 +17,29 @@ export class FieldMenuEvent implements IScenarioEvent {
     this.scene = scene;
     this.fieldMenu = null;
     this.isComplete = false;
+    this.initCooldown = 0;
   }
 
   init(config: ScenarioEventUpdateConfig): void {
     this.isComplete = false;
     this.fieldMenu = FieldMenuFactory.create(this.scene, config.gameGlobal.items.entries, config.keys);
+    this.initCooldown = 20;
   };
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (this.isComplete) return;
+    // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐの時間にクールダウンを設ける
+    if (this.initCooldown > 0) {
+      this.initCooldown--;
+      return;
+    }
+
+    if (this.isComplete || !this.fieldMenu || this.fieldMenu.isClosed) return;
 
     this.fieldMenu.update(frame);
+
+    if (this.fieldMenu.isClosed) {
+      this.complete();
+    }
   };
 
   complete(): void {

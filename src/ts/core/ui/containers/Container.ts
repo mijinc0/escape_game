@@ -4,6 +4,8 @@ import { INode } from '../INode';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 
+type CancelContainerEventCallback = (thisContainer: IContainer) => void;
+
 export class Container extends Node implements IContainer {
   maxNodes: number;
   currentIndex: number;
@@ -71,6 +73,14 @@ export class Container extends Node implements IContainer {
 
   alignNodes(): void {
     this.alignmentStrategy.align(this);
+  }
+
+  addCancelEvent(event: CancelContainerEventCallback): void {
+    this.on('cancel', event);
+  }
+
+  cancel(): void {
+    this.emit('cancel', this);
   }
 
   protected _get(index: number): INode|null {

@@ -119,16 +119,8 @@ export class Node extends EventEmitter implements INode {
     this.on('select', event);
   }
 
-  addCancelEvent(event: SelectNodeEventCallback): void {
-    this.on('cancel', event);
-  }
-
   select(): void {
     this.emit('select', this);
-  }
-
-  cancel(): void {
-    this.emit('cancel', this);
   }
 
   dirty(childInsulation?: boolean): void {

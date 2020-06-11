@@ -4,6 +4,7 @@ import { MessageBufferFactory } from '../core/events/commands/MessageBufferFacto
 import { Item } from '../core/events/commands/Item';
 import { Flag } from '../core/events/commands/Flag';
 import { Variable } from '../core/events/commands/Variable';
+import { Sleep } from '../core/events/commands/Sleep';
 
 export class SceneCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -48,5 +49,9 @@ export class SceneCommandsFactory {
 
   static substractVariable(key: string, value: number): Variable {
     return new Variable(key, value, -1);
+  }
+
+  static sleep(frame: number): Sleep {
+    return new Sleep(frame);
   }
 }

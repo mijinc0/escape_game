@@ -8,10 +8,15 @@ export class FieldMenu implements Ui.Element {
   private rootContainer: Ui.Container;
   private nodeSelector: Ui.NodeSelector;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
+  constructor(scene: Phaser.Scene, x: number, y: number, keys: Keys) {
     this.isClosed = false;
 
     this.rootContainer = Ui.ContainerFactory.createRightRange(10, x, y);
+
+    // rootContainerがキャンセルされると、フィールドメニューを閉じるフラグを立てる
+    this.rootContainer.addCancelEvent((() => {
+      this.isClosed = true;
+    }).bind(this));
     
     const selectorCursor = new Ui.SelectorCursor(scene);
     this.nodeSelector = Ui.NodeSelectorFactory.create(this.rootContainer, selectorCursor, keys);
