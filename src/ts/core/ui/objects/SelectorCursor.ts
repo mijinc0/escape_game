@@ -7,10 +7,11 @@ export class SelectorCursor implements ISelectorCursor {
   private rectangleObject: Phaser.GameObjects.Rectangle;
 
   constructor(scene: Phaser.Scene) {
+    // onで対象のノードの位置、サイズに変更するので最初は全て0で見えなくしておく
     this.rectangleObject = scene.add.rectangle(0, 0, 0, 0, 0xFFFFFF, 0.2);
     this.rectangleObject.setOrigin(0);
 
-    UiRenderOrder.base(this.rectangleObject);
+    UiRenderOrder.nodeSelectorCursor(this.rectangleObject);
   }
 
   update(): void {}
@@ -34,7 +35,7 @@ export class SelectorCursor implements ISelectorCursor {
       targetNode.position.x,
       targetNode.position.y,
     );
-
+    
     this.rectangleObject.setSize(
       targetNode.size.width,
       targetNode.size.height,

@@ -1,30 +1,20 @@
 import * as Phaser from 'phaser';
-import { Element } from '../../core/ui/Element';
-import { Node } from '../../core/ui/Node';
-import { ContainerFactory } from '../../core/ui/containers/ContainerFactory';
-import { Container } from '../../core/ui/containers/Container';
-import { NodeSelector } from '../../core/ui/selector/NodeSelector';
-import { NodeSelectorFactory } from '../../core/ui/selector/NodeSelectorFactory';
-import { SelectorCursor } from '../../core/ui/objects/SelectorCursor';
+import * as Ui from '../../core/ui';
 import { Keys } from '../../core/input/Keys';
 
-export class FieldMenu implements Element {
+export class FieldMenu implements Ui.Element {
   isClosed: boolean;
   
-  private rootContainer: Container;
-  private nodeSelector: NodeSelector;
+  private rootContainer: Ui.Container;
+  private nodeSelector: Ui.NodeSelector;
 
   constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
     this.isClosed = false;
 
-    this.rootContainer = ContainerFactory.createRightRange(10, x, y, 200, 200);
+    this.rootContainer = Ui.ContainerFactory.createRightRange(10, x, y);
     
-    this.rootContainer.addCancelEvent((() => {
-      this.isClosed = true;
-    }).bind(this));
-    
-    const selectorCursor = new SelectorCursor(scene);
-    this.nodeSelector = NodeSelectorFactory.create(this.rootContainer, selectorCursor, keys);
+    const selectorCursor = new Ui.SelectorCursor(scene);
+    this.nodeSelector = Ui.NodeSelectorFactory.create(this.rootContainer, selectorCursor, keys);
   }
 
   update(frame: number): void {
@@ -41,7 +31,7 @@ export class FieldMenu implements Element {
     return null;
   };
 
-  addMenu(...menus: Node[]): void {
+  addMenu(...menus: Ui.Node[]): void {
     this.rootContainer.pushNode(...menus);
   }
 }

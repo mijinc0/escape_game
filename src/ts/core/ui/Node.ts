@@ -27,7 +27,7 @@ export class Node extends EventEmitter implements INode {
 
     this.position = {x: x, y: y};
 
-    this.size = {width, height};
+    this.size = {width: width, height: height};
     
     this.status = 0;
     this.parent = null;

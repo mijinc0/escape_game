@@ -9,8 +9,8 @@ export class FieldMenuFactory {
   static create(scene: Phaser.Scene, ownItems: Item[], keys?: Keys): FieldMenu {
     const displayArea = scene.cameras.main.worldView;
 
-    const x = displayArea.left;
-    const y = displayArea.top;
+    const x = displayArea.left + 100;
+    const y = displayArea.top + 100;
     const fieldMenu = new FieldMenu(scene, x, y, keys);
 
     const buttonWidth = 160;
@@ -29,18 +29,6 @@ export class FieldMenuFactory {
     const button = new Ui.Button(scene, {text: 'item'}, 0, 0, 104, 40);
   
     return button;
-
-    /*
-    return new ItemMenuButton(
-      scene,
-      items,
-      {
-        text: 'item',
-      },
-      buttonWidth,
-      buttonHeight,
-    );
-    */
   }
 
   private static _createSaveButton(scene: Phaser.Scene): Ui.Button {

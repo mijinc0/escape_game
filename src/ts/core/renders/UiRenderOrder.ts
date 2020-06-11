@@ -11,4 +11,8 @@ export class UiRenderOrder {
       obj.depth = 1048576;
     });
   }
+
+  static nodeSelectorCursor(gameObject: Phaser.GameObjects.Components.Depth): void {
+    gameObject.depth = 1048576 + 1;
+  }
 }
