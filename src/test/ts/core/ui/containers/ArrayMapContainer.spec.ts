@@ -163,6 +163,8 @@ describe('arrayMapContainer.getNext()', () => {
     const afterChildrenSize = arrayMapContainer.children.length;
     const afterLastChild = arrayMapContainer.children[afterChildrenSize - 1];
 
+    console.log(arrayMapContainer.children.map(c => (c.position.x)));
+
     // 操作前も後もmaxNodesであることの確認
     it('before children size equals maxNodes', async () => {
       expect(beforeChildrenSize).equals(maxNodes);
@@ -177,7 +179,7 @@ describe('arrayMapContainer.getNext()', () => {
       expect(beforeLastChild.position.x).equals(4);
     });
 
-    it('before last node is created by 7', async () => {
+    it('after last node is created by 7', async () => {
       expect(afterLastChild.position.x).equals(7);
     });
 

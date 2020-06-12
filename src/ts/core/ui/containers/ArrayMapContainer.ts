@@ -184,7 +184,7 @@ export class ArrayMapContainer<T> extends Container {
     if (fraction === 0) return size;
 
     // 余りがあった場合、`dataAddingSize`に対してキリの良い数字に整える
-    const k = Math.round(size / this.dataAddingSize);
+    const k = Math.ceil(size / this.dataAddingSize);
     return this.dataAddingSize * k;
   }
 

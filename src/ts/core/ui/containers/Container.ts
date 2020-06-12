@@ -60,7 +60,7 @@ export class Container extends Node implements IContainer {
     return this._get(this.currentIndex);
   }
 
-  getNext(direction: Direction): INode {
+  getNext(direction: Direction): INode|null {
     const nextIndex = this._getNextIndex(direction);
     const nextNode = this._get(nextIndex);
 
