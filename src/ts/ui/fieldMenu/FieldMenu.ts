@@ -11,15 +11,10 @@ export class FieldMenu implements Ui.Element {
   constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
     this.isClosed = false;
 
-    this.rootContainer = Ui.ContainerFactory.createRightRange(10, x, y);
+    this.rootContainer = this._createRootContainer(scene, x, y);
+    this.nodeSelector = this._createNodeSelector(scene, keys);
 
-    // rootContainerがキャンセルされると、フィールドメニューを閉じるフラグを立てる
-    this.rootContainer.addCancelEvent((() => {
-      this.isClosed = true;
-    }).bind(this));
-    
-    const selectorCursor = new Ui.SelectorCursor(scene);
-    this.nodeSelector = Ui.NodeSelectorFactory.create(this.rootContainer, selectorCursor, keys);
+    this.nodeSelector.setContainer(this.rootContainer);
   }
 
   update(frame: number): void {
@@ -38,5 +33,21 @@ export class FieldMenu implements Ui.Element {
 
   addMenu(...menus: Ui.Node[]): void {
     this.rootContainer.pushNode(...menus);
+  }
+
+  private _createRootContainer(scene: Phaser.Scene, x: number, y: number): Ui.Container {
+    const rootContainer = Ui.ContainerFactory.createRightRange(10, x, y);
+
+    // rootContainerがキャンセルされると、フィールドメニューを閉じるフラグを立てる
+    rootContainer.addCancelEvent((() => {
+      this.isClosed = true;
+    }).bind(this));
+    
+    return rootContainer;
+  }
+
+  private _createNodeSelector(scene: Phaser.Scene, keys?: Keys): Ui.NodeSelector {
+    const selectorCursor = new Ui.SelectorCursor(scene);
+    return Ui.NodeSelectorFactory.create(selectorCursor, keys, null);
   }
 }

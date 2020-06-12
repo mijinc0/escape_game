@@ -26,13 +26,13 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
   private cooldownCount: number;
 
   constructor(
-    container: IContainer,
     cursor: ISelectorCursor,
     keys?: Keys,
+    initContainer?: IContainer,
   ) {
     super();
 
-    this.container = container;
+    this.container = initContainer ? initContainer : null;
     this.cursor = cursor;
     this.keys = keys ? keys : null;
     this.disable = false;
@@ -41,7 +41,7 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
   }
 
   update(frame: number): void {
-    if (!this.keys || this.disable) return;
+    if (!this.keys || !this.container || this.disable) return;
 
     // 毎フレームキーの入力を受け付けるとセレクタが高速で移動しすぎるので、
     // クールダウンタイムを設けて0の時以外は操作を受け付けなくする
@@ -131,7 +131,7 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
     // というような動きを想定しているため
     currentNode.select();
     this.emit('select', currentNode, this);
-
+  
     this._setCooldownTime();
   }
 
@@ -146,6 +146,8 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
     // というような動きを想定しているため、this.emit => currentNode.cancel の順番
     this.emit('cancel', this.container, this);
     curerntContainer.cancel();
+
+    this.container.removeDestroyedFromTree();
 
     this._setCooldownTime();
   }

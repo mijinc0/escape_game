@@ -26,12 +26,11 @@ export class ItemMenuButton extends Ui.Button {
       this._createItemListElement.bind(this),
       10,
     );
-
-    itemList.addCancelEvent((thisContainer: Ui.IContainer) => {
+    
+    itemList.addCancelEvent((thisContainer: Ui.IContainer) => {      
       thisContainer.destroy();
-      thisContainer.removeDestroyedFromTree();
     });
-
+    
     this.pushNode(itemList);
 
     super.select();

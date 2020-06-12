@@ -8,8 +8,8 @@ import { Keys } from '../../input/Keys';
 import { ISelectorCursor } from './ISelectorCursor';
 
 export class NodeSelectorFactory {
-  static create(container: IContainer, cursor: ISelectorCursor, keys?: Keys): NodeSelector {
-    const nodeSelector = new NodeSelector(container, cursor, keys);
+  static create(cursor: ISelectorCursor, keys?: Keys, initContainer?: IContainer): NodeSelector {
+    const nodeSelector = new NodeSelector(cursor, keys, initContainer);
 
     nodeSelector.addSelectEvent(this._goToSelectedNodeIfItHasContainer.bind(this));
     nodeSelector.addCancelEvent(this._goToAncestorContainer.bind(this));

@@ -103,8 +103,10 @@ export class Node extends EventEmitter implements INode {
       !NodeStatusUtil.hasStatus(child, NodeStatus.Destroyed)
     ));
 
-    // 親ノードの設定も解除する
-    this.parent = null;
+    // 自身がDestroyedされていたら親ノードも解除する
+    if(NodeStatusUtil.hasStatus(this, NodeStatus.Destroyed)) {
+      this.parent = null;
+    }
   }
 
   getRight(): number {

@@ -30,10 +30,9 @@ export class ItemListElement extends Ui.PhaserObjectNode {
     this.scene = scene;
     this.item = item;
 
-    const basePosition = this.scene.cameras.main.worldView;
     const marginX = 10;
 
-    this.baseRectangle = this._createBaseRectangle(basePosition, config);
+    this.baseRectangle = this._createBaseRectangle(config);
 
     // itemSizeTextのxは、this.baseRectangleの左端からmarginXをとった場所に合わせる
     const iconSize = 32;
@@ -60,10 +59,10 @@ export class ItemListElement extends Ui.PhaserObjectNode {
     return [this.baseRectangle, this.itemIconImage, this.itemNameText, this.itemSizeText];
   }
 
-  private _createBaseRectangle(basePosition: Phaser.Geom.Rectangle, config: IItemListElementConfig): Phaser.GameObjects.Rectangle {
+  private _createBaseRectangle(config: IItemListElementConfig): Phaser.GameObjects.Rectangle {
     this.baseRectangle = this.scene.add.rectangle(
-      basePosition.x + this.position.x,
-      basePosition.y + this.position.y,
+      this.position.x,
+      this.position.y,
       this.size.width,
       this.size.height,
       config.backgroundColor,
