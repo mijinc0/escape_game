@@ -5,15 +5,18 @@ import { Keys } from '../../core/input/Keys';
 export class FieldMenu implements Ui.Element {
   isClosed: boolean;
   
+  private rootNode: Ui.RootNode;
   private rootContainer: Ui.Container;
   private nodeSelector: Ui.NodeSelector;
 
   constructor(scene: Phaser.Scene, x: number, y: number, keys?: Keys) {
     this.isClosed = false;
 
+    this.rootNode = new Ui.RootNode();
     this.rootContainer = this._createRootContainer(scene, x, y);
     this.nodeSelector = this._createNodeSelector(scene, keys);
 
+    this.rootNode.pushNode(this.rootContainer);
     this.nodeSelector.setContainer(this.rootContainer);
   }
 
@@ -21,12 +24,12 @@ export class FieldMenu implements Ui.Element {
     if (this.isClosed) return;
 
     this.nodeSelector.update(frame)
-    this.rootContainer.update(frame);
+    this.rootNode.update(frame);
   };
 
   destroy(): null {
     this.nodeSelector = this.nodeSelector.destroy();
-    this.rootContainer = this.rootContainer.destroy();
+    this.rootNode = this.rootNode.destroy();
 
     return null;
   };

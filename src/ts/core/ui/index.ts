@@ -3,6 +3,7 @@ export { Element } from './Element';
 export { INode } from './INode';
 export { Node } from './Node';
 export { NodeStatus } from './NodeStatus';
+export { RootNode } from './RootNode';
 export { ArrayMapContainer } from './containers/ArrayMapContainer';
 export { ArrayMapContainerFactory } from './containers/ArrayMapContainerFactory';
 export { Container } from './containers/Container';
