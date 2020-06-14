@@ -61,10 +61,10 @@ export class ItemListElement extends Ui.PhaserObjectNode {
 
   private _createBaseRectangle(config: IItemListElementConfig): Phaser.GameObjects.Rectangle {
     this.baseRectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
-      this.size.width,
-      this.size.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height,
       config.backgroundColor,
       config.backgroundAlpha,
     );

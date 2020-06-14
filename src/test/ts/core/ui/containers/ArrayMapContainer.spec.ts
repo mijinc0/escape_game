@@ -126,7 +126,7 @@ describe('arrayMapContainer.getNext()', () => {
     const afterFrontCild = arrayMapContainer.children[0];
 
     it('next node is created by mappedData[0]', async () => {
-      expect(next.position.x).equals(1);
+      expect(next.x).equals(1);
     });
 
     it('beforeFrontCild equals afterFrontCild', async () => {
@@ -163,7 +163,7 @@ describe('arrayMapContainer.getNext()', () => {
     const afterChildrenSize = arrayMapContainer.children.length;
     const afterLastChild = arrayMapContainer.children[afterChildrenSize - 1];
 
-    console.log(arrayMapContainer.children.map(c => (c.position.x)));
+    console.log(arrayMapContainer.children.map(c => (c.x)));
 
     // 操作前も後もmaxNodesであることの確認
     it('before children size equals maxNodes', async () => {
@@ -176,20 +176,20 @@ describe('arrayMapContainer.getNext()', () => {
 
     // indexが1つ増えるのに対して、dataAddingSize分のノードが追加されていることの確認
     it('before last node is created by 4', async () => {
-      expect(beforeLastChild.position.x).equals(4);
+      expect(beforeLastChild.x).equals(4);
     });
 
     it('after last node is created by 7', async () => {
-      expect(afterLastChild.position.x).equals(7);
+      expect(afterLastChild.x).equals(7);
     });
 
     // nextNodeの結果が正しいことの確認
     it('current node is created by 4', async () => {
-      expect(current.position.x).equals(4);
+      expect(current.x).equals(4);
     });
 
     it('next node is created by 5', async () => {
-      expect(next.position.x).equals(5);
+      expect(next.x).equals(5);
     });
   });
 
@@ -236,20 +236,20 @@ describe('arrayMapContainer.getNext()', () => {
 
     // indexが1つ減るのに対して、dataAddingSize分のノードが前方に追加されていることの確認
     it('after first node is created by 6', async () => {
-      expect(beforeFirstChild.position.x).equals(6);
+      expect(beforeFirstChild.x).equals(6);
     });
 
     it('after first node is created by 3', async () => {
-      expect(afterFirstChild.position.x).equals(3);
+      expect(afterFirstChild.x).equals(3);
     });
 
     // nextNodeの結果が正しいことの確認
     it('current node is created by 6', async () => {
-      expect(current.position.x).equals(6);
+      expect(current.x).equals(6);
     });
 
     it('next node is created by 5', async () => {
-      expect(next.position.x).equals(5);
+      expect(next.x).equals(5);
     });
   });
 
@@ -292,16 +292,16 @@ describe('arrayMapContainer.getNext()', () => {
     // indexが1つ増えるのに対して、dataAddingSize分のノードを加えようとしたが、
     // arrayDataの終端に達してしまったので可能な範囲で追加されたことを確認する
     it('after first node is created by 2', async () => {
-      expect(beforeLastChild.position.x).equals(2);
+      expect(beforeLastChild.x).equals(2);
     });
 
     it('after first node is created by 3', async () => {
-      expect(afterLastChild.position.x).equals(3);
+      expect(afterLastChild.x).equals(3);
     });
 
     // nextNodeの結果が正しいことの確認
     it('next node is created by 3', async () => {
-      expect(next.position.x).equals(3);
+      expect(next.x).equals(3);
     });
   });
 });

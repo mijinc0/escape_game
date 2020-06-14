@@ -31,10 +31,10 @@ export class Box extends PhaserObjectNode {
     if (this.rectangleObject) this.rectangleObject.destroy();
 
     const rectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
-      this.size.width,
-      this.size.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height,
       this.config.color,
       this.config.alpha,
     );

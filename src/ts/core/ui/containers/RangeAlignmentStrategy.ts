@@ -43,10 +43,11 @@ export class RangeAlignmentStrategy implements IAlignmentStrategy {
   align(parentNode: INode): void {
     parentNode.children.forEach((node: INode, index: number) => {
       const nextPosition = (index === 0) ?
-        parentNode.position :
+        {x: parentNode.x, y: parentNode.y} :
         this.nextPositionCallback(index, parentNode.children, this.margin);
 
-      node.setPosition(nextPosition.x, nextPosition.y);
+      node.x = nextPosition.x;
+      node.y = nextPosition.y;
     });
   }
 

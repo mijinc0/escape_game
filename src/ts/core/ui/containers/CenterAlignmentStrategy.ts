@@ -5,18 +5,17 @@ import { IAlignmentStrategy } from './IAlignmentStrategy';
 export class CenterAlignmentStrategy implements IAlignmentStrategy {
   align(parentNode: INode): void {
     const parentCenter = {
-      x: parentNode.position.x + (parentNode.size.width / 2),
-      y: parentNode.position.y + (parentNode.size.height / 2),
+      x: parentNode.x + (parentNode.width / 2),
+      y: parentNode.y + (parentNode.height / 2),
     };
 
     parentNode.children.forEach((node: INode) => {
-      const childHalfWidth = node.size.width / 2;
-      const childHalfHeight = node.size.height / 2;
+      const childHalfWidth = node.width / 2;
+      const childHalfHeight = node.height / 2;
 
-      node.setPosition(
-        parentCenter.x - childHalfWidth,
-        parentCenter.y - childHalfHeight,
-      );
+      // 親コンテナの中央に寄せる
+      node.x = parentCenter.x - childHalfWidth;
+      node.y = parentCenter.y - childHalfHeight;
     });
   }
 

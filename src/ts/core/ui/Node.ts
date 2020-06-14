@@ -1,18 +1,15 @@
 import { EventEmitter } from 'events';
 import { INode } from './INode';
 import { NodeStatus } from './NodeStatus';
+import { IPosition } from './IPosition';
+import { INodePosition } from './INodePosition';
+import { ISize } from './ISize';
 import { NodeStatusUtil } from './utils/NodeStatusUtil';
-import { Position } from '../models/Position';
-import { Size } from '../models/Size';
 
 type SelectNodeEventCallback = (thisNode: INode) => void;
 
 export class Node extends EventEmitter implements INode {
   readonly customProperties: Map<string, any>;
-  
-  readonly position: Position;
-
-  readonly size: Size;
   
   parent: INode;
   
@@ -20,20 +17,65 @@ export class Node extends EventEmitter implements INode {
   
   status: number;
 
+  private position: INodePosition;
+  private size: ISize;
   private pDirty: boolean;
 
-  constructor(x = 0, y = 0, width = 0, height = 0) {
+  constructor(x = 0, y = 0, width = 0, height = 0, absolutePosition = false) {
     super();
 
-    this.position = {x: x, y: y};
-
+    this.position = {x: x, y: y, isAbsolute: absolutePosition};
     this.size = {width: width, height: height};
-    
     this.status = 0;
     this.parent = null;
     this.children = [];
     this.pDirty =false;
     this.customProperties = new Map<string, any>();
+  }
+
+  get x(): number {
+    return this.position.x;
+  }
+
+  set x(x: number) {
+    this.position.x = x;
+    this.dirty();
+  }
+
+  get y(): number {
+    return this.position.y;
+  }
+
+  set y(y: number) {
+    this.position.y = y;
+    this.dirty();
+  }
+
+  get width(): number {
+    return this.size.width;
+  }
+
+  set width(width: number) {
+    this.size.width = width;
+    this.dirty();
+  }
+  
+  get height(): number {
+    return this.size.height;
+  }
+
+  set height(height: number) {
+    this.size.height = height;
+    this.dirty();
+  }
+
+  get absolutePosition(): boolean {
+    return this.position.isAbsolute;
+  }
+
+  set absolutePosition(absolutePosition: boolean) {
+    this.position.isAbsolute = absolutePosition;
+    this.dirty();
   }
 
   pushNode(...children: INode[]): number {
@@ -57,6 +99,8 @@ export class Node extends EventEmitter implements INode {
     
     this._updateSelect();
 
+    this._updatePosition();
+
     this.children.forEach((child: INode) => {
       if (child.isDirty()) {
         child.update(frame);
@@ -65,21 +109,6 @@ export class Node extends EventEmitter implements INode {
 
     // 最後に、updateしたらdirtyは消す
     this.pDirty = false;
-  }
-
-  setPosition(x: number, y: number): void {
-    const deltaX = x - this.position.x;
-    const deltaY = y - this.position.y;
-    this.movePosition(deltaX, deltaY);
-  }
-
-  movePosition(deltaX: number, deltaY: number): void {
-    this.position.x += deltaX;
-    this.position.y += deltaY;
-
-    this.children.forEach((child: INode) => {
-      child.movePosition(deltaX, deltaY);
-    }); 
   }
 
   destroy(): null {
@@ -109,13 +138,15 @@ export class Node extends EventEmitter implements INode {
     }
   }
 
-  getRight(): number {
-    return this.position.x + this.size.width;
-  }
+  getAbsX(): number {
+    const parentX = this.parent ? this.parent.getAbsX() : 0;
+    return this.position.isAbsolute ? this.position.x : (this.position.x + parentX);
+  };
 
-  getBottom(): number {
-    return this.position.y + this.size.height;
-  }
+  getAbsY(): number {
+    const parentY = this.parent ? this.parent.getAbsY() : 0;
+    return this.position.isAbsolute ? this.position.y : (this.position.y + parentY);
+  };
 
   addSelectEvent(event: SelectNodeEventCallback): void {
     this.on('select', event);
@@ -160,8 +191,9 @@ export class Node extends EventEmitter implements INode {
   protected _updateOn(): void {}
   
   protected _updateSelect(): void {}
+  
+  protected _updatePosition(): void {}
 
-  /* private */
   private _setAsParent(children: INode[]): void {
     children.forEach((child: INode) => {
       if (child.parent) throw Error('chid already has a parent.');

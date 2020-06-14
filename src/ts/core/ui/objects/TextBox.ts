@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
 import { ITextConfig } from './ITextConfig';
+import { PhaserObjectNodePositionUtil } from '../utils/PhaserObjectNodePositionUtil';
 import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class TextBox extends PhaserObjectNode {
@@ -46,10 +47,10 @@ export class TextBox extends PhaserObjectNode {
 
   private _createRectangleObject(): Phaser.GameObjects.Rectangle {
     const rectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
-      this.size.width,
-      this.size.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height,
       this.config.backgroundColor ? this.config.backgroundColor : 0x000000,
       this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
@@ -63,10 +64,14 @@ export class TextBox extends PhaserObjectNode {
 
   private _createTextObject(): Phaser.GameObjects.Text {
     const padding = this.config.padding ? this.config.padding : 0;
-    const x = this.position.x + padding;
-    const y = this.position.y + padding; 
 
-    const text = this.scene.add.text(x, y, this.config.text);
+    const text = this.scene.add.text(
+      this.x + padding,
+      this.y + padding,
+      this.config.text,
+    );
+
+    PhaserObjectNodePositionUtil.setDeltaPosition(text, padding, padding);
     text.setOrigin(0);
     text.setScrollFactor(1);
 
@@ -87,8 +92,8 @@ export class TextBox extends PhaserObjectNode {
     textObject.setColor(fontColor);
     
     const padding = this.config.padding ? this.config.padding : 0;
-    const textWidth = this.size.width - (padding * 2);
-    const textHeight = this.size.height - (padding * 2);
+    const textWidth = this.width - (padding * 2);
+    const textHeight = this.height - (padding * 2);
     
     if (this.config.align) textObject.setAlign(this.config.align);
     if (this.config.isWraped) textObject.setWordWrapWidth(textWidth, false);

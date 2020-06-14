@@ -1,38 +1,38 @@
 import { INode } from '../INode';
-import { Position } from '../../models/Position';
+import { IPosition } from '../IPosition';
 
 export class RangeAlignmentNextPostionCallbacks {
-  static down(index: number, nodes: INode[], margin: number): Position {
+  static down(index: number, nodes: INode[], margin: number): IPosition {
     const previous = nodes[index - 1];
     return {
-      x: previous.position.x,
-      y: previous.getBottom() + margin,
+      x: previous.x,
+      y: previous.x + previous.height + margin,
     };
   }
 
-  static right(index: number, nodes: INode[], margin: number): Position {
+  static right(index: number, nodes: INode[], margin: number): IPosition {
     const previous = nodes[index - 1];
     return {
-      x: previous.getRight() + margin,
-      y: previous.position.y,
+      x: previous.x + previous.width + margin,
+      y: previous.y,
     };
   }
 
-  static left(index: number, nodes: INode[], margin: number): Position {
+  static left(index: number, nodes: INode[], margin: number): IPosition {
     const current = nodes[index];
     const previous = nodes[index - 1];
     return {
-      x: previous.position.x - margin - current.size.width,
-      y: previous.position.y,
+      x: previous.x - margin - current.width,
+      y: previous.y,
     };
   }
 
-  static up(index: number, nodes: INode[], margin: number): Position {
+  static up(index: number, nodes: INode[], margin: number): IPosition {
     const current = nodes[index];
     const previous = nodes[index - 1];
     return {
-      x: previous.position.x,
-      y: previous.position.y - margin - current.size.height,
+      x: previous.x,
+      y: previous.y - margin - current.height,
     };
   }
 }

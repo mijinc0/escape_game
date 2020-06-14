@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import { PhaserObjectNode } from './PhaserObjectNode';
 import { IButtonConfig } from './IButtonConfig';
+import { PhaserObjectNodePositionUtil } from '../utils/PhaserObjectNodePositionUtil';
 import { UiRenderOrder } from '../../renders/UiRenderOrder';
 
 export class Button extends PhaserObjectNode {
@@ -35,10 +36,10 @@ export class Button extends PhaserObjectNode {
     if (this.rectangleObject) this.rectangleObject.destroy();
 
     const rectangle = this.scene.add.rectangle(
-      this.position.x,
-      this.position.y,
-      this.size.width,
-      this.size.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height,
       this.config.backgroundColor ? this.config.backgroundColor : 0x000000,
       this.config.backgroundAlpha ? this.config.backgroundAlpha : 1,
     );
@@ -54,8 +55,8 @@ export class Button extends PhaserObjectNode {
     if (this.textObject) this.textObject.destroy();
 
     const text = this.scene.add.text(
-      this.position.x,
-      this.position.y,
+      this.x,
+      this.y,
       this.config.text,
     );
 
@@ -74,10 +75,12 @@ export class Button extends PhaserObjectNode {
     this.textObject.setColor(fontColor);
     this.textObject.setAlign('center');
     
-    const centerX = this.position.x + (this.size.width / 2);
-    const centerY = this.position.y + (this.size.height / 2);
+    const deltaX = this.width / 2;
+    const deltaY = this.height / 2;
+    PhaserObjectNodePositionUtil.setDeltaPosition(this.textObject, deltaX, deltaY);
+
     this.textObject.setOrigin(0.5);
-    this.textObject.setPosition(centerX, centerY);
+    this.textObject.setPosition(this.x + deltaX, this.y + deltaY);
     this.textObject.setScrollFactor(1);
   }
 }

@@ -5,10 +5,16 @@ import { Size } from '../models/Size';
 type SelectNodeEventCallback = (thisNode: INode) => void;
 
 export interface INode extends Element {
-  position: Position;
+  x: number;
+
+  y: number;
   
-  size: Size;
+  width: number;
   
+  height: number;
+
+  absolutePosition: boolean;
+    
   parent: INode;
   
   children: INode[];
@@ -30,10 +36,6 @@ export interface INode extends Element {
 
   on(event: string, listener: (...args: any[]) => void): this;
 
-  setPosition(x: number, y: number): void;
-
-  movePosition(deltaX: number, deltaY: number): void;
-
   destroy(): null;
 
   /**
@@ -42,9 +44,9 @@ export interface INode extends Element {
    */
   removeDestroyedFromTree(): void;
 
-  getRight(): number;
+  getAbsX(): number;
 
-  getBottom(): number;
+  getAbsY(): number;
   
   addSelectEvent(event: SelectNodeEventCallback): void;
 

@@ -19,8 +19,8 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
   }
 
   align(parentNode: INode): void {
-    const baseX = parentNode.position.x;
-    const baseY = parentNode.position.y;
+    const baseX = parentNode.x;
+    const baseY = parentNode.y;
 
     parentNode.children.forEach((node: INode, index: number) => {
       const nextPosition = this._getNodePosition(
@@ -29,8 +29,9 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
         index,
         parentNode.children
       );
-
-      node.setPosition(nextPosition.x, nextPosition.y);
+      
+      node.x = nextPosition.x;
+      node.y = nextPosition.y;
     });
   }
 
@@ -67,7 +68,8 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     // 一つ手前のノードの右端のx座標を取る(ただし自分が行の先頭ならbaseXになる)
     // (最初に index === 0 のパターンは切ってあるので nodes[index - 1] はundefinedにならない)
     const rowIndex = index % this.rowSize;
-    const x = (rowIndex === 0) ? baseX : nodes[index - 1].getRight(); 
+    const beforeNode = nodes[index - 1];
+    const x = (rowIndex === 0) ? baseX : (beforeNode.x + beforeNode.width); 
 
     return {
       x: rowIndex === 0 ? x : x + this.margin.x,
@@ -83,7 +85,7 @@ export class TableAlignmentStrategy implements IAlignmentStrategy {
     const upperNodesStartIndex = rows * this.rowSize;
     const upperNodes = nodes.slice(upperNodesStartIndex, upperNodesStartIndex + this.rowSize);
 
-    const nodeBottoms = upperNodes.map((node: INode) => (node.getBottom()));
+    const nodeBottoms = upperNodes.map((node: INode) => (node.y + node.height));
 
     return Math.max(...nodeBottoms);
   }

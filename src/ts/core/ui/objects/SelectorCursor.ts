@@ -32,13 +32,13 @@ export class SelectorCursor implements ISelectorCursor {
 
   on(targetNode: Node): void {
     this.rectangleObject.setPosition(
-      targetNode.position.x,
-      targetNode.position.y,
+      targetNode.x,
+      targetNode.y,
     );
     
     this.rectangleObject.setSize(
-      targetNode.size.width,
-      targetNode.size.height,
+      targetNode.width,
+      targetNode.height,
     );
   }
 

@@ -139,8 +139,8 @@ export class Message implements IScenarioEvent {
   }
 
   private _createWaitingCursor(scene: Phaser.Scene): Phaser.GameObjects.Text {
-    const x = this.textBox.position.x + this.textBox.size.width - 40;
-    const y = this.textBox.position.y + this.textBox.size.height - 40;
+    const x = this.textBox.x + this.textBox.width - 40;
+    const y = this.textBox.y + this.textBox.height - 40;
     const waitingCursor = scene.add.text(x, y, '*', {fontSize: 24, fontFamily: 'monospace'});
     waitingCursor.setOrigin(0);
 

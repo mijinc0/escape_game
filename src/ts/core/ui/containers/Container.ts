@@ -36,7 +36,6 @@ export class Container extends Node implements IContainer {
       pushout.forEach((node: INode) => {node.destroy()});
     }
     
-    
     this.alignNodes();
 
     return this.children.length;

@@ -31,8 +31,8 @@ export class Image extends PhaserObjectNode {
     if (this.imageObject) this.imageObject.destroy();
 
     const image = this.scene.add.image(
-      this.position.x,
-      this.position.y,
+      this.x,
+      this.y,
       this.config.key,
       this.config.frame,
     );
