@@ -58,7 +58,7 @@ export class ItemListElement extends Ui.PhaserObjectNode {
   getGameObjects(): Phaser.GameObjects.GameObject[] {
     return [this.baseRectangle, this.itemIconImage, this.itemNameText, this.itemSizeText];
   }
-
+  
   private _createBaseRectangle(config: IItemListElementConfig): Phaser.GameObjects.Rectangle {
     this.baseRectangle = this.scene.add.rectangle(
       this.position.x,

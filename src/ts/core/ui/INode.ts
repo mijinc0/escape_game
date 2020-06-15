@@ -48,11 +48,19 @@ export interface INode extends Element {
   
   addSelectEvent(event: SelectNodeEventCallback): void;
 
+  addSelecorOnEvent(event: SelectNodeEventCallback): void;
+  
+  addSelecorOffEvent(event: SelectNodeEventCallback): void;
+
   /**
    * ノードが選択時に決定アクションされたときのイベント。中身は`addSelectEvent`で登録されたイベントを発火するだけ
    * 
    */
   select(): void;
+
+  selectorOn(): void;
+
+  selectorOff(): void;
 
   /**
    * 変化の検知はdirty checkで行う

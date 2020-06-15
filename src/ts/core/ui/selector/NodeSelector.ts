@@ -95,11 +95,13 @@ export class NodeSelector extends EventEmitter implements INodeSelector {
     if (currentNode) {
       NodeStatusUtil.removeStatus(currentNode, NodeStatus.On);
       currentNode.dirty();
+      nextNode.selectorOff();
     }
 
     // 次のnodeにOnとDirtyを付与
     NodeStatusUtil.setStatus(nextNode, NodeStatus.On);
     nextNode.dirty();
+    nextNode.selectorOn();
 
     // カーソルを移動させる
     this.cursor.on(nextNode);

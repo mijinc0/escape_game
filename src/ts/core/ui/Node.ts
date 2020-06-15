@@ -117,12 +117,28 @@ export class Node extends EventEmitter implements INode {
     return this.position.y + this.size.height;
   }
 
+  addSelecorOnEvent(event: SelectNodeEventCallback): void {
+    this.on('selectorOn', event);
+  }
+
+  addSelecorOffEvent(event: SelectNodeEventCallback): void {
+    this.on('selectorOff', event);
+  }
+
   addSelectEvent(event: SelectNodeEventCallback): void {
     this.on('select', event);
   }
 
   select(): void {
     this.emit('select', this);
+  }
+
+  selectorOn(): void {
+    this.emit('selectorOn', this);
+  }
+
+  selectorOff(): void {
+    this.emit('selectorOff', this);
   }
 
   dirty(childInsulation?: boolean): void {
