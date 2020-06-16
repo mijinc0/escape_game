@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { TestScene } from './scenes/TestScene';
+import { UiTest } from './scenes/UiTest';
 
 export class Boot extends Phaser.Game {
   constructor() {
@@ -22,7 +23,7 @@ export class Boot extends Phaser.Game {
 
     super(config);
 
-    this.scene.add('opening', TestScene, false);
+    this.scene.add('opening', UiTest, false);
   }
   
   on(): void {
