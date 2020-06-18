@@ -89,7 +89,7 @@ export class Selector implements ISelector {
     }
 
     // カーソルを移動させる
-    this.cursor.over(next);
+    this.cursor.goTo(next);
     next.emit(SelectorEventNames.Over, next, this);
 
     // クールダウンを設定して終了
