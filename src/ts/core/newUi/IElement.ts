@@ -1,30 +1,20 @@
-import { INode } from './INode';
-import { ISelector } from './selector/ISelector';
+import { ITransfrom } from './ITransfrom';
+import { IEventEmitter } from './IEventEmitter';
 
-type SelectorEvent = (target: IElement, selector: ISelector) => void;
-
-export interface IElement extends INode {
+export interface IElement extends IEventEmitter {
   x: number;
 
   y: number;
 
-  width: number;
-
-  height: number;
-
   deltaX: number;
-
+  
   deltaY: number;
+  
+  width: number;
+  
+  height: number;
+  
+  anchor?: ITransfrom;
 
-  selectorOver(): void;
-
-  addSelectorOverEvent(event: SelectorEvent): void;
-
-  selectorOut(): void;
-
-  addSelectorOutEvent(event: SelectorEvent): void;
-
-  selectorSelect(): void;
-
-  addSelectorSelectEvent(event: SelectorEvent): void;
+  destroy(fromScene?: boolean): void;
 }

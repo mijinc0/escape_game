@@ -16,12 +16,8 @@ export class UiTest extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
 
-    const group = this.add.group();
-    const recG = this.add.rectangle(1000, 10, 100, 50, 0xff0000, 0.5);
-    const recB = this.add.rectangle(1000, 10, 100, 50, 0x00ff00, 0.5);
-    const recR = this.add.rectangle(1000, 10, 100, 50, 0x0000ff, 0.5);
-    group.addMultiple([recG, recB, recR]);
-    group.setXY(20, 20, 50, 50);
+    const rec = new MyRectangle(this, 10, 10, 10, 10);
+    
   }
 
   update(): void {

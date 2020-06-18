@@ -1,59 +1,55 @@
 import { EventEmitter } from 'events';
 import { IElement } from './IElement';
-import { ISelector } from './selector/ISelector';
 
-type SelectorEvent = (target: IElement, selector: ISelector) => void;
-
-export class Element extends EventEmitter implements IElement {
-  parent: Element;
-  
-  children: Element[];
-  
+export class Element implements IElement {
   deltaX: number;
   
   deltaY: number;
-
+  
   width: number;
-
+  
   height: number;
+  
+  anchor?: IElement;
+
+  private events: EventEmitter;
+
+  constructor(x = 0, y = 0, width = 0, height = 0, anchor?: IElement) {
+    this.anchor = anchor ? anchor : null;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.events = new EventEmitter();
+  }
 
   get x(): number {
-    return this.parent ? (this.parent.x + this.deltaX) : this.deltaX;
+    return this.anchor ? (this.anchor.x + this.deltaX) : this.deltaX;
   }
 
   set x(x: number) {
-    this.deltaX = this.parent ? (x - this.parent.x) : x;
+    this.deltaX = this.anchor ? (this.anchor.x - x) : x;
   }
 
   get y(): number {
-    return this.parent ? (this.parent.y + this.deltaY) : this.deltaY;
+    return this.anchor ? (this.anchor.y + this.deltaY) : this.deltaY;
   }
 
   set y(y: number) {
-    this.deltaY = this.parent ? (y - this.parent.y) : y;
+    this.deltaY = this.anchor ? (this.anchor.y - y) : y;
   }
 
-  selectorOver(): void {
-    this.emit('selectorOver');
+  destroy(fromScene?: boolean): void {}
+
+  emit(type: string | symbol, ...args: any[]): boolean {
+    return this.events.emit(type.toString(), ...args);
   };
 
-  addSelectorOverEvent(event: SelectorEvent): void {
-    this.on('selectorOver', event);
-  };
+  on(event: string | symbol, fn: (...args: any[]) => void, context?: any): this {
+    fn = context ? fn.bind(context) : fn;
 
-  selectorOut(): void {
-    this.emit('selectorOut');
-  };
-
-  addSelectorOutEvent(event: SelectorEvent): void {
-    this.on('selectorOut', event);
-  };
-
-  selectorSelect(): void {
-    this.emit('selectorSelect');
-  };
-
-  addSelectorSelectEvent(event: SelectorEvent): void {
-    this.on('selectorSelect', event);
+    this.events.on(event.toString(), fn);
+    
+    return this;
   };
 }

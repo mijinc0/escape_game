@@ -1,9 +1,13 @@
 export class MixinUtil {
-  static apply(derivedCtor: any, baseCtors: any[]) {
-    baseCtors.forEach(baseCtor => {
-        Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
-            Object.defineProperty(derivedCtor.prototype, name, Object.getOwnPropertyDescriptor(baseCtor.prototype, name));
-        });
+  static apply(derivedCtor: any, baseCtors: any[], exceptProperties?: string[]) {
+    exceptProperties = exceptProperties ? exceptProperties : [];
+
+    baseCtors.forEach((baseCtor: any) => {
+      Object.getOwnPropertyNames(baseCtor.prototype).forEach((property: string) => {
+        if (exceptProperties.includes(property)) return;
+
+        Object.defineProperty(derivedCtor.prototype, property, Object.getOwnPropertyDescriptor(baseCtor.prototype, property));
+      });
     });
   }
 }
