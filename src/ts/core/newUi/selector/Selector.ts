@@ -2,23 +2,27 @@ import { ISelector } from './ISelector';
 import { ISelectorCursor } from './ISelectorCursor';
 import { SelectorEventNames } from './SelectorEventNames';
 import { Direction } from '../Direction';
+import { IElement } from '../IElement';
 import { IGroup } from '../group/IGroup';
 import { Keys } from '../../input/Keys';
 
 type GroupHistoryEntry = {
   group: IGroup,
-  destroyIfCanceled: IGroup[],
+  destroyIfCanceled: IElement[],
 };
 
 export class Selector implements ISelector {
   cursor: ISelectorCursor;
+
   disable: boolean;
   
   keys?: Keys;
   
   private groupHistory: GroupHistoryEntry[];
+  
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
   private cooldownTime: number;
+  
   private cooldownCount: number;
 
   constructor(cursor: ISelectorCursor, keys?: Keys) {
@@ -61,7 +65,7 @@ export class Selector implements ISelector {
     }　
   }
 
-  setGroup(managedGroup: IGroup, destroyIfCanceled?: IGroup[]): void {
+  setGroup(managedGroup: IGroup, destroyIfCanceled?: IElement[]): void {
     // historyの先頭に加える
     this.groupHistory.unshift({
       group: managedGroup,
@@ -88,8 +92,6 @@ export class Selector implements ISelector {
       current.emit(SelectorEventNames.Out, current, this);
     }
 
-console.log(`next {x: ${next.x}, y: ${next.y}}`);
-
     // カーソルを移動させる
     this.cursor.goTo(next);
     next.emit(SelectorEventNames.Over, next, this);
@@ -113,18 +115,23 @@ console.log(`next {x: ${next.x}, y: ${next.y}}`);
     const currentElement = currentGroup.getCurrent();
     if (!currentElement) return;
 
-    currentElement.emit(SelectorEventNames.Select, currentElement);
+    currentElement.emit(SelectorEventNames.Select, currentElement, this);
   
     this._setCooldownTime();
   }
 
   private _cancel(): void {
+    if (this.groupHistory.length < 2) return;
+    
     const currentGroupEntry = this.groupHistory.shift();
-
-    if (!currentGroupEntry) return;
-
-    currentGroupEntry.destroyIfCanceled.forEach((group: IGroup) => {
-      group.destroy(true);
+  
+    currentGroupEntry.destroyIfCanceled.forEach((entry: IElement) => {
+      entry.destroy(true);
     });
+
+    // 最初に length < 2 をしているのでここでは必ずグループが取れる
+    const currentGroup = this._getCurrentGroup();
+    const currentElement = currentGroup.getCurrent();
+    this.cursor.goTo(currentElement);
   }
 }

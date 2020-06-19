@@ -9,6 +9,7 @@ import { Text } from '../core/newUi/phaserObject/Text';
 import { PhaserObjectFactory } from '../core/newUi/phaserObject/PhaserObjectFactory';
 import { ISelector } from '../core/newUi/selector/ISelector';
 import { SelectorFactory } from '../core/newUi/selector/SelectorFactory';
+import { SelectorEventNames } from '../core/newUi/selector/SelectorEventNames';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
@@ -43,7 +44,7 @@ export class UiTest extends Phaser.Scene {
     mainMenu.push(itemButton, backButton);
 
     const cursorKeys = this.input.keyboard.createCursorKeys();
-    const keys = new Keys(cursorKeys, cursorKeys.space, cursorKeys.down);
+    const keys = new Keys(cursorKeys, cursorKeys.space, cursorKeys.shift);
     const selectorFactory = new SelectorFactory(this);
     this.selector = selectorFactory.create(keys); 
     this.selector.setGroup(mainMenu);
@@ -73,6 +74,22 @@ export class UiTest extends Phaser.Scene {
     const itemButtonBase = this.factory.rectangle(0, 0, 100, 40, 0xff0000, 0.3);
     const itemButtonText = this.factory.text(10, 10, 'item', {});
     itemButton.push(itemButtonBase, itemButtonText);
+
+    itemButton.on(SelectorEventNames.Select, (thisButton: IElement, selector: ISelector) => {
+      const itemListBg = this.factory.rectangle(200, 10, 200, 200, 0x000000, 0.5, this.uiRoot);
+      const itemList = new Group(200, 10, 200, 200, this.uiRoot);
+
+      const itemA = this.factory.rectangle(10, 10, 100, 20, 0x00ffff, 0.3)
+      const itemB = this.factory.rectangle(10, 40, 100, 20, 0x00ffff, 0.3)
+      const itemC = this.factory.rectangle(10, 70, 100, 20, 0x00ffff, 0.3)
+      const itemD = this.factory.rectangle(10, 100, 100, 20, 0x00ffff, 0.3)
+
+      itemList.push(itemA, itemB, itemC, itemD);
+
+      this.selector.setGroup(itemList, [itemList, itemListBg]);
+      const firstElement = itemList.getNext(Direction.Down);
+      this.selector.cursor.goTo(firstElement);
+    });
 
     return itemButton;
   }
