@@ -1,7 +1,6 @@
 import { ISelector } from './ISelector';
 import { ISelectorCursor } from './ISelectorCursor';
 import { SelectorEventNames } from './SelectorEventNames';
-import { IElement } from '../IElement';
 import { Direction } from '../Direction';
 import { IGroup } from '../group/IGroup';
 import { Keys } from '../../input/Keys';
@@ -22,10 +21,11 @@ export class Selector implements ISelector {
   private cooldownTime: number;
   private cooldownCount: number;
 
-  constructor(cursor: ISelectorCursor) {
+  constructor(cursor: ISelectorCursor, keys?: Keys) {
     this.cursor = cursor;
-    this.groupHistory = [];
     this.disable = false;
+    this.keys = keys ? keys : null;
+    this.groupHistory = [];
     this.cooldownTime = 16;
     this.cooldownCount = 0;
   }
@@ -87,6 +87,8 @@ export class Selector implements ISelector {
     if (current) {
       current.emit(SelectorEventNames.Out, current, this);
     }
+
+console.log(`next {x: ${next.x}, y: ${next.y}}`);
 
     // カーソルを移動させる
     this.cursor.goTo(next);

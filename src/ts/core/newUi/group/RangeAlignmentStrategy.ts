@@ -1,11 +1,11 @@
-import { ITransfrom } from '../ITransfrom';
+import { IElement } from '../IElement';
 import { RangeAlignmentNextPostionCallbacks } from './RangeAlignmentNextPostionCallbacks';
 import { RangeAlignmentNextIndexCallbacks } from './RangeAlignmentNextIndexCallbacks';
 import { Direction } from '../Direction';
 import { IAlignmentStrategy } from './IAlignmentStrategy';
 import { Position } from '../../models/Position';
 
-type NextPositionCallback = (current: ITransfrom, anchro: ITransfrom, margin: number) => Position;
+type NextPositionCallback = (current: IElement, anchro: IElement, margin: number) => Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
 export class RangeAlignmentStrategy implements IAlignmentStrategy {
@@ -40,8 +40,8 @@ export class RangeAlignmentStrategy implements IAlignmentStrategy {
     }
   }
 
-  align(transformObjects: ITransfrom[], anchor: ITransfrom): void {
-    transformObjects.forEach((transformObject: ITransfrom, index: number) => {
+  align(transformObjects: IElement[], anchor: IElement): void {
+    transformObjects.forEach((transformObject: IElement, index: number) => {
       const beforeObject = transformObjects[index];
       const nextAnchor = beforeObject ? beforeObject : anchor;
       const nextDeltaPosition = this.nextPositionCallback(transformObject, nextAnchor, this.margin);

@@ -1,8 +1,8 @@
 import { Direction } from '../Direction';
-import { ITransfrom } from '../ITransfrom';
+import { IElement } from '../IElement';
 
 export interface IAlignmentStrategy {
-  align(transformObjects: ITransfrom[], anchor?: ITransfrom): void;
+  align(transformObjects: IElement[], anchor?: IElement): void;
 
   getNextIndex(currentIndex: number, direction: Direction): number;
 }

@@ -18,8 +18,6 @@ export interface IGroup {
   align(): void;
 
   get(index: number): IElement|null;
-  
-  getNextIndex(direction: Direction): number;
 
   getNext(direction: Direction): IElement|null;
 

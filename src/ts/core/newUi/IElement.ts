@@ -1,4 +1,3 @@
-import { ITransfrom } from './ITransfrom';
 import { IEventEmitter } from './IEventEmitter';
 
 export interface IElement extends IEventEmitter {
@@ -14,7 +13,7 @@ export interface IElement extends IEventEmitter {
   
   height: number;
   
-  anchor?: ITransfrom;
+  anchor?: IElement;
 
   destroy(fromScene?: boolean): void;
 }

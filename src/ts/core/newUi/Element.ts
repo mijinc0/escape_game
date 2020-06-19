@@ -14,10 +14,10 @@ export class Element implements IElement {
 
   private events: EventEmitter;
 
-  constructor(x = 0, y = 0, width = 0, height = 0, anchor?: IElement) {
+  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement) {
     this.anchor = anchor ? anchor : null;
-    this.x = x;
-    this.y = y;
+    this.deltaX = dx;
+    this.deltaY = dy;
     this.width = width;
     this.height = height;
     this.events = new EventEmitter();
