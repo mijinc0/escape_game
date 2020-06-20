@@ -88,13 +88,7 @@ export class Selector implements ISelector {
     // 次のノードが無ければ即return 何もしない
     if (!next) return;
 
-    if (current) {
-      current.emit(SelectorEventNames.Out, current, this);
-    }
-
-    // カーソルを移動させる
-    this.cursor.goTo(next);
-    next.emit(SelectorEventNames.Over, next, this);
+    this._moveCursor(next, current);
 
     // クールダウンを設定して終了
     this._setCooldownTime();
@@ -124,14 +118,28 @@ export class Selector implements ISelector {
     if (this.groupHistory.length < 2) return;
     
     const currentGroupEntry = this.groupHistory.shift();
+    const currentElement = currentGroupEntry.group.getCurrent();
   
     currentGroupEntry.destroyIfCanceled.forEach((entry: IElement) => {
       entry.destroy(true);
     });
 
-    // 最初に length < 2 をしているのでここでは必ずグループが取れる
-    const currentGroup = this._getCurrentGroup();
-    const currentElement = currentGroup.getCurrent();
-    this.cursor.goTo(currentElement);
+    // 最初に length < 2 をしているのでここでは必ず一つ前に選択したいたグループが取れる
+    const beforeGroup = this._getCurrentGroup();
+    const beforeElement = beforeGroup.getCurrent();
+    
+    this._moveCursor(beforeElement, currentElement);
+
+    this._setCooldownTime();
+  }
+
+  private _moveCursor(next: IElement, current?: IElement): void {
+    if (current) {
+      current.emit(SelectorEventNames.Out, current, this);
+    }
+
+    // カーソルを移動させる
+    this.cursor.goTo(next);
+    next.emit(SelectorEventNames.Over, next, this);
   }
 }

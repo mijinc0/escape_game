@@ -1,30 +1,27 @@
-class OneWayPropertyBinder {
-  static bind(emitter: any, receiver: any, property: string): void {
-    if (!(property in emitter) || !(property in receiver)) {
-      throw Error(`"${property}" should be in both emitter and receiver`);
+export class OneWayPropertyBinder {
+  static bind(emitter: any,　emitterProperty: string, receiver: any, receiverProperty?: string,): void {
+    receiverProperty = receiverProperty ? receiverProperty : emitterProperty;
+
+    if (!(emitterProperty in emitter) || !(receiverProperty in receiver)) {
+      throw Error(`binded property should be in both emitter and receiver`);
     }
 
-    if (typeof(emitter[property]) != typeof (receiver[property])) {
+    if (typeof(emitter[emitterProperty]) != typeof (receiver[receiverProperty])) {
       throw Error('type of emitter[property] should equal receiver[property]\'s');
     }
 
-    let currentValue = emitter[property];
+    let currentValue = emitter[emitterProperty];
 
-    Object.defineProperty(emitter, property, {
+    // 最初、receiverPeopertyのgetとemitterPoerptyのgetを直接接続するやりかたで書いたが、
+    // それだとreceiver側のget,setで何かしていたら挙動がおかしくなるので、こっちにした。
+    // TODO : 両方に影響を与えないようにするために、Proxyを使ってちゃんと書いたほうが良いかも
+    Object.defineProperty(emitter, emitterProperty, {
       get: () => {
         return currentValue;
       },
       set: (v: any) => {
         currentValue = v;
-      },
-    });
-
-    Object.defineProperty(receiver, property, {
-      get: () => {
-        return currentValue;
-      },
-      set: (v: any) => {
-        throw Error(`using setter of ${property} is forbidden`);
+        receiver[receiverProperty] = currentValue;
       },
     });
   }

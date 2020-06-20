@@ -10,6 +10,9 @@ import { PhaserObjectFactory } from '../core/newUi/phaserObject/PhaserObjectFact
 import { ISelector } from '../core/newUi/selector/ISelector';
 import { SelectorFactory } from '../core/newUi/selector/SelectorFactory';
 import { SelectorEventNames } from '../core/newUi/selector/SelectorEventNames';
+import { OneWayPropertyBinder  } from '../core/newUi/utils/OneWayPropertyBinder ';
+
+import { Button } from '../ui/newUiTest/Button';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
@@ -17,6 +20,8 @@ export class UiTest extends Phaser.Scene {
   selector: ISelector;
   uiRoot: IElement;
   factory: PhaserObjectFactory;
+
+  buttonTest: Button;
 
   init(): void {
     console.log('start scene Opening');
@@ -55,6 +60,9 @@ export class UiTest extends Phaser.Scene {
     graphics.strokeRect(50, 50, 80, 40);
     graphics.strokeRect(150, 150, 80, 40);
     */
+
+   this.buttonTest = new Button({scene: this, text: 'this is test'}, 300, 300, 0, 0, this.uiRoot);
+
   }
 
   update(): void {
@@ -63,10 +71,12 @@ export class UiTest extends Phaser.Scene {
     if (this.frame === 90) {
       // this.uiRoot.y = 50;
       // this.uiRoot.height = 450
+      console.log('it may change....');
+      this.buttonTest.text = 'change!';
+      console.log(this.buttonTest.textObject.text);
     }
 
     this.selector.update(this.frame);
-
   }
 
   private _createItemButtom(): Group {
@@ -79,11 +89,19 @@ export class UiTest extends Phaser.Scene {
       const itemListBg = this.factory.rectangle(200, 10, 200, 200, 0x000000, 0.5, this.uiRoot);
       const itemList = new Group(200, 10, 200, 200, this.uiRoot);
 
-      const itemA = this.factory.rectangle(10, 10, 100, 20, 0x00ffff, 0.3)
-      const itemB = this.factory.rectangle(10, 40, 100, 20, 0x00ffff, 0.3)
-      const itemC = this.factory.rectangle(10, 70, 100, 20, 0x00ffff, 0.3)
-      const itemD = this.factory.rectangle(10, 100, 100, 20, 0x00ffff, 0.3)
+      const itemA = this.factory.rectangle(10, 10, 100, 20, 0x00ffff, 0.3);
+      const itemB = this.factory.rectangle(10, 40, 100, 20, 0x00ffff, 0.3);
+      const itemC = this.factory.rectangle(10, 70, 100, 20, 0x00ffff, 0.3);
+      const itemD = new Button({scene: this, text: 'button'}, 10, 110, 0, 0);
 
+      itemD.on(SelectorEventNames.Over, () => {
+        this.buttonTest.text = 'this item is so cool';
+      });
+
+      itemD.on(SelectorEventNames.Out, () => {
+        this.buttonTest.text = 'nothing to display';
+      });
+    
       itemList.push(itemA, itemB, itemC, itemD);
 
       this.selector.setGroup(itemList, [itemList, itemListBg]);
