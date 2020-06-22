@@ -21,7 +21,6 @@ import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
 import { CacheKey } from '../core/utils/CacheKey';
 
-import { TextBox } from '../core/ui/objects/TextBox';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { EventRangeFactory } from '../core/events/EventRangeFactory';
 

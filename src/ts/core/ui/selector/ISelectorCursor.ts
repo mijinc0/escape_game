@@ -1,12 +1,9 @@
-import { Element } from '../Element';
-import { INode } from '../INode';
+import { IElement } from '../IElement';
 
-export interface ISelectorCursor extends Element {
-  visible(): void;
+export interface ISelectorCursor {
+  visible: boolean;
 
-  invisible(): void;
+  goTo(targetNode: IElement): void;
 
-  on(targetNode: INode): void;
-
-  off(): void;
+  destroy(fromScene?: boolean): void;
 }
