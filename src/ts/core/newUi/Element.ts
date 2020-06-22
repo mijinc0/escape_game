@@ -2,6 +2,8 @@ import { EventEmitter } from 'events';
 import { IElement } from './IElement';
 
 export class Element implements IElement {
+  name: string;
+  
   deltaX: number;
   
   deltaY: number;
@@ -15,6 +17,7 @@ export class Element implements IElement {
   private events: EventEmitter;
 
   constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement) {
+    this.name = '';
     this.anchor = anchor ? anchor : null;
     this.deltaX = dx;
     this.deltaY = dy;
@@ -41,10 +44,23 @@ export class Element implements IElement {
 
   destroy(fromScene?: boolean): void {}
 
+  /**
+   * EveneEmitterを継承しないのは、Phaserが使っている`ementemitter3`との差を吸収するため
+   * 
+   * @param type 
+   * @param args 
+   */
   emit(type: string | symbol, ...args: any[]): boolean {
     return this.events.emit(type.toString(), ...args);
   };
 
+  /**
+   * EveneEmitterを継承しないのは、Phaserが使っている`ementemitter3`との差を吸収するため
+   * 
+   * @param event 
+   * @param fn 
+   * @param context 
+   */
   on(event: string | symbol, fn: (...args: any[]) => void, context?: any): this {
     fn = context ? fn.bind(context) : fn;
 

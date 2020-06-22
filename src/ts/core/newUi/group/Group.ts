@@ -3,6 +3,7 @@ import { IAlignmentStrategy } from './IAlignmentStrategy';
 import { Element } from '../Element';
 import { IElement } from '../IElement';
 import { Direction } from '../Direction';
+import { MathUtil } from '../utils/MathUtil';
 
 export class Group extends Element implements IGroup {
   entries: IElement[];
@@ -51,13 +52,12 @@ export class Group extends Element implements IGroup {
 
   getNext(direction: Direction): IElement|null {
     const nextIndex = this._getNextIndex(direction, true);
-    const nextNode = this.get(nextIndex);
+    const nextElement = this.get(nextIndex);
 
-    if (!nextNode) return null;
+    if (!nextElement) return null;
 
     this.currentIndex = nextIndex;
-    
-    return nextNode;
+    return nextElement;
   }
 
   getCurrent(): IElement|null {
@@ -69,10 +69,8 @@ export class Group extends Element implements IGroup {
     if (this.currentIndex < 0) return 0;
 
     const nextNodeIndex = this.alignmentStrategy ? this.alignmentStrategy.getNextIndex(this.currentIndex, direction) : this.currentIndex + 1;
-    
-    const overLimit = (nextNodeIndex < 0 || nextNodeIndex >= this.entries.length);
-    // limitが設定されており、かつ取得したindexがchildrenに対して有効なindexでない(limitを超えている)場合にはcurrentIndexを返す
-    return (limit && overLimit) ? this.currentIndex : nextNodeIndex;
+
+    return limit ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1) : nextNodeIndex;
   }
 
   private _defaultAlignmentStarategy(entries: IElement[]): void {

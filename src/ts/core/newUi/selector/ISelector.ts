@@ -1,5 +1,6 @@
 import { ISelectorCursor } from './ISelectorCursor';
 import { IElement } from '../IElement';
+import { Direction } from '../Direction';
 import { IGroup } from '../group/IGroup';
 
 export interface ISelector {
@@ -13,6 +14,8 @@ export interface ISelector {
    * @param destroyIfCanceled managedGroupのキャンセル時に削除するコンテナを指定
    */
   setGroup(managedGroup: IGroup, destroyIfCanceled?: IElement[]): void;
+
+  goNext(direction: Direction): void;
 
   destroy(fromScene?: boolean): void;
 }

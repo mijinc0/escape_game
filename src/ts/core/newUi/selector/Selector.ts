@@ -85,8 +85,8 @@ export class Selector implements ISelector {
     const current = currentGrup.getCurrent();
     const next = currentGrup.getNext(direction);
       
-    // 次のノードが無ければ即return 何もしない
-    if (!next) return;
+    // 次のノードが無いまたはnextとcurrentが同じであれば即return 何もしない
+    if (!next || current === next) return;
 
     this._moveCursor(next, current);
 
@@ -98,15 +98,18 @@ export class Selector implements ISelector {
     return this.groupHistory[0] ? this.groupHistory[0].group : null;
   }
 
+  private _getCurrentElement(): IElement|null {
+    const currentGroup = this._getCurrentGroup();
+
+    return currentGroup ? currentGroup.getCurrent() : null;
+  }
+
   private _setCooldownTime(): void {
     this.cooldownCount = this.cooldownTime;
   }
 
   private _select(): void {
-    const currentGroup = this._getCurrentGroup();
-    if (!currentGroup) return;
-
-    const currentElement = currentGroup.getCurrent();
+    const currentElement = this._getCurrentElement();
     if (!currentElement) return;
 
     currentElement.emit(SelectorEventNames.Select, currentElement, this);
@@ -116,25 +119,26 @@ export class Selector implements ISelector {
 
   private _cancel(): void {
     if (this.groupHistory.length < 2) return;
+
+    // shiftすることで、現在のgroupを削除して一つ前に選択していたgroupを先頭に(現在の管理対象に)する
+    const unhandledGroup = this.groupHistory.shift();
+    const currentElement = unhandledGroup.group.getCurrent();
+
+    // 最初に length < 2 をしているのでここでは必ずelementが取得できる
+    const returningElement = this._getCurrentElement();
     
-    const currentGroupEntry = this.groupHistory.shift();
-    const currentElement = currentGroupEntry.group.getCurrent();
-  
-    currentGroupEntry.destroyIfCanceled.forEach((entry: IElement) => {
+    // unhandledGroupを削除する前にカーソルの移動を行う
+    this._moveCursor(returningElement, currentElement);
+
+    unhandledGroup.destroyIfCanceled.forEach((entry: IElement) => {
       entry.destroy(true);
     });
-
-    // 最初に length < 2 をしているのでここでは必ず一つ前に選択したいたグループが取れる
-    const beforeGroup = this._getCurrentGroup();
-    const beforeElement = beforeGroup.getCurrent();
-    
-    this._moveCursor(beforeElement, currentElement);
 
     this._setCooldownTime();
   }
 
   private _moveCursor(next: IElement, current?: IElement): void {
-    if (current) {
+    if (current) {  
       current.emit(SelectorEventNames.Out, current, this);
     }
 
