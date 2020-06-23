@@ -8,7 +8,7 @@ import { Position } from '../../models/Position';
 type NextPositionCallback = (current: IElement, anchro: IElement, margin: number) => Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
-export class RangeAlignmentStrategy implements IAlignmentHandler {
+export class RangeAlignmentHandler implements IAlignmentHandler {
   // ノード間の間隔(px)
   private margin: number;
   private nextPositionCallback: NextPositionCallback;
