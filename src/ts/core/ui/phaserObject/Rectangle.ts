@@ -19,4 +19,4 @@ MixinUtil.apply(
 ],
 );
 
-export const Rectangle = RectangleBase;
+export class Rectangle extends RectangleBase {}

@@ -1,5 +1,5 @@
 import { IMessageBufferFactory } from './IMessageBufferFactory';
-import { IGameGlobal } from '../../IGameGlobal';
+import { IGameGlobal } from '../../core/IGameGlobal';
 
 export class MessageBufferFactory implements IMessageBufferFactory {
   private gameGlobal: IGameGlobal;

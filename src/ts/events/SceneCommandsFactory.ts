@@ -1,10 +1,10 @@
 import { GameGlobal } from '../GameGlobal';
-import { Message } from '../core/events/commands/Message';
-import { MessageBufferFactory } from '../core/events/commands/MessageBufferFactory';
-import { Item } from '../core/events/commands/Item';
-import { Flag } from '../core/events/commands/Flag';
-import { Variable } from '../core/events/commands/Variable';
-import { Sleep } from '../core/events/commands/Sleep';
+import { Message } from './commands/Message';
+import { MessageBufferFactory } from './commands/MessageBufferFactory';
+import { Item } from './commands/Item';
+import { Flag } from './commands/Flag';
+import { Variable } from './commands/Variable';
+import { Sleep } from './commands/Sleep';
 
 export class SceneCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);

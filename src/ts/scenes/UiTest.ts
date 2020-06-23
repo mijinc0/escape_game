@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { Keys } from '../core/input/Keys';
+import { MessageBox } from '../ui/messageBox/MessageBox';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
@@ -12,6 +13,8 @@ export class UiTest extends Phaser.Scene {
   
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
+
+    const messageBox = new MessageBox({scene: this, text: 'this is test'}, 10, 10, 400, 200);
 
     /*
     // 枠はこうやって描くよというやつ

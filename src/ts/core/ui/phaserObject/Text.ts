@@ -19,4 +19,4 @@ MixinUtil.apply(
  ],
 );
 
-export const Text = TextBase;
+export class Text extends TextBase {}

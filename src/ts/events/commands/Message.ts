@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
-import { IScenarioEvent } from '../IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
-import { Keys } from '../../input/Keys';
-import { TextBox } from '../../ui/objects/TextBox';
+import * as Ui from '../../core/ui';
+import { IScenarioEvent } from '../../core/events/IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { Keys } from '../../core/input/Keys';
+import { MessageBox } from '../../ui/messageBox/MessageBox';
 
 type MessageBufferFactoryCallback = (message: string) => string[];
 
@@ -16,8 +17,7 @@ export class Message implements IScenarioEvent {
   private justify: string;
   private messageBuffers: string[];
   private messageChunkSize: number;
-  private textBox: TextBox;
-  private waitingCursor: Phaser.GameObjects.Text;
+  private messageBox: MessageBox;
   
   // 全てのメッセージが表示された後にすぐキーの入力を受け付けると、
   // 短い文章を表示した時にキー入力判定が起きて文章を飛ばしてしまうことがあるため、
@@ -44,8 +44,7 @@ export class Message implements IScenarioEvent {
     this.hasBackground = hasBackground;
     this.justify = justify;
 
-    this.textBox = null
-    this.waitingCursor = null
+    this.messageBox = null
     this.waitTimer = 0;
 
     this.messageBufferFactoryCallback = messageBufferFactoryCallback;
@@ -60,13 +59,13 @@ export class Message implements IScenarioEvent {
     }
 
     this.messageBuffers = this._createMessageBuffer(this.message);
-    this.textBox = this._createTextBox(config.scene, this.justify, this.align, this.hasBackground);
-    this.waitingCursor = this._createWaitingCursor(config.scene);
-    this._beInvisibleWaitingCursor();
+    this.messageBox = this._createMessageBox(config.scene, this.justify, this.align, this.hasBackground);
+
+    this._hideWaitingCursor();
   }
 
   update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!this.textBox) return;
+    if (!this.messageBox) return;
 
     if (this._hasReadiedMessage()) {
       // 一番前のバッファからメッセージを出力する
@@ -89,15 +88,14 @@ export class Message implements IScenarioEvent {
 
   complete(): void {
     // オブジェクトを削除する
-    this.waitingCursor.destroy();
-    this.waitingCursor = null
-    this.textBox = this.textBox.destroy();
+    this.messageBox.destroy();
+    this.messageBox = null
     this.isComplete = true;
   }
 
   setMessage(message: string): void {
     this.messageBuffers = this._createMessageBuffer(message);
-    this.textBox.setText('');
+    this.messageBox.text = '';
   }
 
   addMessage(message: string): void {
@@ -105,46 +103,27 @@ export class Message implements IScenarioEvent {
     this.messageBuffers.push(...newBuffer);
   }
 
-  private _createTextBox(
+  private _createMessageBox(
     scene: Phaser.Scene,
     justify: string,
     align: string,
     hasBackground: boolean,
-  ): TextBox {
+  ): MessageBox {
     const width = scene.cameras.main.width - 20;
     const height = 160;
     const x = this._getPositionX(scene, 10);
     const y = this._getPositionY(scene, justify, height);
 
-    return new TextBox(
-      scene,
+    return new MessageBox(
       {
+        scene: scene,
         text: '',
-        fontSize: 20,
-        fontFamily: 'monospace',
-        color: 'white',
-        isWraped: true,
-        isCramped: true,
-        hasBackground: hasBackground,
-        backgroundAlpha: 0.8,
-        backgroundColor: 0x000000,
-        padding: 10,
-        align: align,
       },
       x,
       y,
       width,
       height,
     );
-  }
-
-  private _createWaitingCursor(scene: Phaser.Scene): Phaser.GameObjects.Text {
-    const x = this.textBox.position.x + this.textBox.size.width - 40;
-    const y = this.textBox.position.y + this.textBox.size.height - 40;
-    const waitingCursor = scene.add.text(x, y, '*', {fontSize: 24, fontFamily: 'monospace'});
-    waitingCursor.setOrigin(0);
-
-    return waitingCursor;
   }
 
   private _createMessageBuffer(message: string): string[] {
@@ -184,7 +163,7 @@ export class Message implements IScenarioEvent {
 
     // 切り出してtextObjectに追加、追加分をbufferから削除
     const nextChunk = this.messageBuffers[0].slice(0, this.messageChunkSize);
-    this.textBox.addText(nextChunk);
+    this.messageBox.text += nextChunk;
     this.messageBuffers[0] = this.messageBuffers[0].slice(this.messageChunkSize);
   }
 
@@ -192,8 +171,8 @@ export class Message implements IScenarioEvent {
     if (!keys || !keys.action.isDown) return;
 
     // テキストをクリアして、最初のバッファを削除する
-    this._beInvisibleWaitingCursor();
-    this.textBox.setText('');
+    this._hideWaitingCursor();
+    this.messageBox.text = '';
     this.messageBuffers = this.messageBuffers.slice(1);
     this.waitTimer = 0;
   }
@@ -204,10 +183,10 @@ export class Message implements IScenarioEvent {
   }
 
   private _toggleWaitingCursorVisible(): void {
-    this.waitingCursor.renderFlags ^= 1;
+    this.messageBox.toggleWaitingCursorVisible();
   }
 
-  private _beInvisibleWaitingCursor(): void {
-    this.waitingCursor.renderFlags &= ~1;
+  private _hideWaitingCursor(): void {
+    this.messageBox.hideWaitingCursor();
   }
 }

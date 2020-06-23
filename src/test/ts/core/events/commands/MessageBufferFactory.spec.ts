@@ -2,7 +2,7 @@ import 'mocha';
 import { expect } from 'chai';
 import { IGameGlobal } from '../../../../../ts/core/IGameGlobal';
 import { GameVariables } from '../../../../../ts/core/models/GameVariables';
-import { MessageBufferFactory } from '../../../../../ts/core/events/commands/MessageBufferFactory';
+import { MessageBufferFactory } from '../../../../../ts/events/commands/MessageBufferFactory';
 
 describe('messageBufferFactory.create()', () => {
   context('normal', () => {

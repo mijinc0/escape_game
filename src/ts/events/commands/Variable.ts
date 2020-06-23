@@ -1,5 +1,5 @@
-import { IScenarioEvent } from '../IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
+import { IScenarioEvent } from '../../core/events/IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
 
 export class Variable implements IScenarioEvent {
   readonly isAsync = true;

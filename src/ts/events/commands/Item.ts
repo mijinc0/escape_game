@@ -1,7 +1,7 @@
-import { IScenarioEvent } from '../IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
-import { Item as ItemObject } from '../../models/Item';
-import { IGameGlobal } from '../../IGameGlobal';
+import { IScenarioEvent } from '../../core/events/IScenarioEvent';
+import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { Item as ItemObject } from '../../core/models/Item';
+import { IGameGlobal } from '../../core/IGameGlobal';
 
 export class Item implements IScenarioEvent {
   static readonly maxOwnItems = 99;
