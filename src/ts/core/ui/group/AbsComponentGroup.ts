@@ -1,5 +1,5 @@
 import { Group } from './Group';
-import { IAlignmentStrategy } from './IAlignmentStrategy';
+import { IAlignmentHandler } from './IAlignmentHandler';
 import { IElement } from '../IElement';
 
 /**
@@ -7,8 +7,8 @@ import { IElement } from '../IElement';
  * 型引数Tは、`protected abstract init(initArg: T): void;`で使われる
  */
 export abstract class AbsComponentGroup<T> extends Group {
-  constructor(initArg: T, dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, as?: IAlignmentStrategy) {
-    super(dx, dy, width, height, anchor, as);
+  constructor(initArg: T, dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler) {
+    super(dx, dy, width, height, anchor, ah);
 
     this.init(initArg);
   }

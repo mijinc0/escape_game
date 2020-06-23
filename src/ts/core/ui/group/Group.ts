@@ -1,5 +1,5 @@
 import { IGroup } from './IGroup';
-import { IAlignmentStrategy } from './IAlignmentStrategy';
+import { IAlignmentHandler } from './IAlignmentHandler';
 import { Element } from '../Element';
 import { IElement } from '../IElement';
 import { Direction } from '../Direction';
@@ -10,12 +10,12 @@ export class Group extends Element implements IGroup {
 
   currentIndex: number;
 
-  alignmentStrategy?: IAlignmentStrategy;
+  alignmentHandler?: IAlignmentHandler;
 
-  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, as?: IAlignmentStrategy) {
+  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler) {
     super(dx, dy, width, height, anchor);
 
-    this.alignmentStrategy = as ? as : null;
+    this.alignmentHandler = ah ? ah : null;
     this.entries = [];
     this.currentIndex = -1;
   }
@@ -39,8 +39,8 @@ export class Group extends Element implements IGroup {
   }
 
   align(): void {
-    if (this.alignmentStrategy) {
-      this.alignmentStrategy.align(this.entries, this);
+    if (this.alignmentHandler) {
+      this.alignmentHandler.align(this.entries, this);
     } else {
       this._defaultAlignmentStarategy(this.entries);
     }
@@ -68,7 +68,7 @@ export class Group extends Element implements IGroup {
     // currentIndex < 0 の時にgetNextをすると、次のindexはentriesの最初(0)を返す
     if (this.currentIndex < 0) return 0;
 
-    const nextNodeIndex = this.alignmentStrategy ? this.alignmentStrategy.getNextIndex(this.currentIndex, direction) : this.currentIndex + 1;
+    const nextNodeIndex = this.alignmentHandler ? this.alignmentHandler.getNextIndex(this.currentIndex, direction) : this.currentIndex + 1;
 
     return limit ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1) : nextNodeIndex;
   }

@@ -1,5 +1,5 @@
 import { Group } from './Group';
-import { IAlignmentStrategy } from './IAlignmentStrategy';
+import { IAlignmentHandler } from './IAlignmentHandler';
 import { Direction } from '../Direction';
 import { IElement } from '../IElement';
 import { MathUtil } from '../utils/MathUtil';
@@ -17,10 +17,10 @@ export class ScrollGroup<T> extends Group {
 
   private elementFactoryCallback?: ElementFactoryCallback<T>;
 
-  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, as?: IAlignmentStrategy, maxSize?: number, scrollSize?: number) {
-    super(dx, dy, width, height, anchor, as);
+  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler, maxSize?: number, scrollSize?: number) {
+    super(dx, dy, width, height, anchor, ah);
 
-    this.maxSize = maxSize ? maxSize : -1;
+    this.maxSize = maxSize ? maxSize : 1;
     this.scrollSize = scrollSize ? scrollSize : 1;
     this.startDataIndex = -1;
     this.data = [];
@@ -28,13 +28,22 @@ export class ScrollGroup<T> extends Group {
   }
 
   get endDataIndex(): number {
-    return this.startDataIndex + this.entries.length;
+    if (this.entries.length === 0) return -1;
+
+    return this.startDataIndex + this.entries.length - 1;
   }
 
   get currentSouceDataIndex(): number {
+    if (this.entries.length === 0) return -1;
+
     return this.startDataIndex + this.currentIndex;
   }
 
+  /**
+   * NOTE: `push`及び`unshift`は基本的に外からは使わない
+   * 
+   * @param elements 
+   */
   push(...elements: IElement[]): number {
     this.entries.push(...elements);
 
@@ -43,8 +52,6 @@ export class ScrollGroup<T> extends Group {
       const entryiesSize = this.entries.length;
       const pushout = this.entries.splice(0, (entryiesSize - this.maxSize));
 
-      this.startDataIndex += pushout.length;
-
       pushout.forEach((element: IElement) => {element.destroy()});
     }
 
@@ -52,14 +59,17 @@ export class ScrollGroup<T> extends Group {
     return this.entries.length;
   }
 
+  /**
+   * NOTE: `push`及び`unshift`は基本的に外からは使わない
+   * 
+   * @param elements 
+   */
   unshift(...elements: IElement[]): number {
     this.entries.unshift(...elements);
 
     // 末尾からはみ出したElementsが押し出されて削除される
     if (this.maxSize > 0) {
       const pushout = this.entries.splice(this.maxSize);
-
-      this.startDataIndex -= pushout.length;
 
       pushout.forEach((element: IElement) => {element.destroy()});
     }
@@ -100,6 +110,7 @@ export class ScrollGroup<T> extends Group {
       const lackingDataSize = Math.abs(nextIndex);
       const dataScrollCount = Math.ceil(lackingDataSize / this.scrollSize);
       const unshiftedElementSize = this._scrollupEntries(dataScrollCount);
+      this.startDataIndex -= unshiftedElementSize;
       this.currentIndex += unshiftedElementSize;
 
     } else {
@@ -108,6 +119,7 @@ export class ScrollGroup<T> extends Group {
       const lackingDataSize = Math.abs(nextIndex - this.endDataIndex);
       const dataScrollCount = Math.ceil(lackingDataSize / this.scrollSize);
       const unshiftedElementSize = this._scrolldownEntries(dataScrollCount);
+      this.startDataIndex += unshiftedElementSize;
       this.currentIndex -= unshiftedElementSize;
     }
 
@@ -143,8 +155,8 @@ export class ScrollGroup<T> extends Group {
    * @param count 
    */
   private _scrollupEntries(count: number): number {
-    const pushedEntries = count * this.scrollSize;
-    return this._pushElementFromDataToEntriesTail(pushedEntries);
+    const unshiftedEntries = count * this.scrollSize;
+    return this._unshiftElementFromDataToEntriesHead(unshiftedEntries);
   }
 
   /**
@@ -154,8 +166,8 @@ export class ScrollGroup<T> extends Group {
    * @param count 
    */
   private _scrolldownEntries(count: number): number {
-    const unshiftedEntries = count * this.scrollSize;
-    return this._unshiftElementFromDataToEntriesHead(unshiftedEntries);
+    const pushedEntries = count * this.scrollSize;
+    return this._pushElementFromDataToEntriesTail(pushedEntries);
   }
 
   private _pushElementFromDataToEntriesTail(size: number): number {

@@ -1,4 +1,4 @@
-import { IAlignmentStrategy } from './IAlignmentStrategy';
+import { IAlignmentHandler } from './IAlignmentHandler';
 import { IElement } from '../IElement';
 import { Direction } from '../Direction';
 
@@ -7,7 +7,7 @@ export interface IGroup {
 
   currentIndex: number;
 
-  alignmentStrategy?: IAlignmentStrategy;
+  alignmentHandler?: IAlignmentHandler;
 
   destroy(fromScene?: boolean): void;
 

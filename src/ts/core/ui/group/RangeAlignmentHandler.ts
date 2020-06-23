@@ -2,13 +2,13 @@ import { IElement } from '../IElement';
 import { RangeAlignmentNextPostionCallbacks } from './RangeAlignmentNextPostionCallbacks';
 import { RangeAlignmentNextIndexCallbacks } from './RangeAlignmentNextIndexCallbacks';
 import { Direction } from '../Direction';
-import { IAlignmentStrategy } from './IAlignmentStrategy';
+import { IAlignmentHandler } from './IAlignmentHandler';
 import { Position } from '../../models/Position';
 
 type NextPositionCallback = (current: IElement, anchro: IElement, margin: number) => Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
-export class RangeAlignmentStrategy implements IAlignmentStrategy {
+export class RangeAlignmentStrategy implements IAlignmentHandler {
   // ノード間の間隔(px)
   private margin: number;
   private nextPositionCallback: NextPositionCallback;
