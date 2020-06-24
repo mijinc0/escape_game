@@ -16,7 +16,7 @@ MixinUtil.apply(
     'destroy',
     'on',
     'emit',
-],
+  ],
 );
 
 export class Rectangle extends RectangleBase {}

@@ -5,9 +5,9 @@ import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 type MessageBoxConfig = {
   scene: Phaser.Scene,
   text: string,
-  fontSize?: string;
-  fontColor?: string;
-  fontFamilly?: string;
+  fontSize?: string,
+  fontColor?: string,
+  fontFamilly?: string,
   backgroundColor?: number,
   backgroundAlpha?: number,
 };
@@ -33,6 +33,9 @@ export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
   }
 
   protected init(config: MessageBoxConfig): void {
+    // あると邪魔になるので設定されていたら消しておく
+    this.alignmentHandler = null;
+
     const scene = config.scene;
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;

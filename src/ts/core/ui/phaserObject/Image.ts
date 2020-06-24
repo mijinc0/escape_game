@@ -3,12 +3,12 @@ import { Element } from '../Element';
 import { IElement } from '../IElement';
 import { MixinUtil } from '../utils/MixinUtil';
 
-class TextBase extends Phaser.GameObjects.Text implements IElement {}
+class ImageBase extends Phaser.GameObjects.Image implements IElement {}
 
-interface TextBase extends Phaser.GameObjects.Text, IElement {}
+interface ImageBase extends Phaser.GameObjects.Image, IElement {}
 
 MixinUtil.apply(
-  TextBase,
+  ImageBase,
   [
     Element,
   ],
@@ -19,4 +19,4 @@ MixinUtil.apply(
   ],
 );
 
-export class Text extends TextBase {}
+export class Image extends ImageBase {}

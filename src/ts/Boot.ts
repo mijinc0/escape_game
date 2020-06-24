@@ -23,7 +23,7 @@ export class Boot extends Phaser.Game {
 
     super(config);
 
-    this.scene.add('opening', TestScene, false);
+    this.scene.add('opening', UiTest, false);
   }
   
   on(): void {
