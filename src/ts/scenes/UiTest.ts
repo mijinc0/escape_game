@@ -7,6 +7,7 @@ import { Item } from '../core/models/Item';
 import { CacheKey } from '../core/utils/CacheKey';
 import { MessageBox } from '../ui/messageBox/MessageBox';
 import { ItemListElement } from '../ui/fieldMenu/ItemListElement';
+import { ItemDescription } from '../ui/fieldMenu/ItemDescription';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
@@ -22,10 +23,15 @@ export class UiTest extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
 
-    const messageBox = new MessageBox({scene: this, text: 'this is test'}, 10, 10, 400, 200);
+    //const messageBox = new MessageBox({scene: this, text: 'this is test'}, 10, 10, 400, 200);
 
     const item = GameGlobal.items.get('silverKeyA');
-    const itemListElement = new ItemListElement({scene: this, item: item}, 200, 400, 240, 48);
+    
+    const itemListElement = new ItemListElement({scene: this, item: item}, 100, 200);
+    const itemListElementB = new ItemListElement({scene: this, item: item}, 100, 250);
+    const itemListElementC = new ItemListElement({scene: this, item: item}, 100, 300);
+    
+    const itemdescription = new ItemDescription({scene: this, defaultText: 'this is default message'}, 400, 200);
 
     /*
     // 枠はこうやって描くよというやつ
@@ -40,8 +46,7 @@ export class UiTest extends Phaser.Scene {
     this.frame++;
     
     if (this.frame === 90) {
-      // this.uiRoot.y = 50;
-      // this.uiRoot.height = 450
+      //this.itemD.text = 'this is changed text';
     }
 
   }

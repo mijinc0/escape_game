@@ -42,10 +42,11 @@ export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
     const bgAlpha = config.backgroundAlpha ? config.backgroundAlpha : 0.8;
     const baseRectangle = new Ui.Rectangle(scene, 0, 0, this.width, this.height, bgColor, bgAlpha);
     
+    const textMargin = 16;
     const text = new Ui.Text(
       scene,
-      16,
-      16,
+      textMargin,
+      textMargin,
       config.text,
       {
         fontSize: config.fontSize ? config.fontSize : '20px',
@@ -53,6 +54,8 @@ export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
         color: config.fontColor ? config.fontColor : 'white',
       },
     );
+    text.setOrigin(0);
+    text.setWordWrapWidth(this.width - (textMargin * 2), true);
 
     const waitingCursor = new Ui.Text(
       scene,
@@ -64,11 +67,9 @@ export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
         fontStyle: 'bold',
       },
     );
+    baseRectangle.setOrigin(0);
     // hide waiting cursor by default
     waitingCursor.renderFlags &= ~1;
-
-    baseRectangle.setOrigin(0);
-    text.setOrigin(0);
 
     UiRenderOrder.base(baseRectangle, text, waitingCursor);
 

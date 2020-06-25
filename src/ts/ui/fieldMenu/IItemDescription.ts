@@ -1,5 +1,5 @@
-import { Item } from '../../core/models/Item';
-
 export interface IItemDescription {
-  item: Item;
+  readonly defaultText: string;
+
+  text: string;
 }
