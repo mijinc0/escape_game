@@ -38,6 +38,9 @@ export class UiTest extends Phaser.Scene {
     const itemD = GameGlobal.items.get('silverKeyA');
     
     const items = [itemA, itemB, itemC, itemD];
+
+    console.log(`game item entries : ${GameGlobal.items.entries.length}`);
+
     const itemMenu = new ItemMenu({scene: this, items: GameGlobal.items.entries}, 10, 50);
 
     this.selector.setGroup(itemMenu.list);

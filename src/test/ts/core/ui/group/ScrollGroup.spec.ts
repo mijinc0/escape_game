@@ -255,7 +255,48 @@ describe('scrollGroup.getNext (over data)', () => {
   });
 });
 
-describe('scrollGroup.getNext (over data)', () => {
+describe('scrollGroup.getNext (over data) 2', () => {
+  context('normal (maxSize = 5, scrollSize = 1)', () => {
+    const maxSize = 5;
+    const scrollSize = 1;
+
+    const ah = new TestAlignmentHandler();
+
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
+
+    const data = [
+      '0apple',
+      '1lemon',
+      '2orange',
+      '3kiwi',
+      '4berry',
+      '5meron',
+      '6grapefruit',
+      '7banana', // 8回のgetNext後
+      '8avocado',
+    ];
+
+    const elementFactoryCallback = (name: string) => {
+      const element = new Element();
+      element.name = name;
+      return element;
+    };
+
+    scrollGroup.setData(data, elementFactoryCallback);
+    
+    for (let k = 0; k < 8; k++) {
+      scrollGroup.getNext(Direction.Down);
+    }
+
+    const current = scrollGroup.getCurrent();
+
+    it('current should be equal element waht is created by "7banana"', async () => {
+      expect(current.name).is.equal(data[7]);
+    });
+  });
+});
+
+describe('scrollGroup.getNext (over data) 3', () => {
   context('normal (maxSize = 5, scrollSize = 2)', () => {
     const maxSize = 5;
     const scrollSize = 2;
@@ -313,7 +354,7 @@ describe('entry.x', () => {
     it('scrollGroup has 3 entries', async () => {
       expect(scrollGroup.entries.length).is.equal(3);
     });
-    
+
     it('elementA.x is 20', async () => {
       expect(elementA.x).is.equal(20);
     });

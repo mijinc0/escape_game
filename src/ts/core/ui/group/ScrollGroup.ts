@@ -116,7 +116,7 @@ export class ScrollGroup<T> extends Group {
     } else {
       // `nextIndex >= 0`の場合、現在のentriesに対して"後ろの"データが不足していることになるので
       // `_scrolldownEntries`を使ってentriesの内容をスクロールさせ、後方に補充されたElementの数だけcurrentIndexを減らす
-      const lackingDataSize = Math.abs(nextIndex - this.endDataIndex);
+      const lackingDataSize = Math.abs(nextIndex - this.entries.length - 1);
       const dataScrollCount = Math.ceil(lackingDataSize / this.scrollSize);
       const unshiftedElementSize = this._scrolldownEntries(dataScrollCount);
       this.startDataIndex += unshiftedElementSize;
