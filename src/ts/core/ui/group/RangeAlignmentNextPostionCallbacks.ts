@@ -27,7 +27,7 @@ export class RangeAlignmentNextPostionCallbacks {
     const deltaXFromAnchor = before.x - anchor.x;
 
     return {
-      x: deltaXFromAnchor + anchor.width + margin,
+      x: deltaXFromAnchor + before.width + margin,
       y: 0,
     };
   }

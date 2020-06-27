@@ -71,6 +71,11 @@ export class Selector implements ISelector {
       group: managedGroup,
       destroyIfCanceled: destroyIfCanceled ? destroyIfCanceled : [],
     });
+
+    // 最初のグループで無い場合はカーソルを最初のelementに移動させるためにgoNextを行う
+    if (this.groupHistory.length > 1) {
+      this.goNext(Direction.Down);
+    }
   }
 
   destroy(fromScene?: boolean): void {

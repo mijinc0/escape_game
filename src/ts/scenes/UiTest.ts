@@ -1,7 +1,12 @@
 import * as Phaser from 'phaser';
 
-import { GameGlobal } from '../GameGlobal';
+import { GameItems } from '../items/GameItems';;
+import { IGameGlobal } from '../core/IGameGlobal';
+import { GameFlags } from '../core/models/GameFlags';
+import { GameVariables } from '../core/models/GameVariables';
+import { ItemBag } from '../core/models/ItemBag';
 
+import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
 import { Selector } from '../core/ui/selector/Selector';
 import { ISelector } from '../core/ui/selector/ISelector';
 import { SelectorFactory } from '../core/ui/selector/SelectorFactory';
@@ -15,10 +20,20 @@ import { ItemDescription } from '../ui/fieldMenu/ItemDescription';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
+
+  gameGlobal: IGameGlobal;
+
   selector: ISelector;
 
   init(): void {
     console.log('start scene Opening');
+
+    this.gameGlobal = {
+      flags : new GameFlags(),
+      variables : new GameVariables(),  
+      items : GameItems,
+      ownItems : new ItemBag(),
+    };
   }
 
   preload (): void {
@@ -28,22 +43,16 @@ export class UiTest extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
 
+    this._setOwnItems();
+
+    const fieldMenuConfig = {
+      scene: this,
+      gameGlobal: this.gameGlobal,
+    };
+    const fieldMenu = new FieldMenu(fieldMenuConfig, 10, 10);
+
     this.selector = new SelectorFactory(this).create();
-
-    //const messageBox = new MessageBox({scene: this, text: 'this is test'}, 10, 10, 400, 200);
-
-    const itemA = GameGlobal.items.get('silverKeyA');
-    const itemB = GameGlobal.items.get('silverKeyA');
-    const itemC = GameGlobal.items.get('silverKeyA');
-    const itemD = GameGlobal.items.get('silverKeyA');
-    
-    const items = [itemA, itemB, itemC, itemD];
-
-    console.log(`game item entries : ${GameGlobal.items.entries.length}`);
-
-    const itemMenu = new ItemMenu({scene: this, items: GameGlobal.items.entries}, 10, 50);
-
-    this.selector.setGroup(itemMenu.list);
+    this.selector.setGroup(fieldMenu);
 
     /*
     // 枠はこうやって描くよというやつ
@@ -51,7 +60,6 @@ export class UiTest extends Phaser.Scene {
     graphics.strokeRect(50, 50, 80, 40);
     graphics.strokeRect(150, 150, 80, 40);
     */
-
   }
 
   update(): void {
@@ -66,9 +74,16 @@ export class UiTest extends Phaser.Scene {
 
   private _loadItemIcons(): void {
     // TODO: 同じアイコンを使っていると重複するものがある場合があるので削除する処理を先にやる
-    GameGlobal.items.entries.forEach((item: Item) => {
+    this.gameGlobal.items.entries.forEach((item: Item) => {
       const iconKey = CacheKey.itemIcon(item.name);
       this.load.image(iconKey, item.iconFilePath);
+    });
+  }
+
+  private _setOwnItems(): void {
+    this.gameGlobal.items.entries.forEach((item: Item) => {
+      const size = Math.floor(Math.random() * 99);
+      this.gameGlobal.ownItems.add(item, size);
     });
   }
 }

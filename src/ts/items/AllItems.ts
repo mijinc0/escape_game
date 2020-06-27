@@ -50,7 +50,7 @@ export const AllItems = [
   },
   {
     name: 'silverKeyG',
-    description: 'this is test key G',
+    description: 'this is test key G this is test key this is test key this is test key this is test key this is test key',
     iconFileName: 'icon_silver_key',
   },
 ].map((config: ItemConfig) => {

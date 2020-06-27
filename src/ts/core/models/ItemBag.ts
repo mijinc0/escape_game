@@ -53,4 +53,8 @@ export class ItemBag implements IItemBag {
 
     return storedItem ? storedItem : null;
   }
+
+  getAll(): Item[] {
+    return this.items;
+  }
 }

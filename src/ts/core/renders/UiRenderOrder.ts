@@ -12,7 +12,7 @@ export class UiRenderOrder {
     });
   }
 
-  static nodeSelectorCursor(gameObject: Phaser.GameObjects.Components.Depth): void {
+  static selectorCursor(gameObject: Phaser.GameObjects.Components.Depth): void {
     gameObject.depth = 1048576 + 1;
   }
 }
