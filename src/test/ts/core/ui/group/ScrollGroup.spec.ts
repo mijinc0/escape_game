@@ -293,3 +293,37 @@ describe('scrollGroup.getNext (over data)', () => {
     });
   });
 });
+
+describe('entry.x', () => {
+  context('normal', () => {
+    const maxSize = 5;
+    const scrollSize = 2;
+
+    // use default
+    const ah: IAlignmentHandler = null;
+
+    const scrollGroup = new ScrollGroup(10, 20, 0, 0, null, ah, maxSize, scrollSize);
+
+    const elementA = new Element(10, 20);
+    const elementB = new Element(20, 40);
+    const elementC = new Element(30, 60);
+
+    scrollGroup.push(elementA, elementB, elementC);
+
+    it('scrollGroup has 3 entries', async () => {
+      expect(scrollGroup.entries.length).is.equal(3);
+    });
+    
+    it('elementA.x is 20', async () => {
+      expect(elementA.x).is.equal(20);
+    });
+
+    it('elementB.x is 30', async () => {
+      expect(elementB.x).is.equal(30);
+    });
+
+    it('elementC.x is 40', async () => {
+      expect(elementC.x).is.equal(40);
+    });
+  });
+});

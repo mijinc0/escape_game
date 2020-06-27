@@ -30,7 +30,7 @@ export class Selector implements ISelector {
     this.disable = false;
     this.keys = keys ? keys : null;
     this.groupHistory = [];
-    this.cooldownTime = 16;
+    this.cooldownTime = 10;
     this.cooldownCount = 0;
   }
 

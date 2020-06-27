@@ -42,7 +42,7 @@ export class Group extends Element implements IGroup {
     if (this.alignmentHandler) {
       this.alignmentHandler.align(this.entries, this);
     } else {
-      this._defaultAlignmentStarategy(this.entries);
+      this._defaultAlignmentHandler(this.entries);
     }
   }
 
@@ -73,7 +73,7 @@ export class Group extends Element implements IGroup {
     return limit ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1) : nextNodeIndex;
   }
 
-  private _defaultAlignmentStarategy(entries: IElement[]): void {
+  private _defaultAlignmentHandler(entries: IElement[]): void {
     entries.forEach((entry: IElement) => {
       entry.anchor = this;
     });

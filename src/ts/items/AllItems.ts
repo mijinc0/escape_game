@@ -23,6 +23,26 @@ export const AllItems = [
     description: 'this is test key C',
     iconFileName: 'icon_silver_key',
   },
+  {
+    name: 'silverKeyD',
+    description: 'this is test key D',
+    iconFileName: 'icon_silver_key',
+  },
+  {
+    name: 'silverKeyE',
+    description: 'this is test key E',
+    iconFileName: 'icon_silver_key',
+  },
+  {
+    name: 'silverKeyF',
+    description: '日本語もいける部屋の鍵F',
+    iconFileName: 'icon_silver_key',
+  },
+  {
+    name: 'silverKeyG',
+    description: 'this is test key G',
+    iconFileName: 'icon_silver_key',
+  },
 ].map((config: ItemConfig) => {
   const iconFilePath = createIconFilePath(config.iconFileName);
   return new Item(config.name, config.description, iconFilePath);

@@ -15,9 +15,7 @@ type ItemListElementConfig = {
 export class ItemListElement extends Ui.Group {
   private item: Item;
 
-  constructor(config: ItemListElementConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
-    const width = 284;
-    const height = 48;
+  constructor(config: ItemListElementConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
     super(dx, dy, width, height, anchor);
 
     this.alignmentHandler = null;

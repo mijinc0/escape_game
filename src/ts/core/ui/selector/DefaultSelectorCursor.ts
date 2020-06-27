@@ -7,7 +7,7 @@ export class DefaultSelectorCursor implements ISelectorCursor {
   private cursorObject: Phaser.GameObjects.Rectangle&IElement; 
   
   constructor(scene: Phaser.Scene) {
-    this.cursorObject = new Rectangle(scene, 0, 0, 0, 0, 0xffffff, 0.3);
+    this.cursorObject = new Rectangle(scene, 0, 0, 0, 0, 0xffffff, 0.5);
     
     scene.add.existing(this.cursorObject);
   }

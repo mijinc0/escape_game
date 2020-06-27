@@ -75,3 +75,27 @@ describe('group.getNext', () => {
     });
   });
 });
+
+describe('entry.x', () => {
+  context('normal', () => {
+    const group = new Group(10, 20);
+
+    const elementA = new Element(0, 0);
+    const elementB = new Element(10, 10);
+    const elementC = new Element(20, 20);
+
+    group.push(elementA, elementB, elementC);
+
+    it('elementA.x is 10', async () => {
+      expect(elementA.x).is.equal(10);
+    });
+
+    it('elementB.x is 20', async () => {
+      expect(elementB.x).is.equal(20);
+    });
+
+    it('elementC.x is 30', async () => {
+      expect(elementC.x).is.equal(30);
+    });
+  });
+});

@@ -22,9 +22,7 @@ export class ItemDescription extends Ui.Group implements IItemDescription {
     this.textObject.text = text;
   }
 
-  constructor(config: ItemDescriptionConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
-    const width = 320;
-    const height = 240;
+  constructor(config: ItemDescriptionConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
     super(dx, dy, width, height, anchor);
 
     this.alignmentHandler = null;

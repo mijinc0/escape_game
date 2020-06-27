@@ -13,8 +13,15 @@ export class SelectorFactory {
   }
 
   create(keys?: Keys, cursor?: ISelectorCursor): ISelector {
+    keys = keys ? keys : this._createDefaultKeys();
     cursor = cursor ? cursor : new DefaultSelectorCursor(this.scene);
 
     return new Selector(cursor, keys);
+  }
+
+  private _createDefaultKeys(): Keys {
+    const cursor = this.scene.input.keyboard.createCursorKeys();
+
+    return new Keys(cursor, cursor.space, cursor.shift);
   }
 }

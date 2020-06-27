@@ -2,15 +2,20 @@ import * as Phaser from 'phaser';
 
 import { GameGlobal } from '../GameGlobal';
 
+import { Selector } from '../core/ui/selector/Selector';
+import { ISelector } from '../core/ui/selector/ISelector';
+import { SelectorFactory } from '../core/ui/selector/SelectorFactory';
 import { Keys } from '../core/input/Keys';
 import { Item } from '../core/models/Item';
 import { CacheKey } from '../core/utils/CacheKey';
 import { MessageBox } from '../ui/messageBox/MessageBox';
+import { ItemMenu } from '../ui/fieldMenu/ItemMenu';
 import { ItemListElement } from '../ui/fieldMenu/ItemListElement';
 import { ItemDescription } from '../ui/fieldMenu/ItemDescription';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
+  selector: ISelector;
 
   init(): void {
     console.log('start scene Opening');
@@ -23,15 +28,19 @@ export class UiTest extends Phaser.Scene {
   create(): void {
     this.cameras.main.setBackgroundColor(0x9955FF);
 
+    this.selector = new SelectorFactory(this).create();
+
     //const messageBox = new MessageBox({scene: this, text: 'this is test'}, 10, 10, 400, 200);
 
-    const item = GameGlobal.items.get('silverKeyA');
+    const itemA = GameGlobal.items.get('silverKeyA');
+    const itemB = GameGlobal.items.get('silverKeyA');
+    const itemC = GameGlobal.items.get('silverKeyA');
+    const itemD = GameGlobal.items.get('silverKeyA');
     
-    const itemListElement = new ItemListElement({scene: this, item: item}, 100, 200);
-    const itemListElementB = new ItemListElement({scene: this, item: item}, 100, 250);
-    const itemListElementC = new ItemListElement({scene: this, item: item}, 100, 300);
-    
-    const itemdescription = new ItemDescription({scene: this, defaultText: 'this is default message'}, 400, 200);
+    const items = [itemA, itemB, itemC, itemD];
+    const itemMenu = new ItemMenu({scene: this, items: GameGlobal.items.entries}, 10, 50);
+
+    this.selector.setGroup(itemMenu.list);
 
     /*
     // 枠はこうやって描くよというやつ
@@ -49,6 +58,7 @@ export class UiTest extends Phaser.Scene {
       //this.itemD.text = 'this is changed text';
     }
 
+    this.selector.update(this.frame);
   }
 
   private _loadItemIcons(): void {
