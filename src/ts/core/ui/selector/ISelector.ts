@@ -3,6 +3,8 @@ import { IElement } from '../IElement';
 import { Direction } from '../Direction';
 import { IGroup } from '../group/IGroup';
 
+type RootGroupCancelEvent = () => void;
+
 export interface ISelector {
   cursor: ISelectorCursor;
   
@@ -18,4 +20,6 @@ export interface ISelector {
   goNext(direction: Direction): void;
 
   destroy(fromScene?: boolean): void;
+
+  setRootCancelEvent(event: RootGroupCancelEvent): void;
 }

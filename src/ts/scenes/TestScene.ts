@@ -174,7 +174,7 @@ export class TestScene extends Phaser.Scene {
 
     // field menu event
     actor.on('fieldMenu', (() => {
-      const fieldMenuEvent = new FieldMenuEvent(this);
+      const fieldMenuEvent = new FieldMenuEvent();
       const fieldMenuEventRange = new EventRangeFactory(fieldMenuEvent).create();
       this.scenarioEvent.start(fieldMenuEventRange);
     }).bind(this));

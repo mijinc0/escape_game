@@ -3,6 +3,7 @@ import * as Ui from '../../core/ui';
 import { IItemDescription } from './IItemDescription';
 import { Item } from '../../core/models/Item';
 import { CacheKey } from '../../core/utils/CacheKey';
+import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemListElementConfig = {
   scene: Phaser.Scene,
@@ -49,6 +50,8 @@ export class ItemListElement extends Ui.Group {
     const itemSizeTextX = baseRectangle.deltaX + baseRectangle.width - 10;
     const itemSizeText = new Ui.Text(scene, itemSizeTextX, centerOfBaseRectangleY, this.item.size.toString(), {});
     itemSizeText.setOrigin(1, 0.5);
+
+    UiRenderOrder.base(baseRectangle, itemIcon, itemNameText, itemSizeText);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(itemIcon);

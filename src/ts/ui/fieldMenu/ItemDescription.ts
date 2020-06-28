@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
 import { IItemDescription } from './IItemDescription';
+import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemDescriptionConfig = {
   scene: Phaser.Scene,
@@ -45,6 +46,8 @@ export class ItemDescription extends Ui.Group implements IItemDescription {
     this.textObject = new Ui.Text(scene, textMargin, textMargin, this.defaultText, {},);
     this.textObject.setOrigin(0);
     this.textObject.setWordWrapWidth(this.width - (textMargin * 2), true);
+
+    UiRenderOrder.base(baseRectangle, this.textObject);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(this.textObject);

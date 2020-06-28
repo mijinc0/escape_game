@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { ISelector } from './ISelector';
 import { ISelectorCursor } from './ISelectorCursor';
 import { SelectorEventNames } from './SelectorEventNames';
@@ -11,7 +12,9 @@ type GroupHistoryEntry = {
   destroyIfCanceled: IElement[],
 };
 
-export class Selector implements ISelector {
+type RootGroupCancelEvent = () => void;
+
+export class Selector extends EventEmitter implements ISelector {
   cursor: ISelectorCursor;
 
   disable: boolean;
@@ -26,6 +29,8 @@ export class Selector implements ISelector {
   private cooldownCount: number;
 
   constructor(cursor: ISelectorCursor, keys?: Keys) {
+    super();
+
     this.cursor = cursor;
     this.disable = false;
     this.keys = keys ? keys : null;
@@ -99,6 +104,10 @@ export class Selector implements ISelector {
     this._setCooldownTime();
   }
 
+  setRootCancelEvent(event: RootGroupCancelEvent): void {
+    this.on('rootGroupCanceled', event);
+  }
+
   private _getCurrentGroup(): IGroup|null {
     return this.groupHistory[0] ? this.groupHistory[0].group : null;
   }
@@ -123,7 +132,13 @@ export class Selector implements ISelector {
   }
 
   private _cancel(): void {
-    if (this.groupHistory.length < 2) return;
+    // groupHistoryが残り1つの状態でcancelされた時は、
+    // Emitterにセットされたイベントを発火して終了
+    // (Ui操作の終了などのイベントがここに入る)
+    if (this.groupHistory.length === 1) {
+      this.emit('rootGroupCanceled');
+      return;
+    }
 
     // shiftすることで、現在のgroupを削除して一つ前に選択していたgroupを先頭に(現在の管理対象に)する
     const unhandledGroup = this.groupHistory.shift();

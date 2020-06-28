@@ -45,7 +45,7 @@ export class UiTest extends Phaser.Scene {
 
     this._setOwnItems();
 
-    this.selector = new SelectorFactory(this).create();
+    this.selector = SelectorFactory.create(this);
 
     const fieldMenuConfig = {
       scene: this,
@@ -53,13 +53,6 @@ export class UiTest extends Phaser.Scene {
     };
     const fieldMenu = new FieldMenu(fieldMenuConfig);
     fieldMenu.registSelector(this.selector);
-
-    /*
-    // 枠はこうやって描くよというやつ
-    const graphics = this.add.graphics({ lineStyle: { width: 2, color: 0x0000aa }, fillStyle: { color: 0xaa0000 }});
-    graphics.strokeRect(50, 50, 80, 40);
-    graphics.strokeRect(150, 150, 80, 40);
-    */
   }
 
   update(): void {
