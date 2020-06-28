@@ -12,9 +12,15 @@ type MessageBoxConfig = {
   backgroundAlpha?: number,
 };
 
-export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
+export class MessageBox extends Ui.Group {
   private textObject: Ui.Text;
   private waitingCursor: Ui.Text;
+
+  constructor(config: MessageBoxConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
+    super(dx, dy, width, height, anchor, null);
+
+    this.init(config);
+  }
 
   get text(): string {
     return this.textObject.text;
@@ -33,9 +39,6 @@ export class MessageBox extends Ui.AbsComponentGroup<MessageBoxConfig> {
   }
 
   protected init(config: MessageBoxConfig): void {
-    // あると邪魔になるので設定されていたら消しておく
-    this.alignmentHandler = null;
-
     const scene = config.scene;
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;

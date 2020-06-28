@@ -12,11 +12,14 @@ type ButtonConfig = {
   backgroundAlpha?: number,
 };
 
-export class Button extends Ui.AbsComponentGroup<ButtonConfig> {
-  init(config: ButtonConfig): void {
-    // あると邪魔になるので設定されていたら消しておく
-    this.alignmentHandler = null;
+export class Button extends Ui.Group {
+  constructor(config: ButtonConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
+    super(dx, dy, width, height, anchor, null);
 
+    this.init(config);
+  }
+
+  init(config: ButtonConfig): void {
     const scene = config.scene;
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;

@@ -4,8 +4,6 @@ export { IElement } from './IElement';
 export { IEventEmitter } from './IEventEmitter';
 export { IPosition } from './IPosition';
 export { ISelectorable } from './ISelectorable';
-export { AbsComponentGroup } from './group/AbsComponentGroup';
-export { AbsComponentScrollGroup } from './group/AbsComponentScrollGroup';
 export { Group } from './group/Group';
 export { IAlignmentHandler } from './group/IAlignmentHandler';
 export { IGroup } from './group/IGroup';
