@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
-import { ItemMenu } from './ItemMenu';
-import { Button } from '../Button';
+import { MainMenu } from './MainMenu';
 import { IGameGlobal } from '../../core/IGameGlobal';
 
 type FieldMenuConfig = {
@@ -9,79 +8,28 @@ type FieldMenuConfig = {
   gameGlobal: IGameGlobal,
 };
 
-type ButtonConfig = {
-  scene: Phaser.Scene,
-  text: string,
-  fontSize?: string,
-  fontColor?: string,
-  fontFamilly?: string,
-  backgroundColor?: number,
-  backgroundAlpha?: number,
-};
-
 export class FieldMenu extends Ui.Group {
-  itemButton: Button;
-  
-  saveButton: Button;
-  
-  backButton: Button;
+  private readonly mainMenu: Ui.Group;
 
-  constructor(config: FieldMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
-    const width = 728;
-    const height = 272;
-    super(dx, dy, width, height, anchor);
+  constructor(config: FieldMenuConfig) {
+    // カメラの基準値を(0, 0)とする
+    const worldView = config.scene.cameras.main.worldView;
+    super(worldView.x, worldView.y, worldView.width, worldView.height);
 
-    this.entries = [];
-    this.currentIndex = -1;
+    this.mainMenu = new MainMenu(config);
 
-    const menuButtonMargin = 16;
-    this.alignmentHandler = new Ui.RangeAlignmentHandler(menuButtonMargin, Ui.Direction.Right);
+    // xは中央合わせ
+    const mainMenuX = (this.width - this.mainMenu.width) / 2;
+    // yは適当(暫定値)
+    const mainMenuY = 40;
 
-    this._init(config);
+    this.mainMenu.x = mainMenuX;
+    this.mainMenu.y = mainMenuY;
+
+    this.push(this.mainMenu);
   }
 
-  private _init(config: FieldMenuConfig): void {
-    const buttonWidth = 176;
-    const buttonHeight = 48;
-    const buttonConfig = {
-      scene: config.scene,
-      text: '',
-      fontSize: '20px',
-      fontColor: 'white',
-      fontFamilly: 'monospace',
-      backgroundColor: 0x000000,
-      backgroundAlpha: 0.9,
-    };
-
-    buttonConfig.text = 'ITEM';
-    this.itemButton = this._createItemButton(config, buttonConfig, buttonWidth, buttonHeight);
-    
-    // saveとbackの内容はeventの中で付けるのでここでは空のボタン
-    buttonConfig.text = 'SAVE';
-    this.saveButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
-
-    buttonConfig.text = 'BACK';
-    this.backButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
-
-    this.push(this.itemButton, this.saveButton, this.backButton);
-  }
-
-  private _createItemButton(fieldMenuConfig: FieldMenuConfig, buttonConfig: ButtonConfig, width: number, height: number): Button {
-    const button = new Button(buttonConfig, 0, 0, width, height);
-
-    // selectでitemListを開くイベント
-    button.on(Ui.SelectorEventNames.Select, (thisButton: Ui.IElement, selector: Ui.ISelector) => {
-      const itemMenuConfig = {
-        scene: fieldMenuConfig.scene,
-        items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
-      };
-      const itemMenu = new ItemMenu(itemMenuConfig, 0, 100);
-      
-      itemMenu.anchor = this;
-
-      selector.setGroup(itemMenu.list, [itemMenu]);
-    });
-
-    return button;
+  registSelector(selector: Ui.ISelector): void {
+    selector.setGroup(this.mainMenu);
   }
 }

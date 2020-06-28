@@ -45,14 +45,14 @@ export class UiTest extends Phaser.Scene {
 
     this._setOwnItems();
 
+    this.selector = new SelectorFactory(this).create();
+
     const fieldMenuConfig = {
       scene: this,
       gameGlobal: this.gameGlobal,
     };
-    const fieldMenu = new FieldMenu(fieldMenuConfig, 10, 10);
-
-    this.selector = new SelectorFactory(this).create();
-    this.selector.setGroup(fieldMenu);
+    const fieldMenu = new FieldMenu(fieldMenuConfig);
+    fieldMenu.registSelector(this.selector);
 
     /*
     // 枠はこうやって描くよというやつ
