@@ -27,15 +27,12 @@ export class FieldMenuEvent implements IScenarioEvent {
       
       this.selector = Ui.SelectorFactory.create(config.scene, config.keys);
       this.fieldMenu = new FieldMenu({scene: config.scene, gameGlobal: config.gameGlobal});
+      
+      // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
+      this.fieldMenu.mainMenu.backButton.on(Ui.SelectorEventNames.Select, this.closeMenu.bind(this));
+      this.selector.setRootCancelEvent(this.closeMenu.bind(this));
+      
       this.fieldMenu.registSelector(this.selector);
-
-      // セレクターに、メインメニュー上でcancelするとこのイベントが終了する
-      // イベントを登録する(eventが終了し uiが破壊される)
-      this.selector.setRootCancelEvent(() => {
-        console.log('close field menu');
-        this.complete();
-      });
-
       this.initCooldown = 15;
     
     } else {
@@ -63,4 +60,9 @@ export class FieldMenuEvent implements IScenarioEvent {
     this.selector = null;
     this.isComplete = true;
   };
+
+  private closeMenu(): void {
+    console.log('close field menu');
+    this.complete();
+  }
 }

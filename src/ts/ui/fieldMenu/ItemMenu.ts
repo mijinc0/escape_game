@@ -3,6 +3,7 @@ import * as Ui from '../../core/ui';
 import { ItemListElement } from './ItemListElement';
 import { ItemDescription } from './ItemDescription';
 import { Item } from '../../core/models/Item';
+import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemMenuConfig = {
   scene: Phaser.Scene,
@@ -27,14 +28,37 @@ export class ItemMenu extends Ui.Group {
     this.scene = config.scene;
     this.items = config.items;
 
-    this._init();
+    // 先にDescriptionを生成する
+    //const itemDescriptionContainer = this._createItemDescriptionContainer();
+    this.description = this._createItemDescription();
+
+    const itemListContainer = this._createItemListContainer();
+    this.list = this._createItemList();
+    itemListContainer.push(this.list);
+
+    this.push(itemListContainer, this.description);
   }
 
-  private _init(): void {
-    this.description = this._createItemDescription();
-    this.list = this._createItemList();
+  private _createItemListContainer(): Ui.Group {
+    const width = 288;
+    const height = 312;
 
-    this.push(this.list, this.description);
+    const group = new Ui.Group(0, 0, width, height);
+
+    const rectangle = new Ui.Rectangle(this.scene, 0, 0, width, height, 0x000000, 0.5);
+    rectangle.setOrigin(0);
+    UiRenderOrder.base(rectangle); 
+
+    const title = new Ui.Text(this.scene, 16, 8, 'items', {fontSize: '16px'});
+    title.setOrigin(0);
+    UiRenderOrder.base(title); 
+
+    this.scene.add.existing(rectangle);
+    this.scene.add.existing(title);
+
+    group.push(rectangle, title);
+
+    return group;
   }
 
   private _createItemDescription(): ItemDescription {
@@ -46,13 +70,14 @@ export class ItemMenu extends Ui.Group {
     const dx = 296;
     const dy = 0;
     const width = 432;
-    const height = 272;
+    const height = 312;
 
     return new ItemDescription(itemDescriptionConfig, dx, dy, width, height);
   }
 
   private _createItemList(): Ui.ScrollGroup<Item> {
     const itemList = this._createItemListBaseGroup();
+
     itemList.setData(
       this.items,
       this._createItemListElement.bind(this),
@@ -62,15 +87,16 @@ export class ItemMenu extends Ui.Group {
   }
 
   private _createItemListBaseGroup():  Ui.ScrollGroup<Item> {
+    const dx = 4;
+    const dy = 36;
     const width = 280;
     const height = 272;
     const maxItemViewSize = 5;
     const scrollSize = 1;
     const margin = 8;
     const ah = new Ui.RangeAlignmentHandler(margin, Ui.Direction.Down);
-    //const ah: Ui.IAlignmentHandler = null;
 
-    return new Ui.ScrollGroup<Item>(0, 0, width, height, null, ah, maxItemViewSize, scrollSize);
+    return new Ui.ScrollGroup<Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
   }
 
   private _createItemListElement(item: Item): ItemListElement {

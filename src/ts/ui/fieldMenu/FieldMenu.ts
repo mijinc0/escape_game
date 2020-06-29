@@ -10,10 +10,10 @@ type FieldMenuConfig = {
 };
 
 export class FieldMenu extends Ui.Group {
-  private readonly mainMenu: Ui.Group;
+  readonly mainMenu: MainMenu;
 
   constructor(config: FieldMenuConfig) {
-    // カメラの基準値を(0, 0)とする
+    // カメラ描写範囲の左上を基準値とする
     const worldView = config.scene.cameras.main.worldView;
     super(worldView.x, worldView.y, worldView.width, worldView.height);
 
@@ -45,7 +45,7 @@ export class FieldMenu extends Ui.Group {
     return rectangle;
   }
 
-  private _createMainMenu(config: FieldMenuConfig): Ui.Group {
+  private _createMainMenu(config: FieldMenuConfig): MainMenu {
     const mainMenu = new MainMenu(config);
 
     // xは中央合わせ
