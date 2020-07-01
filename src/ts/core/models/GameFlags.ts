@@ -1,6 +1,4 @@
-import { ISerializable } from './ISerializable';
-
-export class GameFlags implements ISerializable {
+export class GameFlags {
   private flags: Map<string, boolean>;
 
   constructor() {

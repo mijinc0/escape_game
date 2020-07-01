@@ -7,6 +7,8 @@ type RootGroupCancelEvent = () => void;
 
 export interface ISelector {
   cursor: ISelectorCursor;
+
+  disable: boolean;
   
   update(frame?: number): void;
 

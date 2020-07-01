@@ -23,7 +23,7 @@ export class Button extends Ui.Group {
     const scene = config.scene;
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;
-    const bgAlpha = config.backgroundAlpha ? config.backgroundAlpha : 0.8;
+    const bgAlpha = config.backgroundAlpha ? config.backgroundAlpha : 0;
     const baseRectangle = new Ui.Rectangle(scene, 0, 0, this.width, this.height, bgColor, bgAlpha);
 
     const centerOfBaseRectangleX = baseRectangle.deltaX + (baseRectangle.width / 2);

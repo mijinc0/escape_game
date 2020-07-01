@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { TestScene } from './scenes/TestScene';
+import { Opening } from './scenes/Opening';
 import { UiTest } from './scenes/UiTest';
 
 export class Boot extends Phaser.Game {
@@ -23,7 +24,8 @@ export class Boot extends Phaser.Game {
 
     super(config);
 
-    this.scene.add('opening', TestScene, false);
+    this.scene.add('opening', Opening, false);
+    this.scene.add('field', TestScene, false);
   }
   
   on(): void {

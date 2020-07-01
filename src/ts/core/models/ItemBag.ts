@@ -1,7 +1,6 @@
 import { Item } from './Item';
-import { ISerializable } from './ISerializable';
 
-export class ItemBag implements ISerializable {
+export class ItemBag {
   static maxItems = 99;
 
   private items: Item[];
@@ -60,9 +59,5 @@ export class ItemBag implements ISerializable {
 
   getAll(): Item[] {
     return this.items;
-  }
-
-  serialize(): string {
-    return '';
   }
 }

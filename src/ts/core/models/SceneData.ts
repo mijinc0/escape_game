@@ -33,11 +33,6 @@ export class SceneData implements ISceneData {
     this.ownItems = ownItems ? ownItems : new ItemBag();
   }
 
-  // NOTE: 暫定
-  serialize(): string {
-    return '';
-  }
-
   applyGameGlobal(gameGlobal: IGameGlobal): void {
     gameGlobal.flags.reset();
     gameGlobal.variables.reset();

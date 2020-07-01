@@ -2,10 +2,9 @@ import { Direction } from './Direction';
 import { GameFlags } from './GameFlags';
 import { GameVariables } from './GameVariables';
 import { ItemBag } from './ItemBag';
-import { ISerializable } from './ISerializable';
 import { IGameGlobal } from '../IGameGlobal';
 
-export interface ISceneData extends ISerializable {
+export interface ISceneData {
   areaId: number;
 
   heroX: number;
