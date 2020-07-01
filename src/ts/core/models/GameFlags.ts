@@ -1,4 +1,6 @@
-export class GameFlags {
+import { ISerializable } from './ISerializable';
+
+export class GameFlags implements ISerializable {
   private flags: Map<string, boolean>;
 
   constructor() {
@@ -20,5 +22,17 @@ export class GameFlags {
 
   get(key: string): boolean {
     return !!this.flags.get(key);
+  }
+
+  reset(): void {
+    this.flags.clear();
+  }
+
+  forEach(callbackfn: (value: boolean, key: string, map: Map<string, boolean>) => void, thisArg?: any): void {
+    this.flags.forEach(callbackfn, thisArg);
+  }
+
+  serialize(): string {
+    return '';
   }
 }

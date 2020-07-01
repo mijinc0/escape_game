@@ -3,6 +3,8 @@ import { EventEntries } from './EventEntries';
 import { IArea } from '../../core/areas/IArea';
 
 export const TestArea: IArea = {
+  id: -1,
+
   mapFilePath: 'assets/map/sample_map.json',
 
   tilesetFilePath: 'assets/tileset/sample_tile.json',

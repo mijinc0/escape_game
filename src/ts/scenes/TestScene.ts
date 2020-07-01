@@ -3,7 +3,10 @@ import * as Phaser from 'phaser';
 import { GameGlobal } from '../GameGlobal';
 
 import { Keys } from '../core/input/Keys';
+import { Direction } from '../core/models/Direction';
 import { Item } from '../core/models/Item';
+import { ISceneData } from '../core/models/ISceneData';
+import { SceneData } from '../core/models/SceneData';
 import { IActor } from '../core/actors/IActor';
 import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
@@ -24,7 +27,8 @@ import { CacheKey } from '../core/utils/CacheKey';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { EventRangeFactory } from '../core/events/EventRangeFactory';
 
-import * as Areas from '../areas';
+import { GameAreas } from '../areas/GameAreas';
+
 import * as Actors from '../actors';
 
 export class TestScene extends Phaser.Scene {
@@ -41,17 +45,25 @@ export class TestScene extends Phaser.Scene {
   private actorAnimsFactory: ActorAnimsFactory;
   private actorColliderRegistrar: ActorColliderRegistrar;
 
-  init(): void {
+  init(data?: ISceneData): void {
     console.log('start scene TestScene');
+  
+    if (data) {
+      data.applyGameGlobal(GameGlobal);   
+    
+    } else {
+      const initAreaId = -1;
+      const initHeroX = 300;
+      const initHeroY = 200;
+      const initHeroDirection = Direction.Down;
+      data = new SceneData(initAreaId, initHeroX, initHeroY, initHeroDirection);
+    }
 
     this.frame = 0;
+    
+    this.keys = this._createKeys();
 
-    const cursorKeys = this.input.keyboard.createCursorKeys();
-    const actionKey = cursorKeys.space;
-    const escapeKey = cursorKeys.shift;
-    this.keys = new Keys(cursorKeys, actionKey, escapeKey);
-
-    this.areaData = Areas.TestArea;
+    this.areaData = this._getAreaData(data.areaId);
 
     this.tilemapFactory = new SceneTilemapFactory(this, this.areaData.mapFilePath, this.areaData.tilesetFilePath, this.areaData.tilesetImagePath);
 
@@ -114,6 +126,23 @@ export class TestScene extends Phaser.Scene {
     this.actors.forEach((actor: IActor) => {
       actor.update(this.frame);
     });
+  }
+
+  private _createKeys(): Keys {
+    const cursorKeys = this.input.keyboard.createCursorKeys();
+    const actionKey = cursorKeys.space;
+    const escapeKey = cursorKeys.shift;
+    return new Keys(cursorKeys, actionKey, escapeKey);
+  }
+
+  private _getAreaData(areaId: number): IArea {
+    const area = GameAreas.get(areaId);
+
+    if (!area) {
+      throw Error(`Area data is not found (id: ${areaId})`);
+    }
+
+    return area;
   }
 
   /**

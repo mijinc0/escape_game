@@ -22,4 +22,12 @@ export class GameVariables {
   get(key: string): number {
     return this.variables.get(key) ? this.variables.get(key) : 0;
   }
+
+  reset(): void {
+    this.variables.clear();
+  }
+
+  forEach(callbackfn: (value: number, key: string, map: Map<string, number>) => void, thisArg?: any): void {
+    this.variables.forEach(callbackfn, thisArg);
+  }
 }

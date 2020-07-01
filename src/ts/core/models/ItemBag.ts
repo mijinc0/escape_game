@@ -1,7 +1,7 @@
 import { Item } from './Item';
-import { IItemBag } from './IItemBag';
+import { ISerializable } from './ISerializable';
 
-export class ItemBag implements IItemBag {
+export class ItemBag implements ISerializable {
   static maxItems = 99;
 
   private items: Item[];
@@ -46,6 +46,10 @@ export class ItemBag implements IItemBag {
     return this.getSize(item);
   }
 
+  reset(): void {
+    this.items = [];
+  }
+
   getItem(item: string|Item): Item|null {
     const storedItem = (item instanceof Item) ?
       this.items.find((entry: Item) => (entry === item)) :
@@ -56,5 +60,9 @@ export class ItemBag implements IItemBag {
 
   getAll(): Item[] {
     return this.items;
+  }
+
+  serialize(): string {
+    return '';
   }
 }
