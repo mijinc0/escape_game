@@ -66,11 +66,7 @@ export class UiTest extends Phaser.Scene {
   }
 
   private _loadItemIcons(): void {
-    // TODO: 同じアイコンを使っていると重複するものがある場合があるので削除する処理を先にやる
-    this.gameGlobal.items.entries.forEach((item: Item) => {
-      const iconKey = CacheKey.itemIcon(item.name);
-      this.load.image(iconKey, item.iconFilePath);
-    });
+    // TODO: 現在はLoadingに全て詰め込んだのでLoadingを経由するか、独自でロード処理を書く必要がある
   }
 
   private _setOwnItems(): void {

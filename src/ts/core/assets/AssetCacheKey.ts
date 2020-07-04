@@ -3,8 +3,8 @@
  *    name : キャッシュに登録される各要素に付けられるユニークな名称、キャッシュに保存される時の名称(Key)とは別
  *    key  : キャッシュに登録されるときのkey、nameとtype(`spriteSheet`など)をもとに生成される
  */
-export class CacheKey {
-  static spriteSheet(name: string): string {
+export class AssetCacheKey {
+  static spritesheet(name: string): string {
     return this._createKey('spriteSheet', name);
   }
 

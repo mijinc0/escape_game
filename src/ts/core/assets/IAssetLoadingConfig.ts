@@ -1,7 +1,16 @@
-import { IAssetLoadingEntry } from './IAssetLoadingEntry';
+import { IAssetEntry } from './IAssetEntry';
+import { ISpritesheetAssetEntry } from './ISpritesheetAssetEntry';
 
-export interface IAssetLoadingConfig {
-  entries: IAssetLoadingEntry[];
+export interface IAssetLoadingConfig { 
+  tileMap?: IAssetEntry[],
   
-  onComplete: () => void;
+  tileImage?: IAssetEntry[],
+
+  tileInfo?: IAssetEntry[],
+
+  itemIcon?: IAssetEntry[],
+  
+  spritesheet?: ISpritesheetAssetEntry[],
+
+  onComplete?: () => void;
 }

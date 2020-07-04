@@ -1,10 +1,8 @@
 import * as Phaser from 'phaser';
-import { AssetTypes } from '../core/assets/AssetTypes';
+import { AssetLoader } from '../core/assets/AssetLoader';
 import { IAssetLoadingConfig } from '../core/assets/IAssetLoadingConfig';
-import { IAssetLoadingEntry } from '../core/assets/IAssetLoadingEntry';
 
 export class Loading extends Phaser.Scene {
-  private frame: number;
 
   private config: IAssetLoadingConfig;
 
@@ -21,38 +19,21 @@ export class Loading extends Phaser.Scene {
   preload (): void {
     console.log('preload');
 
-    this.add.text(50, 50, 'Loading');
+    const loader = new AssetLoader(this);
 
-    this.load.on('progress', this._updateBar.bind(this));
-    this.load.on('complete', this._complete.bind(this));
+    this.add.text(
+      50,
+      50,
+      'Loading',
+      {
+        fontSize: '32px',
+      }
+    );
+
+    loader.onProgress(this._updateBar.bind(this));
+    loader.onComplete(this._complete.bind(this));
     
-    this.config.entries.forEach((entry: IAssetLoadingEntry) => {
-      this._loadAsset(entry);
-    });
-  }
-  
-  create(): void {
-    console.log('create');
-  }
-  
-  update(): void {
-    console.log('update');
-  }
-
-  private _loadAsset(entry: IAssetLoadingEntry): void {
-    switch (entry.type) {
-      case AssetTypes.Image :
-        this.load.image(entry.key, entry.path);
-        break;
-      
-      case AssetTypes.Json :
-        this.load.json(entry.key, entry.path);
-        break;
-      
-      case AssetTypes.Spritesheet :
-        this.load.spritesheet(entry.key, entry.path);
-        break;
-    }
+    loader.load(this.config);
   }
 
   private _updateBar(percentage: number): void {
@@ -60,6 +41,8 @@ export class Loading extends Phaser.Scene {
 	}
 
 	private _complete(): void {
-		this.config.onComplete();
+    if (this.config.onComplete) {
+      this.config.onComplete();
+    }
 	}
 }

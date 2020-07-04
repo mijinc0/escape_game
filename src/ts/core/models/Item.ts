@@ -4,16 +4,16 @@ export class Item {
   readonly name: string;
 
   readonly description: string;
-  
-  readonly iconFilePath: string;
+
+  readonly iconImageKey: string;
   
   size: number;
 
-  constructor(id: number, name: string, description: string, iconFilePath: string, size?: number) {
+  constructor(id: number, name: string, description: string, iconImageKey: string, size?: number) {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.iconFilePath = iconFilePath;
+    this.iconImageKey = iconImageKey;
     this.size = size ? size : 0;
   }
 }

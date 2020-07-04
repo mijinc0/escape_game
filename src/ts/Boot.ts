@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser';
+import { GameAssets } from './GameAssets';
+import { IAssetLoadingConfig } from './core/assets/IAssetLoadingConfig';
 import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
-import { UiTest } from './scenes/UiTest';
 
 export class Boot extends Phaser.Game {
   constructor() {
@@ -31,6 +32,22 @@ export class Boot extends Phaser.Game {
   }
   
   on(): void {
-    this.scene.start('loading');
+    const assetLoadingConfig: IAssetLoadingConfig = {
+      tileMap: GameAssets.tileMap,
+  
+      tileImage: GameAssets.tileImage,
+    
+      tileInfo: GameAssets.tileInfo,
+    
+      itemIcon: GameAssets.itemIcon,
+      
+      spritesheet: GameAssets.spritesheet,
+
+      onComplete: (() => {
+        this.scene.start('opening');
+      }).bind(this),
+    };
+
+    this.scene.start('loading', assetLoadingConfig);
   }
 }
