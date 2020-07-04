@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 
 import { GameGlobal } from '../GameGlobal';
 
+import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
 import { Item } from '../core/models/Item';
@@ -22,7 +23,6 @@ import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
 import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
-import { CacheKey } from '../core/utils/CacheKey';
 
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { EventRangeFactory } from '../core/events/EventRangeFactory';
@@ -65,7 +65,7 @@ export class TestScene extends Phaser.Scene {
 
     this.areaData = this._getAreaData(data.areaId);
 
-    this.tilemapFactory = new SceneTilemapFactory(this, this.areaData.mapFilePath, this.areaData.tilesetFilePath, this.areaData.tilesetImagePath);
+    this.tilemapFactory = new SceneTilemapFactory(this);
 
     this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
 
@@ -89,11 +89,7 @@ export class TestScene extends Phaser.Scene {
     this.actors = [];
   }
 
-  preload (): void {
-    this.tilemapFactory.loadAssets();
-
-    this.actorSpawner.preload();
-  }
+  preload (): void {}
   
   create(): void {
     this._createTilemap();
@@ -159,7 +155,11 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _createTilemap(): void {
-    this.tilemapData = this.tilemapFactory.create();
+    this.tilemapData = this.tilemapFactory.create(
+      this.areaData.tilemapKey,
+      this.areaData.tileInfoKey,
+      this.areaData.tileImageKey,
+    );
 
     // set depth
     // マップのレイヤーは
@@ -178,7 +178,7 @@ export class TestScene extends Phaser.Scene {
 
   private _createPrimaryActor(): IActor {
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = this.actorSpriteFactory.create(600, 100, 'hero', 0, {size: 0.6, origin: {x: 0.5, y: 1}});
+    const sprite = this.actorSpriteFactory.create(600, 100, AssetCacheKey.spritesheet('hero'), 0, {size: 0.6, origin: {x: 0.5, y: 1}});
     actor.sprite = sprite;
     actor.keys = this.keys;
     this.actorAnimsFactory.setAnims(sprite);

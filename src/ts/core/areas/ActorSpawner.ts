@@ -43,13 +43,6 @@ export class ActorSpawner {
     this.afterSpawnCallback = afterSpawnCallback ? afterSpawnCallback : null;
   }
 
-  preload(): void {
-    this.actorEntries.forEach((entry: MappedEntry) => {
-      const actorSptiteConfigs = entry.entry.statusPages.map((page: IActorStatusPage) => (page.spriteConfig));
-      this.actorSpriteFactory.loadMultipileAssets(actorSptiteConfigs);
-    });
-  }
-
   spawnEntries(): void {
     this.actorEntries.forEach((entry: MappedEntry) => {      
       this._spawnActor(entry.entry);
@@ -76,7 +69,7 @@ export class ActorSpawner {
     if (!page) return;
 
     // 3. change animation settings
-    this.actorAnimsFactory.setAnims(actor.sprite, page.spriteConfig.key);
+    this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
 
     // 4. events setting
     actor.removeAllListeners('search');
@@ -92,7 +85,7 @@ export class ActorSpawner {
     // 1. create sprite
     const x = entry.position.x;
     const y = entry.position.y;
-    const spriteKey = page.spriteConfig.key;
+    const spriteKey = page.spriteKey;
     const initFrame = page.initFrame;
     
     const sprite = this.actorSpriteFactory.create(x, y, spriteKey, initFrame, page.bodyConfig);

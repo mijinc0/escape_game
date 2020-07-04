@@ -1,15 +1,16 @@
 import { ActorEntries } from './ActorEntries';
 import { EventEntries } from './EventEntries';
 import { IArea } from '../../core/areas/IArea';
+import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 
 export const TestArea: IArea = {
   id: -1,
 
-  mapFilePath: 'assets/map/sample_map.json',
+  tilemapKey: AssetCacheKey.tilemap('sample_map'),
 
-  tilesetFilePath: 'assets/tileset/sample_tile.json',
+  tileInfoKey: AssetCacheKey.tileInfo('sample_tile'),
   
-  tilesetImagePath: 'assets/tileset/sample_tile.png',
+  tileImageKey: AssetCacheKey.tileImage('sample_tile'),
 
   actors: ActorEntries,
 

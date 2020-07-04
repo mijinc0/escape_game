@@ -4,7 +4,7 @@ import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 type EntryBase = {name: string, path: string, frameWidth: number, frameHeight: number};
 
 const entries: EntryBase[] = [
-  {name: 'sample_map', path: 'assets/map/sample_map.json', frameWidth: 32, frameHeight: 32},
+  {name: 'hero', path: 'assets/sprites/actor.png', frameWidth: 32, frameHeight: 32},
 ];
 
 export const SpritesheetAssetEntries: ISpritesheetAssetEntry[] = entries.map((base : EntryBase) => (

@@ -4,48 +4,26 @@ import { ILayerData } from './ILayerData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 import { Size } from '../models/Size';
-import { CacheKey } from '../utils/CacheKey';
 
 type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
  
 export class SceneTilemapFactory {
   private scene: Phaser.Scene;
-  private mapFilePath: string;
-  private tilesetFilePath: string;
-  private tilesetImagePath: string;
 
-  constructor(
-    scene: Phaser.Scene,
-    mapFilePath: string,
-    tilesetFilePath: string,
-    tilesetImagePath: string,
-  ) {
+  constructor(scene: Phaser.Scene) {
     this.scene = scene;
-    this.mapFilePath = mapFilePath;
-    this.tilesetFilePath = tilesetFilePath;
-    this.tilesetImagePath = tilesetImagePath;
   }
 
-  loadAssets(): void {
-    const assetKeys = this._getTilemapAssetKeys(this.mapFilePath, this.tilesetFilePath, this.tilesetImagePath);
-
-    this.scene.load.json(assetKeys.tilemap, this.mapFilePath);
-    this.scene.load.json(assetKeys.tileInfo, this.tilesetFilePath);
-    this.scene.load.image(assetKeys.tileImage, this.tilesetImagePath);
-  }
-
-  create(): ISceneTilemapData {
-    const assetKeys = this._getTilemapAssetKeys(this.mapFilePath, this.tilesetFilePath, this.tilesetImagePath);
-
+  create(tilemapKey: string, tileInfoKey: string, tileImageKey: string): ISceneTilemapData {
     // get json data
-    const jsonMapDataFile = this.scene.cache.json.get(assetKeys.tilemap);
-    const jsonTilesetInfos = this.scene.cache.json.get(assetKeys.tileInfo);
+    const jsonMapDataFile = this.scene.cache.json.get(tilemapKey);
+    const jsonTilesetInfos = this.scene.cache.json.get(tileInfoKey);
 
     // check existance
     if (!jsonTilesetInfos || !jsonMapDataFile) throw Error('json (mapdata or tilesetInfo) is not found.');
 
     // create
-    return this._createMap(jsonMapDataFile, jsonTilesetInfos, assetKeys.tileImage);
+    return this._createMap(jsonMapDataFile, jsonTilesetInfos, tileImageKey);
   }
 
   private _createMap(mapJson: any, tileJson: any, tileImageKey: string): ISceneTilemapData {
@@ -107,26 +85,5 @@ export class SceneTilemapFactory {
     tileInfos.forEach((tileInfo: TileInfo) => {
       if (tileInfo.collide) staticLayer.setCollision(tileInfo.id);
     });
-  }
-
-  private _getTilemapAssetKeys(
-    mapFilePath: string,
-    tilesetFilePath: string,
-    tilesetImagePath: string,
-  ): {tilemap: string, tileInfo: string, tileImage: string} {
-
-    const mapFileName = this._getFileName(mapFilePath);
-    const tilesetFileName = this._getFileName(tilesetFilePath);
-    const tilesetImageName = this._getFileName(tilesetImagePath);
-
-    const mapFileKey = CacheKey.tilemap(mapFileName);
-    const tilesetFileKey = CacheKey.tileInfo(tilesetFileName);
-    const tilesetImageKey = CacheKey.tileImage(tilesetImageName);
-
-    return {
-      tilemap: mapFileKey,
-      tileInfo: tilesetFileKey,
-      tileImage: tilesetImageKey,
-    };
   }
 }

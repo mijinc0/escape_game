@@ -4,11 +4,11 @@ import { EventEntry } from './EventEntry';
 export interface IArea {
   id: number;
 
-  mapFilePath: string;
+  tilemapKey: string;
 
-  tilesetFilePath: string;
+  tileInfoKey: string;
   
-  tilesetImagePath: string;
+  tileImageKey: string;
 
   actors: ActorEntry[];
 

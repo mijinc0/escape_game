@@ -1,6 +1,6 @@
-import { SpriteConfigs } from '../../sprites/SpriteConfigs';
 import { Actor } from '../../core/actors/Actor';
 import { ActorEntry } from '../../core/areas/ActorEntry';
+import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 import { EventEmitType } from '../../core/areas/EventEmitType';
 import { Direction } from '../../core/models/Direction';
 
@@ -13,7 +13,7 @@ export const ActorEntries: ActorEntry[] = [
       {
         eventId: 0,
         eventEmitType: EventEmitType.Search,
-        spriteConfig: SpriteConfigs.hero,
+        spriteKey: AssetCacheKey.spritesheet('hero'),
         initFrame: 0,
         bodyConfig: {
           overlapOnly: true,
@@ -31,7 +31,7 @@ export const ActorEntries: ActorEntry[] = [
       {
         eventId: 0,
         eventEmitType: EventEmitType.Collide,
-        spriteConfig: SpriteConfigs.hero,
+        spriteKey: AssetCacheKey.spritesheet('hero'),
         initFrame: 0,
       },
     ],
