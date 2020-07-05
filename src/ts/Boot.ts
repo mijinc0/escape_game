@@ -33,6 +33,8 @@ export class Boot extends Phaser.Game {
   
   on(): void {
     const assetLoadingConfig: IAssetLoadingConfig = {
+      nextScene: 'opening',
+
       tileMap: GameAssets.tileMap,
   
       tileImage: GameAssets.tileImage,
@@ -42,10 +44,6 @@ export class Boot extends Phaser.Game {
       itemIcon: GameAssets.itemIcon,
       
       spritesheet: GameAssets.spritesheet,
-
-      onComplete: (() => {
-        this.scene.start('opening');
-      }).bind(this),
     };
 
     this.scene.start('loading', assetLoadingConfig);

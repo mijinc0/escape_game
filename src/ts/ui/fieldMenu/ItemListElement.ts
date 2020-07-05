@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
 import { IItemDescription } from './IItemDescription';
 import { Item } from '../../core/models/Item';
-import { CacheKey } from '../../core/utils/CacheKey';
 import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemListElementConfig = {
@@ -39,7 +38,7 @@ export class ItemListElement extends Ui.Group {
 
     const centerOfBaseRectangleY = baseRectangle.deltaY + (baseRectangle.height / 2);
     
-    const iconKey = CacheKey.itemIcon(this.item.name);
+    const iconKey = this.item.iconImageKey;
     const itemIcon = new Ui.Image(scene, 10, centerOfBaseRectangleY, iconKey);
     itemIcon.setOrigin(0, 0.5);
 

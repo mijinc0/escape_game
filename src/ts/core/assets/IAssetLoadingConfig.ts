@@ -2,6 +2,8 @@ import { IAssetEntry } from './IAssetEntry';
 import { ISpritesheetAssetEntry } from './ISpritesheetAssetEntry';
 
 export interface IAssetLoadingConfig { 
+  nextScene?: string,
+
   tileMap?: IAssetEntry[],
   
   tileImage?: IAssetEntry[],
@@ -11,6 +13,4 @@ export interface IAssetLoadingConfig {
   itemIcon?: IAssetEntry[],
   
   spritesheet?: ISpritesheetAssetEntry[],
-
-  onComplete?: () => void;
 }

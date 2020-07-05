@@ -3,8 +3,11 @@ import { AssetLoader } from '../core/assets/AssetLoader';
 import { IAssetLoadingConfig } from '../core/assets/IAssetLoadingConfig';
 
 export class Loading extends Phaser.Scene {
-
+  private frame: number;
   private config: IAssetLoadingConfig;
+  private loadingText: Phaser.GameObjects.Text;
+  private progressBar: Phaser.GameObjects.Rectangle;
+  private bar: Phaser.GameObjects.Rectangle;
 
   init(config: IAssetLoadingConfig): void {
     console.log('start scene Loading');
@@ -14,35 +17,62 @@ export class Loading extends Phaser.Scene {
     }
     
     this.config = config;
+    this.frame = -1;
   }
   
-  preload (): void {
+  preload(): void {
     console.log('preload');
 
     const loader = new AssetLoader(this);
 
-    this.add.text(
-      50,
-      50,
-      'Loading',
-      {
-        fontSize: '32px',
-      }
-    );
+    this.loadingText = this.add.text(50, 50, 'Loading...', {fontSize: '24px', fontFamily: 'sans-serif'});
+    this.progressBar = this.add.rectangle(40, 480, 0, 4, 0xffffff, 1);
+    this.bar = this.add.rectangle(56, 496, 696, 1, 0xffffff, 1);
+
+    this.loadingText.setOrigin(0);
+    this.progressBar.setOrigin(0);
+    this.bar.setOrigin(0);
 
     loader.onProgress(this._updateBar.bind(this));
-    loader.onComplete(this._complete.bind(this));
     
     loader.load(this.config);
   }
 
-  private _updateBar(percentage: number): void {
-		console.log("P:" + percentage);
-	}
+  /**
+   * create, updateはpreloadが完全に済んだら開始するので、loader.on('progress')ではなくて
+   * updateに完了後のイベントを仕込む
+   */
+  update(): void {
+    this.frame++;
 
-	private _complete(): void {
-    if (this.config.onComplete) {
-      this.config.onComplete();
+    // preloadが一瞬で済んだ場合、画面がちらついたように見えるだけになってしまうので
+    // Loading画面であることが確認できるように少しだけスリープを入れる
+    // (画面が一瞬ちらついたように見えても構わなければこの処理は不要)
+    if (this.frame === 30) {
+      this._complete();
     }
+  }
+  
+  private _updateBar(percentage: number): void {
+    console.log("P:" + percentage);
+    const maxWidth = 720;
+    this.progressBar.width = maxWidth * percentage;
 	}
+  
+	private _complete(): void {
+    this.cameras.main.fadeOut(500, 0, 0, 0, (camera: any, progress: number) => {
+      if (progress === 1) {
+        this._goNextScene();
+      }
+    });
+  }
+  
+  private _goNextScene(): void {
+    this.loadingText.destroy();
+    this.progressBar.destroy();
+    this.bar.destroy();
+
+    const nextScene = this.config.nextScene ? this.config.nextScene : 'opening';
+    this.scene.start(nextScene);
+  }
 }

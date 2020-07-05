@@ -12,7 +12,6 @@ import { ISelector } from '../core/ui/selector/ISelector';
 import { SelectorFactory } from '../core/ui/selector/SelectorFactory';
 import { Keys } from '../core/input/Keys';
 import { Item } from '../core/models/Item';
-import { CacheKey } from '../core/utils/CacheKey';
 import { MessageBox } from '../ui/messageBox/MessageBox';
 import { ItemMenu } from '../ui/fieldMenu/ItemMenu';
 import { ItemListElement } from '../ui/fieldMenu/ItemListElement';

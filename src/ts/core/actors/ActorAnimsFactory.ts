@@ -1,7 +1,11 @@
+/**
+ * NOTE: Factory系はcoreの中で依存関係が発生する可能性が高いので、coreの外に出したほうが良いかもしれない
+ * (coreの中は出来るだけサブディレクトリ間で依存が発生しないようにしたい)
+ */
 import * as Phaser from 'phaser';
 import { IActorAnimsFactory } from './IActorAnimsFactory';
 import { IActorSprite } from './IActorSprite';
-import { CacheKey } from '../utils/CacheKey';
+import { AssetCacheKey } from '../assets/AssetCacheKey';
 
 type AnimConfig = {
   name: string,
@@ -53,7 +57,9 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
       
       // 同じSpriteのActor毎に同じアニメーションを生成すると無駄なので、
       // シーンのキャッシュにあればそれを使う。無ければ生成する
-      const anim = this.scene.anims.get(animKey) ? this.scene.anims.get(animKey) : this._createActorAnim(spriteSheetKey, config);
+      const anim = this.scene.anims.get(animKey) ?
+        this.scene.anims.get(animKey) :
+        this._createActorAnim(spriteSheetKey, config);
 
       // keyはconfigsのkeyを使う。これは、全てのSpriteに対して同じkeyを使って(それぞれのSpriteに登録された)
       // アニメーションを再生できるようにするため
@@ -89,6 +95,6 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
   }
 
   private _createActorAnimKey(spriteSheetKey: string, animName: string): string {
-    return CacheKey.anim(spriteSheetKey, animName);
+    return AssetCacheKey.anim(spriteSheetKey, animName);
   }
 }
