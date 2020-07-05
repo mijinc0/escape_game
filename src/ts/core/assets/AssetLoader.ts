@@ -46,6 +46,10 @@ export class AssetLoader {
     this.scene.load.on('progress', event);
   }
 
+  onSuccessful(event: (file: any) => void): void {
+    this.scene.load.on('load', event);
+  }
+
   onComplete(event: () => void): void {
     this.scene.load.on('complete', event);
 

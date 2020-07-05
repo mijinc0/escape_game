@@ -46,7 +46,7 @@ export class TestScene extends Phaser.Scene {
   private actorColliderRegistrar: ActorColliderRegistrar;
 
   init(data?: ISceneData): void {
-    console.log('start scene TestScene');
+    console.log('== start scene TestScene ==');
   
     if (data) {
       data.applyGameGlobal(GameGlobal);   

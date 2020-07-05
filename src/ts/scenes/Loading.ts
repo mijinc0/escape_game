@@ -10,7 +10,7 @@ export class Loading extends Phaser.Scene {
   private bar: Phaser.GameObjects.Rectangle;
 
   init(config: IAssetLoadingConfig): void {
-    console.log('start scene Loading');
+    console.log('== start scene Loading ==');
 
     if (!config) {
       throw Error('AssetLoadingConfig is not found');
@@ -35,6 +35,8 @@ export class Loading extends Phaser.Scene {
 
     loader.onProgress(this._updateBar.bind(this));
     
+    loader.onSuccessful(this._loadingSuccessful.bind(this));
+    
     loader.load(this.config);
   }
 
@@ -54,10 +56,15 @@ export class Loading extends Phaser.Scene {
   }
   
   private _updateBar(percentage: number): void {
-    console.log("P:" + percentage);
     const maxWidth = 720;
     this.progressBar.width = maxWidth * percentage;
-	}
+  }
+  
+  private _loadingSuccessful(file: any): void {
+    const src = file.src ? file.src : 'unknown/path';
+    const key = file.src ? file.key : 'unknown_key';
+    console.log(`load asset : ${key} : ${src}`);
+  }
   
 	private _complete(): void {
     this.cameras.main.fadeOut(500, 0, 0, 0, (camera: any, progress: number) => {

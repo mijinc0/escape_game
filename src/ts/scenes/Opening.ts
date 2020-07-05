@@ -10,7 +10,7 @@ export class Opening extends Phaser.Scene {
   private selector: Ui.ISelector;
 
   init(): void {
-    console.log('start scene Opening');
+    console.log('== start scene Opening ==');
   }
 
   preload (): void {

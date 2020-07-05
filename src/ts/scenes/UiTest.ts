@@ -25,7 +25,7 @@ export class UiTest extends Phaser.Scene {
   selector: ISelector;
 
   init(): void {
-    console.log('start scene Opening');
+    console.log('== start scene UiTest ==');
 
     this.gameGlobal = {
       flags : new GameFlags(),
