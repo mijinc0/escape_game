@@ -63,6 +63,9 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
 
       // keyはconfigsのkeyを使う。これは、全てのSpriteに対して同じkeyを使って(それぞれのSpriteに登録された)
       // アニメーションを再生できるようにするため
+      // 例えば、spriteAとspriteBの右歩行アニメーションのkyeはそれぞれspriteA_walkRight、spriteB_walkRightだが、
+      // spriteに"walkRight"としてアニメーションへの参照を持っているのでspriteA.play("walkRight"), spriteB.play("walkRight")で
+      // 右歩行アニメーションが再生できる
       targetSprite.setAnim(config.name, anim);
     });
   }

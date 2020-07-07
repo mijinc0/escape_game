@@ -15,8 +15,9 @@ export const Event0 = EventEntryFactory.create(0,
   cmd.addVariable('test', 100),
 
   op.loop(
-    op.if(() => (false))(
+    op.if(() => (GameGlobal.variables.get('loop') < 10))(
       cmd.message('loop now'),
+      cmd.addVariable('loop', 1),
     ).else(
       op.break(),
     ),

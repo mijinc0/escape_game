@@ -72,13 +72,15 @@ export class ActorSearchEvent {
 
   private _search(zone: Zone): void {
     this.actors.forEach((actor: IActor) => {
-      if (this._onlyOverlappingSearchZone(zone, actor)) {
+      if (this._isOverlappingSearchZone(zone, actor)) {
         actor.emit('search');
       }
     });
   }
 
-  private _onlyOverlappingSearchZone(zone: Zone, target: IActor): boolean {
+  private _isOverlappingSearchZone(zone: Zone, target: IActor): boolean {
+    if (!target.sprite || !target.sprite.body) return false;
+
     const searchLeft = zone.x;
     const searchRight = zone.x + zone.width;
     const searchTop = zone.y;

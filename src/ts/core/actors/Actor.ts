@@ -17,11 +17,11 @@ export class Actor extends EventEmitter implements IActor, IControllable {
 
   eventId: number;
   
-  sprite: IActorSprite;
-  
   direction: Direction;
   
-  keys: Keys;
+  sprite?: IActorSprite;
+  
+  keys?: Keys;
 
   constructor(
     id: number,
@@ -35,8 +35,8 @@ export class Actor extends EventEmitter implements IActor, IControllable {
     this.name = name;
     this.flags = new GameFlags();
     this.eventId = eventId ? eventId : -1;
-    this.sprite = sprite ? sprite : null;
     this.direction = direction ? direction : Direction.Down;
+    this.sprite = sprite ? sprite : null;
     this.keys = null;
   }
 

@@ -17,7 +17,8 @@ import { ActorAnimsFactory } from '../core/actors/ActorAnimsFactory';
 import { IArea } from '../core/areas/IArea';
 import { ActorColliderRegistrar } from '../core/areas/ActorColliderRegistrar';
 import { ActorEventRegistrar } from '../core/areas/ActorEventRegistrar';
-import { ActorSpawner } from '../core/areas/ActorSpawner';
+import { AreaActorsManager } from '../core/areas/AreaActorsManager';
+import { IActorEntry } from '../core/areas/IActorEntry';
 import { EventEmitType } from '../core/areas/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
@@ -37,12 +38,9 @@ export class TestScene extends Phaser.Scene {
   private tilemapFactory: SceneTilemapFactory;
   private primaryActor: IActor;
   private areaData: IArea; 
-  private actors: IActor[];
   private scenarioEvent: ScenarioEventManager;
   private tilemapData: ISceneTilemapData;
-  private actorSpawner: ActorSpawner;
-  private actorSpriteFactory: ActorSpriteFactory;
-  private actorAnimsFactory: ActorAnimsFactory;
+  private actorsManager: AreaActorsManager;
   private actorColliderRegistrar: ActorColliderRegistrar;
 
   init(data?: ISceneData): void {
@@ -50,7 +48,6 @@ export class TestScene extends Phaser.Scene {
   
     if (data) {
       data.applyGameGlobal(GameGlobal);   
-    
     } else {
       const initAreaId = -1;
       const initHeroX = 300;
@@ -65,28 +62,13 @@ export class TestScene extends Phaser.Scene {
 
     this.areaData = this._getAreaData(data.areaId);
 
+    this.actorColliderRegistrar = new ActorColliderRegistrar(this);
+
     this.tilemapFactory = new SceneTilemapFactory(this);
 
     this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
 
-    this.actorSpriteFactory = new ActorSpriteFactory(this);
-
-    this.actorAnimsFactory = new ActorAnimsFactory(this);
-    
-    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
-    this.actorSpawner = new ActorSpawner(
-      GameGlobal,
-      this.areaData.actors,
-      this.actorSpriteFactory,
-      this.actorAnimsFactory,
-      actorEventRegistrar.regist.bind(actorEventRegistrar),
-      this._addSpawnActorsCollider.bind(this),
-      this._afterActorSpawn.bind(this),
-    );
-
-    this.actorColliderRegistrar = new ActorColliderRegistrar(this);
-
-    this.actors = [];
+    this.actorsManager = this._createActorsManager();
   }
 
   preload (): void {}
@@ -96,7 +78,7 @@ export class TestScene extends Phaser.Scene {
 
     this.primaryActor = this._createPrimaryActor();
     
-    this._createActors();
+    this._spawnActors();
 
     this._cameraSetting();
   }
@@ -111,15 +93,13 @@ export class TestScene extends Phaser.Scene {
       return;
     }
 
-    // resume()内部で判定していないので判定する
-    // (判定が無いと関数内部で無駄に内部でイベントエミッターをemitしたりしてしまう)
+    // this.physics.world.resume()内部で判定していないので判定する
+    // (判定が無いと関数内部で無駄に内部でイベントをemitしてしまう)
     if (this.physics.world.isPaused) this.physics.world.resume();
     
     this.primaryActor.update(this.frame);
 
-    this.actors.forEach((actor: IActor) => {
-      actor.update(this.frame);
-    });
+    this.actorsManager.update(this.frame);
   }
 
   private _createKeys(): Keys {
@@ -139,19 +119,22 @@ export class TestScene extends Phaser.Scene {
     return area;
   }
 
-  private _createActors(): void {
-    this.actorSpawner.spawnEntries();
+  private _createActorsManager(): AreaActorsManager {
+    const actorSpriteFactory = new ActorSpriteFactory(this);
+    const actorAnimsFactory = new ActorAnimsFactory(this);
+    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
+    
+    return new AreaActorsManager(
+      actorSpriteFactory,
+      actorAnimsFactory,
+      actorEventRegistrar,
+      this._addSpawnActorsCollider.bind(this),
+      this.areaData.actors,
+    );
+  }
 
-    this.tilemapData.mapData.actorPositions.forEach((actorPosition: ActorPosition) => {
-      const actor = this.actors.find((actor: IActor) => (
-        actor.id === actorPosition.actorId
-      ));
-
-      if (actor) {
-        actor.sprite.x = actorPosition.positon.x;
-        actor.sprite.y = actorPosition.positon.y;
-      }
-    });
+  private _spawnActors(): void {
+    this.actorsManager.spawnEntries();
   }
 
   private _createTilemap(): void {
@@ -177,14 +160,18 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _createPrimaryActor(): IActor {
+    const actorSpriteFactory = new ActorSpriteFactory(this);
+    const actorAnimsFactory = new ActorAnimsFactory(this);
+
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = this.actorSpriteFactory.create(600, 100, AssetCacheKey.spritesheet('hero'), 0, {size: 0.6, origin: {x: 0.5, y: 1}});
+    const sprite = actorSpriteFactory.create(600, 100, AssetCacheKey.spritesheet('hero'), 0, {size: 0.6, origin: {x: 0.5, y: 1}});
     actor.sprite = sprite;
     actor.keys = this.keys;
-    this.actorAnimsFactory.setAnims(sprite);
+    actorAnimsFactory.setAnims(sprite);
 
     // search event
-    const searchEvent = new ActorSearchEvent(this.actors);
+    const actors = this.areaData.actors.map((entry: IActorEntry) => (entry.actorObject));
+    const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 
     // field menu event
@@ -202,12 +189,6 @@ export class TestScene extends Phaser.Scene {
     return actor;
   }
 
-  private _afterActorSpawn(spawnActor: IActor): void {
-    this.actors.push(spawnActor);
-
-    ActorRenderOrder.prioritizeY(spawnActor.sprite);
-  }
-
   private _addSpawnActorsCollider(spawnActor: IActor, onlyOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
@@ -223,7 +204,8 @@ export class TestScene extends Phaser.Scene {
     );
 
     // with other actors that has already spawned
-    this.actors.forEach((actor: IActor) => {
+    const spawnActors = this.actorsManager.getSpawnActors();
+    spawnActors.forEach((actor: IActor) => {
       this.actorColliderRegistrar.registActorPair(
         spawnActor,
         actor,

@@ -6,4 +6,6 @@ export interface IActorBody {
   height: number;
 
   offset: Position;
+
+  enable: boolean;
 }

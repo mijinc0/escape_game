@@ -1,12 +1,10 @@
 import { Position } from '../models/Position';
 import { Size } from '../models/Size';
 
-export type BodyConfig = {
+export interface IBodyConfig {
   size?: Size|number,
   
   offset?: Position,
 
   origin?: Position,
-
-  overlapOnly?: boolean,
-};
+}

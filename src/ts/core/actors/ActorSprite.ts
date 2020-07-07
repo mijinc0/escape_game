@@ -30,6 +30,14 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
   setAnim(animName: string, animObject: SpriteAnimation): void {
     this.spriteAnims.set(animName, animObject);
   }
+
+  clearAnims(animName?: string): void {
+    if (animName) {
+      this.spriteAnims.delete(animName);
+    } else {
+      this.spriteAnims.clear();
+    }
+  }
   
   play(animName: string, ignoreIfPlaying?: boolean): this {
     const anim = this.spriteAnims.get(animName);

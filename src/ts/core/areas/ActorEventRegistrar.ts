@@ -1,9 +1,10 @@
+import { IActorEventRegistrar } from './IActorEventRegistrar';
 import { EventEntry } from './EventEntry';
 import { IActorStatusPage } from './IActorStatusPage';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
 import { IActor } from '../actors/IActor';
  
-export class ActorEventRegistrar {
+export class ActorEventRegistrar implements IActorEventRegistrar {
   scenarioEventManager: ScenarioEventManager;
   eventEntries: EventEntry[];
 

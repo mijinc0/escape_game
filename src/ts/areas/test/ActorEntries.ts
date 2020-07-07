@@ -6,7 +6,7 @@ import { Direction } from '../../core/models/Direction';
 
 export const ActorEntries: ActorEntry[] = [
   new ActorEntry(
-    new Actor(0, 'hero'),
+    new Actor(0, 'npc1'),
     {x: 240, y: 500},
     Direction.Down,
     [
@@ -15,8 +15,8 @@ export const ActorEntries: ActorEntry[] = [
         eventEmitType: EventEmitType.Search,
         spriteKey: AssetCacheKey.spritesheet('hero'),
         initFrame: 0,
+        overlapOnly: true,
         bodyConfig: {
-          overlapOnly: true,
           size: 0.8
         },
       },
@@ -24,7 +24,7 @@ export const ActorEntries: ActorEntry[] = [
   ),
 
   new ActorEntry(
-    new Actor(1, 'hero'),
+    new Actor(1, 'npc2'),
     {x: 200, y: 100},
     Direction.Down,
     [

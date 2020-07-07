@@ -23,27 +23,15 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     return this.primary.x;
   };
 
-  get y(): number {
-    return this.primary.y;
-  };
-
-  get depth(): number {
-    return this.primary.depth;
-  }
-  
-  get width(): number {
-    return this.primary.width;
-  }
-
-  get height(): number {
-    return this.primary.height;
-  }
-
   set x(x: number) {
     this.primary.x = x;
     this.sprites.forEach((sprite: IActorSprite) => {
       this._alignCenter(sprite);
     });
+  };
+
+  get y(): number {
+    return this.primary.y;
   };
 
   set y(y: number) {
@@ -53,12 +41,37 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     });
   };
   
+
+  get depth(): number {
+    return this.primary.depth;
+  }
+  
+  get width(): number {
+    return this.primary.width;
+  }
+
   set width(width: number) {
     this.primary.width = width;
   }
 
+  get height(): number {
+    return this.primary.height;
+  }
+
   set height(height: number) {
     this.primary.height = height;
+  }
+
+  get visible(): boolean {
+    return this.primary.visible;
+  }
+
+  set visible(visible: boolean) {
+    this.primary.visible = visible;
+
+    this.sprites.forEach((sprite: IActorSprite) => {
+      sprite.visible = visible;
+    });
   }
 
   setAnim(animKey: string, animObject: any, target?: string): void {

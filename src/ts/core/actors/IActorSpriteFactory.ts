@@ -1,6 +1,6 @@
 import { IActorSprite } from './IActorSprite';
-import { BodyConfig } from './BodyConfig';
+import { IBodyConfig } from './IBodyConfig';
 
 export interface IActorSpriteFactory {
-  create(x: number, y: number, spriteKey: string, initFrame: number, bodyConfig?: BodyConfig): IActorSprite;
+  create(x: number, y: number, spriteKey: string, initFrame: number, bodyConfig?: IBodyConfig): IActorSprite;
 }

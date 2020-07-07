@@ -15,6 +15,8 @@ export interface IActorSprite {
 
   body: IActorBody;
 
+  visible: boolean;
+
   setAnim(animKey: string, animationObject: any): void;
   
   play(animKey: string, ignoreIfPlaying?: boolean): this;

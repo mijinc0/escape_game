@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import { IActorSprite } from './IActorSprite';
-import { BodyConfig } from './BodyConfig';
+import { IBodyConfig } from './IBodyConfig';
 import { ActorSprite } from './ActorSprite';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
@@ -16,7 +16,7 @@ export class ActorSpriteFactory {
     y: number,
     spriteKey: string,
     initFrame = 0,
-    bodyConfig?: BodyConfig,
+    bodyConfig?: IBodyConfig,
   ): IActorSprite {
     if (!this.scene.textures.exists(spriteKey)) {
       console.warn(`${spriteKey} is not found in txture cache.`);
@@ -36,7 +36,7 @@ export class ActorSpriteFactory {
     return sprite
   }
 
-  private bodySetting(sprite: ActorSprite, bodyConfig?: BodyConfig): void {
+  private bodySetting(sprite: ActorSprite, bodyConfig?: IBodyConfig): void {
     if (!bodyConfig) return;
 
     if (bodyConfig.size) {

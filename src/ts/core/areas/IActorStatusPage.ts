@@ -1,6 +1,4 @@
-import { IGameGlobal } from '../IGameGlobal';
-import { BodyConfig } from '../actors/BodyConfig';
-import { Predicate } from '../models/Predicate';
+import { IBodyConfig } from '../actors/IBodyConfig';
 
 export interface IActorStatusPage {
   eventId: number;
@@ -10,11 +8,13 @@ export interface IActorStatusPage {
   spriteKey: string;
   
   initFrame: number;
+
+  overlapOnly?: boolean;
   
-  bodyConfig?: BodyConfig;
+  bodyConfig?: IBodyConfig;
   
   /**
    * スポーン条件
    */
-  criteria?: Predicate<IGameGlobal>;
+  criteria?: () => boolean;
 }

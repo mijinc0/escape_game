@@ -5,15 +5,19 @@ import { Direction } from '../models/Direction';
 export interface IActor {
   name: string;
 
+  /**
+   * 下位8bitはpage indexに使う
+   * Actor毎にユニークなIDは8bitから上
+   */
   id: number;
 
   eventId: number;
 
   flags: GameFlags;
 
-  sprite: IActorSprite;
-
   direction: Direction;
+  
+  sprite?: IActorSprite;
 
   update(frame: number): void;
 

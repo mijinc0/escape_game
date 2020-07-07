@@ -10,6 +10,9 @@ export class ActorEntry implements IActorEntry {
   readonly direction: Direction;
   readonly statusPages: IActorStatusPage[];
 
+  isSpawn: boolean;
+  currentPageIndex: number;
+
   constructor(  
     actorObject: IActor,
     position: Position,
@@ -20,5 +23,7 @@ export class ActorEntry implements IActorEntry {
     this.position = position;
     this.direction = direction;
     this.statusPages = statusPages;
+    this.isSpawn = false;
+    this.currentPageIndex = -1;
   }
 }
