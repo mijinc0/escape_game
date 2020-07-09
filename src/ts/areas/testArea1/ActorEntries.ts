@@ -7,7 +7,6 @@ import { Direction } from '../../core/models/Direction';
 export const ActorEntries: ActorEntry[] = [
   new ActorEntry(
     new Actor(0, 'npc1'),
-    {x: 240, y: 500},
     Direction.Down,
     [
       {
@@ -25,7 +24,6 @@ export const ActorEntries: ActorEntry[] = [
 
   new ActorEntry(
     new Actor(1, 'npc2'),
-    {x: 200, y: 100},
     Direction.Down,
     [
       {
@@ -35,5 +33,21 @@ export const ActorEntries: ActorEntry[] = [
         initFrame: 0,
       },
     ],
+  ),
+
+  new ActorEntry(
+    new Actor(2, 'invisible_npc'),
+    Direction.Down,
+    [
+      {
+        eventId: 0,
+        eventEmitType: EventEmitType.Search,
+        overlapOnly: true,
+        bodyConfig: {
+          size: {width: 20, height: 30},
+        },
+      },
+    ],
+    {x: 100, y: 200},
   ),
 ];

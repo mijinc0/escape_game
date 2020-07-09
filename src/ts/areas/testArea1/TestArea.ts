@@ -6,7 +6,7 @@ import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 export const TestArea: IArea = {
   id: -1,
 
-  tilemapKey: AssetCacheKey.tilemap('sample_map'),
+  tilemapKey: AssetCacheKey.tilemap('sample_map1'),
 
   tileInfoKey: AssetCacheKey.tileInfo('sample_tile'),
   

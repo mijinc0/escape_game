@@ -15,7 +15,6 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
   ) {
     super(scene, x, y, spriteKey, frame);
 
-    this.spriteKey = spriteKey;
     this.spriteAnims = new Map<string, SpriteAnimation>();
   }
 

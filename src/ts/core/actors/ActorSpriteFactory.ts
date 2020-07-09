@@ -14,11 +14,15 @@ export class ActorSpriteFactory {
   create(
     x: number,
     y: number,
-    spriteKey: string,
-    initFrame = 0,
+    spriteKey?: string,
+    initFrame?: number,
     bodyConfig?: IBodyConfig,
   ): IActorSprite {
-    if (!this.scene.textures.exists(spriteKey)) {
+    const visible = !!spriteKey;
+    spriteKey = spriteKey ? spriteKey : 'invisibleMan';
+    initFrame = initFrame ? initFrame : 0;
+
+    if (visible && !this.scene.textures.exists(spriteKey)) {
       console.warn(`${spriteKey} is not found in txture cache.`);
     }
 
@@ -27,6 +31,7 @@ export class ActorSpriteFactory {
     sprite.setOrigin(0);
     
     // 2. add sprite into Phaser's scene
+    sprite.visible = visible;
     this.scene.add.existing(sprite);
     this.scene.physics.add.existing(sprite);
 

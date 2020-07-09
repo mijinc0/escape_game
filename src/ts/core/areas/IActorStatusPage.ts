@@ -5,10 +5,19 @@ export interface IActorStatusPage {
   
   eventEmitType: string;
   
-  spriteKey: string;
+  /**
+   * 指定が無い場合は透明のActor(bodyのみ)を作る
+   */
+  spriteKey?: string;
   
-  initFrame: number;
+  /**
+   * default = 0
+   */
+  initFrame?: number;
 
+  /**
+   * default = false
+   */
   overlapOnly?: boolean;
   
   bodyConfig?: IBodyConfig;

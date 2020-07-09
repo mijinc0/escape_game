@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="6">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="9">
  <tileset firstgid="1" source="sample_tile.tsx"/>
  <layer id="1" name="base" width="30" height="20">
   <data encoding="csv">
@@ -73,5 +73,16 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="actorPositions"/>
+ <objectgroup id="4" name="actorPositions">
+  <object id="6" x="302.5" y="216.5" width="32" height="32">
+   <properties>
+    <property name="actorId" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="8" x="761.364" y="481.652" width="32" height="32">
+   <properties>
+    <property name="actorId" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

@@ -15,14 +15,14 @@ export class ActorEntry implements IActorEntry {
 
   constructor(  
     actorObject: IActor,
-    position: Position,
     direction: Direction,
     statusPages: IActorStatusPage[],
+    position?: Position,
   ){
     this.actorObject = actorObject;
-    this.position = position;
     this.direction = direction;
     this.statusPages = statusPages;
+    this.position = position ? position : {x: 0, y: 0};
     this.isSpawn = false;
     this.currentPageIndex = -1;
   }

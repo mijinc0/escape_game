@@ -5,7 +5,6 @@ import { GameGlobal } from '../GameGlobal';
 import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
-import { Item } from '../core/models/Item';
 import { ISceneData } from '../core/models/ISceneData';
 import { SceneData } from '../core/models/SceneData';
 import { IActor } from '../core/actors/IActor';
@@ -134,7 +133,27 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _spawnActors(): void {
+    this._rewriteActorsPositionWithMapdata();
+
     this.actorsManager.spawnEntries();
+  }
+
+  private _rewriteActorsPositionWithMapdata(): void {
+    const mapdataActorPositions = this.tilemapData.mapData.actorPositions;
+
+    this.actorsManager.actorEntries.forEach((entry: IActorEntry) => {
+      const targetActorId = entry.actorObject.id;
+
+
+      const targetActorPosition = mapdataActorPositions.find((actorPosition: ActorPosition) => (
+        actorPosition.actorId === targetActorId 
+      ));
+
+      if (targetActorPosition) {
+        entry.position.x = Math.floor(targetActorPosition.positon.x);
+        entry.position.y = Math.floor(targetActorPosition.positon.y);
+      }
+    });
   }
 
   private _createTilemap(): void {

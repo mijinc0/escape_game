@@ -11,7 +11,8 @@ type SpawnCriteriaCallback = () => boolean;
 type CollisionSettingCallback = (spawnActor: IActor, onlyOverlap: boolean) => void;
 
 export class AreaActorsManager {
-  private actorEntries: IActorEntry[];
+  actorEntries: IActorEntry[];
+  
   private actorSpriteFactory: IActorSpriteFactory;
   private actorAnimsFactory: IActorAnimsFactory;
   private actorEventRegistrar: IActorEventRegistrar;
@@ -115,7 +116,9 @@ export class AreaActorsManager {
     const actor = entry.actorObject;
 
     // 1. change sprite txture and anims
-    this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
+    if (actor.sprite.visible) {
+      this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
+    }
     
     // 2. change actor object settings
     this.actorSpriteFactory.bodySetting(actor.sprite, page.bodyConfig);
@@ -173,8 +176,9 @@ export class AreaActorsManager {
     const y = entry.position.y;
     const spriteKey = page.spriteKey;
     const initFrame = page.initFrame;
+    const bodyConfig = page.bodyConfig;
     
-    return this.actorSpriteFactory.create(x, y, spriteKey, initFrame, page.bodyConfig);
+    return this.actorSpriteFactory.create(x, y, spriteKey, initFrame, bodyConfig);
   }
 
   private _setEvents(actor: IActor, page: IActorStatusPage): void {
