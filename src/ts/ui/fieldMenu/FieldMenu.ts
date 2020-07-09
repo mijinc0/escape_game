@@ -29,12 +29,12 @@ export class FieldMenu extends Ui.Group {
   }
 
   private _createMenuBackGround(config: FieldMenuConfig): Ui.Rectangle {
-    const width = 760;
+    const width = 600;
     const height = 432;
     // xは中央合わせ
     const x = (this.width - width) / 2;
     // yは適当だが、mainMenuを囲える位置
-    const y = 80 - 16;
+    const y = 16;
 
     const rectangle = new Ui.Rectangle(config.scene, x, y, width, height, 0x000000, 0.7); 
     
@@ -51,7 +51,7 @@ export class FieldMenu extends Ui.Group {
     // xは中央合わせ
     const mainMenuX = (this.width - mainMenu.width) / 2;
     // yは適当
-    const mainMenuY = 80;
+    const mainMenuY = 32;
 
     mainMenu.x = mainMenuX;
     mainMenu.y = mainMenuY;

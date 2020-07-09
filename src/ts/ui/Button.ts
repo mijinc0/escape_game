@@ -7,7 +7,7 @@ type ButtonConfig = {
   text: string,
   fontSize?: string,
   fontColor?: string,
-  fontFamilly?: string,
+  fontFamily?: string,
   backgroundColor?: number,
   backgroundAlpha?: number,
 };
@@ -35,7 +35,7 @@ export class Button extends Ui.Group {
       config.text,
       {
         fontSize: config.fontSize ? config.fontSize : '20px',
-        fontFamily: config.fontFamilly ? config.fontFamilly : 'monospace',
+        fontFamily: config.fontFamily ? config.fontFamily : 'monospace',
         color: config.fontColor ? config.fontColor : 'white',
       },
     );

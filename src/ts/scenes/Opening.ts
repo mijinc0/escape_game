@@ -23,7 +23,7 @@ export class Opening extends Phaser.Scene {
     this.frame = -1;
     this.selector = Ui.SelectorFactory.create(this);
 
-    const menu = this._createMenu(480, 400);
+    const menu = this._createMenu(440, 320);
 
     this.selector.setGroup(menu);
   }
@@ -54,7 +54,8 @@ export class Opening extends Phaser.Scene {
     const buttonConfig = {
       scene: this,
       text: 'NewGame',
-      fontSize: '32px',
+      fontSize: '24px',
+      fontFamily: 'serif',
       backgroundAlpha: 0,
     };
 
@@ -83,7 +84,8 @@ export class Opening extends Phaser.Scene {
     const buttonConfig = {
       scene: this,
       text: 'Continue',
-      fontSize: '32px',
+      fontSize: '24px',
+      fontFamily: 'serif',
       backgroundAlpha: 0,
     };
 

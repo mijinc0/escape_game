@@ -18,7 +18,7 @@ export class ItemMenu extends Ui.Group {
   private description: ItemDescription;
   
   constructor(config: ItemMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
-    const width = 728;
+    const width = 600;
     const height = 272;
     super(dx, dy, width, height, anchor);
 
@@ -40,7 +40,7 @@ export class ItemMenu extends Ui.Group {
   }
 
   private _createItemListContainer(): Ui.Group {
-    const width = 288;
+    const width = 240;
     const height = 312;
 
     const group = new Ui.Group(0, 0, width, height);
@@ -67,9 +67,9 @@ export class ItemMenu extends Ui.Group {
       defailtText: '',
     };
 
-    const dx = 296;
+    const dx = 256;
     const dy = 0;
-    const width = 432;
+    const width = 304;
     const height = 312;
 
     return new ItemDescription(itemDescriptionConfig, dx, dy, width, height);
@@ -89,7 +89,7 @@ export class ItemMenu extends Ui.Group {
   private _createItemListBaseGroup():  Ui.ScrollGroup<Item> {
     const dx = 4;
     const dy = 36;
-    const width = 280;
+    const width = 240;
     const height = 272;
     const maxItemViewSize = 5;
     const scrollSize = 1;
@@ -106,6 +106,6 @@ export class ItemMenu extends Ui.Group {
       description: this.description,
     };
 
-    return new ItemListElement(itemListElementConfig, 0, 0, 280, 48);
+    return new ItemListElement(itemListElementConfig, 0, 0, 240, 48);
   }
 }

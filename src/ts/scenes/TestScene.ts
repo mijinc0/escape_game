@@ -232,5 +232,6 @@ export class TestScene extends Phaser.Scene {
     const worldBounds = this.tilemapData.mapData.worldBounce;
     this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
     this.cameras.main.startFollow(this.primaryActor.sprite);
+    this.cameras.main.setZoom(1);
   }
 }

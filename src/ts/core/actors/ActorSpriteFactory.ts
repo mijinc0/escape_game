@@ -36,7 +36,7 @@ export class ActorSpriteFactory {
     return sprite
   }
 
-  private bodySetting(sprite: ActorSprite, bodyConfig?: IBodyConfig): void {
+  bodySetting(sprite: ActorSprite, bodyConfig?: IBodyConfig): void {
     if (!bodyConfig) return;
 
     if (bodyConfig.size) {

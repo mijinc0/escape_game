@@ -75,9 +75,8 @@ export class MainMenu extends Ui.Group {
         scene: fieldMenuConfig.scene,
         items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
       };
-      // メニュー群に対して中央揃えするためにx=-84
-      // x = (itemMenu.width - this.width) / 2
-      const itemMenu = new ItemMenu(itemMenuConfig, -84, 80);
+
+      const itemMenu = new ItemMenu(itemMenuConfig, 0, 80);
       
       itemMenu.anchor = this;
 

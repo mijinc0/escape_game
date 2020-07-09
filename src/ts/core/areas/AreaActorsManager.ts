@@ -115,12 +115,10 @@ export class AreaActorsManager {
     const actor = entry.actorObject;
 
     // 1. change sprite txture and anims
-    const currentSpriteTextureKey = actor.sprite.spriteKey;
-    if (currentSpriteTextureKey != page.spriteKey) {
-      this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
-    }
-
+    this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
+    
     // 2. change actor object settings
+    this.actorSpriteFactory.bodySetting(actor.sprite, page.bodyConfig);
     actor.direction = entry.direction;
     actor.eventId = page.eventId;
 
