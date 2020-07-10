@@ -5,7 +5,6 @@ import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
 import { ISceneData } from '../core/models/ISceneData';
-import { SceneData } from '../core/models/SceneData';
 import { IActor } from '../core/actors/IActor';
 import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
@@ -42,17 +41,13 @@ export class TestScene extends Phaser.Scene {
   private initY: number;
   private initDirection: Direction;
 
-  init(data?: ISceneData): void {
+  init(data: ISceneData): void {
     console.log('== start scene TestScene ==');
-  
-    if (data) {
-      data.applyGameGlobal(GameGlobal);   
-    } else {
-      const initAreaId = -1;
-      const initHeroX = 300;
-      const initHeroY = 200;
-      const initHeroDirection = Direction.Down;
-      data = new SceneData(initAreaId, initHeroX, initHeroY, initHeroDirection);
+    
+    // dataは型としてはoptionalではないが、`scene.start`の引数として
+    // dataが渡された時にのコンパイル時の検査を抜けるので、一応確認しておく
+    if (!data) {
+      throw Error('scene data is not found.');
     }
 
     this.frame = 0;
@@ -66,8 +61,6 @@ export class TestScene extends Phaser.Scene {
     this.initY = data.heroY;
     this.initDirection = data.heroDirection;
   }
-
-  preload (): void {}
   
   create(): void {
     this._createTilemap();
@@ -192,7 +185,7 @@ export class TestScene extends Phaser.Scene {
     actor.sprite = sprite;
     actor.keys = this.keys;
     actor.direction = this.initDirection;
-    actorAnimsFactory.setAnims(sprite);
+    actorAnimsFactory.setWalkingAnims(sprite);
 
     // search event
     const actors = this.areaData.actors.map((entry: IActorEntry) => (entry.actorObject));
@@ -219,6 +212,7 @@ export class TestScene extends Phaser.Scene {
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
     }
+
 
     // with primary actor
     this.actorColliderRegistrar.registActorPair(
@@ -261,7 +255,7 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _sceneFadeIn(): void {
-    const event = new EventRangeFactory(SceneCommandsFactory.cameraFadeIn(400)).create();
+    const event = new EventRangeFactory(SceneCommandsFactory.cameraFadeIn(300)).create();
 
     this.scenarioEvent.start(event);
   }

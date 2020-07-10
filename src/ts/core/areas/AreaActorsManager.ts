@@ -117,7 +117,7 @@ export class AreaActorsManager {
 
     // 1. change sprite txture and anims
     if (actor.sprite.visible) {
-      this.actorAnimsFactory.setAnims(actor.sprite, page.spriteKey);
+      this.actorAnimsFactory.setWalkingAnims(actor.sprite, page.spriteKey);
     }
     
     // 2. change actor object settings

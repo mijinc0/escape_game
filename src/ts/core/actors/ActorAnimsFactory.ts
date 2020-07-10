@@ -29,7 +29,7 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
    * それぞれシーンには `_createActorAnimKey()` によって生成されたキーで登録される。
    * 各Actorに直接登録されるアニメーションはシーンのキャッシュにあればそれを取り出して使う。
    */
-  static acotrAnims = [
+  static acotrWalkingAnims = [
     {name: 'walkLeft', startFrame: 0, endFrame: 3, frameRate: 10, repeat: 0},
     {name: 'walkRight', startFrame: 4, endFrame: 7, frameRate: 10, repeat: 0},
     {name: 'walkDown', startFrame: 8, endFrame: 11, frameRate: 10, repeat: 0},
@@ -42,7 +42,7 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
     this.scene = scene;
   }
 
-  setAnims(targetSprite: IActorSprite, spriteSheetKey?: string): void {
+  setWalkingAnims(targetSprite: IActorSprite, spriteSheetKey?: string): void {
     if (spriteSheetKey) {
       // 指定がある場合は、targetSpriteのspriteSheetKeyを変更する(指定のsheetに変える)
       targetSprite.spriteKey = spriteSheetKey;
@@ -51,9 +51,9 @@ export class ActorAnimsFactory implements IActorAnimsFactory {
       spriteSheetKey = targetSprite.spriteKey;
     }
 
-    ActorAnimsFactory.acotrAnims.forEach((config: AnimConfig) => {
+    ActorAnimsFactory.acotrWalkingAnims.forEach((config: AnimConfig) => {
       // このkeyはシーンのキャッシュに貯められるkey
-    const animKey = this._createActorAnimKey(spriteSheetKey, config.name);
+      const animKey = this._createActorAnimKey(spriteSheetKey, config.name);
       
       // 同じSpriteのActor毎に同じアニメーションを生成すると無駄なので、
       // シーンのキャッシュにあればそれを使う。無ければ生成する

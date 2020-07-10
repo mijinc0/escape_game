@@ -1,21 +1,13 @@
 import * as Phaser from 'phaser';
-
 import { GameItems } from '../items/GameItems';;
 import { IGameGlobal } from '../core/IGameGlobal';
 import { GameFlags } from '../core/models/GameFlags';
 import { GameVariables } from '../core/models/GameVariables';
 import { ItemBag } from '../core/models/ItemBag';
-
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
-import { Selector } from '../core/ui/selector/Selector';
 import { ISelector } from '../core/ui/selector/ISelector';
 import { SelectorFactory } from '../core/ui/selector/SelectorFactory';
-import { Keys } from '../core/input/Keys';
 import { Item } from '../core/models/Item';
-import { MessageBox } from '../ui/messageBox/MessageBox';
-import { ItemMenu } from '../ui/fieldMenu/ItemMenu';
-import { ItemListElement } from '../ui/fieldMenu/ItemListElement';
-import { ItemDescription } from '../ui/fieldMenu/ItemDescription';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
