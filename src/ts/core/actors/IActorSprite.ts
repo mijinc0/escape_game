@@ -19,7 +19,7 @@ export interface IActorSprite {
 
   setAnim(animKey: string, animationObject: any): void;
   
-  play(animKey: string, ignoreIfPlaying?: boolean): this;
+  playAnim(animKey: string, ignoreIfPlaying?: boolean): this;
 
   stop(frame: number): void;
 

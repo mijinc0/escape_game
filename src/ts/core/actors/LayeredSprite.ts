@@ -83,10 +83,10 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     }
   }
   
-  play(animKey: string): this {
-    this.primary.play(animKey);
+  playAnim(animKey: string): this {
+    this.primary.playAnim(animKey);
     this.sprites.forEach((sprite: IActorSprite) => {
-      sprite.play(animKey);
+      sprite.playAnim(animKey);
     });
     return this;
   };

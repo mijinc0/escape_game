@@ -38,7 +38,7 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     }
   }
   
-  play(animName: string, ignoreIfPlaying?: boolean): this {
+  playAnim(animName: string, ignoreIfPlaying?: boolean): this {
     const anim = this.spriteAnims.get(animName);
     
     if (anim) {
