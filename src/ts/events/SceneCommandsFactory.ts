@@ -5,6 +5,10 @@ import { Item } from './commands/Item';
 import { Flag } from './commands/Flag';
 import { Variable } from './commands/Variable';
 import { Sleep } from './commands/Sleep';
+import { MoveArea } from './commands/MoveArea';
+import { CameraFadeIn } from './commands/CameraFadeIn';
+import { CameraFadeOut } from './commands/CameraFadeOut';
+import { Direction } from '../core/models/Direction';
 
 export class SceneCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -53,5 +57,17 @@ export class SceneCommandsFactory {
 
   static sleep(frame: number): Sleep {
     return new Sleep(frame);
+  }
+
+  static moveArea(areaId: number, x: number, y: number, direction: Direction): MoveArea {
+    return new MoveArea(areaId, x, y, direction);
+  }
+
+  static cameraFadeIn(duration?: number, async?: boolean): CameraFadeIn {
+    return new CameraFadeIn(duration, async);
+  }
+
+  static cameraFadeOut(duration?: number, async?: boolean): CameraFadeOut {
+    return new CameraFadeOut(duration, async);
   }
 }

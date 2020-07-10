@@ -1,7 +1,6 @@
 import * as Phaser from 'phaser';
-
+import * as Actors from '../actors';
 import { GameGlobal } from '../GameGlobal';
-
 import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
@@ -20,16 +19,13 @@ import { AreaActorsManager } from '../core/areas/AreaActorsManager';
 import { IActorEntry } from '../core/areas/IActorEntry';
 import { EventEmitType } from '../core/areas/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
+import { SceneCommandsFactory } from '../events/SceneCommandsFactory';
+import { EventRangeFactory } from '../core/events/EventRangeFactory';
 import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
 import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
-
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
-import { EventRangeFactory } from '../core/events/EventRangeFactory';
-
 import { GameAreas } from '../areas/GameAreas';
-
-import * as Actors from '../actors';
 
 export class TestScene extends Phaser.Scene {
   private frame: number;
@@ -41,6 +37,10 @@ export class TestScene extends Phaser.Scene {
   private tilemapData: ISceneTilemapData;
   private actorsManager: AreaActorsManager;
   private actorColliderRegistrar: ActorColliderRegistrar;
+
+  private initX: number;
+  private initY: number;
+  private initDirection: Direction;
 
   init(data?: ISceneData): void {
     console.log('== start scene TestScene ==');
@@ -56,18 +56,15 @@ export class TestScene extends Phaser.Scene {
     }
 
     this.frame = 0;
-    
     this.keys = this._createKeys();
-
     this.areaData = this._getAreaData(data.areaId);
-
     this.actorColliderRegistrar = new ActorColliderRegistrar(this);
-
     this.tilemapFactory = new SceneTilemapFactory(this);
-
     this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
-
     this.actorsManager = this._createActorsManager();
+    this.initX = data.heroX;
+    this.initY = data.heroY;
+    this.initDirection = data.heroDirection;
   }
 
   preload (): void {}
@@ -80,13 +77,15 @@ export class TestScene extends Phaser.Scene {
     this._spawnActors();
 
     this._cameraSetting();
+
+    this._sceneFadeIn();
   }
 
   update(): void {
     this.frame++;
 
     if (this.scenarioEvent.isGoing()) {
-      // ポーズしないとPhysicsは非同期で動くのでvelocityの設定に従ってスプライトが動いてしまう
+      // ポーズしないとPhysicsが動くのでvelocityの設定に従ってスプライトが動いてしまう
       this.physics.world.pause();
       this.scenarioEvent.update(this.frame);
       return;
@@ -183,9 +182,16 @@ export class TestScene extends Phaser.Scene {
     const actorAnimsFactory = new ActorAnimsFactory(this);
 
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = actorSpriteFactory.create(600, 100, AssetCacheKey.spritesheet('hero'), 0, {size: 0.6, origin: {x: 0.5, y: 1}});
+    const sprite = actorSpriteFactory.create(
+      this.initX,
+      this.initY,
+      AssetCacheKey.spritesheet('hero'),
+      0,
+      {size: 0.6, origin: {x: 0.5, y: 1}}
+    );
     actor.sprite = sprite;
     actor.keys = this.keys;
+    actor.direction = this.initDirection;
     actorAnimsFactory.setAnims(sprite);
 
     // search event
@@ -252,5 +258,11 @@ export class TestScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, worldBounds.width, worldBounds.height);
     this.cameras.main.startFollow(this.primaryActor.sprite);
     this.cameras.main.setZoom(1);
+  }
+
+  private _sceneFadeIn(): void {
+    const event = new EventRangeFactory(SceneCommandsFactory.cameraFadeIn(400)).create();
+
+    this.scenarioEvent.start(event);
   }
 }

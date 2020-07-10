@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import * as Ui from '../../core/ui';
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
 import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
 import { Keys } from '../../core/input/Keys';

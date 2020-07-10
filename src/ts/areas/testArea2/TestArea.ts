@@ -1,7 +1,7 @@
 import { IArea } from '../../core/areas/IArea';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 
-export const TestArea: IArea = {
+export const TestArea2: IArea = {
   id: -2,
 
   tilemapKey: AssetCacheKey.tilemap('sample_map2'),

@@ -40,8 +40,8 @@ export const ActorEntries: ActorEntry[] = [
     Direction.Down,
     [
       {
-        eventId: 0,
-        eventEmitType: EventEmitType.Search,
+        eventId: 1,
+        eventEmitType: EventEmitType.Collide,
         overlapOnly: true,
         bodyConfig: {
           size: {width: 20, height: 30},
