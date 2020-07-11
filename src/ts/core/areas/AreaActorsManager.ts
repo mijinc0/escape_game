@@ -4,8 +4,8 @@ import { IActorStatusPage } from './IActorStatusPage';
 import { IActorEventRegistrar } from './IActorEventRegistrar';
 import { IActor } from '../actors/IActor';
 import { IActorSprite } from '../actors/IActorSprite';
+import { ActorSpriteTypes } from '../actors/ActorSpriteTypes';
 import { IActorSpriteFactory } from '../actors/IActorSpriteFactory';
-import { IActorAnimsFactory } from '../actors/IActorAnimsFactory';
 
 type SpawnCriteriaCallback = () => boolean;
 type CollisionSettingCallback = (spawnActor: IActor, onlyOverlap: boolean) => void;
@@ -14,7 +14,6 @@ export class AreaActorsManager {
   actorEntries: IActorEntry[];
   
   private actorSpriteFactory: IActorSpriteFactory;
-  private actorAnimsFactory: IActorAnimsFactory;
   private actorEventRegistrar: IActorEventRegistrar;
 
   private collisionSettingCallback: CollisionSettingCallback;
@@ -29,14 +28,12 @@ export class AreaActorsManager {
    */
   constructor(
     actorSpriteFactory: IActorSpriteFactory,
-    actorAnimsFactory: IActorAnimsFactory,
     actorEventRegistrar: IActorEventRegistrar,
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IActorEntry[],
   ) {
     this.actorEntries = actorEntries ? actorEntries : [];
     this.actorSpriteFactory = actorSpriteFactory;
-    this.actorAnimsFactory = actorAnimsFactory;
     this.actorEventRegistrar = actorEventRegistrar;
     this.collisionSettingCallback = collisionSettingCallback;
   }
@@ -78,30 +75,8 @@ export class AreaActorsManager {
       return;
     }
 
-    // 4. if actor is not spawn, actor will spawn
-    if (!entry.isSpawn) {
-      this._spawnActor(entry, pageIndex);
-      return;
-    }
-
-    // 5. if actor already spawn & change page index, change status
-    this._changeActorStatus(entry, pageIndex);
-  }
-
-  private _spawnActor(entry: IActorEntry, pageIndex: number): void {
-    const actor = entry.actorObject;
-
-    // 1. at first, reset actor status (sprite, events)
-    this._resetActorStatus(actor);
-    
-    // 2. create sprite    
-    actor.sprite = this._createActorSprite(entry, pageIndex);
-
-    // 3. set actor properties, events
-    this._changeActorStatus(entry, pageIndex);
-
-    // 4. set spawn flag
-    entry.isSpawn = true;
+    // 4. if actor already spawn & change page index, change status
+    this._spawnOrRespawnActor(entry, pageIndex);
   }
 
   private _despawnActor(entry: IActorEntry): void {
@@ -111,30 +86,38 @@ export class AreaActorsManager {
     entry.isSpawn = false;
   }
 
-  private _changeActorStatus(entry: IActorEntry, pageIndex: number): void {
+  /**
+   * 最初のスポーンも既にスポーンしているActorの状態を変えるリスポーンも処理は同じ
+   * @param entry 
+   * @param pageIndex 
+   */
+  private _spawnOrRespawnActor(entry: IActorEntry, pageIndex: number): void {
     const page = this._getPage(entry, pageIndex);
     const actor = entry.actorObject;
 
-    // 1. change sprite txture and anims
-    if (actor.sprite.visible) {
-      this.actorAnimsFactory.setWalkingAnims(actor.sprite, page.spriteKey);
-    }
+    // 1. create new sprite
+    const newSprite = this._createActorSprite(entry, pageIndex);
+
+    // 2. reset actor status & set new sprite
+    // (create -> reset -> set new sprite の順でないとリスポーンした時に座標が戻ってしまうので注意)
+    this._resetActorStatus(actor);
+    actor.sprite = newSprite;
     
-    // 2. change actor object settings
-    this.actorSpriteFactory.bodySetting(actor.sprite, page.bodyConfig);
-    actor.direction = entry.direction;
+    // 3. change actor object settings
+    actor.sprite.direction = page.direction;
     actor.eventId = page.eventId;
-
-    // 3. event setting
+    
+    // 4. event setting
     this._setEvents(actor, page);
-
-    // 4. collision setting
+    
+    // 5. collision setting
     this._setCollisionSettings(actor, page.overlapOnly);
-
-    // 5. change currentPageIndex
+    
+    // 6. change entry properties
     entry.currentPageIndex = pageIndex;
+    entry.isSpawn = true;
 
-    // 6. emit "Immediately" event
+    // 7. emit "Immediately" event
     actor.emit(EventEmitType.Immediately);
   }
 
@@ -165,20 +148,36 @@ export class AreaActorsManager {
     actor.removeAllListeners();
     
     if (actor.sprite) {
-      actor.sprite.destroy();
+      actor.sprite.destroy(true);
+      actor.sprite = null;
     }
   }
 
   private _createActorSprite(entry: IActorEntry, pageIndex: number): IActorSprite {
     const page = entry.statusPages[pageIndex];
+    const actor = entry.actorObject;
 
-    const x = entry.position.x;
-    const y = entry.position.y;
-    const spriteKey = page.spriteKey;
+    const x = actor.sprite ? actor.sprite.x : entry.position.x;
+    const y = actor.sprite ? actor.sprite.y : entry.position.y;
+    const spritesheetKey = page.spriteKey;
     const initFrame = page.initFrame;
     const bodyConfig = page.bodyConfig;
-    
-    return this.actorSpriteFactory.create(x, y, spriteKey, initFrame, bodyConfig);
+
+    const spriteType = page.spriteType;
+
+    switch (spriteType) {
+      case ActorSpriteTypes.OneWayAnim :
+        return this.actorSpriteFactory.createOneWayAnimActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
+
+      case ActorSpriteTypes.FourWayAnims :
+        return this.actorSpriteFactory.createFourWayAnimsActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
+      
+      case ActorSpriteTypes.Invisible :
+        return this.actorSpriteFactory.createInvisibleActorSprite(x, y, bodyConfig); 
+    }
+
+    // enum使っているので実際はここまで到達しないが、どこかでnumber使ってすり抜けてきた時用
+    throw Error(`sprite type of ${spriteType} is unknown`);
   }
 
   private _setEvents(actor: IActor, page: IActorStatusPage): void {

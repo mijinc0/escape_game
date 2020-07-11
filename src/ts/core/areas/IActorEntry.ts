@@ -8,8 +8,6 @@ export interface IActorEntry {
   
   position: Position;
   
-  direction: Direction;
-  
   statusPages: IActorStatusPage[];
   
   isSpawn: boolean;

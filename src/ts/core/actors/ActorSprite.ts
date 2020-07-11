@@ -1,20 +1,25 @@
 import * as Phaser from 'phaser';
 import { IActorSprite } from './IActorSprite';
+import { Direction } from '../models/Direction';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
 export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorSprite {
-  private spriteAnims: Map<string, SpriteAnimation>;
+  direction: Direction;
+  
+  private spriteAnims: Map<string|number, SpriteAnimation>;
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     spriteKey: string,
-    frame?: string | integer,
+    frame?: string|number,
+    direction?: Direction,
   ) {
     super(scene, x, y, spriteKey, frame);
 
+    this.direction = direction ? direction : Direction.Down;
     this.spriteAnims = new Map<string, SpriteAnimation>();
   }
 
@@ -26,16 +31,8 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     this.setTexture(key);
   }
 
-  setAnim(animName: string, animObject: SpriteAnimation): void {
+  setAnim(animName: string|number, animObject: SpriteAnimation): void {
     this.spriteAnims.set(animName, animObject);
-  }
-
-  clearAnims(animName?: string): void {
-    if (animName) {
-      this.spriteAnims.delete(animName);
-    } else {
-      this.spriteAnims.clear();
-    }
   }
   
   playAnim(animName: string, ignoreIfPlaying?: boolean): this {
@@ -52,6 +49,14 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     
     return this;
   };
+
+  clearAnims(animName?: string): void {
+    if (animName) {
+      this.spriteAnims.delete(animName);
+    } else {
+      this.spriteAnims.clear();
+    }
+  }
 
   stop(frame: number): void {
     this.anims.stop();

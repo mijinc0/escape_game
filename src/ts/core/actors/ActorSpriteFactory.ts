@@ -1,44 +1,67 @@
 import * as Phaser from 'phaser';
-import { IActorSprite } from './IActorSprite';
+import { IActorSpriteFactory } from './IActorSpriteFactory';
 import { IBodyConfig } from './IBodyConfig';
 import { ActorSprite } from './ActorSprite';
+import { OneWayAnimActorSprite } from './OneWayAnimActorSprite';
+import { FourWayAnimsActorSprite } from './FourWayAnimsActorSprite';
 import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
-export class ActorSpriteFactory {
+export class ActorSpriteFactory implements IActorSpriteFactory {
   private scene: Phaser.Scene;
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
   }
 
-  create(
+  createOneWayAnimActorSprite(
     x: number,
     y: number,
-    spriteKey?: string,
+    spritesheetKey?: string,
     initFrame?: number,
     bodyConfig?: IBodyConfig,
-  ): IActorSprite {
-    const visible = !!spriteKey;
-    spriteKey = spriteKey ? spriteKey : 'invisibleMan';
-    initFrame = initFrame ? initFrame : 0;
+  ): OneWayAnimActorSprite {
+    this._checkExistingSpritesheet(spritesheetKey);
 
-    if (visible && !this.scene.textures.exists(spriteKey)) {
-      console.warn(`${spriteKey} is not found in txture cache.`);
-    }
-
-    // 1. create sprite
-    const sprite = new ActorSprite(this.scene, x, y, spriteKey, initFrame);
+    const sprite = new OneWayAnimActorSprite(this.scene, x, y, spritesheetKey, initFrame);
     sprite.setOrigin(0);
-    
-    // 2. add sprite into Phaser's scene
-    sprite.visible = visible;
-    this.scene.add.existing(sprite);
-    this.scene.physics.add.existing(sprite);
 
-    // 3. body setting
+    this._addPhaserScene(sprite);
     this.bodySetting(sprite, bodyConfig);
 
-    return sprite
+    return sprite;
+  }
+
+  createFourWayAnimsActorSprite(
+    x: number,
+    y: number,
+    spritesheetKey?: string,
+    initFrame?: number,
+    bodyConfig?: IBodyConfig,
+  ): FourWayAnimsActorSprite {
+    this._checkExistingSpritesheet(spritesheetKey);
+
+    const sprite = new FourWayAnimsActorSprite(this.scene, x, y, spritesheetKey, initFrame);
+    sprite.setOrigin(0);
+
+    this._addPhaserScene(sprite);
+    this.bodySetting(sprite, bodyConfig);
+
+    return sprite;
+  }
+
+  createInvisibleActorSprite(
+    x: number,
+    y: number,
+    bodyConfig?: IBodyConfig,
+  ): ActorSprite {
+    const sprite = new ActorSprite(this.scene, x, y, 'invisible', 0);
+    sprite.setOrigin(0);
+    sprite.visible = false;
+
+    this._addPhaserScene(sprite);
+    this.bodySetting(sprite, bodyConfig);
+
+    return sprite;
   }
 
   bodySetting(sprite: ActorSprite, bodyConfig?: IBodyConfig): void {
@@ -66,6 +89,17 @@ export class ActorSpriteFactory {
         offset.x + bodyConfig.offset.x,
         offset.y + bodyConfig.offset.y,
       );
+    }
+  }
+
+  private _addPhaserScene(sprite: ActorSprite): void {
+    this.scene.add.existing(sprite);
+    this.scene.physics.add.existing(sprite);
+  }
+
+  private _checkExistingSpritesheet(spritesheetKey: string): void {
+    if (!this.scene.textures.exists(spritesheetKey)) {
+      console.warn(`${spritesheetKey} is not found in txture cache.`);
     }
   }
 }

@@ -1,4 +1,5 @@
 import { IActorBody } from './IActorBody';
+import { Direction } from '../models/Direction';
 
 export interface IActorSprite {
   spriteKey: string;
@@ -13,13 +14,15 @@ export interface IActorSprite {
 
   depth: number;
 
+  direction: Direction;
+
   body: IActorBody;
 
   visible: boolean;
 
-  setAnim(animKey: string, animationObject: any): void;
+  setAnim(animName: string, animationObject: any): void;
   
-  playAnim(animKey: string, ignoreIfPlaying?: boolean): this;
+  playAnim(animName: string, ignoreIfPlaying?: boolean): this;
 
   stop(frame: number): void;
 

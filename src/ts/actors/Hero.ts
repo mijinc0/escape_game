@@ -19,7 +19,7 @@ export class Hero extends Actor {
           this.sprite.y,
           this.sprite.width,
           this.sprite.height,
-          this.direction,
+          this.sprite.direction,
         );
       }
     } else {
@@ -38,36 +38,36 @@ export class Hero extends Actor {
     }
 
     const speed = 184;
-    if (this.keys.cursors.up.isDown) {
-      this.direction = Direction.Up;
-      this.sprite.playAnim('walkUp', true);
-      this.sprite.setVelocityX(0);
-      this.sprite.setVelocityY(speed * -1);
-
-    } else if (this.keys.cursors.left.isDown) {
-      this.direction = Direction.Left;
-      this.sprite.playAnim('walkLeft', true);
+    if (this.keys.cursors.left.isDown) {
+      this.sprite.direction = Direction.Left;
+      this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed * -1);
 
     } else if (this.keys.cursors.right.isDown) {
-      this.direction = Direction.Right;
-      this.sprite.playAnim('walkRight', true);
+      this.sprite.direction = Direction.Right;
+      this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed);
 
     } else if (this.keys.cursors.down.isDown) {
-      this.direction = Direction.Down;
-      this.sprite.playAnim('walkDown', true);
+      this.sprite.direction = Direction.Down;
+      this.sprite.playAnim('default', true);
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(speed);
+
+    } else if (this.keys.cursors.up.isDown) {
+      this.sprite.direction = Direction.Up;
+      this.sprite.playAnim('default', true);
+      this.sprite.setVelocityX(0);
+      this.sprite.setVelocityY(speed * -1);
 
     } else {
       // 止まる
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(0);
 
-      switch(this.direction) {
+      switch(this.sprite.direction) {
         case Direction.Left :
           this.sprite.stop(0);
           break;
@@ -85,7 +85,7 @@ export class Hero extends Actor {
           break;
       }
     }
-    
+
     super.update(frame);
   }
 }

@@ -14,8 +14,6 @@ export interface IActor {
   eventId: number;
 
   flags: GameFlags;
-
-  direction: Direction;
   
   sprite?: IActorSprite;
 

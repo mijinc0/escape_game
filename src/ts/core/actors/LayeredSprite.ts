@@ -1,6 +1,7 @@
 import { IActorSprite } from './IActorSprite';
 import { ILayeredSprite } from './ILayeredSprite';
 import { IActorBody } from './IActorBody';
+import { Direction } from '../models/Direction';
 
 export class LayeredSprite implements ILayeredSprite, IActorSprite {
   private primary: IActorSprite;
@@ -60,6 +61,18 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
 
   set height(height: number) {
     this.primary.height = height;
+  }
+
+  get direction(): Direction {
+    return this.primary.direction;
+  }
+
+  set direction(direction: Direction) {
+    this.primary.direction = direction;
+
+    this.sprites.forEach((sprite: IActorSprite) => {
+      sprite.direction = direction;
+    });
   }
 
   get visible(): boolean {

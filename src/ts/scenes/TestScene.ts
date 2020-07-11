@@ -10,7 +10,7 @@ import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
 import { ActorPosition } from '../core/maps/ActorPosition';
 import { ActorSpriteFactory } from '../core/actors/ActorSpriteFactory';
-import { ActorAnimsFactory } from '../core/actors/ActorAnimsFactory';
+import { FourWayAnimsActorSprite } from '../core/actors/FourWayAnimsActorSprite';
 import { IArea } from '../core/areas/IArea';
 import { ActorColliderRegistrar } from '../core/areas/ActorColliderRegistrar';
 import { ActorEventRegistrar } from '../core/areas/ActorEventRegistrar';
@@ -112,12 +112,10 @@ export class TestScene extends Phaser.Scene {
 
   private _createActorsManager(): AreaActorsManager {
     const actorSpriteFactory = new ActorSpriteFactory(this);
-    const actorAnimsFactory = new ActorAnimsFactory(this);
     const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
     
     return new AreaActorsManager(
       actorSpriteFactory,
-      actorAnimsFactory,
       actorEventRegistrar,
       this._addSpawnActorsCollider.bind(this),
       this.areaData.actors,
@@ -171,21 +169,20 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _createPrimaryActor(): IActor {
-    const actorSpriteFactory = new ActorSpriteFactory(this);
-    const actorAnimsFactory = new ActorAnimsFactory(this);
-
     const actor = new Actors.Hero(3030, 'hero');
-    const sprite = actorSpriteFactory.create(
+    const sprite = new FourWayAnimsActorSprite(
+      this,
       this.initX,
       this.initY,
       AssetCacheKey.spritesheet('hero'),
       0,
-      {size: 0.6, origin: {x: 0.5, y: 1}}
     );
+
+    this.add.existing(sprite);
+    this.physics.add.existing(sprite);
+
     actor.sprite = sprite;
     actor.keys = this.keys;
-    actor.direction = this.initDirection;
-    actorAnimsFactory.setWalkingAnims(sprite);
 
     // search event
     const actors = this.areaData.actors.map((entry: IActorEntry) => (entry.actorObject));
@@ -202,7 +199,7 @@ export class TestScene extends Phaser.Scene {
     // collision
     this._tilemapCollisionSetting(actor);
 
-    ActorRenderOrder.prioritizeY(actor.sprite);
+    ActorRenderOrder.prioritizeBottom(actor.sprite);
 
     return actor;
   }
@@ -212,7 +209,6 @@ export class TestScene extends Phaser.Scene {
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
     }
-
 
     // with primary actor
     this.actorColliderRegistrar.registActorPair(

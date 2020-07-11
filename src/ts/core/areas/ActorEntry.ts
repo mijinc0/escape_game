@@ -7,7 +7,6 @@ import { Direction } from '../models/Direction';
 export class ActorEntry implements IActorEntry {
   readonly actorObject: IActor;
   readonly position: Position;
-  readonly direction: Direction;
   readonly statusPages: IActorStatusPage[];
 
   isSpawn: boolean;
@@ -15,12 +14,10 @@ export class ActorEntry implements IActorEntry {
 
   constructor(  
     actorObject: IActor,
-    direction: Direction,
     statusPages: IActorStatusPage[],
     position?: Position,
   ){
     this.actorObject = actorObject;
-    this.direction = direction;
     this.statusPages = statusPages;
     this.position = position ? position : {x: 0, y: 0};
     this.isSpawn = false;
