@@ -50,6 +50,8 @@ export class TestScene extends Phaser.Scene {
       throw Error('scene data is not found.');
     }
 
+    console.log(`scene data: { areaId: ${data.areaId}, initX: ${data.heroX}, initX: ${data.heroY}, initDirection: ${data.heroDirection}}`);
+
     this.frame = 0;
     this.keys = this._createKeys();
     this.areaData = this._getAreaData(data.areaId);
@@ -176,6 +178,7 @@ export class TestScene extends Phaser.Scene {
       this.initY,
       AssetCacheKey.spritesheet('hero'),
       0,
+      this.initDirection,
     );
 
     this.add.existing(sprite);

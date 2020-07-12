@@ -2,7 +2,7 @@ import { SceneCommandsFactory as cmd } from '../../../events/SceneCommandsFactor
 import { EventEntryFactory } from '../../../core/areas/EventEntryFactory';
 import { Direction } from '../../../core/models/Direction';
 
-export const Event1 = EventEntryFactory.create(1,
+export default EventEntryFactory.create(1,
   cmd.cameraFadeOut(300),
   cmd.moveArea(-2, 50, 100, Direction.Left),
 );

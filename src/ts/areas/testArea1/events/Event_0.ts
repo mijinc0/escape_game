@@ -3,7 +3,7 @@ import { SceneCommandsFactory as cmd } from '../../../events/SceneCommandsFactor
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { EventEntryFactory } from '../../../core/areas/EventEntryFactory';
 
-export const Event0 = EventEntryFactory.create(0, 
+export default EventEntryFactory.create(0, 
   cmd.message('this is message\\!this event is page 0'),
 
   op.if(() => (false))(

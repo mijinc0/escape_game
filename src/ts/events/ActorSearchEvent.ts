@@ -23,7 +23,13 @@ export class ActorSearchEvent {
     actorHeight: number,
     direction: Direction,
   ): void {
+    console.log('start actor search event');
+
     const zone = this._calcSearchZone(actorX, actorY, actorWidth, actorHeight, direction);
+
+    console.log(`target actors : ${this.actors.length}`);
+    console.log(`actor: {x: ${actorX}, y: ${actorY}, width: ${actorWidth}, height: ${actorHeight}, direction: ${direction}`);
+    console.log(`search zone: {x: ${zone.x}, y: ${zone.y}, width: ${zone.width}, height: ${zone.height}`);
 
     this._search(zone);
   }
@@ -92,8 +98,8 @@ export class ActorSearchEvent {
     const targetTop = target.sprite.y + targetBody.offset.y;
     const targetBottom = targetTop + targetBody.height;
 
-    const overlapX = (targetLeft < searchRight) && (targetRight > searchLeft);
-    const overlapY = (targetTop < searchBottom) && (targetBottom > searchTop);
+    const overlapX = (searchLeft < targetRight) && (searchRight > targetLeft);
+    const overlapY = (searchTop < targetBottom) && (searchBottom > targetTop);
 
     return overlapX && overlapY;
   }

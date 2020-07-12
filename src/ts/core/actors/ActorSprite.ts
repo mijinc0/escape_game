@@ -18,9 +18,10 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     direction?: Direction,
   ) {
     super(scene, x, y, spriteKey, frame);
-
+    
     this.direction = direction ? direction : Direction.Down;
     this.spriteAnims = new Map<string, SpriteAnimation>();
+    this.setOrigin(0);
   }
 
   get spriteKey(): string {

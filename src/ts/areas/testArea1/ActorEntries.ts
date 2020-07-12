@@ -17,7 +17,6 @@ export const ActorEntries: IActorEntry[] = [
         spriteKey: AssetCacheKey.spritesheet('hero'),
         direction: Direction.Left,
         initFrame: 0,
-        overlapOnly: true,
         bodyConfig: {
           size: 0.8
         },

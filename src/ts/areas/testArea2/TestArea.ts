@@ -1,3 +1,5 @@
+import { ActorEntries } from './ActorEntries';
+import { EventEntries } from './EventEntries';
 import { IArea } from '../../core/areas/IArea';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 
@@ -10,7 +12,7 @@ export const TestArea2: IArea = {
   
   tileImageKey: AssetCacheKey.tileImage('sample_tile'),
 
-  actors: [],
+  actors: ActorEntries,
 
-  events: [],
+  events: EventEntries,
 }

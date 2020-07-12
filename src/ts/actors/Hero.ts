@@ -67,6 +67,7 @@ export class Hero extends Actor {
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(0);
 
+      // TODO: ActorSpriteにstopAnimを作ってそれで止める必要がある
       switch(this.sprite.direction) {
         case Direction.Left :
           this.sprite.stop(0);
