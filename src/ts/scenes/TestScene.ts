@@ -15,7 +15,7 @@ import { IArea } from '../core/areas/IArea';
 import { ActorColliderRegistrar } from '../core/areas/ActorColliderRegistrar';
 import { ActorEventRegistrar } from '../core/areas/ActorEventRegistrar';
 import { AreaActorsManager } from '../core/areas/AreaActorsManager';
-import { IActorEntry } from '../core/areas/IActorEntry';
+import { AreaActorData } from '../core/areas/AreaActorData';
 import { EventEmitType } from '../core/areas/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { SceneCommandsFactory } from '../events/SceneCommandsFactory';
@@ -133,17 +133,16 @@ export class TestScene extends Phaser.Scene {
   private _rewriteActorsPositionWithMapdata(): void {
     const mapdataActorPositions = this.tilemapData.mapData.actorPositions;
 
-    this.actorsManager.actorEntries.forEach((entry: IActorEntry) => {
-      const targetActorId = entry.actorObject.id;
-
+    this.actorsManager.actorData.forEach((data: AreaActorData) => {
+      const targetActorId = data.actorObject.id;
 
       const targetActorPosition = mapdataActorPositions.find((actorPosition: ActorPosition) => (
         actorPosition.actorId === targetActorId 
       ));
 
       if (targetActorPosition) {
-        entry.position.x = Math.floor(targetActorPosition.positon.x);
-        entry.position.y = Math.floor(targetActorPosition.positon.y);
+        data.position.x = Math.floor(targetActorPosition.positon.x);
+        data.position.y = Math.floor(targetActorPosition.positon.y);
       }
     });
   }
@@ -188,7 +187,7 @@ export class TestScene extends Phaser.Scene {
     actor.keys = this.keys;
 
     // search event
-    const actors = this.areaData.actors.map((entry: IActorEntry) => (entry.actorObject));
+    const actors = this.actorsManager.actorData.map((data: AreaActorData) => (data.actorObject));
     const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 

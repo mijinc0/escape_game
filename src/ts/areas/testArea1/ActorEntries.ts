@@ -1,15 +1,15 @@
 import { Actor } from '../../core/actors/Actor';
 import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
 import { IActorEntry } from '../../core/areas/IActorEntry';
-import { ActorEntry } from '../../core/areas/ActorEntry';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 import { EventEmitType } from '../../core/areas/EventEmitType';
 import { Direction } from '../../core/models/Direction';
 
 export const ActorEntries: IActorEntry[] = [
-  new ActorEntry(
-    new Actor(0, 'npc1'),
-    [
+  {
+    id: 0,
+    name: 'npc1',
+    statusPages: [
       {
         eventId: 0,
         eventEmitType: EventEmitType.Search,
@@ -22,11 +22,12 @@ export const ActorEntries: IActorEntry[] = [
         },
       },
     ],
-  ),
+  },
 
-  new ActorEntry(
-    new Actor(1, 'npc2'),
-    [
+  {
+    id: 1,
+    name: 'npc1',
+    statusPages: [
       {
         eventId: 0,
         eventEmitType: EventEmitType.Collide,
@@ -35,11 +36,13 @@ export const ActorEntries: IActorEntry[] = [
         initFrame: 0,
       },
     ],
-  ),
+  },
 
-  new ActorEntry(
-    new Actor(2, 'invisible_npc'),
-    [
+  {
+    id: 2,
+    name: 'invisible_npc',
+    position: {x: 100, y: 200},
+    statusPages: [
       {
         eventId: 1,
         eventEmitType: EventEmitType.Collide,
@@ -50,6 +53,5 @@ export const ActorEntries: IActorEntry[] = [
         },
       },
     ],
-    {x: 100, y: 200},
-  ),
+  },
 ];

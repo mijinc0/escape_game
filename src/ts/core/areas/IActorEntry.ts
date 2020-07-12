@@ -1,16 +1,12 @@
 import { IActorStatusPage } from './IActorStatusPage';
-import { IActor } from '../actors/IActor';
 import { Position } from '../models/Position';
-import { Direction } from '../models/Direction';
 
 export interface IActorEntry {
-  actorObject: IActor;
-  
-  position: Position;
+  id: number;
+
+  name: string;
   
   statusPages: IActorStatusPage[];
   
-  isSpawn: boolean;
-  
-  currentPageIndex: number;
+  position?: Position;
 }

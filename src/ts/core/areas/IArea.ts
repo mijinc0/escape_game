@@ -1,4 +1,4 @@
-import { ActorEntry } from './ActorEntry';
+import { IActorEntry } from './IActorEntry';
 import { EventEntry } from './EventEntry';
 
 export interface IArea {
@@ -10,7 +10,7 @@ export interface IArea {
   
   tileImageKey: string;
 
-  actors: ActorEntry[];
+  actors: IActorEntry[];
 
   events: EventEntry[];
 };

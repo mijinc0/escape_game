@@ -1,14 +1,15 @@
 import { Actor } from '../../core/actors/Actor';
 import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
 import { IActorEntry } from '../../core/areas/IActorEntry';
-import { ActorEntry } from '../../core/areas/ActorEntry';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 import { EventEmitType } from '../../core/areas/EventEmitType';
 
 export const ActorEntries: IActorEntry[] = [
-  new ActorEntry(
-    new Actor(0, 'door'),
-    [
+  {
+    id: 0,
+    name: 'door',
+    position: {x: 352, y: 192},
+    statusPages: [
       {
         eventId: 0,
         eventEmitType: EventEmitType.Search,
@@ -21,6 +22,5 @@ export const ActorEntries: IActorEntry[] = [
         },
       },
     ],
-    {x: 352, y: 192},
-  ),
+  },
 ];
