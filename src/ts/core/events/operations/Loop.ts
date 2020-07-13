@@ -1,6 +1,6 @@
 import { IScenarioEvent } from '../IScenarioEvent';
 import { CircularRange } from '../CircularRange';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../scenes/IFieldScene';
 
 export class Loop implements IScenarioEvent {
   readonly isAsync = false;
@@ -18,14 +18,16 @@ export class Loop implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     // 回転し続けるイベントレンジを割り込ませることで繰り返し処理を作る
     // このイベントレンジは自力では完了できないので、止める時は内部でBreakを使って外から破棄する必要がある
-    if (config.events) config.events.unshift(this.eventRange);
+    const events = scene.scenarioEventManager.events;
+
+    events.unshift(this.eventRange);
 
     this.complete();
 

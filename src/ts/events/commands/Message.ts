@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
 import { Keys } from '../../core/input/Keys';
 import { MessageBox } from '../../ui/messageBox/MessageBox';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 type MessageBufferFactoryCallback = (message: string) => string[];
 
@@ -49,21 +49,15 @@ export class Message implements IScenarioEvent {
     this.messageBufferFactoryCallback = messageBufferFactoryCallback;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
-
-    if (!config.scene) {
-      console.warn('ScenarioEventUpdateConfig has not current scene');
-      return;
-    }
-
     this.messageBuffers = this._createMessageBuffer(this.message);
-    this.messageBox = this._createMessageBox(config.scene, this.justify, this.align, this.hasBackground);
+    this.messageBox = this._createMessageBox(scene.phaserScene, this.justify, this.align, this.hasBackground);
 
     this._hideWaitingCursor();
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     if (!this.messageBox) return;
 
     if (this._hasReadiedMessage()) {
@@ -76,9 +70,9 @@ export class Message implements IScenarioEvent {
 
     } else {
       // 次のメッセージに進むためのキー入力待ち
-      this._flashingKeyWaitCursor(frame);
+      this._flashingKeyWaitCursor(scene.frame);
       // 入力待ち
-      this._waitKeyInput(config.keys);
+      this._waitKeyInput(scene.keys);
       // バッファが空になったら完了
 
       if (this.messageBuffers.length === 0) this.complete();

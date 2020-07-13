@@ -1,5 +1,5 @@
 import { GameGlobal } from '../../../GameGlobal';
-import { SceneCommandsFactory as cmd } from '../../../events/SceneCommandsFactory';
+import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { EventEntryFactory } from '../../../core/areas/EventEntryFactory';
 

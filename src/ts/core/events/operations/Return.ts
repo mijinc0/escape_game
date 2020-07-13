@@ -1,5 +1,5 @@
 import { IScenarioEvent } from '../IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../scenes/IFieldScene';
 
 export class Return implements IScenarioEvent {
   readonly isAsync = false;
@@ -10,24 +10,22 @@ export class Return implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     // 全てのイベントレンジを破棄する
-    if (config.events) {
-      config.events.splice(0);
-    }
+    const events = scene.scenarioEventManager.events;
+    events.splice(0);
 
     // 進行中のイベントを全てcompleteする
-    if (config.currentEvents) {
-      config.currentEvents.forEach((event: IScenarioEvent) => {
-        event.complete();
-        // 殆どの場合、complete()でフラグが立つが、念の為立てておく
-        event.isComplete = true;
-      });
-    }
+    const currentEvents = scene.scenarioEventManager.currentEvents;
+    currentEvents.forEach((event: IScenarioEvent) => {
+      event.complete();
+      // 殆どの場合、complete()でフラグが立つが、念の為立てておく
+      event.isComplete = true;
+    });
 
     this.complete();
 

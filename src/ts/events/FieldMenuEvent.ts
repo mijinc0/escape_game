@@ -1,7 +1,7 @@
 import * as Ui from '../core/ui';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
 import { IScenarioEvent } from '../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../core/events/ScenarioEventUpdateConfig';
+import { IFieldScene } from '../core/scenes/IFieldScene';
 
 export class FieldMenuEvent implements IScenarioEvent {
   readonly isAsync = false;
@@ -19,29 +19,24 @@ export class FieldMenuEvent implements IScenarioEvent {
     this.initCooldown = 0;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
-    if (config.scene && config.gameGlobal && config.keys) {
-      console.log('open field menu');
+  init(scene: IFieldScene): void {
+    console.log('open field menu');
 
-      this.isComplete = false;
-      
-      this.selector = Ui.SelectorFactory.create(config.scene, config.keys);
-      this.fieldMenu = new FieldMenu({scene: config.scene, gameGlobal: config.gameGlobal});
-      
-      // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
-      this.fieldMenu.mainMenu.backButton.on(Ui.SelectorEventNames.Select, this.closeMenu.bind(this));
-      this.selector.setRootCancelEvent(this.closeMenu.bind(this));
-      
-      this.fieldMenu.registSelector(this.selector);
-      this.initCooldown = 15;
+    this.isComplete = false;
     
-    } else {
-      console.warn('can\'t init FieldMenuEvent because "scene" or "gameGlobal" or "keys" is null');
-      this.isComplete = true;
-    }
+    this.selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
+    // NOTE: IFieldScene一つに変更可能だが暫定的に維持
+    this.fieldMenu = new FieldMenu({scene: scene.phaserScene, gameGlobal: scene.gameGlobal});
+    
+    // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
+    this.fieldMenu.mainMenu.backButton.on(Ui.SelectorEventNames.Select, this.closeMenu.bind(this));
+    this.selector.setRootCancelEvent(this.closeMenu.bind(this));
+    
+    this.fieldMenu.registSelector(this.selector);
+    this.initCooldown = 15;
   };
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐあとにクールダウンを設ける
     if (this.initCooldown > 0) {
       this.initCooldown--;
@@ -50,7 +45,7 @@ export class FieldMenuEvent implements IScenarioEvent {
 
     if (this.isComplete || !this.fieldMenu) return;
 
-    this.selector.update(frame);
+    this.selector.update(scene.frame);
   };
 
   complete(): void {

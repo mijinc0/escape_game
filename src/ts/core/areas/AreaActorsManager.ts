@@ -56,6 +56,14 @@ export class AreaActorsManager {
     });
   }
 
+  findActorById(id: number): IActor|null {
+    const actor = this.actorData.find((data: AreaActorData) => (
+      data.actorObject.id === id
+    ));
+
+    return actor ? actor.actorObject : null;
+  }
+
   update(frame: number): void {
     this.actorData.forEach((entry: AreaActorData) => {
       this._updateActorStatus(entry);

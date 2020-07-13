@@ -1,7 +1,7 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
 import { Item as ItemObject } from '../../core/models/Item';
 import { IGameGlobal } from '../../core/IGameGlobal';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class Item implements IScenarioEvent {
   static readonly maxOwnItems = 99;
@@ -19,21 +19,15 @@ export class Item implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!config.gameGlobal) {
-      console.warn('ScenarioEventUpdateConfig has not game global store');
-      this.isComplete = true;
-      return;
-    }
-
+  update(scene: IFieldScene): void {
     if (this.delta > 0) {
-      this._getItem(this.itemName, this.delta, config.gameGlobal);
+      this._getItem(this.itemName, this.delta, scene.gameGlobal);
     } else {
-      this._lostItem(this.itemName, this.delta * -1, config.gameGlobal);
+      this._lostItem(this.itemName, this.delta * -1, scene.gameGlobal);
     }
 
     this.complete();

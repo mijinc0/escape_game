@@ -1,5 +1,6 @@
 import 'mocha';
 import { expect } from 'chai';
+import { TestFieldScene } from './TestFieldScene';
 import { ScenarioEventManager } from '../../../../ts/core/events/ScenarioEventManager';
 import { LineRange } from '../../../../ts/core/events/LineRange';
 import { IScenarioEvent } from '../../../../ts/core/events/IScenarioEvent';
@@ -17,7 +18,7 @@ class TestEvent implements IScenarioEvent {
 
   init(): void {}
 
-  update(frame: number): void {
+  update(): void {
     this.complete();
   }
   
@@ -29,7 +30,10 @@ class TestEvent implements IScenarioEvent {
 
 describe('scenarioEventManager.start()', () => {
   context('normal', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(true, true),
       new TestEvent(true, true),
@@ -48,7 +52,10 @@ describe('scenarioEventManager.start()', () => {
 
 describe('scenarioEventManager.update()', () => {
   context('normal', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(true, true),
       new TestEvent(true, true),
@@ -59,7 +66,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update(0);
+    sem.update();
 
     it('current event size should be 2', () => {
       expect(sem.getCurrentEventSize()).is.equals(2);
@@ -67,7 +74,10 @@ describe('scenarioEventManager.update()', () => {
   });
 
   context('normal 2', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(false, true),
       new TestEvent(true, true),
@@ -78,7 +88,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update(0);
+    sem.update();
 
     it('current event size should be 3', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);
@@ -86,7 +96,10 @@ describe('scenarioEventManager.update()', () => {
   });
 
   context('normal 3', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(false, true),
       new TestEvent(true, true),
@@ -97,10 +110,10 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update(0);
-    sem.update(1);
-    sem.update(2);
-    sem.update(3);
+    sem.update();
+    sem.update();
+    sem.update();
+    sem.update();
 
     it('current event size should be 1', () => {
       expect(sem.getCurrentEventSize()).is.equals(1);
@@ -108,7 +121,10 @@ describe('scenarioEventManager.update()', () => {
   });
 
   context('normal 3', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(true, false),
       new TestEvent(true, false),
@@ -117,9 +133,9 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update(0);
-    sem.update(1);
-    sem.update(2);
+    sem.update();
+    sem.update();
+    sem.update();
 
     it('current event size should be 0', () => {
       expect(sem.getCurrentEventSize()).is.equals(0);
@@ -127,7 +143,10 @@ describe('scenarioEventManager.update()', () => {
   });
 
   context('normal 4', () => {
-    const sem = new ScenarioEventManager();
+    const scene = new TestFieldScene();
+
+    const sem = new ScenarioEventManager(scene);
+
     const eventRange = new LineRange([
       new TestEvent(false, true),
       new TestEvent(false, true),
@@ -136,7 +155,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update(0);
+    sem.update();
 
     it('current event size should be 3', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);

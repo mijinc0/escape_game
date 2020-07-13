@@ -1,9 +1,7 @@
-import * as Phaser from 'phaser';
+import { IScenarioEventManager } from './IScenarioEventManager';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
-import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
-import { IGameGlobal } from '../IGameGlobal';
-import { Keys } from '../input/Keys';
+import { IFieldScene } from '../scenes/IFieldScene';
 
 /**
  * 1. イベントはRangeと呼ばれる構造体にまとめられたものを1ブロックとして管理する
@@ -15,22 +13,17 @@ import { Keys } from '../input/Keys';
  * 7. イベントを割り込ませたい場合はeventsの先頭にRangeを差し込めば良い
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
-export class ScenarioEventManager {
-  scene: Phaser.Scene;
-  keys: Keys;
-  gameGlobal: IGameGlobal;
+export class ScenarioEventManager implements IScenarioEventManager {
+  scene: IFieldScene;
+  events: EventRange[];
+  currentEvents: IScenarioEvent[];
 
-  private events: EventRange[];
-  private currentEvents: IScenarioEvent[];
-
-  constructor(
-    scene?: Phaser.Scene,
-    gameGlobal?: IGameGlobal,
-    keys?: Keys,
-  ) {
-    this.scene = scene ? scene : null;
-    this.gameGlobal = gameGlobal ? gameGlobal : null;
-    this.keys = keys ? keys : null;
+  /**
+   * 
+   * @param scene IScenarioEvent.updateの引数になる
+   */
+  constructor(scene: IFieldScene) {
+    this.scene = scene;
     this.events = [];
     this.currentEvents = [];
   }
@@ -46,12 +39,11 @@ export class ScenarioEventManager {
     this._setNextEvnet();
   }
 
-  update(frame: number): void {
+  update(): void {
     if (this.currentEvents.length === 0) return;
 
     this.currentEvents.forEach((event: IScenarioEvent) => {
-      const updateConfig = this._getUpdateConfig();
-      event.update(frame, updateConfig);
+      event.update(this.scene);
     });
 
     // 未完了イベントのみを残す
@@ -59,7 +51,7 @@ export class ScenarioEventManager {
 
     // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
-    if (this.events.length > 0 && this._hasNoSyncEvnetIntoCurrentEvents()) {
+    if (this.events.length > 0 && this._hasNoSyncEvnetInCurrentEvents()) {
       this._setNextEvnet();
     }
   }
@@ -83,8 +75,7 @@ export class ScenarioEventManager {
 
     // 3. 次のイベントがあれば、初期化してイベントを追加する
     if (next) {
-      const updateConfig = this._getUpdateConfig();
-      next.init(updateConfig);
+      next.init(this.scene);
       this.currentEvents.push(next);
     }
 
@@ -99,17 +90,7 @@ export class ScenarioEventManager {
     if (this.events.length > 0 && next.isAsync) this._setNextEvnet();
   }
 
-  private _hasNoSyncEvnetIntoCurrentEvents(): boolean {
+  private _hasNoSyncEvnetInCurrentEvents(): boolean {
     return !this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
-  }
-
-  private _getUpdateConfig(): ScenarioEventUpdateConfig {
-    return {
-      scene: this.scene,
-      keys: this.keys,
-      events: this.events,
-      currentEvents: this.currentEvents,
-      gameGlobal: this.gameGlobal,
-    }
   }
 }

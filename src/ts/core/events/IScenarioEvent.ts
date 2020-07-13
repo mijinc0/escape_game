@@ -1,7 +1,8 @@
-import { ScenarioEventUpdateConfig } from './ScenarioEventUpdateConfig';
+import { IFieldScene } from '../scenes/IFieldScene';
  
 export interface IScenarioEvent {
   isComplete: boolean;
+
   isAsync: boolean;
 
   /**
@@ -11,14 +12,9 @@ export interface IScenarioEvent {
    * イベントはinitによって初期化され、使いまわされるので、状態内部の破壊的な処理を避けること
    * @param config 
    */
-  init(config: ScenarioEventUpdateConfig): void;
+  init(scene: IFieldScene): void;
 
-  /**
-   * 
-   * @param frame 実行時のフレーム
-   * @param asyncEvents このイベントと一緒に実行されるイベント群
-   */
-  update(frame: number, config: ScenarioEventUpdateConfig): void;
+  update(scene: IFieldScene): void;
 
   complete(): void;
 }

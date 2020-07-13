@@ -1,5 +1,5 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class Variable implements IScenarioEvent {
   readonly isAsync = true;
@@ -25,25 +25,19 @@ export class Variable implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scenes: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!config.gameGlobal) {
-      console.warn('ScenarioEventUpdateConfig has not game global store');
-      this.isComplete = true;
-      return;
-    }
-
+  update(scenes: IFieldScene): void {
     if (this.type === 0) {
-      config.gameGlobal.variables.set(this.key, this.value);
+      scenes.gameGlobal.variables.set(this.key, this.value);
 
     } else {
       const sign = Math.sign(this.type);
-      const currentValue = config.gameGlobal.variables.get(this.key);
+      const currentValue = scenes.gameGlobal.variables.get(this.key);
       const newValue = currentValue + (this.value * sign);
-      config.gameGlobal.variables.set(this.key, newValue);
+      scenes.gameGlobal.variables.set(this.key, newValue);
     }
 
     this.complete();

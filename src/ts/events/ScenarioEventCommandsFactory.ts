@@ -8,9 +8,10 @@ import { Sleep } from './commands/Sleep';
 import { MoveArea } from './commands/MoveArea';
 import { CameraFadeIn } from './commands/CameraFadeIn';
 import { CameraFadeOut } from './commands/CameraFadeOut';
+import { PlayActorAnim } from './commands/PlayActorAnim';
 import { Direction } from '../core/models/Direction';
 
-export class SceneCommandsFactory {
+export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
 
   static message(
@@ -69,5 +70,9 @@ export class SceneCommandsFactory {
 
   static cameraFadeOut(duration?: number, async?: boolean): CameraFadeOut {
     return new CameraFadeOut(duration, async);
+  }
+
+  static playActorAnim(actorId: number, animName: string, async?: boolean): PlayActorAnim {
+    return new PlayActorAnim(actorId, animName, async);
   }
 }

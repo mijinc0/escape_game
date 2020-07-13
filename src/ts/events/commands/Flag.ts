@@ -1,5 +1,5 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class Flag implements IScenarioEvent {
   readonly isAsync = true;
@@ -19,22 +19,16 @@ export class Flag implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!config.gameGlobal) {
-      console.warn('ScenarioEventUpdateConfig has not game global store');
-      this.isComplete = true;
-      return;
-    }
-
+  update(scene: IFieldScene): void {
     if (this.value === 0) {
-      config.gameGlobal.flags.toggle(this.key);
+      scene.gameGlobal.flags.toggle(this.key);
 
     } else {
-      (this.value > 0) ? config.gameGlobal.flags.on(this.key) : config.gameGlobal.flags.off(this.key);
+      (this.value > 0) ? scene.gameGlobal.flags.on(this.key) : scene.gameGlobal.flags.off(this.key);
     }
 
     this.complete();

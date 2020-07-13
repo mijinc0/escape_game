@@ -1,34 +1,61 @@
 import 'mocha';
 import { expect } from 'chai';
+import { TestFieldScene } from '../TestFieldScene';
+import { TestScenarioEventManager } from '../TestScenarioEventManager';
+import { TestEvent } from '../TestEvent';
 import { Return } from '../../../../../ts/core/events/operations/Return';
 import { EventRange } from '../../../../../ts/core/events/EventRange';
 import { LineRange } from '../../../../../ts/core/events/LineRange';
 import { IScenarioEvent } from '../../../../../ts/core/events/IScenarioEvent';
+import { IScenarioEventManager } from '../../../../../ts/core/events/IScenarioEventManager';
 
-class TestEvent implements IScenarioEvent {
-  isComplete: boolean;
-  isAsync: boolean;
-
-  constructor() {
-    this.isComplete = false;
-    this.isAsync = false;
-  }
-
-  init(): void {}
-
-  update(frame: number): void {
-    this.complete();
-  }
+class ScenarioEventManager extends TestScenarioEventManager {
+  _events: EventRange[];
   
-  complete(): void {
-    this.isComplete = true;
+  _currentEvents: IScenarioEvent[];
+
+  constructor(events: EventRange[], currentEvents: IScenarioEvent[]) {
+    super();
+    this.events = events;
+    this.currentEvents = currentEvents;
+  }
+
+  get events(): EventRange[] {
+    return this._events;
+  }
+
+  set events(v: EventRange[]) {
+    this._events = v;
+  }
+
+  get currentEvents(): IScenarioEvent[] {
+    return this._currentEvents;
+  }
+
+  set currentEvents(v: IScenarioEvent[]) {
+    this._currentEvents = v;
+  }
+}
+
+class FieldScene extends TestFieldScene {
+  _scenarioEventManager: IScenarioEventManager;
+
+  constructor(scenarioEventManager: IScenarioEventManager) {
+    super();
+    this.scenarioEventManager = scenarioEventManager;
+  }
+
+  get scenarioEventManager(): IScenarioEventManager {
+    return this._scenarioEventManager;
+  }
+
+  set scenarioEventManager(v: IScenarioEventManager) {
+    this._scenarioEventManager = v;
   }
 }
 
 describe('return.update()', () => {
   context('normal', () => {
-    const opReturn = new Return();
-
     const events: EventRange[] = [
       new LineRange(),
       new LineRange(),
@@ -41,7 +68,12 @@ describe('return.update()', () => {
       new TestEvent(),
     ];
 
-    opReturn.update(0, {events: events, currentEvents: currentEvent});
+    const sem = new ScenarioEventManager(events, currentEvent);
+
+    const scene = new FieldScene(sem);
+
+    const opReturn = new Return();
+    opReturn.update(scene);
 
     it('op break should be complete', async () => {
       expect(opReturn.isComplete).is.true;

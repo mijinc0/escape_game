@@ -1,5 +1,5 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class CameraFadeOut implements IScenarioEvent {
   isAsync: boolean;
@@ -15,21 +15,15 @@ export class CameraFadeOut implements IScenarioEvent {
     this.startFadeOut = false;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
     this.startFadeOut = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     if (this.startFadeOut) return;
 
-    if (!config.scene) {
-      console.warn('ScenarioEventUpdateConfig has not scene');
-      this.isComplete = true;
-      return;
-    }
-
-    config.scene.cameras.main.fadeOut(this.duration, 0, 0, 0, (camera: any, progress: number) => {
+    scene.phaserScene.cameras.main.fadeOut(this.duration, 0, 0, 0, (camera: any, progress: number) => {
       if (progress === 1) {
         this.complete();
       }

@@ -1,7 +1,7 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
 import { Direction } from '../../core/models/Direction';
 import { SceneData } from '../../core/models/SceneData';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class MoveArea implements IScenarioEvent {
   readonly isAsync = true;
@@ -21,20 +21,14 @@ export class MoveArea implements IScenarioEvent {
     this.isComplete = false; 
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
-    if (!config.scene) {
-      console.warn('ScenarioEventUpdateConfig has not scene object');
-      this.isComplete = true;
-      return;
-    }
-
+  update(scene: IFieldScene): void {
     const sceneData = new SceneData(this.areaId, this.x, this.y, this.direction);
 
-    config.scene.scene.start('field', sceneData);
+    scene.phaserScene.scene.start('field', sceneData);
 
     this.complete();
   }

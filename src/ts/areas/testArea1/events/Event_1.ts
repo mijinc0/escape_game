@@ -1,4 +1,4 @@
-import { SceneCommandsFactory as cmd } from '../../../events/SceneCommandsFactory';
+import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 import { EventEntryFactory } from '../../../core/areas/EventEntryFactory';
 import { Direction } from '../../../core/models/Direction';
 

@@ -36,12 +36,22 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     this.spriteAnims.set(animName, animObject);
   }
   
-  playAnim(animName: string, ignoreIfPlaying?: boolean): this {
+  playAnim(
+    animName: string,
+    ignoreIfPlaying?: boolean,
+    onCompleteEventCallback?: () => void,
+  ): this {
     const anim = this.spriteAnims.get(animName);
     
     if (anim) {
+      // onCompleteコールバックがある場合はセットしておく(一度限りなのでonceで)
+      if (onCompleteEventCallback) {
+        anim.once('complete', onCompleteEventCallback);
+      }
+
       // 自身にキャッシュされていればそのアニメーションを実行する
       this.anims.play(anim, ignoreIfPlaying);
+      
     } else {
       // 自身にキャッシュされていないnameであれば、グローバルに保管されているアニメーションを探す
       // この時、`animName`を`animKey`としてアニメーションを探す

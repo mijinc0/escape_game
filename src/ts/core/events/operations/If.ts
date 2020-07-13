@@ -1,6 +1,6 @@
 import { IScenarioEvent } from '../IScenarioEvent';
 import { LineRange } from '../LineRange';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../scenes/IFieldScene';
  
 type CriteriaCallback = () => boolean;
 type EventEntry = {criteriaCallback: CriteriaCallback, events: IScenarioEvent[]};
@@ -21,18 +21,21 @@ export class If implements IScenarioEvent {
     }];
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     const matchedEntry = this.entries.find((entry: EventEntry) => (entry.criteriaCallback()));
-    
+
     // 条件判定コールバックの結果がtrueになるエントリーがあれば、そこに含まれるeventRangeを進行中のイベントに割り込ませる
-    if (matchedEntry && config.events) {
-      const events = matchedEntry.events;
-      const interruptRange = new LineRange(events);
-      config.events.unshift(interruptRange);
+    if (matchedEntry) {
+      const events = scene.scenarioEventManager.events;
+
+      const interruptEvents = matchedEntry.events;
+      const interruptRange = new LineRange(interruptEvents);
+      
+      events.unshift(interruptRange);
     }
 
     this.complete();

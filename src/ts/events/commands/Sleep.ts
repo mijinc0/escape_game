@@ -1,5 +1,5 @@
 import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../../core/events/ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../core/scenes/IFieldScene';
 
 export class Sleep implements IScenarioEvent {
   readonly isAsync = false;
@@ -14,12 +14,12 @@ export class Sleep implements IScenarioEvent {
     this.sleepCount = frame;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scenes: IFieldScene): void {
     this.isComplete = false;
     this.counter = this.sleepCount;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scenes: IFieldScene): void {
     this.counter--;
 
     if (this.counter <= 0) {

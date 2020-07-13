@@ -1,7 +1,7 @@
 import { CircularRange } from '../CircularRange';
 import { EventRange } from '../EventRange';
 import { IScenarioEvent } from '../IScenarioEvent';
-import { ScenarioEventUpdateConfig } from '../ScenarioEventUpdateConfig';
+import { IFieldScene } from '../../scenes/IFieldScene';
 
 export class Break implements IScenarioEvent {
   readonly isAsync = false;
@@ -12,17 +12,18 @@ export class Break implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(config: ScenarioEventUpdateConfig): void {
+  init(scene: IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(frame: number, config: ScenarioEventUpdateConfig): void {
+  update(scene: IFieldScene): void {
     // Breakは進行中のイベントリストのうち、最初のCircularRangeが見つかったところまでレンジを削除する
     // 見つからない場合は削除しない
-    if (config.events) {
-      const circularRangeIndex = config.events.findIndex((range: EventRange) => (range instanceof CircularRange));
-      // 参照元の配列を破壊する
-      config.events.splice(0, circularRangeIndex + 1);
+    const events = scene.scenarioEventManager.events;
+    const circularRangeIndex = events.findIndex((range: EventRange) => (range instanceof CircularRange));
+    // 参照元の配列を破壊する
+    if (circularRangeIndex !== -1) {
+      events.splice(0, circularRangeIndex + 1);
     }
 
     this.complete();

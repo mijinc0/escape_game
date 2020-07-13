@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 import * as Actors from '../actors';
 import { GameGlobal } from '../GameGlobal';
+import { IGameGlobal } from '../core/IGameGlobal';
+import { IFieldScene } from '../core/scenes/IFieldScene';
 import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
@@ -18,23 +20,26 @@ import { AreaActorsManager } from '../core/areas/AreaActorsManager';
 import { AreaActorData } from '../core/areas/AreaActorData';
 import { EventEmitType } from '../core/areas/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
-import { SceneCommandsFactory } from '../events/SceneCommandsFactory';
 import { EventRangeFactory } from '../core/events/EventRangeFactory';
 import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
 import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
+import { ScenarioEventCommandsFactory } from '../events/ScenarioEventCommandsFactory';
 import { GameAreas } from '../areas/GameAreas';
 
-export class TestScene extends Phaser.Scene {
-  private frame: number;
-  private keys: Keys;
+export class TestScene extends Phaser.Scene implements IFieldScene {
+  phaserScene: Phaser.Scene;
+  frame: number;
+  gameGlobal: IGameGlobal;
+  primaryActor: IActor;
+  actorsManager: AreaActorsManager;
+  scenarioEventManager: ScenarioEventManager;
+  keys: Keys;
+  
   private tilemapFactory: SceneTilemapFactory;
-  private primaryActor: IActor;
   private areaData: IArea; 
-  private scenarioEvent: ScenarioEventManager;
   private tilemapData: ISceneTilemapData;
-  private actorsManager: AreaActorsManager;
   private actorColliderRegistrar: ActorColliderRegistrar;
 
   private initX: number;
@@ -52,12 +57,14 @@ export class TestScene extends Phaser.Scene {
 
     console.log(`scene data: { areaId: ${data.areaId}, initX: ${data.heroX}, initX: ${data.heroY}, initDirection: ${data.heroDirection}}`);
 
-    this.frame = 0;
+    this.phaserScene = this;
+    this.frame = -1;
+    this.gameGlobal = GameGlobal;
     this.keys = this._createKeys();
     this.areaData = this._getAreaData(data.areaId);
     this.actorColliderRegistrar = new ActorColliderRegistrar(this);
     this.tilemapFactory = new SceneTilemapFactory(this);
-    this.scenarioEvent = new ScenarioEventManager(this, GameGlobal,this.keys);
+    this.scenarioEventManager = new ScenarioEventManager(this);
     this.actorsManager = this._createActorsManager();
     this.initX = data.heroX;
     this.initY = data.heroY;
@@ -79,10 +86,10 @@ export class TestScene extends Phaser.Scene {
   update(): void {
     this.frame++;
 
-    if (this.scenarioEvent.isGoing()) {
+    if (this.scenarioEventManager.isGoing()) {
       // ポーズしないとPhysicsが動くのでvelocityの設定に従ってスプライトが動いてしまう
       this.physics.world.pause();
-      this.scenarioEvent.update(this.frame);
+      this.scenarioEventManager.update();
       return;
     }
 
@@ -114,7 +121,7 @@ export class TestScene extends Phaser.Scene {
 
   private _createActorsManager(): AreaActorsManager {
     const actorSpriteFactory = new ActorSpriteFactory(this);
-    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEvent, this.areaData.events);
+    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEventManager, this.areaData.events);
     
     return new AreaActorsManager(
       actorSpriteFactory,
@@ -195,7 +202,7 @@ export class TestScene extends Phaser.Scene {
     actor.on('fieldMenu', (() => {
       const fieldMenuEvent = new FieldMenuEvent();
       const fieldMenuEventRange = new EventRangeFactory(fieldMenuEvent).create();
-      this.scenarioEvent.start(fieldMenuEventRange);
+      this.scenarioEventManager.start(fieldMenuEventRange);
     }).bind(this));
 
     // collision
@@ -253,8 +260,8 @@ export class TestScene extends Phaser.Scene {
   }
 
   private _sceneFadeIn(): void {
-    const event = new EventRangeFactory(SceneCommandsFactory.cameraFadeIn(300)).create();
+    const event = new EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
 
-    this.scenarioEvent.start(event);
+    this.scenarioEventManager.start(event);
   }
 }

@@ -22,7 +22,7 @@ export interface IActorSprite {
 
   setAnim(animName: string, animationObject: any): void;
   
-  playAnim(animName: string, ignoreIfPlaying?: boolean): this;
+  playAnim(animName: string, ignoreIfPlaying?: boolean, onCompleteEventCallback?: () => void): this;
 
   stop(frame: number): void;
 

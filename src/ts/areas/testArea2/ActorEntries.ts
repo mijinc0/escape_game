@@ -1,4 +1,3 @@
-import { Actor } from '../../core/actors/Actor';
 import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
 import { IActorEntry } from '../../core/areas/IActorEntry';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
