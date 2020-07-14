@@ -2,7 +2,7 @@ import { IActorStatusPage } from './IActorStatusPage';
 import { IActor } from '../actors/IActor';
 import { Position } from '../models/Position';
 
-export class AreaActorData {
+export class FieldActorData {
   constructor (
     public actorObject: IActor,
     public position: Position,

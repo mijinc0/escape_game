@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import * as Ui from '../core/ui';
 import { Button } from '../ui/Button';
 import { Direction } from '../core/models/Direction';
-import { SceneData } from '../core/models/SceneData';
+import { IFieldSceneConfig } from '../core/scenes/IFieldSceneConfig';
 
 export class Opening extends Phaser.Scene {
   private frame: number;
@@ -62,17 +62,18 @@ export class Opening extends Phaser.Scene {
     const button = new Button(buttonConfig, 0, 0, 160, 40);
 
     button.on(Ui.SelectorEventNames.Select, () => {
-      const initAreaId = -1;
-      const initHeroX = 300;
-      const initHeroY = 200;
-      const initHeroDirection = Direction.Down;
-      const data = new SceneData(initAreaId, initHeroX, initHeroY, initHeroDirection);
+      const fieldConfig: IFieldSceneConfig = {
+        fieldId: -1,
+        heroX: 300,
+        heroY: 200,
+        heroDirection: Direction.Down,
+      };
 
       this.selector.disable = true;
 
       this.cameras.main.fadeOut(800, 0, 0, 0, (camera: any, progress: number) => {
         if (progress === 1) {
-          this.scene.start('field', data);
+          this.scene.start('field', fieldConfig);
         }
       });
     });

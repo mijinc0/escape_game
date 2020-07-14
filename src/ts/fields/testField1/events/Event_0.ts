@@ -1,7 +1,7 @@
 import { GameGlobal } from '../../../GameGlobal';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
-import { EventEntryFactory } from '../../../core/areas/EventEntryFactory';
+import { EventEntryFactory } from '../../../core/fields/EventEntryFactory';
 
 export default EventEntryFactory.create(0, 
   cmd.message('this is message\\!this event is page 0'),

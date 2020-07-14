@@ -1,4 +1,4 @@
-import { AreaActorData } from './AreaActorData';
+import { FieldActorData } from './FieldActorData';
 import { EventEmitType } from './EventEmitType';
 import { IActorEntry } from './IActorEntry';
 import { IActorStatusPage } from './IActorStatusPage';
@@ -12,8 +12,8 @@ import { IActorSpriteFactory } from '../actors/IActorSpriteFactory';
 type SpawnCriteriaCallback = () => boolean;
 type CollisionSettingCallback = (spawnActor: IActor, onlyOverlap: boolean) => void;
 
-export class AreaActorsManager {
-  actorData: AreaActorData[];
+export class FieldActorsManager {
+  actorData: FieldActorData[];
   
   private actorSpriteFactory: IActorSpriteFactory;
   private actorEventRegistrar: IActorEventRegistrar;
@@ -34,30 +34,30 @@ export class AreaActorsManager {
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IActorEntry[],
   ) {
-    this.actorData = actorEntries ? this._createAreaActorDataFromActorEntries(actorEntries) : [];
+    this.actorData = actorEntries ? this._createFieldActorDataFromActorEntries(actorEntries) : [];
     this.actorSpriteFactory = actorSpriteFactory;
     this.actorEventRegistrar = actorEventRegistrar;
     this.collisionSettingCallback = collisionSettingCallback;
   }
 
   addEntries(actorEntries: IActorEntry[]): void {
-    this.actorData = this._createAreaActorDataFromActorEntries(actorEntries);
+    this.actorData = this._createFieldActorDataFromActorEntries(actorEntries);
   }
 
   getSpawnActors(): IActor[] {
     return this.actorData
-      .filter((entry: AreaActorData) => (entry.isSpawn))
-      .map((entry: AreaActorData) => (entry.actorObject));
+      .filter((entry: FieldActorData) => (entry.isSpawn))
+      .map((entry: FieldActorData) => (entry.actorObject));
   }
 
   spawnEntries(): void {
-    this.actorData.forEach((data: AreaActorData) => {
+    this.actorData.forEach((data: FieldActorData) => {
       this._updateActorStatus(data);
     });
   }
 
   findActorById(id: number): IActor|null {
-    const actor = this.actorData.find((data: AreaActorData) => (
+    const actor = this.actorData.find((data: FieldActorData) => (
       data.actorObject.id === id
     ));
 
@@ -65,14 +65,14 @@ export class AreaActorsManager {
   }
 
   update(frame: number): void {
-    this.actorData.forEach((entry: AreaActorData) => {
+    this.actorData.forEach((entry: FieldActorData) => {
       this._updateActorStatus(entry);
       
       entry.actorObject.update(frame);
     });
   }
 
-  private _createAreaActorDataFromActorEntries(entries: IActorEntry[]): AreaActorData[] {
+  private _createFieldActorDataFromActorEntries(entries: IActorEntry[]): FieldActorData[] {
     return entries.map((entry: IActorEntry) => {
       const actorObject = new Actor(entry.id, entry.name);
       const position = entry.position ? entry.position : {x: 0, y: 0};
@@ -80,32 +80,32 @@ export class AreaActorsManager {
       const isSpawn = false;
       const initPageIndex = -1;
       
-      return new AreaActorData(actorObject, position, pages, isSpawn, initPageIndex);
+      return new FieldActorData(actorObject, position, pages, isSpawn, initPageIndex);
     });
   }
   
-  private _updateActorStatus(areaActorData: AreaActorData): void {    
+  private _updateActorStatus(fieldActorData: FieldActorData): void {    
     // 1. get status page that matches current criteria
-    const pageIndex = this._getCurrentPageIndex(areaActorData);
+    const pageIndex = this._getCurrentPageIndex(fieldActorData);
 
     // 2. if same as currentPageIndex, return immediately
-    if (pageIndex === areaActorData.currentPageIndex) return;
+    if (pageIndex === fieldActorData.currentPageIndex) return;
 
     // 3. if page is not found, actor will despawn
     if (pageIndex === -1) {
-      this._despawnActor(areaActorData);
+      this._despawnActor(fieldActorData);
       return;
     }
 
     // 4. if actor already spawn & change page index, change status
-    this._spawnOrRespawnActor(areaActorData, pageIndex);
+    this._spawnOrRespawnActor(fieldActorData, pageIndex);
   }
 
-  private _despawnActor(areaActorData: AreaActorData): void {
-    if (!areaActorData.isSpawn) return;
+  private _despawnActor(fieldActorData: FieldActorData): void {
+    if (!fieldActorData.isSpawn) return;
 
-    this._resetActorStatus(areaActorData.actorObject);
-    areaActorData.isSpawn = false;
+    this._resetActorStatus(fieldActorData.actorObject);
+    fieldActorData.isSpawn = false;
   }
 
   /**
@@ -113,12 +113,12 @@ export class AreaActorsManager {
    * @param entry 
    * @param pageIndex 
    */
-  private _spawnOrRespawnActor(areaActorData: AreaActorData, pageIndex: number): void {
-    const page = this._getPage(areaActorData, pageIndex);
-    const actor = areaActorData.actorObject;
+  private _spawnOrRespawnActor(fieldActorData: FieldActorData, pageIndex: number): void {
+    const page = this._getPage(fieldActorData, pageIndex);
+    const actor = fieldActorData.actorObject;
 
     // 1. create new sprite
-    const newSprite = this._createActorSprite(areaActorData, pageIndex);
+    const newSprite = this._createActorSprite(fieldActorData, pageIndex);
 
     // 2. reset actor status & set new sprite
     // (create -> reset -> set new sprite の順でないとリスポーンした時に座標が戻ってしまうので注意)
@@ -136,24 +136,24 @@ export class AreaActorsManager {
     this._setCollisionSettings(actor, page.overlapOnly);
     
     // 6. change entry properties
-    areaActorData.currentPageIndex = pageIndex;
-    areaActorData.isSpawn = true;
+    fieldActorData.currentPageIndex = pageIndex;
+    fieldActorData.isSpawn = true;
 
     // 7. emit "Immediately" event
     actor.emit(EventEmitType.Immediately);
   }
 
-  private _getCurrentPageIndex(areaActorData: AreaActorData): number {
-    return areaActorData.statusPages.findIndex((page: IActorStatusPage) => (
+  private _getCurrentPageIndex(fieldActorData: FieldActorData): number {
+    return fieldActorData.statusPages.findIndex((page: IActorStatusPage) => (
       this._checkSpawnCriteria(page.criteria)
     ));
   }
 
-  private _getPage(areaActorData: AreaActorData, pageIndex: number): IActorStatusPage {
-    const page = areaActorData.statusPages[pageIndex];
+  private _getPage(fieldActorData: FieldActorData, pageIndex: number): IActorStatusPage {
+    const page = fieldActorData.statusPages[pageIndex];
 
     if (!page) {
-      throw Error(`actor status page is not found (actor: ${areaActorData.actorObject.id}, page: ${pageIndex})`);
+      throw Error(`actor status page is not found (actor: ${fieldActorData.actorObject.id}, page: ${pageIndex})`);
     }
 
     return page;
@@ -175,12 +175,12 @@ export class AreaActorsManager {
     }
   }
 
-  private _createActorSprite(areaActorData: AreaActorData, pageIndex: number): IActorSprite {
-    const page = areaActorData.statusPages[pageIndex];
-    const actor = areaActorData.actorObject;
+  private _createActorSprite(fieldActorData: FieldActorData, pageIndex: number): IActorSprite {
+    const page = fieldActorData.statusPages[pageIndex];
+    const actor = fieldActorData.actorObject;
 
-    const x = actor.sprite ? actor.sprite.x : areaActorData.position.x;
-    const y = actor.sprite ? actor.sprite.y : areaActorData.position.y;
+    const x = actor.sprite ? actor.sprite.x : fieldActorData.position.x;
+    const y = actor.sprite ? actor.sprite.y : fieldActorData.position.y;
     const spritesheetKey = page.spriteKey;
     const initFrame = page.initFrame;
     const bodyConfig = page.bodyConfig;

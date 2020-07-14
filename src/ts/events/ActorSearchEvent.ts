@@ -79,6 +79,7 @@ export class ActorSearchEvent {
   private _search(zone: Zone): void {
     this.actors.forEach((actor: IActor) => {
       if (this._isOverlappingSearchZone(zone, actor)) {
+        console.log(`emit search event {id: ${actor.id}, name: ${actor.name}}`);
         actor.emit('search');
       }
     });

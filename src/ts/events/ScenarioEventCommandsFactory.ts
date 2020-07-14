@@ -5,7 +5,7 @@ import { Item } from './commands/Item';
 import { Flag } from './commands/Flag';
 import { Variable } from './commands/Variable';
 import { Sleep } from './commands/Sleep';
-import { MoveArea } from './commands/MoveArea';
+import { MoveField } from './commands/MoveField';
 import { CameraFadeIn } from './commands/CameraFadeIn';
 import { CameraFadeOut } from './commands/CameraFadeOut';
 import { PlayActorAnim } from './commands/PlayActorAnim';
@@ -60,8 +60,8 @@ export class ScenarioEventCommandsFactory {
     return new Sleep(frame);
   }
 
-  static moveArea(areaId: number, x: number, y: number, direction: Direction): MoveArea {
-    return new MoveArea(areaId, x, y, direction);
+  static moveField(fieldId: number, x: number, y: number, direction: Direction): MoveField {
+    return new MoveField(fieldId, x, y, direction);
   }
 
   static cameraFadeIn(duration?: number, async?: boolean): CameraFadeIn {

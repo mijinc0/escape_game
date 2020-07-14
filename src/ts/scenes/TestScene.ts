@@ -6,19 +6,19 @@ import { IFieldScene } from '../core/scenes/IFieldScene';
 import { AssetCacheKey } from '../core/assets/AssetCacheKey';
 import { Keys } from '../core/input/Keys';
 import { Direction } from '../core/models/Direction';
-import { ISceneData } from '../core/models/ISceneData';
 import { IActor } from '../core/actors/IActor';
 import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
 import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
 import { ActorPosition } from '../core/maps/ActorPosition';
 import { ActorSpriteFactory } from '../core/actors/ActorSpriteFactory';
 import { FourWayAnimsActorSprite } from '../core/actors/FourWayAnimsActorSprite';
-import { IArea } from '../core/areas/IArea';
-import { ActorColliderRegistrar } from '../core/areas/ActorColliderRegistrar';
-import { ActorEventRegistrar } from '../core/areas/ActorEventRegistrar';
-import { AreaActorsManager } from '../core/areas/AreaActorsManager';
-import { AreaActorData } from '../core/areas/AreaActorData';
-import { EventEmitType } from '../core/areas/EventEmitType';
+import { IField } from '../core/fields/IField';
+import { IFieldSceneConfig } from '../core/scenes/IFieldSceneConfig';
+import { ActorColliderRegistrar } from '../core/fields/ActorColliderRegistrar';
+import { ActorEventRegistrar } from '../core/fields/ActorEventRegistrar';
+import { FieldActorsManager } from '../core/fields/FieldActorsManager';
+import { FieldActorData } from '../core/fields/FieldActorData';
+import { EventEmitType } from '../core/fields/EventEmitType';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { EventRangeFactory } from '../core/events/EventRangeFactory';
 import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
@@ -26,19 +26,19 @@ import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
 import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { ScenarioEventCommandsFactory } from '../events/ScenarioEventCommandsFactory';
-import { GameAreas } from '../areas/GameAreas';
+import { GameFields } from '../fields/GameFields';
 
 export class TestScene extends Phaser.Scene implements IFieldScene {
   phaserScene: Phaser.Scene;
   frame: number;
   gameGlobal: IGameGlobal;
   primaryActor: IActor;
-  actorsManager: AreaActorsManager;
+  actorsManager: FieldActorsManager;
   scenarioEventManager: ScenarioEventManager;
   keys: Keys;
   
   private tilemapFactory: SceneTilemapFactory;
-  private areaData: IArea; 
+  private fieldData: IField; 
   private tilemapData: ISceneTilemapData;
   private actorColliderRegistrar: ActorColliderRegistrar;
 
@@ -46,29 +46,29 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   private initY: number;
   private initDirection: Direction;
 
-  init(data: ISceneData): void {
+  init(config: IFieldSceneConfig): void {
     console.log('== start scene TestScene ==');
     
-    // dataは型としてはoptionalではないが、`scene.start`の引数として
-    // dataが渡された時にのコンパイル時の検査を抜けるので、一応確認しておく
-    if (!data) {
-      throw Error('scene data is not found.');
+    // configは型としてはoptionalではないが、`scene.start`の引数として
+    // configが渡された時にのコンパイル時の検査を抜けるので、一応確認しておく
+    if (!config) {
+      throw Error('field config is not found.');
     }
 
-    console.log(`scene data: { areaId: ${data.areaId}, initX: ${data.heroX}, initX: ${data.heroY}, initDirection: ${data.heroDirection}}`);
+    console.log(`scene data: { fieldId: ${config.fieldId}, initX: ${config.heroX}, initX: ${config.heroY}, initDirection: ${config.heroDirection}}`);
 
     this.phaserScene = this;
     this.frame = -1;
     this.gameGlobal = GameGlobal;
     this.keys = this._createKeys();
-    this.areaData = this._getAreaData(data.areaId);
+    this.fieldData = this._getFieldData(config.fieldId);
     this.actorColliderRegistrar = new ActorColliderRegistrar(this);
     this.tilemapFactory = new SceneTilemapFactory(this);
     this.scenarioEventManager = new ScenarioEventManager(this);
     this.actorsManager = this._createActorsManager();
-    this.initX = data.heroX;
-    this.initY = data.heroY;
-    this.initDirection = data.heroDirection;
+    this.initX = config.heroX;
+    this.initY = config.heroY;
+    this.initDirection = config.heroDirection;
   }
   
   create(): void {
@@ -89,13 +89,19 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     if (this.scenarioEventManager.isGoing()) {
       // ポーズしないとPhysicsが動くのでvelocityの設定に従ってスプライトが動いてしまう
       this.physics.world.pause();
+      // アニメーションも一時停止する
+      //this.anims.pauseAll();
       this.scenarioEventManager.update();
       return;
     }
 
     // this.physics.world.resume()内部で判定していないので判定する
     // (判定が無いと関数内部で無駄に内部でイベントをemitしてしまう)
-    if (this.physics.world.isPaused) this.physics.world.resume();
+    if (this.physics.world.isPaused) {
+      this.physics.world.resume();
+    }
+
+    this.anims.resumeAll();
     
     this.primaryActor.update(this.frame);
 
@@ -109,25 +115,25 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     return new Keys(cursorKeys, actionKey, escapeKey);
   }
 
-  private _getAreaData(areaId: number): IArea {
-    const area = GameAreas.get(areaId);
+  private _getFieldData(fieldId: number): IField {
+    const field = GameFields.get(fieldId);
 
-    if (!area) {
-      throw Error(`Area data is not found (id: ${areaId})`);
+    if (!field) {
+      throw Error(`Field data is not found (id: ${fieldId})`);
     }
 
-    return area;
+    return field;
   }
 
-  private _createActorsManager(): AreaActorsManager {
+  private _createActorsManager(): FieldActorsManager {
     const actorSpriteFactory = new ActorSpriteFactory(this);
-    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEventManager, this.areaData.events);
+    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
     
-    return new AreaActorsManager(
+    return new FieldActorsManager(
       actorSpriteFactory,
       actorEventRegistrar,
       this._addSpawnActorsCollider.bind(this),
-      this.areaData.actors,
+      this.fieldData.actors,
     );
   }
 
@@ -140,7 +146,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   private _rewriteActorsPositionWithMapdata(): void {
     const mapdataActorPositions = this.tilemapData.mapData.actorPositions;
 
-    this.actorsManager.actorData.forEach((data: AreaActorData) => {
+    this.actorsManager.actorData.forEach((data: FieldActorData) => {
       const targetActorId = data.actorObject.id;
 
       const targetActorPosition = mapdataActorPositions.find((actorPosition: ActorPosition) => (
@@ -156,9 +162,9 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
 
   private _createTilemap(): void {
     this.tilemapData = this.tilemapFactory.create(
-      this.areaData.tilemapKey,
-      this.areaData.tileInfoKey,
-      this.areaData.tileImageKey,
+      this.fieldData.tilemapKey,
+      this.fieldData.tileInfoKey,
+      this.fieldData.tileImageKey,
     );
 
     // set depth
@@ -194,7 +200,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     actor.keys = this.keys;
 
     // search event
-    const actors = this.actorsManager.actorData.map((data: AreaActorData) => (data.actorObject));
+    const actors = this.actorsManager.actorData.map((data: FieldActorData) => (data.actorObject));
     const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 

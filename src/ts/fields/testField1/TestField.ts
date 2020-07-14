@@ -1,9 +1,9 @@
 import { ActorEntries } from './ActorEntries';
 import { EventEntries } from './EventEntries';
-import { IArea } from '../../core/areas/IArea';
+import { IField } from '../../core/fields/IField';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 
-export const TestArea: IArea = {
+export const TestField: IField = {
   id: -1,
 
   tilemapKey: AssetCacheKey.tilemap('sample_map1'),

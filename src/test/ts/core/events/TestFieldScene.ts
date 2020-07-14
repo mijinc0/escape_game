@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import { IGameGlobal } from '../../../../ts/core/IGameGlobal';
 import { IFieldScene } from '../../../../ts/core/scenes/IFieldScene';
 import { IActor } from '../../../../ts/core/actors/IActor';
-import { AreaActorsManager } from '../../../../ts/core/areas/AreaActorsManager';
+import { FieldActorsManager } from '../../../../ts/core/fields/FieldActorsManager';
 import { IScenarioEventManager } from '../../../../ts/core/events/IScenarioEventManager';
 import { Keys } from '../../../../ts/core/input/Keys';
 
@@ -42,11 +42,11 @@ export class TestFieldScene implements IFieldScene {
       throw Error(this._getErrorMessage('primaryActor'));
     }
 
-    get actorsManager(): AreaActorsManager {
+    get actorsManager(): FieldActorsManager {
       throw Error(this._getErrorMessage('actorsManager'));
     }    
 
-    set actorsManager(v: AreaActorsManager) {
+    set actorsManager(v: FieldActorsManager) {
       throw Error(this._getErrorMessage('actorsManager'));
     }
 

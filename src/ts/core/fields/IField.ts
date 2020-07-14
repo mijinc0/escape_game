@@ -1,7 +1,7 @@
 import { IActorEntry } from './IActorEntry';
 import { EventEntry } from './EventEntry';
 
-export interface IArea {
+export interface IField {
   id: number;
 
   tilemapKey: string;

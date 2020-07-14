@@ -1,7 +1,7 @@
 import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
-import { IActorEntry } from '../../core/areas/IActorEntry';
+import { IActorEntry } from '../../core/fields/IActorEntry';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
-import { EventEmitType } from '../../core/areas/EventEmitType';
+import { EventEmitType } from '../../core/fields/EventEmitType';
 import { Direction } from '../../core/models/Direction';
 
 export const ActorEntries: IActorEntry[] = [
