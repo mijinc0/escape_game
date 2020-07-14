@@ -61,6 +61,14 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     return this;
   };
 
+  stopAnim(): this {
+    if (this.anims.isPlaying) {
+      this.anims.stop();
+    }
+
+    return this;
+  }
+
   clearAnims(animName?: string): void {
     if (animName) {
       this.spriteAnims.delete(animName);
@@ -69,8 +77,28 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     }
   }
 
-  stop(frame: number): void {
-    this.anims.stop();
-    this.setFrame(frame);
+  pause(): void {
+    if (this.body) {
+      this.setData('saveVelocityX', this.body.velocity.x);
+      this.setData('saveVelocityY', this.body.velocity.y);
+      this.body.stop();
+    }
+
+    if (this.anims.currentAnim) {
+      this.anims.currentAnim.pause();
+    }
+  }
+
+  resume(): void {
+    const savedVelocityX = this.getData('saveVelocityX');
+    const savedVelocityY = this.getData('saveVelocityY');
+    const velocityX = (typeof(savedVelocityX) === 'number') ? savedVelocityX : 0;
+    const velocityY = (typeof(savedVelocityY) === 'number') ? savedVelocityY : 0;
+    this.setVelocity(velocityX, velocityY);
+    this.data.remove(['saveVelocityX', 'saveVelocityY']);
+
+    if (this.anims.currentAnim) {
+      this.anims.currentAnim.resume();
+    }
   }
 }

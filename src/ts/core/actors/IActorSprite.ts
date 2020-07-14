@@ -23,8 +23,18 @@ export interface IActorSprite {
   setAnim(animName: string, animationObject: any): void;
   
   playAnim(animName: string, ignoreIfPlaying?: boolean, onCompleteEventCallback?: () => void): this;
+  
+  stopAnim(): this;
 
-  stop(frame: number): void;
+  /**
+   * アニメーション、物理処理を停止する
+   */
+  pause(): void;
+
+  /**
+   * アニメーション、物理処理を再開する
+   */
+  resume(): void;
 
   destroy(fromScene?: boolean): void;
 

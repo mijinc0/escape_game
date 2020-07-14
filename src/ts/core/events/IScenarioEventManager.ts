@@ -9,11 +9,23 @@ export interface IScenarioEventManager {
 
   currentEvents: IScenarioEvent[];
 
+  isGoing: boolean;
+
   start(eventRange: EventRange): void;
 
   update(): void;
 
   getCurrentEventSize(): number;
 
-  isGoing(): boolean;
+  emit(event: string, ...args: any[]): boolean;
+
+  /**
+   * eventは以下の通り
+   * -    start : this.start(eventRange)実行時に発火される
+   * - complete : currentEventsが空になったタイミングで発火される
+   * 
+   * @param event 
+   * @param listener 
+   */
+  on(event: string, listener: (...args: any[]) => void): this;
 }

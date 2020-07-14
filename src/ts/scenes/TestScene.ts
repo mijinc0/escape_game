@@ -64,7 +64,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     this.fieldData = this._getFieldData(config.fieldId);
     this.actorColliderRegistrar = new ActorColliderRegistrar(this);
     this.tilemapFactory = new SceneTilemapFactory(this);
-    this.scenarioEventManager = new ScenarioEventManager(this);
+    this.scenarioEventManager = this._createScenarioEventManager();
     this.actorsManager = this._createActorsManager();
     this.initX = config.heroX;
     this.initY = config.heroY;
@@ -86,19 +86,9 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   update(): void {
     this.frame++;
 
-    if (this.scenarioEventManager.isGoing()) {
-      // ポーズしないとPhysicsが動くのでvelocityの設定に従ってスプライトが動いてしまう
-      this.physics.world.pause();
-      // アニメーションも一時停止する
-      //this.anims.pauseAll();
+    if (this.scenarioEventManager.isGoing) {
       this.scenarioEventManager.update();
       return;
-    }
-
-    // this.physics.world.resume()内部で判定していないので判定する
-    // (判定が無いと関数内部で無駄に内部でイベントをemitしてしまう)
-    if (this.physics.world.isPaused) {
-      this.physics.world.resume();
     }
 
     this.anims.resumeAll();
@@ -125,7 +115,48 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     return field;
   }
 
+  private _createScenarioEventManager(): ScenarioEventManager {
+    const scenarioEventManager = new ScenarioEventManager(this);
+
+    scenarioEventManager.on('start', this._startEvent.bind(this));
+    scenarioEventManager.on('complete', this._completeEvent.bind(this));
+
+    return scenarioEventManager;
+  }
+
+  private _startEvent(): void {
+    if (this.primaryActor.sprite) {
+      this.primaryActor.sprite.pause();
+    }
+
+    this.actorsManager.getSpawnActors().forEach((actor: IActor) => {
+      if (actor.sprite) {
+        actor.sprite.pause();
+      }
+    });
+
+    this.physics.pause();
+  }
+
+  private _completeEvent(): void {
+    if (this.primaryActor.sprite) {
+      this.primaryActor.sprite.resume();
+    }
+
+    this.actorsManager.getSpawnActors().forEach((actor: IActor) => {
+      if (actor.sprite) {
+        actor.sprite.resume();
+      }
+    });
+
+    this.physics.resume();
+  }
+
   private _createActorsManager(): FieldActorsManager {
+    if (!this.scenarioEventManager || !this.fieldData) {
+      throw Error('can not create FieldActorsManager before create ScenarioEventmanager & FieldData');
+    }
+
     const actorSpriteFactory = new ActorSpriteFactory(this);
     const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
     

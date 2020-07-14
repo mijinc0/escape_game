@@ -66,23 +66,22 @@ export class Hero extends Actor {
       // 止まる
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(0);
-
-      // TODO: ActorSpriteにstopAnimを作ってそれで止める必要がある
+      
       switch(this.sprite.direction) {
         case Direction.Left :
-          this.sprite.stop(0);
+          this.sprite.stopAnim();
           break;
 
         case Direction.Right :
-          this.sprite.stop(4);
+          this.sprite.stopAnim();
           break;
 
         case Direction.Down :
-          this.sprite.stop(8);
+          this.sprite.stopAnim();
           break;
 
         case Direction.Up :
-          this.sprite.stop(12);
+          this.sprite.stopAnim();
           break;
       }
     }

@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { IScenarioEventManager } from './IScenarioEventManager';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
@@ -13,19 +14,23 @@ import { IFieldScene } from '../scenes/IFieldScene';
  * 7. イベントを割り込ませたい場合はeventsの先頭にRangeを差し込めば良い
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
-export class ScenarioEventManager implements IScenarioEventManager {
+export class ScenarioEventManager extends EventEmitter implements IScenarioEventManager {
   scene: IFieldScene;
   events: EventRange[];
   currentEvents: IScenarioEvent[];
+  isGoing: boolean;
 
   /**
    * 
    * @param scene IScenarioEvent.updateの引数になる
    */
   constructor(scene: IFieldScene) {
+    super();
+
     this.scene = scene;
     this.events = [];
     this.currentEvents = [];
+    this.isGoing = false;
   }
 
   start(eventRange: EventRange): void {
@@ -34,13 +39,15 @@ export class ScenarioEventManager implements IScenarioEventManager {
       return;
     }
 
+    this.isGoing = true;
+    this.emit('start');
     this.events.push(eventRange);
     this.currentEvents = [];
     this._setNextEvnet();
   }
 
   update(): void {
-    if (this.currentEvents.length === 0) return;
+    if (!this.isGoing) return;
 
     this.currentEvents.forEach((event: IScenarioEvent) => {
       event.update(this.scene);
@@ -54,14 +61,17 @@ export class ScenarioEventManager implements IScenarioEventManager {
     if (this.events.length > 0 && this._hasNoSyncEvnetInCurrentEvents()) {
       this._setNextEvnet();
     }
+
+    // この時点でcurrentEventsが空であれば、全てのイベントが終了したことになるので
+    // completeイベントを発火してisGoingフラグをおろす
+    if (this.currentEvents.length === 0) {
+      this.emit('complete');
+      this.isGoing = false;
+    }
   }
 
   getCurrentEventSize(): number {
     return this.currentEvents.length;
-  }
-
-  isGoing(): boolean {
-    return this.currentEvents.length > 0;
   }
 
   private _setNextEvnet(): void {

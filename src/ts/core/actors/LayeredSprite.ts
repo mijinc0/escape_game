@@ -98,18 +98,39 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
   
   playAnim(animKey: string): this {
     this.primary.playAnim(animKey);
+
     this.sprites.forEach((sprite: IActorSprite) => {
       sprite.playAnim(animKey);
     });
+
     return this;
   };
 
-  stop(frame: number): void {
-    this.primary.stop(frame);
+  stopAnim(): this {
+    this.primary.stopAnim();
+
     this.sprites.forEach((sprite: IActorSprite) => {
-      sprite.stop(frame);
+      sprite.stopAnim();
+    });
+    
+    return this;
+  };
+
+  pause(): void {
+    this.primary.pause();
+
+    this.sprites.forEach((sprite: IActorSprite) => {
+      sprite.pause();
     });
   };
+
+  resume(): void {
+    this.primary.resume();
+
+    this.sprites.forEach((sprite: IActorSprite) => {
+      sprite.resume();
+    });
+  }
 
   destroy(fromScene?: boolean): void {
     this.primary.destroy(fromScene);
