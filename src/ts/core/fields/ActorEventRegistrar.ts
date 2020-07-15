@@ -1,6 +1,6 @@
 import { IActorEventRegistrar } from './IActorEventRegistrar';
 import { EventEntry } from './EventEntry';
-import { IActorStatusPage } from './IActorStatusPage';
+import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { ScenarioEventManager } from '../events/ScenarioEventManager';
 import { IActor } from '../actors/IActor';
  
@@ -13,7 +13,7 @@ export class ActorEventRegistrar implements IActorEventRegistrar {
     this.eventEntries = eventEntries;
   }
 
-  regist(actor: IActor, page: IActorStatusPage): void {
+  regist(actor: IActor, page: IFieldActorStatusPage): void {
     const eventId = page.eventId;
     const emitType = page.eventEmitType;
     this._regist(actor, eventId, emitType);

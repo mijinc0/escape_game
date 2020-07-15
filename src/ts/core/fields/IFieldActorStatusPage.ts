@@ -2,7 +2,7 @@ import { IBodyConfig } from '../actors/IBodyConfig';
 import { ActorSpriteTypes } from '../actors/ActorSpriteTypes';
 import { Direction } from '../models/Direction';
 
-export interface IActorStatusPage {
+export interface IFieldActorStatusPage {
   eventId: number;
   
   eventEmitType: string;

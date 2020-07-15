@@ -90,8 +90,6 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
       this.scenarioEventManager.update();
       return;
     }
-
-    this.anims.resumeAll();
     
     this.primaryActor.update(this.frame);
 

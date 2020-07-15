@@ -1,7 +1,7 @@
 import { FieldActorData } from './FieldActorData';
 import { EventEmitType } from './EventEmitType';
-import { IActorEntry } from './IActorEntry';
-import { IActorStatusPage } from './IActorStatusPage';
+import { IFieldActorEntry } from './IFieldActorEntry';
+import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { IActorEventRegistrar } from './IActorEventRegistrar';
 import { ActorSpriteTypes } from '../actors/ActorSpriteTypes';
 import { Actor } from '../actors/Actor';
@@ -17,7 +17,6 @@ export class FieldActorsManager {
   
   private actorSpriteFactory: IActorSpriteFactory;
   private actorEventRegistrar: IActorEventRegistrar;
-
   private collisionSettingCallback: CollisionSettingCallback;
 
   /**
@@ -32,7 +31,7 @@ export class FieldActorsManager {
     actorSpriteFactory: IActorSpriteFactory,
     actorEventRegistrar: IActorEventRegistrar,
     collisionSettingCallback: CollisionSettingCallback,
-    actorEntries?: IActorEntry[],
+    actorEntries?: IFieldActorEntry[],
   ) {
     this.actorData = actorEntries ? this._createFieldActorDataFromActorEntries(actorEntries) : [];
     this.actorSpriteFactory = actorSpriteFactory;
@@ -40,7 +39,7 @@ export class FieldActorsManager {
     this.collisionSettingCallback = collisionSettingCallback;
   }
 
-  addEntries(actorEntries: IActorEntry[]): void {
+  addEntries(actorEntries: IFieldActorEntry[]): void {
     this.actorData = this._createFieldActorDataFromActorEntries(actorEntries);
   }
 
@@ -72,8 +71,8 @@ export class FieldActorsManager {
     });
   }
 
-  private _createFieldActorDataFromActorEntries(entries: IActorEntry[]): FieldActorData[] {
-    return entries.map((entry: IActorEntry) => {
+  private _createFieldActorDataFromActorEntries(entries: IFieldActorEntry[]): FieldActorData[] {
+    return entries.map((entry: IFieldActorEntry) => {
       const actorObject = new Actor(entry.id, entry.name);
       const position = entry.position ? entry.position : {x: 0, y: 0};
       const pages = entry.statusPages;
@@ -144,12 +143,12 @@ export class FieldActorsManager {
   }
 
   private _getCurrentPageIndex(fieldActorData: FieldActorData): number {
-    return fieldActorData.statusPages.findIndex((page: IActorStatusPage) => (
+    return fieldActorData.statusPages.findIndex((page: IFieldActorStatusPage) => (
       this._checkSpawnCriteria(page.criteria)
     ));
   }
 
-  private _getPage(fieldActorData: FieldActorData, pageIndex: number): IActorStatusPage {
+  private _getPage(fieldActorData: FieldActorData, pageIndex: number): IFieldActorStatusPage {
     const page = fieldActorData.statusPages[pageIndex];
 
     if (!page) {
@@ -202,7 +201,7 @@ export class FieldActorsManager {
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
 
-  private _setEvents(actor: IActor, page: IActorStatusPage): void {
+  private _setEvents(actor: IActor, page: IFieldActorStatusPage): void {
     this.actorEventRegistrar.regist(actor, page);
   }
 

@@ -1,10 +1,10 @@
 import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
-import { IActorEntry } from '../../core/fields/IActorEntry';
+import { IFieldActorEntry } from '../../core/fields/IFieldActorEntry';
 import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 import { EventEmitType } from '../../core/fields/EventEmitType';
 import { Direction } from '../../core/models/Direction';
 
-export const ActorEntries: IActorEntry[] = [
+export const ActorEntries: IFieldActorEntry[] = [
   {
     id: 0,
     name: 'npc1',

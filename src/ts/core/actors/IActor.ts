@@ -1,6 +1,5 @@
 import { IActorSprite } from './IActorSprite';
 import { GameFlags } from '../models/GameFlags';
-import { Direction } from '../models/Direction';
 
 export interface IActor {
   name: string;

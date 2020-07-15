@@ -26,14 +26,8 @@ export interface IActorSprite {
   
   stopAnim(): this;
 
-  /**
-   * アニメーション、物理処理を停止する
-   */
   pause(): void;
 
-  /**
-   * アニメーション、物理処理を再開する
-   */
   resume(): void;
 
   destroy(fromScene?: boolean): void;

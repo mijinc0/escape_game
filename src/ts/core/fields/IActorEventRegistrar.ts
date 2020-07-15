@@ -1,6 +1,6 @@
-import { IActorStatusPage } from './IActorStatusPage';
+import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { IActor } from '../actors/IActor';
  
 export interface IActorEventRegistrar {
-  regist(actor: IActor, page: IActorStatusPage): void;
+  regist(actor: IActor, page: IFieldActorStatusPage): void;
 }

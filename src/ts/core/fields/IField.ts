@@ -1,4 +1,4 @@
-import { IActorEntry } from './IActorEntry';
+import { IFieldActorEntry } from './IFieldActorEntry';
 import { EventEntry } from './EventEntry';
 
 export interface IField {
@@ -10,7 +10,7 @@ export interface IField {
   
   tileImageKey: string;
 
-  actors: IActorEntry[];
+  actors: IFieldActorEntry[];
 
   events: EventEntry[];
 };
