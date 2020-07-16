@@ -1,0 +1,12 @@
+export { Direction } from './Direction';
+export { GameFlags } from './GameFlags';
+export { GameItems } from './GameItems';
+export { GameVariables } from './GameVariables';
+export { IControllable } from './IControllable';
+export { IGameItems } from './IGameItems';
+export { Item } from './Item';
+export { ItemBag } from './ItemBag';
+export { Position } from './Position';
+export { Predicate } from './Predicate';
+export { Size } from './Size';
+export { Zone } from './Zone';

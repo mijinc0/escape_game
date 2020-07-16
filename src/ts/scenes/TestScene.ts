@@ -1,52 +1,35 @@
 import * as Phaser from 'phaser';
-import * as Actors from '../actors';
-import { GameGlobal } from '../GameGlobal';
+import * as Actor  from '../core/actors';
+import * as Asset  from '../core/assets';
+import * as Field  from '../core/fields';
+import * as Scene  from '../core/scenes';
+import * as Map  from '../core/maps';
+import * as Event  from '../core/events';
+import * as Render  from '../core/renders';
+import * as Input  from '../core/input';
 import { IGameGlobal } from '../core/IGameGlobal';
-import { IFieldScene } from '../core/scenes/IFieldScene';
-import { AssetCacheKey } from '../core/assets/AssetCacheKey';
-import { Keys } from '../core/input/Keys';
-import { Direction } from '../core/models/Direction';
-import { IActor } from '../core/actors/IActor';
-import { ISceneTilemapData } from '../core/maps/ISceneTilemapData';
-import { SceneTilemapFactory } from '../core/maps/SceneTilemapFactory';
-import { ActorPosition } from '../core/maps/ActorPosition';
-import { ActorSpriteFactory } from '../core/actors/ActorSpriteFactory';
-import { FourWayAnimsActorSprite } from '../core/actors/FourWayAnimsActorSprite';
-import { IField } from '../core/fields/IField';
-import { IFieldSceneConfig } from '../core/scenes/IFieldSceneConfig';
-import { ActorColliderRegistrar } from '../core/fields/ActorColliderRegistrar';
-import { ActorEventRegistrar } from '../core/fields/ActorEventRegistrar';
-import { FieldActorsManager } from '../core/fields/FieldActorsManager';
-import { FieldActorData } from '../core/fields/FieldActorData';
-import { EventEmitType } from '../core/fields/EventEmitType';
+import { GameGlobal } from '../GameGlobal';
+import { Hero } from '../actors/Hero';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
-import { EventRangeFactory } from '../core/events/EventRangeFactory';
-import { ScenarioEventManager } from '../core/events/ScenarioEventManager';
-import { ActorRenderOrder } from '../core/renders/ActorRenderOrder';
-import { SaticLayerRenderOerder } from '../core/renders/SaticLayerRenderOerder';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { ScenarioEventCommandsFactory } from '../events/ScenarioEventCommandsFactory';
 import { GameFields } from '../fields/GameFields';
 
-export class TestScene extends Phaser.Scene implements IFieldScene {
+export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   phaserScene: Phaser.Scene;
   frame: number;
   gameGlobal: IGameGlobal;
-  primaryActor: IActor;
-  actorsManager: FieldActorsManager;
-  scenarioEventManager: ScenarioEventManager;
-  keys: Keys;
+  sceneConfig: Scene.IFieldSceneConfig;
+  primaryActor: Actor.IActor;
+  actorsManager: Field.FieldActorsManager;
+  scenarioEventManager: Event.ScenarioEventManager;
+  keys: Input.Keys;
   
-  private tilemapFactory: SceneTilemapFactory;
-  private fieldData: IField; 
-  private tilemapData: ISceneTilemapData;
-  private actorColliderRegistrar: ActorColliderRegistrar;
+  private tilemapData: Map.ISceneTilemapData;
+  private fieldData: Field.IField; 
+  private actorColliderRegistrar: Field.ActorColliderRegistrar;
 
-  private initX: number;
-  private initY: number;
-  private initDirection: Direction;
-
-  init(config: IFieldSceneConfig): void {
+  init(config: Scene.IFieldSceneConfig): void {
     console.log('== start scene TestScene ==');
     
     // configは型としてはoptionalではないが、`scene.start`の引数として
@@ -58,17 +41,14 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     console.log(`scene data: { fieldId: ${config.fieldId}, initX: ${config.heroX}, initX: ${config.heroY}, initDirection: ${config.heroDirection}}`);
 
     this.phaserScene = this;
+    this.sceneConfig = config;
     this.frame = -1;
     this.gameGlobal = GameGlobal;
     this.keys = this._createKeys();
     this.fieldData = this._getFieldData(config.fieldId);
-    this.actorColliderRegistrar = new ActorColliderRegistrar(this);
-    this.tilemapFactory = new SceneTilemapFactory(this);
+    this.actorColliderRegistrar = new Field.ActorColliderRegistrar(this);
     this.scenarioEventManager = this._createScenarioEventManager();
     this.actorsManager = this._createActorsManager();
-    this.initX = config.heroX;
-    this.initY = config.heroY;
-    this.initDirection = config.heroDirection;
   }
   
   create(): void {
@@ -96,14 +76,14 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     this.actorsManager.update(this.frame);
   }
 
-  private _createKeys(): Keys {
+  private _createKeys(): Input.Keys {
     const cursorKeys = this.input.keyboard.createCursorKeys();
     const actionKey = cursorKeys.space;
     const escapeKey = cursorKeys.shift;
-    return new Keys(cursorKeys, actionKey, escapeKey);
+    return new Input.Keys(cursorKeys, actionKey, escapeKey);
   }
 
-  private _getFieldData(fieldId: number): IField {
+  private _getFieldData(fieldId: number): Field.IField {
     const field = GameFields.get(fieldId);
 
     if (!field) {
@@ -113,8 +93,8 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     return field;
   }
 
-  private _createScenarioEventManager(): ScenarioEventManager {
-    const scenarioEventManager = new ScenarioEventManager(this);
+  private _createScenarioEventManager(): Event.ScenarioEventManager {
+    const scenarioEventManager = new Event.ScenarioEventManager(this);
 
     scenarioEventManager.on('start', this._startEvent.bind(this));
     scenarioEventManager.on('complete', this._completeEvent.bind(this));
@@ -127,7 +107,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
       this.primaryActor.sprite.pause();
     }
 
-    this.actorsManager.getSpawnActors().forEach((actor: IActor) => {
+    this.actorsManager.getSpawnActors().forEach((actor: Actor.IActor) => {
       if (actor.sprite) {
         actor.sprite.pause();
       }
@@ -141,7 +121,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
       this.primaryActor.sprite.resume();
     }
 
-    this.actorsManager.getSpawnActors().forEach((actor: IActor) => {
+    this.actorsManager.getSpawnActors().forEach((actor: Actor.IActor) => {
       if (actor.sprite) {
         actor.sprite.resume();
       }
@@ -150,15 +130,15 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     this.physics.resume();
   }
 
-  private _createActorsManager(): FieldActorsManager {
+  private _createActorsManager(): Field.FieldActorsManager {
     if (!this.scenarioEventManager || !this.fieldData) {
       throw Error('can not create FieldActorsManager before create ScenarioEventmanager & FieldData');
     }
 
-    const actorSpriteFactory = new ActorSpriteFactory(this);
-    const actorEventRegistrar = new ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
+    const actorSpriteFactory = new Actor.ActorSpriteFactory(this);
+    const actorEventRegistrar = new Field.ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
     
-    return new FieldActorsManager(
+    return new Field.FieldActorsManager(
       actorSpriteFactory,
       actorEventRegistrar,
       this._addSpawnActorsCollider.bind(this),
@@ -175,10 +155,10 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   private _rewriteActorsPositionWithMapdata(): void {
     const mapdataActorPositions = this.tilemapData.mapData.actorPositions;
 
-    this.actorsManager.actorData.forEach((data: FieldActorData) => {
+    this.actorsManager.actorData.forEach((data: Field.FieldActorData) => {
       const targetActorId = data.actorObject.id;
 
-      const targetActorPosition = mapdataActorPositions.find((actorPosition: ActorPosition) => (
+      const targetActorPosition = mapdataActorPositions.find((actorPosition: Map.ActorPosition) => (
         actorPosition.actorId === targetActorId 
       ));
 
@@ -190,7 +170,9 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   }
 
   private _createTilemap(): void {
-    this.tilemapData = this.tilemapFactory.create(
+    const tilemapFactory = new Map.SceneTilemapFactory(this);
+
+    this.tilemapData = tilemapFactory.create(
       this.fieldData.tilemapKey,
       this.fieldData.tileInfoKey,
       this.fieldData.tileImageKey,
@@ -206,20 +188,20 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     const underActor = this.tilemapData.staticLayers[1];
     const overActor = this.tilemapData.staticLayers[2];
 
-    if (base) SaticLayerRenderOerder.baseLayer(base);
-    if (underActor) SaticLayerRenderOerder.underActorLayer(underActor);
-    if (overActor) SaticLayerRenderOerder.overActorLayer(overActor);
+    if (base) Render.SaticLayerRenderOerder.baseLayer(base);
+    if (underActor) Render.SaticLayerRenderOerder.underActorLayer(underActor);
+    if (overActor) Render.SaticLayerRenderOerder.overActorLayer(overActor);
   }
 
-  private _createPrimaryActor(): IActor {
-    const actor = new Actors.Hero(3030, 'hero');
-    const sprite = new FourWayAnimsActorSprite(
+  private _createPrimaryActor(): Actor.IActor {
+    const actor = new Hero(3030, 'hero');
+    const sprite = new Actor.FourWayAnimsActorSprite(
       this,
-      this.initX,
-      this.initY,
-      AssetCacheKey.spritesheet('hero'),
+      this.sceneConfig.heroX,
+      this.sceneConfig.heroY,
+      Asset.AssetCacheKey.spritesheet('hero'),
       0,
-      this.initDirection,
+      this.sceneConfig.heroDirection,
     );
 
     this.add.existing(sprite);
@@ -229,26 +211,26 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     actor.keys = this.keys;
 
     // search event
-    const actors = this.actorsManager.actorData.map((data: FieldActorData) => (data.actorObject));
+    const actors = this.actorsManager.actorData.map((data: Field.FieldActorData) => (data.actorObject));
     const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 
     // field menu event
     actor.on('fieldMenu', (() => {
       const fieldMenuEvent = new FieldMenuEvent();
-      const fieldMenuEventRange = new EventRangeFactory(fieldMenuEvent).create();
+      const fieldMenuEventRange = new Event.EventRangeFactory(fieldMenuEvent).create();
       this.scenarioEventManager.start(fieldMenuEventRange);
     }).bind(this));
 
     // collision
     this._tilemapCollisionSetting(actor);
 
-    ActorRenderOrder.prioritizeBottom(actor.sprite);
+    Render.ActorRenderOrder.prioritizeBottom(actor.sprite);
 
     return actor;
   }
 
-  private _addSpawnActorsCollider(spawnActor: IActor, onlyOverlap: boolean): void {
+  private _addSpawnActorsCollider(spawnActor: Actor.IActor, onlyOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
@@ -258,13 +240,13 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     this.actorColliderRegistrar.registActorPair(
       spawnActor,
       this.primaryActor,
-      () => {spawnActor.emit(EventEmitType.Collide);},
+      () => {spawnActor.emit(Field.EventEmitType.Collide);},
       onlyOverlap,
     );
 
     // with other actors that has already spawned
     const spawnActors = this.actorsManager.getSpawnActors();
-    spawnActors.forEach((actor: IActor) => {
+    spawnActors.forEach((actor: Actor.IActor) => {
       this.actorColliderRegistrar.registActorPair(
         spawnActor,
         actor,
@@ -277,7 +259,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
     this._tilemapCollisionSetting(spawnActor);
   }
 
-  private _tilemapCollisionSetting(spawnActor: IActor): void {
+  private _tilemapCollisionSetting(spawnActor: Actor.IActor): void {
     // overActorのレイヤーは衝突しない
     const overActorLayerIndex = 2;
     this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
@@ -295,7 +277,7 @@ export class TestScene extends Phaser.Scene implements IFieldScene {
   }
 
   private _sceneFadeIn(): void {
-    const event = new EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
+    const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
 
     this.scenarioEventManager.start(event);
   }
