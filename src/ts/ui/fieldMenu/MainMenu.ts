@@ -27,7 +27,7 @@ export class MainMenu extends Ui.Group {
   backButton: Button;
 
   constructor(config: FieldMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
-    const width = 560;
+    const width = 528;
     const height = 48;
     super(dx, dy, width, height, anchor);
 
@@ -41,7 +41,7 @@ export class MainMenu extends Ui.Group {
   }
 
   private _init(config: FieldMenuConfig): void {
-    const buttonWidth = 176;
+    const buttonWidth = 160;
     const buttonHeight = 48;
     const buttonConfig = {
       scene: config.scene,

@@ -12,7 +12,11 @@ export class Hero extends Actor {
     if (this.keys.action.isDown) {
       // 連射防止
       if (!this.flags.get('search')) {
+        // ここで関係のない`fieldMenu`もonにするのは、調べるコマンド復帰直後に
+        // cancelボタンが押されているとすぐにフィールドメニューを誤操作的に開いてしまうから
         this.flags.on('search');
+        this.flags.on('fieldMenu');
+
         this.emit(
           'search',
           this.sprite.x,
@@ -30,7 +34,9 @@ export class Hero extends Actor {
     if (this.keys.cancel.isDown) {
       // 連射防止
       if (!this.flags.get('fieldMenu')) {
+        this.flags.on('search');
         this.flags.on('fieldMenu');
+
         this.emit('fieldMenu');
       }
     } else {

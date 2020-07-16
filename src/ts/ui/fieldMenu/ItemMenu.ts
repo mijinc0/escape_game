@@ -49,7 +49,7 @@ export class ItemMenu extends Ui.Group {
     rectangle.setOrigin(0);
     UiRenderOrder.base(rectangle); 
 
-    const title = new Ui.Text(this.scene, 16, 8, 'items', {fontSize: '16px'});
+    const title = new Ui.Text(this.scene, 16, 8, 'items', {});
     title.setOrigin(0);
     UiRenderOrder.base(title); 
 
@@ -69,7 +69,7 @@ export class ItemMenu extends Ui.Group {
 
     const dx = 256;
     const dy = 0;
-    const width = 304;
+    const width = 258;
     const height = 312;
 
     return new ItemDescription(itemDescriptionConfig, dx, dy, width, height);
@@ -93,7 +93,7 @@ export class ItemMenu extends Ui.Group {
     const height = 272;
     const maxItemViewSize = 5;
     const scrollSize = 1;
-    const margin = 8;
+    const margin = 12;
     const ah = new Ui.RangeAlignmentHandler(margin, Ui.Direction.Down);
 
     return new Ui.ScrollGroup<Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
@@ -106,6 +106,6 @@ export class ItemMenu extends Ui.Group {
       description: this.description,
     };
 
-    return new ItemListElement(itemListElementConfig, 0, 0, 240, 48);
+    return new ItemListElement(itemListElementConfig, 0, 0, 224, 44);
   }
 }

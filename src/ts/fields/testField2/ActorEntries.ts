@@ -22,4 +22,21 @@ export const ActorEntries: IFieldActorEntry[] = [
       },
     ],
   },
+
+  {
+    id: 1,
+    name: 'item',
+    position: {x: 288, y: 192},
+    statusPages: [
+      {
+        eventId: 1,
+        eventEmitType: EventEmitType.Search,
+        spriteType: ActorSpriteTypes.Invisible,
+        overlapOnly: true,
+        bodyConfig: {
+          size: {width: 32, height: 32},
+        },
+      },
+    ],
+  },
 ];
