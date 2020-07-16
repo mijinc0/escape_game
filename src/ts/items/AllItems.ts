@@ -7,7 +7,7 @@ export const AllItems = [
   {
     id: 0,
     name: 'silverKeyA',
-    description: 'this is test key A',
+    description: 'this is test key loooooooooooooooooooo oooooooooooooooo ooooooooooooooooooog descrition',
     iconImageName: 'icon_silver_key',
   },
   {

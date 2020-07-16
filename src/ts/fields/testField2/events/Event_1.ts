@@ -3,6 +3,7 @@ import { EventEntryFactory } from '../../../core/fields/EventEntryFactory';
 
 export default EventEntryFactory.create(1,
   cmd.message('you got a key'),
+  cmd.popGettingItemModal('silverKeyA'),
   cmd.item('silverKeyA', 1),
   cmd.item('silverKeyB', 1),
   cmd.item('silverKeyC', 1),

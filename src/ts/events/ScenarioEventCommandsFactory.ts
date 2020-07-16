@@ -9,6 +9,7 @@ import { MoveField } from './commands/MoveField';
 import { CameraFadeIn } from './commands/CameraFadeIn';
 import { CameraFadeOut } from './commands/CameraFadeOut';
 import { PlayActorAnim } from './commands/PlayActorAnim';
+import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { Direction } from '../core/models/Direction';
 
 export class ScenarioEventCommandsFactory {
@@ -74,5 +75,9 @@ export class ScenarioEventCommandsFactory {
 
   static playActorAnim(actorId: number, animName: string, async?: boolean): PlayActorAnim {
     return new PlayActorAnim(actorId, animName, async);
+  }
+
+  static popGettingItemModal(itemName: string): PopGettingItemModal {
+    return new PopGettingItemModal(itemName);
   }
 }
