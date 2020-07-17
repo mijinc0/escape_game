@@ -1,70 +1,79 @@
 import * as Phaser from 'phaser';
+import * as Actor from '../../../../ts/core/actors';
+import * as Audio from '../../../../ts/core/audios';
+import * as Field from '../../../../ts/core/fields';
+import * as Event from '../../../../ts/core/events';
+import * as Scene from '../../../../ts/core/scenes';
+import * as Input from '../../../../ts/core/input';
 import { IGameGlobal } from '../../../../ts/core/IGameGlobal';
-import { IFieldScene } from '../../../../ts/core/scenes/IFieldScene';
-import { IActor } from '../../../../ts/core/actors/IActor';
-import { FieldActorsManager } from '../../../../ts/core/fields/FieldActorsManager';
-import { IScenarioEventManager } from '../../../../ts/core/events/IScenarioEventManager';
-import { Keys } from '../../../../ts/core/input/Keys';
 
 /**
  * テストで使う時はこのクラスを継承して必要なところだけ動くようなクラスを作る
  */
-export class TestFieldScene implements IFieldScene {
-    get phaserScene(): Phaser.Scene {
-      throw Error(this._getErrorMessage('phaserScene'));
-    }    
+export class TestFieldScene implements Scene.IFieldScene {
+  get phaserScene(): Phaser.Scene {
+    throw Error(this._getErrorMessage('phaserScene'));
+  }    
 
-    set phaserScene(v: Phaser.Scene) {
-      throw Error(this._getErrorMessage('phaserScene'));
-    }
-    
-    get frame(): number {
-      throw Error(this._getErrorMessage('frame'));
-    }    
+  set phaserScene(v: Phaser.Scene) {
+    throw Error(this._getErrorMessage('phaserScene'));
+  }
+  
+  get frame(): number {
+    throw Error(this._getErrorMessage('frame'));
+  }    
 
-    set frame(v: number) {
-      throw Error(this._getErrorMessage('frame'));
-    }
+  set frame(v: number) {
+    throw Error(this._getErrorMessage('frame'));
+  }
 
-    get gameGlobal(): IGameGlobal {
-      throw Error(this._getErrorMessage('gameGlobal'));
-    }    
+  get gameGlobal(): IGameGlobal {
+    throw Error(this._getErrorMessage('gameGlobal'));
+  }    
 
-    set gameGlobal(v: IGameGlobal) {
-      throw Error(this._getErrorMessage('gameGlobal'));
-    }
+  set gameGlobal(v: IGameGlobal) {
+    throw Error(this._getErrorMessage('gameGlobal'));
+  }
 
-    get primaryActor(): IActor {
-      throw Error(this._getErrorMessage('primaryActor'));
-    }    
+  get primaryActor(): Actor.IActor {
+    throw Error(this._getErrorMessage('primaryActor'));
+  }    
 
-    set primaryActor(v: IActor) {
-      throw Error(this._getErrorMessage('primaryActor'));
-    }
+  set primaryActor(v: Actor.IActor) {
+    throw Error(this._getErrorMessage('primaryActor'));
+  }
 
-    get actorsManager(): FieldActorsManager {
-      throw Error(this._getErrorMessage('actorsManager'));
-    }    
+  get actorsManager(): Field.FieldActorsManager {
+    throw Error(this._getErrorMessage('actorsManager'));
+  }    
 
-    set actorsManager(v: FieldActorsManager) {
-      throw Error(this._getErrorMessage('actorsManager'));
-    }
+  set actorsManager(v: Field.FieldActorsManager) {
+    throw Error(this._getErrorMessage('actorsManager'));
+  }
 
-    get scenarioEventManager(): IScenarioEventManager {
-      throw Error(this._getErrorMessage('scenarioEventManager'));
-    }    
+  get scenarioEventManager(): Event.IScenarioEventManager {
+    throw Error(this._getErrorMessage('scenarioEventManager'));
+  }    
 
-    set scenarioEventManager(v: IScenarioEventManager) {
-      throw Error(this._getErrorMessage('scenarioEventManager'));
-    }
+  set scenarioEventManager(v: Event.IScenarioEventManager) {
+    throw Error(this._getErrorMessage('scenarioEventManager'));
+  }
 
-    get keys(): Keys {
-      throw Error(this._getErrorMessage('keys'));
-    }    
+  get audioManager(): Audio.IAudioManager {
+    throw Error(this._getErrorMessage('scenarioEventManager'));
+  }    
 
-    set keys(v: Keys) {
-      throw Error(this._getErrorMessage('keys'));
-    }
+  set audioManager(v: Audio.IAudioManager) {
+    throw Error(this._getErrorMessage('audioManager'));
+  }
+
+  get keys(): Input.Keys {
+    throw Error(this._getErrorMessage('keys'));
+  }    
+
+  set keys(v: Input.Keys) {
+    throw Error(this._getErrorMessage('keys'));
+  }
 
   private _getErrorMessage(functionName: string): string {
     return `illegal operation for TestFieldScene. "${functionName}"`;

@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import * as Actor  from '../core/actors';
 import * as Asset  from '../core/assets';
+import * as Audio  from '../core/audios';
 import * as Field  from '../core/fields';
 import * as Scene  from '../core/scenes';
 import * as Map  from '../core/maps';
@@ -23,6 +24,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   primaryActor: Actor.IFieldActor;
   actorsManager: Field.FieldActorsManager;
   scenarioEventManager: Event.ScenarioEventManager;
+  audioManager: Audio.IAudioManager;
   keys: Input.Keys;
   
   private tilemapData: Map.ISceneTilemapData;
@@ -49,6 +51,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.actorColliderRegistrar = new Field.ActorColliderRegistrar(this);
     this.scenarioEventManager = this._createScenarioEventManager();
     this.actorsManager = this._createActorsManager();
+    this.audioManager = new Audio.AudioManager(this, 1, 1);
   }
   
   create(): void {

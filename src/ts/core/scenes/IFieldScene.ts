@@ -1,9 +1,10 @@
 import * as Phaser from 'phaser';
+import * as Actor  from '../actors';
+import * as Audio  from '../audios';
+import * as Event  from '../events';
+import * as Field  from '../fields';
+import * as Input  from '../input';
 import { IGameGlobal } from '../IGameGlobal';
-import { FieldActorsManager } from '../fields/FieldActorsManager';
-import { IScenarioEventManager } from '../events/IScenarioEventManager';
-import { IActor } from '../actors/IActor';
-import { Keys } from '../input/Keys';
 
 export interface IFieldScene {
   phaserScene: Phaser.Scene;
@@ -12,11 +13,13 @@ export interface IFieldScene {
 
   gameGlobal: IGameGlobal;
 
-  primaryActor: IActor;
+  primaryActor: Actor.IActor;
 
-  actorsManager: FieldActorsManager;
+  actorsManager: Field.FieldActorsManager;
 
-  scenarioEventManager: IScenarioEventManager;
+  scenarioEventManager: Event.IScenarioEventManager;
 
-  keys: Keys;
+  audioManager: Audio.IAudioManager;
+
+  keys: Input.Keys;
 }

@@ -131,11 +131,7 @@ export class Hero extends Actor.FieldActor {
       };
       // TODO: これだとkeyが見つからなかった場合エラーを吐いて止まってしまうが、音が流れない理由でゲームを止めたくはないので
       // AudioManagerのようなクラスを作ってワンクッション置いてエラーではなくて警告だけが出るようにする
-      this.seFootstep = this.seFootstep ? this.seFootstep : scene.phaserScene.sound.add(seFootsetpKey, seFootsetpConfig);
-    }
-
-    if (!this.seFootstep) {
-      console.warn('audio keyed se_footstep was not found');
+      this.seFootstep = this.seFootstep ? this.seFootstep : scene.audioManager.playSe(seFootsetpKey, seFootsetpConfig);
     }
     
     // オーディオインスタンスが停止中なら再生
