@@ -8,4 +8,5 @@ export { ItemBag } from './ItemBag';
 export { Position } from './Position';
 export { Predicate } from './Predicate';
 export { Size } from './Size';
+export { Velocity } from './Velocity';
 export { Zone } from './Zone';

@@ -44,6 +44,8 @@ export class Boot extends Phaser.Game {
       tileInfo: GameAssets.tileInfo,
     
       itemIcon: GameAssets.itemIcon,
+
+      audio: GameAssets.audio,
       
       spritesheet: GameAssets.spritesheet,
     };

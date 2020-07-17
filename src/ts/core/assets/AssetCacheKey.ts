@@ -35,11 +35,9 @@ export class AssetCacheKey {
     return this._createKey('itemIcon', name);
   }
 
-  /*
-  static json(name: string): string {
-    return this._createKey('json', name);
+  static audio(name: string): string {
+    return this._createKey('audio', name);
   }
-  */
 
   private static _createKey(...words: string[]): string {
     return words.join('_');

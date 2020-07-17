@@ -35,6 +35,12 @@ export class AssetLoader {
       });
     }
 
+    if (config.audio) {
+      config.audio.forEach((entry: IAssetEntry) => {
+        this._loadAudio(entry.key, entry.path);
+      });
+    }
+
     if (config.tileMap) {
       config.tileMap.forEach((entry: IAssetEntry) => {
         this._loadTileTileMap(entry.key, entry.path);
@@ -80,5 +86,9 @@ export class AssetLoader {
 
   private _loadTileTileMap(key: string, path: string): void {
     this.scene.load.json(key, path);   
+  }
+
+  private _loadAudio(key: string, path: string): void {
+    this.scene.load.audio(key, path);
   }
 }

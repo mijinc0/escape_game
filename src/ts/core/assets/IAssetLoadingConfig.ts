@@ -11,6 +11,8 @@ export interface IAssetLoadingConfig {
   tileInfo?: IAssetEntry[],
 
   itemIcon?: IAssetEntry[],
+
+  audio?: IAssetEntry[],
   
   spritesheet?: ISpritesheetAssetEntry[],
 }

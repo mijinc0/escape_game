@@ -1,8 +1,23 @@
+import * as Phaser from 'phaser';
 import * as Actor from '../core/actors';
+import * as Asset from '../core/assets';
 import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
 
 export class Hero extends Actor.FieldActor {
+  private seFootstep: Phaser.Sound.BaseSound;
+
+  constructor(
+    id: number,
+    name: string,
+    sprite?: Actor.IActorSprite,
+    eventId?: number,
+  ) {
+    super(id, name, sprite, eventId);
+
+    this.seFootstep = null;
+  }
+
   update(scene: Scene.IFieldScene): void {
     if (!scene.keys) {
       super.update(scene);
@@ -93,6 +108,39 @@ export class Hero extends Actor.FieldActor {
       }
     }
 
+    // play of stop footstep SE
+    const isMoving = this.sprite.body.velocity.x != 0 || this.sprite.body.velocity.y != 0;
+    if (isMoving) {
+      this._playSeFootstep(scene);
+
+    } else if (this.seFootstep) {
+      this.seFootstep.pause();
+    }
+
     super.update(scene);
+  }
+
+  private _playSeFootstep(scene: Scene.IFieldScene): void {
+    // 初回はインスタンスを生成
+    if (!this.seFootstep) {
+      const seFootsetpKey = Asset.AssetCacheKey.audio('se_footstep');
+      const seFootsetpConfig = {
+        volume: 0.8,
+        rate: 1.4,
+        roop: false,
+      };
+      // TODO: これだとkeyが見つからなかった場合エラーを吐いて止まってしまうが、音が流れない理由でゲームを止めたくはないので
+      // AudioManagerのようなクラスを作ってワンクッション置いてエラーではなくて警告だけが出るようにする
+      this.seFootstep = this.seFootstep ? this.seFootstep : scene.phaserScene.sound.add(seFootsetpKey, seFootsetpConfig);
+    }
+
+    if (!this.seFootstep) {
+      console.warn('audio keyed se_footstep was not found');
+    }
+    
+    // オーディオインスタンスが停止中なら再生
+    if (this.seFootstep　&& !this.seFootstep.isPlaying) {
+      this.seFootstep.play();
+    }
   }
 }

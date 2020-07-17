@@ -22,17 +22,17 @@ export class Loading extends Phaser.Scene {
   
   preload(): void {
     console.log('preload');
-
-    const loader = new AssetLoader(this);
-
+    
     this.loadingText = this.add.text(50, 50, 'Loading...', {fontSize: '24px', fontFamily: 'sans-serif'});
     this.progressBar = this.add.rectangle(40, 400, 0, 4, 0xffffff, 1);
     this.bar = this.add.rectangle(56, 416, 584, 1, 0xffffff, 1);
-
+    
     this.loadingText.setOrigin(0);
     this.progressBar.setOrigin(0);
     this.bar.setOrigin(0);
 
+    const loader = new AssetLoader(this);
+    
     loader.onProgress(this._updateBar.bind(this));
     
     loader.onSuccessful(this._loadingSuccessful.bind(this));
