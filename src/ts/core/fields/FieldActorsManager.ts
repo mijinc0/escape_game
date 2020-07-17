@@ -1,21 +1,18 @@
+import * as Actor from '../actors';
+import * as Scene from '../scenes';
 import { FieldActorData } from './FieldActorData';
 import { EventEmitType } from './EventEmitType';
 import { IFieldActorEntry } from './IFieldActorEntry';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { IActorEventRegistrar } from './IActorEventRegistrar';
-import { ActorSpriteTypes } from '../actors/ActorSpriteTypes';
-import { Actor } from '../actors/Actor';
-import { IActor } from '../actors/IActor';
-import { IActorSprite } from '../actors/IActorSprite';
-import { IActorSpriteFactory } from '../actors/IActorSpriteFactory';
 
 type SpawnCriteriaCallback = () => boolean;
-type CollisionSettingCallback = (spawnActor: IActor, onlyOverlap: boolean) => void;
+type CollisionSettingCallback = (spawnActor: Actor.IFieldActor, onlyOverlap: boolean) => void;
 
 export class FieldActorsManager {
   actorData: FieldActorData[];
   
-  private actorSpriteFactory: IActorSpriteFactory;
+  private actorSpriteFactory: Actor.IActorSpriteFactory;
   private actorEventRegistrar: IActorEventRegistrar;
   private collisionSettingCallback: CollisionSettingCallback;
 
@@ -28,7 +25,7 @@ export class FieldActorsManager {
    * @param collisionSettingCallback スポーンまたはページが切り替わったActorに衝突判定を設定するためのコールバック
    */
   constructor(
-    actorSpriteFactory: IActorSpriteFactory,
+    actorSpriteFactory: Actor.IActorSpriteFactory,
     actorEventRegistrar: IActorEventRegistrar,
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IFieldActorEntry[],
@@ -43,7 +40,7 @@ export class FieldActorsManager {
     this.actorData = this._createFieldActorDataFromActorEntries(actorEntries);
   }
 
-  getSpawnActors(): IActor[] {
+  getSpawnActors(): Actor.IFieldActor[] {
     return this.actorData
       .filter((entry: FieldActorData) => (entry.isSpawn))
       .map((entry: FieldActorData) => (entry.actorObject));
@@ -55,7 +52,7 @@ export class FieldActorsManager {
     });
   }
 
-  findActorById(id: number): IActor|null {
+  findActorById(id: number): Actor.IFieldActor|null {
     const actor = this.actorData.find((data: FieldActorData) => (
       data.actorObject.id === id
     ));
@@ -63,17 +60,17 @@ export class FieldActorsManager {
     return actor ? actor.actorObject : null;
   }
 
-  update(frame: number): void {
+  update(scene: Scene.IFieldScene): void {
     this.actorData.forEach((entry: FieldActorData) => {
       this._updateActorStatus(entry);
       
-      entry.actorObject.update(frame);
+      entry.actorObject.update(scene);
     });
   }
 
   private _createFieldActorDataFromActorEntries(entries: IFieldActorEntry[]): FieldActorData[] {
     return entries.map((entry: IFieldActorEntry) => {
-      const actorObject = new Actor(entry.id, entry.name);
+      const actorObject = new Actor.FieldActor(entry.id, entry.name);
       const position = entry.position ? entry.position : {x: 0, y: 0};
       const pages = entry.statusPages;
       const isSpawn = false;
@@ -165,7 +162,7 @@ export class FieldActorsManager {
     return criteria();
   }
 
-  private _resetActorStatus(actor: IActor): void {
+  private _resetActorStatus(actor: Actor.IFieldActor): void {
     actor.removeAllListeners();
     
     if (actor.sprite) {
@@ -174,7 +171,7 @@ export class FieldActorsManager {
     }
   }
 
-  private _createActorSprite(fieldActorData: FieldActorData, pageIndex: number): IActorSprite {
+  private _createActorSprite(fieldActorData: FieldActorData, pageIndex: number): Actor.IActorSprite {
     const page = fieldActorData.statusPages[pageIndex];
     const actor = fieldActorData.actorObject;
 
@@ -187,13 +184,13 @@ export class FieldActorsManager {
     const spriteType = page.spriteType;
 
     switch (spriteType) {
-      case ActorSpriteTypes.OneWayAnim :
+      case Actor.ActorSpriteTypes.OneWayAnim :
         return this.actorSpriteFactory.createOneWayAnimActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
 
-      case ActorSpriteTypes.FourWayAnims :
+      case Actor.ActorSpriteTypes.FourWayAnims :
         return this.actorSpriteFactory.createFourWayAnimsActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
       
-      case ActorSpriteTypes.Invisible :
+      case Actor.ActorSpriteTypes.Invisible :
         return this.actorSpriteFactory.createInvisibleActorSprite(x, y, bodyConfig); 
     }
 
@@ -201,11 +198,11 @@ export class FieldActorsManager {
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
 
-  private _setEvents(actor: IActor, page: IFieldActorStatusPage): void {
+  private _setEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
     this.actorEventRegistrar.regist(actor, page);
   }
 
-  private _setCollisionSettings(actor: IActor, overlapOnly?: boolean): void {
+  private _setCollisionSettings(actor: Actor.IFieldActor, overlapOnly?: boolean): void {
     overlapOnly = overlapOnly ? overlapOnly : false;
     this.collisionSettingCallback(actor, overlapOnly);
   }

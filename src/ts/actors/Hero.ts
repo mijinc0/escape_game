@@ -1,15 +1,16 @@
-import { Actor } from '../core/actors/Actor';
-import { Direction } from '../core/models/Direction';
+import * as Actor from '../core/actors';
+import * as Model from '../core/models';
+import * as Scene from '../core/scenes';
 
-export class Hero extends Actor {
-  update(frame: number): void {
-    if (!this.keys) {
-      super.update(frame);
+export class Hero extends Actor.FieldActor {
+  update(scene: Scene.IFieldScene): void {
+    if (!scene.keys) {
+      super.update(scene);
       return;
     };
 
     // search
-    if (this.keys.action.isDown) {
+    if (scene.keys.action.isDown) {
       // 連射防止
       if (!this.flags.get('search')) {
         // ここで関係のない`fieldMenu`もonにするのは、調べるコマンド復帰直後に
@@ -31,7 +32,7 @@ export class Hero extends Actor {
     }
 
     // open field menu
-    if (this.keys.cancel.isDown) {
+    if (scene.keys.cancel.isDown) {
       // 連射防止
       if (!this.flags.get('fieldMenu')) {
         this.flags.on('search');
@@ -44,26 +45,26 @@ export class Hero extends Actor {
     }
 
     const speed = 184;
-    if (this.keys.cursors.left.isDown) {
-      this.sprite.direction = Direction.Left;
+    if (scene.keys.cursors.left.isDown) {
+      this.sprite.direction = Model.Direction.Left;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed * -1);
 
-    } else if (this.keys.cursors.right.isDown) {
-      this.sprite.direction = Direction.Right;
+    } else if (scene.keys.cursors.right.isDown) {
+      this.sprite.direction = Model.Direction.Right;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed);
 
-    } else if (this.keys.cursors.down.isDown) {
-      this.sprite.direction = Direction.Down;
+    } else if (scene.keys.cursors.down.isDown) {
+      this.sprite.direction = Model.Direction.Down;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(speed);
 
-    } else if (this.keys.cursors.up.isDown) {
-      this.sprite.direction = Direction.Up;
+    } else if (scene.keys.cursors.up.isDown) {
+      this.sprite.direction = Model.Direction.Up;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(speed * -1);
@@ -74,24 +75,24 @@ export class Hero extends Actor {
       this.sprite.setVelocityY(0);
       
       switch(this.sprite.direction) {
-        case Direction.Left :
+        case Model.Direction.Left :
           this.sprite.stopAnim();
           break;
 
-        case Direction.Right :
+        case Model.Direction.Right :
           this.sprite.stopAnim();
           break;
 
-        case Direction.Down :
+        case Model.Direction.Down :
           this.sprite.stopAnim();
           break;
 
-        case Direction.Up :
+        case Model.Direction.Up :
           this.sprite.stopAnim();
           break;
       }
     }
 
-    super.update(frame);
+    super.update(scene);
   }
 }

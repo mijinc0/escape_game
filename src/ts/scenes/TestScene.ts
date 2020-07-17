@@ -20,7 +20,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   frame: number;
   gameGlobal: IGameGlobal;
   sceneConfig: Scene.IFieldSceneConfig;
-  primaryActor: Actor.IActor;
+  primaryActor: Actor.IFieldActor;
   actorsManager: Field.FieldActorsManager;
   scenarioEventManager: Event.ScenarioEventManager;
   keys: Input.Keys;
@@ -71,9 +71,9 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       return;
     }
     
-    this.primaryActor.update(this.frame);
+    this.primaryActor.update(this);
 
-    this.actorsManager.update(this.frame);
+    this.actorsManager.update(this);
   }
 
   private _createKeys(): Input.Keys {
@@ -107,7 +107,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       this.primaryActor.sprite.pause();
     }
 
-    this.actorsManager.getSpawnActors().forEach((actor: Actor.IActor) => {
+    this.actorsManager.getSpawnActors().forEach((actor: Actor.IFieldActor) => {
       if (actor.sprite) {
         actor.sprite.pause();
       }
@@ -121,7 +121,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       this.primaryActor.sprite.resume();
     }
 
-    this.actorsManager.getSpawnActors().forEach((actor: Actor.IActor) => {
+    this.actorsManager.getSpawnActors().forEach((actor: Actor.IFieldActor) => {
       if (actor.sprite) {
         actor.sprite.resume();
       }
@@ -193,7 +193,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     if (overActor) Render.SaticLayerRenderOerder.overActorLayer(overActor);
   }
 
-  private _createPrimaryActor(): Actor.IActor {
+  private _createPrimaryActor(): Actor.IFieldActor {
     const actor = new Hero(3030, 'hero');
     const sprite = new Actor.FourWayAnimsActorSprite(
       this,
@@ -208,7 +208,6 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.physics.add.existing(sprite);
 
     actor.sprite = sprite;
-    actor.keys = this.keys;
 
     // search event
     const actors = this.actorsManager.actorData.map((data: Field.FieldActorData) => (data.actorObject));
@@ -230,7 +229,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     return actor;
   }
 
-  private _addSpawnActorsCollider(spawnActor: Actor.IActor, onlyOverlap: boolean): void {
+  private _addSpawnActorsCollider(spawnActor: Actor.IFieldActor, onlyOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
@@ -246,7 +245,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
 
     // with other actors that has already spawned
     const spawnActors = this.actorsManager.getSpawnActors();
-    spawnActors.forEach((actor: Actor.IActor) => {
+    spawnActors.forEach((actor: Actor.IFieldActor) => {
       this.actorColliderRegistrar.registActorPair(
         spawnActor,
         actor,
@@ -259,7 +258,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this._tilemapCollisionSetting(spawnActor);
   }
 
-  private _tilemapCollisionSetting(spawnActor: Actor.IActor): void {
+  private _tilemapCollisionSetting(spawnActor: Actor.IFieldActor): void {
     // overActorのレイヤーは衝突しない
     const overActorLayerIndex = 2;
     this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {

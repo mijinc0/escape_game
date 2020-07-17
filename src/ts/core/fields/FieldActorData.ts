@@ -1,11 +1,11 @@
+import * as Actor from '../actors';
+import * as Model from '../models';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
-import { IActor } from '../actors/IActor';
-import { Position } from '../models/Position';
 
 export class FieldActorData {
   constructor (
-    public actorObject: IActor,
-    public position: Position,
+    public actorObject: Actor.IFieldActor,
+    public position: Model.Position,
     public statusPages: IFieldActorStatusPage[],
     public isSpawn: boolean,
     public currentPageIndex: number,

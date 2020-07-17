@@ -2,6 +2,9 @@ import { EventEmitter } from 'events';
 import { IElement } from './IElement';
 
 export class Element implements IElement {
+  /**
+   * デバッグ時に使えるように設けたプロパティ
+   */
   name: string;
   
   deltaX: number;

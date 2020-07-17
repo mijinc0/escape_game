@@ -2,7 +2,6 @@ export { Direction } from './Direction';
 export { GameFlags } from './GameFlags';
 export { GameItems } from './GameItems';
 export { GameVariables } from './GameVariables';
-export { IControllable } from './IControllable';
 export { IGameItems } from './IGameItems';
 export { Item } from './Item';
 export { ItemBag } from './ItemBag';

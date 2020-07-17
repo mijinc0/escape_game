@@ -37,7 +37,7 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
         targets: this.modal,
         alpha: {from: 0, to: 1},
         duration: 500,
-        ease: 'Linear',
+        ease: Phaser.Math.Easing.Cubic.In,
 
         // 完了時にステップをWaitingKeyInputに変えるイベントを仕込んでおく
         onComplete: (() => {
@@ -107,7 +107,7 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
         targets: this.modal,
         alpha: {from: 1, to: 0},
         duration: 300,
-        ease: 'Linear',
+        ease: Phaser.Math.Easing.Back.Out,
 
         // 完了時にステップをCompleteに変えるイベントを仕込んでおく
         onComplete: (() => {
