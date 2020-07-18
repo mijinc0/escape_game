@@ -1,16 +1,15 @@
-import { EventRange } from '../events/EventRange';
-import { EventRangeFactory } from '../events/EventRangeFactory';
+import * as Event from '../events';
 
 export class EventEntry {
   readonly id: number;
-  readonly eventRangeFactory: EventRangeFactory;
+  readonly eventRangeFactory: Event.EventRangeFactory;
 
-  constructor(id: number, eventRangeFactory: EventRangeFactory) {
+  constructor(id: number, eventRangeFactory: Event.EventRangeFactory) {
     this.id = id;
     this.eventRangeFactory = eventRangeFactory;
   }
 
-  getEvents(): EventRange {
+  getEvents(): Event.EventRange {
     return this.eventRangeFactory.create();
   }
 }

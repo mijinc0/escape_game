@@ -1,15 +1,14 @@
 import * as Phaser from 'phaser';
-import { AssetLoader } from '../core/assets/AssetLoader';
-import { IAssetLoadingConfig } from '../core/assets/IAssetLoadingConfig';
+import * as Asset from '../core/assets';
 
 export class Loading extends Phaser.Scene {
   private frame: number;
-  private config: IAssetLoadingConfig;
+  private config: Asset.IAssetLoadingConfig;
   private loadingText: Phaser.GameObjects.Text;
   private progressBar: Phaser.GameObjects.Rectangle;
   private bar: Phaser.GameObjects.Rectangle;
 
-  init(config: IAssetLoadingConfig): void {
+  init(config: Asset.IAssetLoadingConfig): void {
     console.log('== start scene Loading ==');
 
     if (!config) {
@@ -31,7 +30,7 @@ export class Loading extends Phaser.Scene {
     this.progressBar.setOrigin(0);
     this.bar.setOrigin(0);
 
-    const loader = new AssetLoader(this);
+    const loader = new Asset.AssetLoader(this);
     
     loader.onProgress(this._updateBar.bind(this));
     

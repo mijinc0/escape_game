@@ -1,9 +1,9 @@
 import * as Phaser from 'phaser';
+import * as Model from '../models';
 import { ISceneTilemapData } from './ISceneTilemapData';
 import { ILayerData } from './ILayerData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
-import { Size } from '../models/Size';
 
 type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
  
@@ -60,7 +60,7 @@ export class SceneTilemapFactory {
 
   private _createStaticLayer(
     data: number[][],
-    tileSize: Size,
+    tileSize: Model.Size,
     tileImageKey: string,
   ): StaticLayer {
     // 1. create phaser's tilemap

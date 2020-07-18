@@ -1,19 +1,19 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
+import * as Model from '../../core/models';
+import * as Render from '../../core/renders';
 import { IItemDescription } from './IItemDescription';
-import { Item } from '../../core/models/Item';
-import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemListElementConfig = {
   scene: Phaser.Scene,
-  item: Item,
+  item: Model.Item,
   description?: IItemDescription,
   backgroundColor?: number,
   backgroundAlpha?: number,
 };
 
 export class ItemListElement extends Ui.Group {
-  private item: Item;
+  private item: Model.Item;
 
   constructor(config: ItemListElementConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
     super(dx, dy, width, height, anchor);
@@ -50,7 +50,7 @@ export class ItemListElement extends Ui.Group {
     const itemSizeText = new Ui.Text(scene, itemSizeTextX, centerOfBaseRectangleY, this.item.size.toString(), {});
     itemSizeText.setOrigin(1, 0.5);
 
-    UiRenderOrder.base(baseRectangle, itemIcon, itemNameText, itemSizeText);
+    Render.UiRenderOrder.base(baseRectangle, itemIcon, itemNameText, itemSizeText);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(itemIcon);

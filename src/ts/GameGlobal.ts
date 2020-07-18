@@ -1,15 +1,13 @@
-import { GameItems } from './items/GameItems';
+import * as Model from './core/models';
 import { IGameGlobal } from './core/IGameGlobal';
-import { GameFlags } from './core/models/GameFlags';
-import { GameVariables } from './core/models/GameVariables';
-import { ItemBag } from './core/models/ItemBag';
+import { GameItems } from './items/GameItems';
 
 export const GameGlobal: IGameGlobal = {  
   items: GameItems,
   
-  flags: new GameFlags(),
+  flags: new Model.GameFlags(),
   
-  variables: new GameVariables(),
+  variables: new Model.GameVariables(),
   
-  ownItems: new ItemBag(),
+  ownItems: new Model.ItemBag(),
 };

@@ -1,11 +1,11 @@
+import * as Model from '../../models';
 import { IElement } from '../IElement';
 import { RangeAlignmentNextPostionCallbacks } from './RangeAlignmentNextPostionCallbacks';
 import { RangeAlignmentNextIndexCallbacks } from './RangeAlignmentNextIndexCallbacks';
 import { Direction } from '../Direction';
 import { IAlignmentHandler } from './IAlignmentHandler';
-import { Position } from '../../models/Position';
 
-type NextPositionCallback = (current: IElement, before: IElement, margin: number, anchor: IElement) => Position;
+type NextPositionCallback = (current: IElement, before: IElement, margin: number, anchor: IElement) => Model.Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
 export class RangeAlignmentHandler implements IAlignmentHandler {

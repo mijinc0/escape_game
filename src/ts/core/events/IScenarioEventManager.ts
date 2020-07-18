@@ -1,9 +1,9 @@
+import * as Scene from '../scenes';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
-import { IFieldScene } from '../scenes/IFieldScene';
 
 export interface IScenarioEventManager {
-  scene: IFieldScene;
+  scene: Scene.IFieldScene;
 
   events: EventRange[];
 

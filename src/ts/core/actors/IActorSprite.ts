@@ -1,5 +1,5 @@
+import * as Model from '../models';
 import { IActorBody } from './IActorBody';
-import { Direction } from '../models/Direction';
 
 export interface IActorSprite {
   spriteKey: string;
@@ -14,7 +14,7 @@ export interface IActorSprite {
 
   depth: number;
 
-  direction: Direction;
+  direction: Model.Direction;
 
   body: IActorBody;
 

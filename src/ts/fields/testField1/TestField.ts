@@ -1,16 +1,16 @@
+import * as Asset from '../../core/assets';
+import * as Field from '../../core/fields';
 import { ActorEntries } from './ActorEntries';
 import { EventEntries } from './EventEntries';
-import { IField } from '../../core/fields/IField';
-import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
 
-export const TestField: IField = {
+export const TestField: Field.IField = {
   id: -1,
 
-  tilemapKey: AssetCacheKey.tilemap('sample_map1'),
+  tilemapKey: Asset.AssetCacheKey.tilemap('sample_map1'),
 
-  tileInfoKey: AssetCacheKey.tileInfo('sample_tile'),
+  tileInfoKey: Asset.AssetCacheKey.tileInfo('sample_tile'),
   
-  tileImageKey: AssetCacheKey.tileImage('sample_tile'),
+  tileImageKey: Asset.AssetCacheKey.tileImage('sample_tile'),
 
   actors: ActorEntries,
 

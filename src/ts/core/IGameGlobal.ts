@@ -1,17 +1,13 @@
-import { GameFlags } from './models/GameFlags';
-import { GameVariables } from './models/GameVariables';
-import { GameItems } from './models/GameItems';
-import { ItemBag } from './models/ItemBag';
-
+import * as Model from './models';
 /**
  * グローバルに置いておきたいもの
  */
 export interface IGameGlobal {
-  flags: GameFlags;
+  flags: Model.GameFlags;
 
-  variables: GameVariables;
+  variables: Model.GameVariables;
 
-  items: GameItems;
+  items: Model.GameItems;
 
-  ownItems: ItemBag;
+  ownItems: Model.ItemBag;
 }

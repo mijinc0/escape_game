@@ -1,16 +1,16 @@
-import { Position } from '../models/Position';
+import * as Model from '../models';
 
 export class ActorPosition {
   readonly id: number;
 
   actorId: number;
   
-  positon: Position;
+  positon: Model.Position;
 
   constructor(
     id: number,
     actorId: number,
-    positon: Position,
+    positon: Model.Position,
   ) {
     this.id = id;
     this.actorId = actorId;

@@ -1,4 +1,4 @@
-import { Direction } from '../models/Direction';
+import * as Model from '../models';
 
 export interface IFieldSceneConfig {
   fieldId: number;
@@ -7,5 +7,5 @@ export interface IFieldSceneConfig {
 
   heroY: number;
 
-  heroDirection: Direction;
+  heroDirection: Model.Direction;
 }

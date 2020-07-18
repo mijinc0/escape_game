@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { IActor } from '../actors/IActor';
+import * as Actor from '../actors';
 
 type ActorCollideCallback = (spriteA: Phaser.GameObjects.GameObject, spriteB: Phaser.GameObjects.GameObject) => void;
 
@@ -11,7 +11,7 @@ export class ActorColliderRegistrar {
   }
 
   registActorAndGameObject(
-    actor: IActor,
+    actor: Actor.IActor,
     phaserGameObject: Phaser.GameObjects.GameObject | Phaser.GameObjects.GameObject[],
     collideCallback?: ActorCollideCallback,
     onlyOverlap?: boolean,
@@ -34,8 +34,8 @@ export class ActorColliderRegistrar {
   }
 
   registActorPair(
-    actorA: IActor,
-    actorB: IActor,
+    actorA: Actor.IActor,
+    actorB: Actor.IActor,
     collideCallback?: ActorCollideCallback,
     onlyOverlap?: boolean,
   ): boolean {

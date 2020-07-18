@@ -1,3 +1,4 @@
+import * as Input from '../../input';
 import { EventEmitter } from 'events';
 import { ISelector } from './ISelector';
 import { ISelectorCursor } from './ISelectorCursor';
@@ -6,7 +7,6 @@ import { SelectorEventNames } from './SelectorEventNames';
 import { Direction } from '../Direction';
 import { IElement } from '../IElement';
 import { IGroup } from '../group/IGroup';
-import { Keys } from '../../input/Keys';
 
 type GroupHistoryEntry = {
   group: IGroup,
@@ -20,7 +20,7 @@ export class Selector extends EventEmitter implements ISelector {
 
   disable: boolean;
   
-  keys?: Keys;
+  keys?: Input.Keys;
   
   private groupHistory: GroupHistoryEntry[];
   
@@ -29,7 +29,7 @@ export class Selector extends EventEmitter implements ISelector {
   
   private cooldownCount: number;
 
-  constructor(cursor: ISelectorCursor, keys?: Keys) {
+  constructor(cursor: ISelectorCursor, keys?: Input.Keys) {
     super();
 
     this.cursor = cursor;

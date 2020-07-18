@@ -1,12 +1,12 @@
+import * as Model from '../models';
 import { IActorSprite } from './IActorSprite';
-import { GameFlags } from '../models/GameFlags';
 
 export interface IActor {
   name: string;
 
   id: number;
 
-  flags: GameFlags;
+  flags: Model.GameFlags;
   
   sprite?: IActorSprite;
 

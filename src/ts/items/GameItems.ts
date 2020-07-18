@@ -1,4 +1,4 @@
+import * as Model from '../core/models';
 import { AllItems } from './AllItems';
-import { GameItems as GameItemsClass } from '../core/models/GameItems';
 
-export const GameItems = new GameItemsClass(...AllItems);
+export const GameItems = new Model.GameItems(...AllItems);

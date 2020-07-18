@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
-import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
+import * as Render from '../../core/renders';
 
 type MessageBoxConfig = {
   scene: Phaser.Scene,
@@ -74,7 +74,7 @@ export class MessageBox extends Ui.Group {
     // hide waiting cursor by default
     waitingCursor.renderFlags &= ~1;
 
-    UiRenderOrder.base(baseRectangle, text, waitingCursor);
+    Render.UiRenderOrder.base(baseRectangle, text, waitingCursor);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(text);

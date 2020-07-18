@@ -1,5 +1,5 @@
+import * as Model from '../models';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
-import { Position } from '../models/Position';
 
 export interface IFieldActorEntry {
   id: number;
@@ -8,5 +8,5 @@ export interface IFieldActorEntry {
   
   statusPages: IFieldActorStatusPage[];
   
-  position?: Position;
+  position?: Model.Position;
 }

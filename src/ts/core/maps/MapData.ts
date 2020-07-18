@@ -1,27 +1,27 @@
+import * as Model from '../models';
 import { ActorPosition } from './ActorPosition';
 import { TileInfo } from './TileInfo';
 import { ILayerData } from './ILayerData';
-import { Size } from '../models/Size';
 
 export class MapData {
   layers: ILayerData[];
 
-  tileSize: Size;
+  tileSize: Model.Size;
 
   tileInfos: TileInfo[];
 
   tileImage: string;
 
-  worldBounce: Size;
+  worldBounce: Model.Size;
 
   actorPositions: ActorPosition[];
 
   constructor (
     layers: ILayerData[],
-    tileSize: Size,
+    tileSize: Model.Size,
     tileInfos: TileInfo[],
     tileImage: string,
-    worldBounce: Size,
+    worldBounce: Model.Size,
     actorPositions: ActorPosition[],
   ) {
     this.layers = layers;

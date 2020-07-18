@@ -1,13 +1,12 @@
-import { IBodyConfig } from '../actors/IBodyConfig';
-import { ActorSpriteTypes } from '../actors/ActorSpriteTypes';
-import { Direction } from '../models/Direction';
+import * as Model from '../models';
+import * as Actor from '../actors';
 
 export interface IFieldActorStatusPage {
   eventId: number;
   
   eventEmitType: string;
 
-  spriteType: ActorSpriteTypes;
+  spriteType: Actor.ActorSpriteTypes;
   
   /**
    * 指定が無い場合は透明のActor(bodyのみ)を作る
@@ -22,14 +21,14 @@ export interface IFieldActorStatusPage {
   /**
    * default = Down
    */
-  direction?: Direction;
+  direction?: Model.Direction;
 
   /**
    * default = false
    */
   overlapOnly?: boolean;
   
-  bodyConfig?: IBodyConfig;
+  bodyConfig?: Actor.IBodyConfig;
   
   /**
    * スポーン条件

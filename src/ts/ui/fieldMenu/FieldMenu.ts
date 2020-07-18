@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
+import * as Render from '../../core/renders';
 import { MainMenu } from './MainMenu';
 import { IGameGlobal } from '../../core/IGameGlobal';
-import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type FieldMenuConfig = {
   scene: Phaser.Scene,
@@ -39,7 +39,7 @@ export class FieldMenu extends Ui.Group {
     const rectangle = new Ui.Rectangle(config.scene, x, y, width, height, 0x000000, 0.5); 
     
     rectangle.setOrigin(0);
-    UiRenderOrder.base(rectangle);
+    Render.UiRenderOrder.base(rectangle);
     config.scene.add.existing(rectangle);
 
     return rectangle;

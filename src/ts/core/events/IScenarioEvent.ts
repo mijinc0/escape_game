@@ -1,4 +1,4 @@
-import { IFieldScene } from '../scenes/IFieldScene';
+import * as Scene from '../scenes';
  
 export interface IScenarioEvent {
   isComplete: boolean;
@@ -12,9 +12,9 @@ export interface IScenarioEvent {
    * イベントはinitによって初期化され、使いまわされるので、状態内部の破壊的な処理を避けること
    * @param config 
    */
-  init(scene: IFieldScene): void;
+  init(scene: Scene.IFieldScene): void;
 
-  update(scene: IFieldScene): void;
+  update(scene: Scene.IFieldScene): void;
 
   complete(): void;
 }

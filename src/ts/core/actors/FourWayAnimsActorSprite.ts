@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
+import * as Asset from '../assets';
+import * as Model from '../models';
 import { ActorSprite } from './ActorSprite';
-import { AssetCacheKey } from '../assets/AssetCacheKey';
-import { Direction } from '../models/Direction';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
@@ -15,8 +15,8 @@ export class FourWayAnimsActorSprite extends ActorSprite {
     x: number,
     y: number,
     spritesheetKey: string,
-    frame?: string | integer,
-    direction?: Direction,
+    frame?: string|number,
+    direction?: Model.Direction,
   ) {
     super(scene, x, y, spritesheetKey, frame, direction);
 
@@ -36,19 +36,19 @@ export class FourWayAnimsActorSprite extends ActorSprite {
   playAnim(animName: string, ignoreIfPlaying?: boolean): this {
     if (animName === 'default') {
       switch (this.direction) {
-        case Direction.Left :
+        case Model.Direction.Left :
           animName = 'defaultLeft';
           break;
 
-        case Direction.Right :
+        case Model.Direction.Right :
           animName = 'defaultRight';
           break;
 
-        case Direction.Down :
+        case Model.Direction.Down :
           animName = 'defaultDown';
           break;
 
-        case Direction.Up :
+        case Model.Direction.Up :
           animName = 'defaultUp';
           break; 
       }
@@ -66,13 +66,13 @@ export class FourWayAnimsActorSprite extends ActorSprite {
       throw Error(`total frame size of texture named ${this.spriteKey} is illegal`);
     }
 
-    this._initDefaultAnim('defaultLeft', Direction.Left, oneDirectionAnimFrames);
-    this._initDefaultAnim('defaultRight', Direction.Right, oneDirectionAnimFrames);
-    this._initDefaultAnim('defaultDown', Direction.Down, oneDirectionAnimFrames);
-    this._initDefaultAnim('defaultUp', Direction.Up, oneDirectionAnimFrames);
+    this._initDefaultAnim('defaultLeft', Model.Direction.Left, oneDirectionAnimFrames);
+    this._initDefaultAnim('defaultRight', Model.Direction.Right, oneDirectionAnimFrames);
+    this._initDefaultAnim('defaultDown', Model.Direction.Down, oneDirectionAnimFrames);
+    this._initDefaultAnim('defaultUp', Model.Direction.Up, oneDirectionAnimFrames);
   }
 
-  private _initDefaultAnim(animName: string, direction: Direction, animFrames: number): void {
+  private _initDefaultAnim(animName: string, direction: Model.Direction, animFrames: number): void {
     const spritesheetKey = this.texture.key;
     const animKey = this._createActorAnimKey(spritesheetKey, animName);
 
@@ -94,10 +94,10 @@ export class FourWayAnimsActorSprite extends ActorSprite {
   }
 
   private _createActorAnimKey(spriteSheetKey: string, animName: string): string {
-    return AssetCacheKey.anim(spriteSheetKey, animName);
+    return Asset.AssetCacheKey.anim(spriteSheetKey, animName);
   }
 
-  private _createDefaultAnim(spritesheetKey: string, animKey: string, direction: Direction, animFrames: number): SpriteAnimation {
+  private _createDefaultAnim(spritesheetKey: string, animKey: string, direction: Model.Direction, animFrames: number): SpriteAnimation {
     const startFrame = direction * animFrames;
     const endFrame = startFrame + animFrames - 1;
     const frameRate = 10;

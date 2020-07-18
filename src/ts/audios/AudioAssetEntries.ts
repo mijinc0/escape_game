@@ -1,5 +1,4 @@
-import { IAssetEntry } from '../core/assets/IAssetEntry';
-import { AssetCacheKey } from '../core/assets/AssetCacheKey';
+import * as Asset from '../core/assets';
 
 type EntryBase = {name: string, path: string};
 
@@ -18,9 +17,9 @@ const entries: EntryBase[] = [
   {name: 'se_find_item', path: 'assets/audio/se_maoudamashii_onepoint07.ogg'},
 ];
 
-export const AudioAssetEntries: IAssetEntry[] = entries.map((base : EntryBase) => (
+export const AudioAssetEntries: Asset.IAssetEntry[] = entries.map((base : EntryBase) => (
   {
-    key: AssetCacheKey.audio(base.name),
+    key: Asset.AssetCacheKey.audio(base.name),
     path: base.path,
   }
 ));

@@ -1,4 +1,4 @@
-import { IAssetLoadingConfig } from './core/assets/IAssetLoadingConfig';
+import * as Asset from './core/assets';
 import { ItemIconAssetEntries } from './items/ItemIconAssetEntries';
 import { TileImageAssetEntries } from './maps/TileImageAssetEntries';
 import { TileInfoAssetEntries } from './maps/TileInfoAssetEntries';
@@ -9,7 +9,7 @@ import { AudioAssetEntries } from './audios/AudioAssetEntries';
 /**
  * 最初に全てのアセットを読み込む前提になっている
  */
-export const GameAssets: IAssetLoadingConfig = {
+export const GameAssets: Asset.IAssetLoadingConfig = {
   tileMap: TileMapAssetEntries,
   
   tileImage: TileImageAssetEntries,

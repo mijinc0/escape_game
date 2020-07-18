@@ -1,5 +1,5 @@
+import * as Util from '../utils';
 import { ActorPosition } from './ActorPosition';
-import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
 /**
  * Tiledのオブジェクトレイヤーは全てActorPositionとして読み込む
@@ -43,10 +43,10 @@ export class ActorPositionsFactory {
 
     if (!properties) throw Error('illegal object data');
       
-    const id = ValueTypeUtil.isNumber(objectData.id) ? objectData.id : -1;
-    const positionX = ValueTypeUtil.isNumber(objectData.x) ? objectData.x : 0;
-    const positionY = ValueTypeUtil.isNumber(objectData.y) ? objectData.y : 0;
-    const actorId = ValueTypeUtil.isNumber(properties.get('actorId')) ? properties.get('actorId') : id;
+    const id = Util.ValueTypeUtil.isNumber(objectData.id) ? objectData.id : -1;
+    const positionX = Util.ValueTypeUtil.isNumber(objectData.x) ? objectData.x : 0;
+    const positionY = Util.ValueTypeUtil.isNumber(objectData.y) ? objectData.y : 0;
+    const actorId = Util.ValueTypeUtil.isNumber(properties.get('actorId')) ? properties.get('actorId') : id;
 
     return new ActorPosition(
       id,

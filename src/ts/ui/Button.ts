@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../core/ui';
-import { UiRenderOrder } from '../core/renders/UiRenderOrder';
+import * as Render from '../core/renders';
 
 type ButtonConfig = {
   scene: Phaser.Scene,
@@ -43,7 +43,7 @@ export class Button extends Ui.Group {
     baseRectangle.setOrigin(0);
     text.setOrigin(0.5);
 
-    UiRenderOrder.base(baseRectangle, text);
+    Render.UiRenderOrder.base(baseRectangle, text);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(text);

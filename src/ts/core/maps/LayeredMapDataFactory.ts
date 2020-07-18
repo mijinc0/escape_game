@@ -1,5 +1,5 @@
+import * as Util from '../utils';
 import { ILayerData } from './ILayerData';
-import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
 export class LayeredMapDataFactory {
   static createFromJson(mapJson: any): ILayerData[] {
@@ -14,7 +14,7 @@ export class LayeredMapDataFactory {
 
     // extract map id and data
     mapLayers.forEach((layer: any) => {
-      const id = ValueTypeUtil.isNumber(layer.id) ? layer.id : -99;
+      const id = Util.ValueTypeUtil.isNumber(layer.id) ? layer.id : -99;
       const data = this._extractMapData(layer, id);
       result.push({id: id, data: data});
     });
@@ -41,9 +41,9 @@ export class LayeredMapDataFactory {
     rawSize: any,
   ): boolean {
     return (
-      !ValueTypeUtil.isNumberArray(rawMapData) ||
-      !ValueTypeUtil.isNumber(rawSize) ||
-      !ValueTypeUtil.isNumber(columnSize)
+      !Util.ValueTypeUtil.isNumberArray(rawMapData) ||
+      !Util.ValueTypeUtil.isNumber(rawSize) ||
+      !Util.ValueTypeUtil.isNumber(columnSize)
     );
   }
 

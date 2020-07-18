@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
+import * as Asset from './core/assets';
 import { GameAssets } from './GameAssets';
-import { IAssetLoadingConfig } from './core/assets/IAssetLoadingConfig';
 import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
@@ -34,7 +34,7 @@ export class Boot extends Phaser.Game {
   }
   
   on(): void {
-    const assetLoadingConfig: IAssetLoadingConfig = {
+    const assetLoadingConfig: Asset.IAssetLoadingConfig = {
       nextScene: 'opening',
 
       tileMap: GameAssets.tileMap,

@@ -1,5 +1,5 @@
-import { Item } from '../core/models/Item';
-import { AssetCacheKey } from '../core/assets/AssetCacheKey';
+import * as Asset from '../core/assets';
+import * as Model from '../core/models';
 
 type ItemConfig = {id: number, name: string, description: string, iconImageName: string};
 
@@ -59,6 +59,6 @@ export const AllItems = [
     iconImageName: 'icon_silver_key',
   },
 ].map((config: ItemConfig) => {
-  const iconImageKey = AssetCacheKey.itemIcon(config.iconImageName);
-  return new Item(config.id, config.name, config.description, iconImageKey);
+  const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
+  return new Model.Item(config.id, config.name, config.description, iconImageKey);
 });

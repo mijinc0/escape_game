@@ -1,18 +1,16 @@
-import { IActor } from '../core/actors/IActor';
-import { Direction } from '../core/models/Direction';
-import { Position } from '../core/models/Position';
-import { Zone } from '../core/models/Zone';
+import * as Model from '../core/models';
+import * as Actor from '../core/actors';
 
 export class ActorSearchEvent {
-  private actors: IActor[];
-  private zoneRange: Position; 
+  private actors: Actor.IActor[];
+  private zoneRange: Model.Position; 
 
-  constructor(candidateActors: IActor[]) {
+  constructor(candidateActors: Actor.IActor[]) {
     this.actors = candidateActors;
     this.zoneRange = {x: 4, y: 4};
   }
 
-  setEvent(actor: IActor): void {
+  setEvent(actor: Actor.IActor): void {
     actor.on('search', this.search.bind(this));
   }
 
@@ -21,7 +19,7 @@ export class ActorSearchEvent {
     actorY: number,
     actorWidth: number,
     actorHeight: number,
-    direction: Direction,
+    direction: Model.Direction,
   ): void {
     console.log('start actor search event');
 
@@ -39,10 +37,10 @@ export class ActorSearchEvent {
     actorY: number,
     actorWidth: number,
     actorHeight: number,
-    direction: Direction,
-  ): Zone {
+    direction: Model.Direction,
+  ): Model.Zone {
     switch(direction) {
-      case Direction.Down :
+      case Model.Direction.Down :
         return {
           x : actorX,
           y : actorY,
@@ -50,7 +48,7 @@ export class ActorSearchEvent {
           height: this.zoneRange.y + actorHeight,
         };
         
-      case Direction.Up :
+      case Model.Direction.Up :
         return {
           x : actorX,
           y : actorY - this.zoneRange.y,
@@ -58,7 +56,7 @@ export class ActorSearchEvent {
           height: this.zoneRange.y + actorHeight,
         };
       
-      case Direction.Right :
+      case Model.Direction.Right :
         return {
           x : actorX,
           y : actorY,
@@ -66,7 +64,7 @@ export class ActorSearchEvent {
           height: actorHeight,
         };
       
-      case Direction.Left :
+      case Model.Direction.Left :
         return {
           x : actorX - this.zoneRange.x,
           y : actorY,
@@ -76,8 +74,8 @@ export class ActorSearchEvent {
     }
   }
 
-  private _search(zone: Zone): void {
-    this.actors.forEach((actor: IActor) => {
+  private _search(zone: Model.Zone): void {
+    this.actors.forEach((actor: Actor.IActor) => {
       if (this._isOverlappingSearchZone(zone, actor)) {
         console.log(`emit search event {id: ${actor.id}, name: ${actor.name}}`);
         actor.emit('search');
@@ -85,7 +83,7 @@ export class ActorSearchEvent {
     });
   }
 
-  private _isOverlappingSearchZone(zone: Zone, target: IActor): boolean {
+  private _isOverlappingSearchZone(zone: Model.Zone, target: Actor.IActor): boolean {
     if (!target.sprite || !target.sprite.body) return false;
 
     const searchLeft = zone.x;

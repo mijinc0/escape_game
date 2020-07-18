@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import * as Assets from '../core/assets';
 import * as Audio from '../core/audios';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';

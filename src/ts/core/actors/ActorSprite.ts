@@ -1,11 +1,11 @@
 import * as Phaser from 'phaser';
+import * as Model from '../models';
 import { IActorSprite } from './IActorSprite';
-import { Direction } from '../models/Direction';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
 export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorSprite {
-  direction: Direction;
+  direction: Model.Direction;
   
   private spriteAnims: Map<string|number, SpriteAnimation>;
 
@@ -15,11 +15,11 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     y: number,
     spriteKey: string,
     frame?: string|number,
-    direction?: Direction,
+    direction?: Model.Direction,
   ) {
     super(scene, x, y, spriteKey, frame);
     
-    this.direction = direction ? direction : Direction.Down;
+    this.direction = direction ? direction : Model.Direction.Down;
     this.spriteAnims = new Map<string, SpriteAnimation>();
     this.setOrigin(0);
   }

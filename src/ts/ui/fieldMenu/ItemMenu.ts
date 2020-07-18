@@ -1,20 +1,20 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
+import * as Render from '../../core/renders';
+import * as Model from '../../core/models';
 import { ItemListElement } from './ItemListElement';
 import { ItemDescription } from './ItemDescription';
-import { Item } from '../../core/models/Item';
-import { UiRenderOrder } from '../../core/renders/UiRenderOrder';
 
 type ItemMenuConfig = {
   scene: Phaser.Scene,
-  items: Item[],
+  items: Model.Item[],
 };
 
 export class ItemMenu extends Ui.Group {
-  list: Ui.ScrollGroup<Item>;
+  list: Ui.ScrollGroup<Model.Item>;
   
   private scene: Phaser.Scene;
-  private items: Item[];
+  private items: Model.Item[];
   private description: ItemDescription;
   
   constructor(config: ItemMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
@@ -47,11 +47,11 @@ export class ItemMenu extends Ui.Group {
 
     const rectangle = new Ui.Rectangle(this.scene, 0, 0, width, height, 0x000000, 0.5);
     rectangle.setOrigin(0);
-    UiRenderOrder.base(rectangle); 
+    Render.UiRenderOrder.base(rectangle); 
 
     const title = new Ui.Text(this.scene, 16, 8, 'items', {});
     title.setOrigin(0);
-    UiRenderOrder.base(title); 
+    Render.UiRenderOrder.base(title); 
 
     this.scene.add.existing(rectangle);
     this.scene.add.existing(title);
@@ -75,7 +75,7 @@ export class ItemMenu extends Ui.Group {
     return new ItemDescription(itemDescriptionConfig, dx, dy, width, height);
   }
 
-  private _createItemList(): Ui.ScrollGroup<Item> {
+  private _createItemList(): Ui.ScrollGroup<Model.Item> {
     const itemList = this._createItemListBaseGroup();
 
     itemList.setData(
@@ -86,7 +86,7 @@ export class ItemMenu extends Ui.Group {
     return itemList;
   }
 
-  private _createItemListBaseGroup():  Ui.ScrollGroup<Item> {
+  private _createItemListBaseGroup():  Ui.ScrollGroup<Model.Item> {
     const dx = 4;
     const dy = 36;
     const width = 240;
@@ -96,10 +96,10 @@ export class ItemMenu extends Ui.Group {
     const margin = 12;
     const ah = new Ui.RangeAlignmentHandler(margin, Ui.Direction.Down);
 
-    return new Ui.ScrollGroup<Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
+    return new Ui.ScrollGroup<Model.Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
   }
 
-  private _createItemListElement(item: Item): ItemListElement {
+  private _createItemListElement(item: Model.Item): ItemListElement {
     const itemListElementConfig = {
       item: item,
       scene: this.scene,

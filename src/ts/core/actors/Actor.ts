@@ -1,14 +1,14 @@
+import * as Model from '../models';
 import { EventEmitter } from 'events';
 import { IActor } from './IActor';
 import { IActorSprite } from './IActorSprite';
-import { GameFlags } from '../models/GameFlags';
 
 export class Actor extends EventEmitter implements IActor {
   readonly id: number;
   
   readonly name: string;
 
-  readonly flags: GameFlags;
+  readonly flags: Model.GameFlags;
   
   sprite?: IActorSprite;
 
@@ -20,7 +20,7 @@ export class Actor extends EventEmitter implements IActor {
     super();
     this.id = id;
     this.name = name;
-    this.flags = new GameFlags();
+    this.flags = new Model.GameFlags();
     this.sprite = sprite ? sprite : null;
   }
 

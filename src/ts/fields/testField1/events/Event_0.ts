@@ -1,9 +1,10 @@
+import * as Field from '../../../core/fields';
 import { GameGlobal } from '../../../GameGlobal';
-import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
-import { EventEntryFactory } from '../../../core/fields/EventEntryFactory';
+import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-export default EventEntryFactory.create(0, 
+
+export default Field.EventEntryFactory.create(0, 
   cmd.message('this is message\\!this event is page 0'),
 
   op.if(() => (false))(

@@ -1,3 +1,4 @@
+import * as Model from '../core/models';
 import { GameGlobal } from '../GameGlobal';
 import { Message } from './commands/Message';
 import { MessageBufferFactory } from './commands/MessageBufferFactory';
@@ -11,7 +12,6 @@ import { CameraFadeOut } from './commands/CameraFadeOut';
 import { PlayActorAnim } from './commands/PlayActorAnim';
 import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { PlaySe } from './commands/PlaySe';
-import { Direction } from '../core/models/Direction';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -62,7 +62,7 @@ export class ScenarioEventCommandsFactory {
     return new Sleep(frame);
   }
 
-  static moveField(fieldId: number, x: number, y: number, direction: Direction): MoveField {
+  static moveField(fieldId: number, x: number, y: number, direction: Model.Direction): MoveField {
     return new MoveField(fieldId, x, y, direction);
   }
 

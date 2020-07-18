@@ -1,5 +1,5 @@
+import * as Scene from '../../scenes';
 import { IScenarioEvent } from '../IScenarioEvent';
-import { IFieldScene } from '../../scenes/IFieldScene';
 
 export class Return implements IScenarioEvent {
   readonly isAsync = false;
@@ -10,11 +10,11 @@ export class Return implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(scene: IFieldScene): void {
+  init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(scene: IFieldScene): void {
+  update(scene: Scene.IFieldScene): void {
     // 全てのイベントレンジを破棄する
     const events = scene.scenarioEventManager.events;
     events.splice(0);

@@ -1,9 +1,9 @@
+import * as Util from '../utils';
 import { TileInfo } from './TileInfo';
-import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
 export class TileInfosFactory {
   static createFromJson(jsonFile: any): TileInfo[] {
-    const tiles: any[] = ValueTypeUtil.isObjectArray(jsonFile.tiles) ? jsonFile.tiles : [];
+    const tiles: any[] = Util.ValueTypeUtil.isObjectArray(jsonFile.tiles) ? jsonFile.tiles : [];
     return this._createTileInfos(tiles);
   }
   
@@ -15,9 +15,9 @@ export class TileInfosFactory {
     // idを (tileData.id + 1) とするのは、Tiledのマップデータでは何もない場所のタイルIDを0とし、
     // タイルデータに含まれる最初のタイルのIDを1とするのに対して、タイルデータは最初のタイルIDを0とするため、
     // マップデータとタイルデータを合わせた時にIDがひとつずれてしまうため、タイルIDを+1して修正している
-    const id = ValueTypeUtil.isNumber(tileData.id) ? (tileData.id + 1) : -1;
+    const id = Util.ValueTypeUtil.isNumber(tileData.id) ? (tileData.id + 1) : -1;
     const properties = this._parsePropertiesObject(tileData.properties);
-    const collide = ValueTypeUtil.isBoolean(properties.get('collide')) ? properties.get('collide') : false;
+    const collide = Util.ValueTypeUtil.isBoolean(properties.get('collide')) ? properties.get('collide') : false;
     return {
       id: id,
       collide: collide,

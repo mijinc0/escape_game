@@ -1,10 +1,10 @@
 import * as Phaser from 'phaser';
+import * as Util from '../utils';
 import { IActorSpriteFactory } from './IActorSpriteFactory';
 import { IBodyConfig } from './IBodyConfig';
 import { ActorSprite } from './ActorSprite';
 import { OneWayAnimActorSprite } from './OneWayAnimActorSprite';
 import { FourWayAnimsActorSprite } from './FourWayAnimsActorSprite';
-import { ValueTypeUtil } from '../utils/ValueTypeUtil';
 
 export class ActorSpriteFactory implements IActorSpriteFactory {
   private scene: Phaser.Scene;
@@ -70,7 +70,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
     if (bodyConfig.size) {
       // bodyConfig.sizeがnumberであればスプライトの大きさに対して何割かで決める
       // bodyConfig.sizeがSizeであれば指定の大きさをbodyの大きさとする
-      (ValueTypeUtil.isNumber(bodyConfig.size)) ?
+      (Util.ValueTypeUtil.isNumber(bodyConfig.size)) ?
         sprite.body.setSize((sprite.width * bodyConfig.size), (sprite.height * bodyConfig.size)) :
         sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.width);
     }

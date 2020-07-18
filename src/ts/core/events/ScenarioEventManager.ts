@@ -1,8 +1,8 @@
+import * as Scene from '../scenes';
 import { EventEmitter } from 'events';
 import { IScenarioEventManager } from './IScenarioEventManager';
 import { EventRange } from './EventRange';
 import { IScenarioEvent } from './IScenarioEvent';
-import { IFieldScene } from '../scenes/IFieldScene';
 
 /**
  * 1. イベントはRangeと呼ばれる構造体にまとめられたものを1ブロックとして管理する
@@ -15,7 +15,7 @@ import { IFieldScene } from '../scenes/IFieldScene';
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
 export class ScenarioEventManager extends EventEmitter implements IScenarioEventManager {
-  scene: IFieldScene;
+  scene: Scene.IFieldScene;
   events: EventRange[];
   currentEvents: IScenarioEvent[];
   isGoing: boolean;
@@ -24,7 +24,7 @@ export class ScenarioEventManager extends EventEmitter implements IScenarioEvent
    * 
    * @param scene IScenarioEvent.updateの引数になる
    */
-  constructor(scene: IFieldScene) {
+  constructor(scene: Scene.IFieldScene) {
     super();
 
     this.scene = scene;

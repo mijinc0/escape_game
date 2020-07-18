@@ -1,10 +1,9 @@
+import * as Event from '../events';
 import { EventEntry } from './EventEntry';
-import { IScenarioEvent } from '../events/IScenarioEvent';
-import { EventRangeFactory } from '../events/EventRangeFactory';
 
 export class EventEntryFactory {
-  static create(id: number, ...events: IScenarioEvent[]): EventEntry {
-    const factory = new EventRangeFactory(...events);
+  static create(id: number, ...events: Event.IScenarioEvent[]): EventEntry {
+    const factory = new Event.EventRangeFactory(...events);
     return new EventEntry(id, factory);
   }
 }

@@ -1,7 +1,7 @@
+import * as Model from '../models';
 import { IActorSprite } from './IActorSprite';
 import { ILayeredSprite } from './ILayeredSprite';
 import { IActorBody } from './IActorBody';
-import { Direction } from '../models/Direction';
 
 export class LayeredSprite implements ILayeredSprite, IActorSprite {
   private primary: IActorSprite;
@@ -63,11 +63,11 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     this.primary.height = height;
   }
 
-  get direction(): Direction {
+  get direction(): Model.Direction {
     return this.primary.direction;
   }
 
-  set direction(direction: Direction) {
+  set direction(direction: Model.Direction) {
     this.primary.direction = direction;
 
     this.sprites.forEach((sprite: IActorSprite) => {

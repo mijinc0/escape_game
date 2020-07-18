@@ -1,10 +1,9 @@
-import { Position } from '../models/Position';
-import { Size } from '../models/Size';
+import * as Model from '../models';
 
 export interface IBodyConfig {
-  size?: Size|number,
+  size?: Model.Size|number,
   
-  offset?: Position,
+  offset?: Model.Position,
 
-  origin?: Position,
+  origin?: Model.Position,
 }

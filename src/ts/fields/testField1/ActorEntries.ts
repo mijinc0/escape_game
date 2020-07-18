@@ -1,20 +1,19 @@
-import { ActorSpriteTypes } from '../../core/actors/ActorSpriteTypes';
-import { IFieldActorEntry } from '../../core/fields/IFieldActorEntry';
-import { AssetCacheKey } from '../../core/assets/AssetCacheKey';
-import { EventEmitType } from '../../core/fields/EventEmitType';
-import { Direction } from '../../core/models/Direction';
+import * as Actor from '../../core/actors';
+import * as Asset from '../../core/assets';
+import * as Field from '../../core/fields';
+import * as Model from '../../core/models';
 
-export const ActorEntries: IFieldActorEntry[] = [
+export const ActorEntries: Field.IFieldActorEntry[] = [
   {
     id: 0,
     name: 'npc1',
     statusPages: [
       {
         eventId: 0,
-        eventEmitType: EventEmitType.Search,
-        spriteType: ActorSpriteTypes.FourWayAnims,
-        spriteKey: AssetCacheKey.spritesheet('hero'),
-        direction: Direction.Left,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.FourWayAnims,
+        spriteKey: Asset.AssetCacheKey.spritesheet('hero'),
+        direction: Model.Direction.Left,
         initFrame: 0,
         bodyConfig: {
           size: 0.8
@@ -29,9 +28,9 @@ export const ActorEntries: IFieldActorEntry[] = [
     statusPages: [
       {
         eventId: 0,
-        eventEmitType: EventEmitType.Collide,
-        spriteType: ActorSpriteTypes.FourWayAnims,
-        spriteKey: AssetCacheKey.spritesheet('hero'),
+        eventEmitType: Field.EventEmitType.Collide,
+        spriteType: Actor.ActorSpriteTypes.FourWayAnims,
+        spriteKey: Asset.AssetCacheKey.spritesheet('hero'),
         initFrame: 0,
       },
     ],
@@ -44,9 +43,9 @@ export const ActorEntries: IFieldActorEntry[] = [
     statusPages: [
       {
         eventId: 1,
-        eventEmitType: EventEmitType.Collide,
+        eventEmitType: Field.EventEmitType.Collide,
         overlapOnly: true,
-        spriteType: ActorSpriteTypes.Invisible,
+        spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: {width: 20, height: 30},
         },

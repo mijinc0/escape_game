@@ -1,5 +1,4 @@
-import { ISpritesheetAssetEntry } from '../core/assets/ISpritesheetAssetEntry';
-import { AssetCacheKey } from '../core/assets/AssetCacheKey';
+import * as Asset from '../core/assets';
 
 type EntryBase = {name: string, path: string, frameWidth: number, frameHeight: number};
 
@@ -8,9 +7,9 @@ const entries: EntryBase[] = [
   {name: 'door', path: 'assets/sprites/door.png', frameWidth: 32, frameHeight: 32},
 ];
 
-export const SpritesheetAssetEntries: ISpritesheetAssetEntry[] = entries.map((base : EntryBase) => (
+export const SpritesheetAssetEntries: Asset.ISpritesheetAssetEntry[] = entries.map((base : EntryBase) => (
   {
-    key: AssetCacheKey.spritesheet(base.name),
+    key: Asset.AssetCacheKey.spritesheet(base.name),
     path: base.path,
     frameWidth: base.frameWidth,
     frameHeight: base.frameHeight,

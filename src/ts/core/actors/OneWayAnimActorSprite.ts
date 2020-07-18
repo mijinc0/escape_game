@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
+import * as Model from '../models';
+import * as Asset from '../assets';
 import { ActorSprite } from './ActorSprite';
-import { AssetCacheKey } from '../assets/AssetCacheKey';
-import { Direction } from '../models/Direction';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
@@ -16,8 +16,8 @@ export class OneWayAnimActorSprite extends ActorSprite {
     x: number,
     y: number,
     spritesheetKey: string,
-    frame?: string | integer,
-    direction?: Direction,
+    frame?: string|number,
+    direction?: Model.Direction,
   ) {
     super(scene, x, y, spritesheetKey, frame, direction);
 
@@ -48,7 +48,7 @@ export class OneWayAnimActorSprite extends ActorSprite {
   }
 
   private _createActorAnimKey(spriteSheetKey: string, animName: string): string {
-    return AssetCacheKey.anim(spriteSheetKey, animName);
+    return Asset.AssetCacheKey.anim(spriteSheetKey, animName);
   }
 
   private _createDefaultAnim(spritesheetKey: string, animKey: string): SpriteAnimation {

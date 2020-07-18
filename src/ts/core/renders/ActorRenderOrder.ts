@@ -1,4 +1,4 @@
-import { IActorSprite } from '../actors/IActorSprite';
+import * as Actor from '../actors';
 
 export class ActorRenderOrder {
   /**
@@ -7,7 +7,7 @@ export class ActorRenderOrder {
    * 
    * @param actor 
    */
-  static prioritizeBottom(sprite: IActorSprite): void {
+  static prioritizeBottom(sprite: Actor.IActorSprite): void {
     // 描写順を決めるのはDisplayListであり、これはComponent.Depthのset depthが呼ばれた時に
     // ソートされるようになっている。この仕様により、yとdepthを同じ値にするには、yのセッターを置き換えるのが良い
     // (yが変更されたらdepthが書き換わるようにする)
