@@ -12,7 +12,14 @@ export class Group extends Element implements IGroup {
 
   alignmentHandler?: IAlignmentHandler;
 
-  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler) {
+  constructor(
+    dx = 0,
+    dy = 0,
+    width = 0,
+    height = 0,
+    anchor?: IElement,
+    ah?: IAlignmentHandler,
+  ) {
     super(dx, dy, width, height, anchor);
 
     this.alignmentHandler = ah ? ah : null;
@@ -46,11 +53,11 @@ export class Group extends Element implements IGroup {
     }
   }
 
-  get(index: number): IElement|null {
+  get(index: number): IElement | null {
     return this.entries[index] ? this.entries[index] : null;
   }
 
-  getNext(direction: Direction): IElement|null {
+  getNext(direction: Direction): IElement | null {
     const nextIndex = this._getNextIndex(direction, true);
     const nextElement = this.get(nextIndex);
 
@@ -60,7 +67,7 @@ export class Group extends Element implements IGroup {
     return nextElement;
   }
 
-  getCurrent(): IElement|null {
+  getCurrent(): IElement | null {
     return this.get(this.currentIndex);
   }
 
@@ -68,9 +75,13 @@ export class Group extends Element implements IGroup {
     // currentIndex < 0 の時にgetNextをすると、次のindexはentriesの最初(0)を返す
     if (this.currentIndex < 0) return 0;
 
-    const nextNodeIndex = this.alignmentHandler ? this.alignmentHandler.getNextIndex(this.currentIndex, direction) : this.currentIndex + 1;
+    const nextNodeIndex = this.alignmentHandler
+      ? this.alignmentHandler.getNextIndex(this.currentIndex, direction)
+      : this.currentIndex + 1;
 
-    return limit ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1) : nextNodeIndex;
+    return limit
+      ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1)
+      : nextNodeIndex;
   }
 
   private _defaultAlignmentHandler(entries: IElement[]): void {

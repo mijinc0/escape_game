@@ -4,6 +4,6 @@ export enum ElementEventNames {
   Over = 'selectorOver',
 
   Out = 'selectorOut',
-  
+
   Select = 'selectorSelect',
 }

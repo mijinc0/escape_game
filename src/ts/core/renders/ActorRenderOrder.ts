@@ -4,8 +4,8 @@ export class ActorRenderOrder {
   /**
    * 下部Y座標が大きい(マップ上で下の位置にいる)オブジェクトが前に表示されるようになる
    * ActorのSpriteの下部y座標とdepthを同じ値になる。これにより、y座標による遠近感が出る
-   * 
-   * @param actor 
+   *
+   * @param actor
    */
   static prioritizeBottom(sprite: Actor.IActorSprite): void {
     // 描写順を決めるのはDisplayListであり、これはComponent.Depthのset depthが呼ばれた時に

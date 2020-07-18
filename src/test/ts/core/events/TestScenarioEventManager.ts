@@ -10,25 +10,25 @@ export class TestScenarioEventManager implements IScenarioEventManager {
   get scene(): IFieldScene {
     throw Error(this._getErrorMessage('scene'));
   }
-    
+
   set scene(v: IFieldScene) {
-    throw Error(this._getErrorMessage('scene'));      
+    throw Error(this._getErrorMessage('scene'));
   }
 
   get events(): EventRange[] {
     throw Error(this._getErrorMessage('events'));
   }
-    
+
   set events(v: EventRange[]) {
-    throw Error(this._getErrorMessage('events'));      
+    throw Error(this._getErrorMessage('events'));
   }
 
   get currentEvents(): IScenarioEvent[] {
     throw Error(this._getErrorMessage('currentEvents'));
   }
-    
+
   set currentEvents(v: IScenarioEvent[]) {
-    throw Error(this._getErrorMessage('currentEvents'));      
+    throw Error(this._getErrorMessage('currentEvents'));
   }
 
   get isGoing(): boolean {

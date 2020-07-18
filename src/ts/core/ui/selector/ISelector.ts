@@ -9,11 +9,11 @@ export interface ISelector {
   cursor: ISelectorCursor;
 
   disable: boolean;
-  
+
   update(frame?: number): void;
 
   /**
-   * 
+   *
    * @param managedGroup セレクタが管理するグループ
    * @param destroyIfCanceled managedGroupのキャンセル時に削除するコンテナを指定
    */

@@ -7,16 +7,6 @@ class RectangleBase extends Phaser.GameObjects.Rectangle implements IElement {}
 
 interface RectangleBase extends Phaser.GameObjects.Rectangle, IElement {}
 
-MixinUtil.apply(
-  RectangleBase,
-  [
-    Element,
-  ],
-  [
-    'destroy',
-    'on',
-    'emit',
-  ],
-);
+MixinUtil.apply(RectangleBase, [Element], ['destroy', 'on', 'emit']);
 
 export class Rectangle extends RectangleBase {}

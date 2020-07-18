@@ -17,7 +17,16 @@ export class ScrollGroup<T> extends Group {
 
   private elementFactoryCallback?: ElementFactoryCallback<T>;
 
-  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler, maxSize?: number, scrollSize?: number) {
+  constructor(
+    dx = 0,
+    dy = 0,
+    width = 0,
+    height = 0,
+    anchor?: IElement,
+    ah?: IAlignmentHandler,
+    maxSize?: number,
+    scrollSize?: number,
+  ) {
     super(dx, dy, width, height, anchor, ah);
 
     this.maxSize = maxSize ? maxSize : 1;
@@ -41,8 +50,8 @@ export class ScrollGroup<T> extends Group {
 
   /**
    * NOTE: `push`及び`unshift`は基本的に外からは使わない
-   * 
-   * @param elements 
+   *
+   * @param elements
    */
   push(...elements: IElement[]): number {
     this.entries.push(...elements);
@@ -50,9 +59,11 @@ export class ScrollGroup<T> extends Group {
     // 頭からはみ出したElementsが押し出されて削除される
     if (this.maxSize > 0) {
       const entryiesSize = this.entries.length;
-      const pushout = this.entries.splice(0, (entryiesSize - this.maxSize));
+      const pushout = this.entries.splice(0, entryiesSize - this.maxSize);
 
-      pushout.forEach((element: IElement) => {element.destroy()});
+      pushout.forEach((element: IElement) => {
+        element.destroy();
+      });
     }
 
     this.align();
@@ -61,8 +72,8 @@ export class ScrollGroup<T> extends Group {
 
   /**
    * NOTE: `push`及び`unshift`は基本的に外からは使わない
-   * 
-   * @param elements 
+   *
+   * @param elements
    */
   unshift(...elements: IElement[]): number {
     this.entries.unshift(...elements);
@@ -71,7 +82,9 @@ export class ScrollGroup<T> extends Group {
     if (this.maxSize > 0) {
       const pushout = this.entries.splice(this.maxSize);
 
-      pushout.forEach((element: IElement) => {element.destroy()});
+      pushout.forEach((element: IElement) => {
+        element.destroy();
+      });
     }
 
     this.align();
@@ -89,7 +102,7 @@ export class ScrollGroup<T> extends Group {
     this._initGroup();
   }
 
-  getNext(direction: Direction): IElement|null {
+  getNext(direction: Direction): IElement | null {
     if (this.data.length === 0) return null;
 
     // 1. 次のElementのindexを取得する
@@ -101,7 +114,7 @@ export class ScrollGroup<T> extends Group {
     if (nextElement) {
       this.currentIndex = nextIndex;
       return nextElement;
-    };
+    }
 
     // 3. 現在のentries内では取得出来なかった場合は`data`からElementを生成、追加した後にもう一度取得を試みる
     if (nextIndex < 0) {
@@ -112,7 +125,6 @@ export class ScrollGroup<T> extends Group {
       const unshiftedElementSize = this._scrollupEntries(dataScrollCount);
       this.startDataIndex -= unshiftedElementSize;
       this.currentIndex += unshiftedElementSize;
-
     } else {
       // `nextIndex >= 0`の場合、現在のentriesに対して"後ろの"データが不足していることになるので
       // `_scrolldownEntries`を使ってentriesの内容をスクロールさせ、後方に補充されたElementの数だけcurrentIndexを減らす
@@ -135,7 +147,7 @@ export class ScrollGroup<T> extends Group {
     if (!this.elementFactoryCallback) {
       throw Error('ArrayMapGroup has no elementFactoryCallback???');
     }
-    
+
     const initEntries: IElement[] = [];
 
     const initSize = Math.min(this.maxSize, this.data.length);
@@ -151,8 +163,8 @@ export class ScrollGroup<T> extends Group {
   /**
    * entriesの頭に`count * this.scrollSize`分の要素を`this.data`からElementsを生成してunshiftする
    * (indexが0を下回った分はclampされる)
-   * 
-   * @param count 
+   *
+   * @param count
    */
   private _scrollupEntries(count: number): number {
     const unshiftedEntries = count * this.scrollSize;
@@ -162,8 +174,8 @@ export class ScrollGroup<T> extends Group {
   /**
    * entriesの末尾に`count * this.scrollSize`分の要素を`this.data`からElementsを生成してpushする
    * (this.dataを超過した分はclampされる)
-   * 
-   * @param count 
+   *
+   * @param count
    */
   private _scrolldownEntries(count: number): number {
     const pushedEntries = count * this.scrollSize;
@@ -191,20 +203,26 @@ export class ScrollGroup<T> extends Group {
     return elements.length;
   }
 
-  private _unshiftElementsFromData(startIndex: number, endIndex: number): number {
+  private _unshiftElementsFromData(
+    startIndex: number,
+    endIndex: number,
+  ): number {
     const elements = this._createElementsFromData(startIndex, endIndex);
     this.unshift(...elements);
     return elements.length;
   }
 
-  private _createElementsFromData(startIndex: number, endIndex: number): IElement[] {
+  private _createElementsFromData(
+    startIndex: number,
+    endIndex: number,
+  ): IElement[] {
     if (startIndex > endIndex) {
       throw Error('start index must be greater than endIndex');
     }
 
     const data = this.data.slice(startIndex, endIndex);
 
-    return data.map((d: T) => (this._createElementFromData(d)));
+    return data.map((d: T) => this._createElementFromData(d));
   }
 
   private _createElementFromData(data: T): IElement {

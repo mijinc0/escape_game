@@ -5,8 +5,8 @@ import { MainMenu } from './MainMenu';
 import { IGameGlobal } from '../../core/IGameGlobal';
 
 type FieldMenuConfig = {
-  scene: Phaser.Scene,
-  gameGlobal: IGameGlobal,
+  scene: Phaser.Scene;
+  gameGlobal: IGameGlobal;
 };
 
 export class FieldMenu extends Ui.Group {
@@ -18,7 +18,7 @@ export class FieldMenu extends Ui.Group {
     super(worldView.x, worldView.y, worldView.width, worldView.height);
 
     const menuBackGround = this._createMenuBackGround(config);
-    
+
     this.mainMenu = this._createMainMenu(config);
 
     this.push(this.mainMenu, menuBackGround);
@@ -36,8 +36,16 @@ export class FieldMenu extends Ui.Group {
     // yは適当だが、mainMenuを囲える位置
     const y = 16;
 
-    const rectangle = new Ui.Rectangle(config.scene, x, y, width, height, 0x000000, 0.5); 
-    
+    const rectangle = new Ui.Rectangle(
+      config.scene,
+      x,
+      y,
+      width,
+      height,
+      0x000000,
+      0.5,
+    );
+
     rectangle.setOrigin(0);
     Render.UiRenderOrder.base(rectangle);
     config.scene.add.existing(rectangle);

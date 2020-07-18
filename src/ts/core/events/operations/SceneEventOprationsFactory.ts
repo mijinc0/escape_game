@@ -18,29 +18,29 @@ export class SceneEventOprationsFactory {
   /**
    * わざわざIfを生成する関数オブジェクトを生成しているのは、使う場所で以下のように
    * 記述できるようにするため
-   * 
+   *
    * if(criteriaCallback)(
    *   event,
    *   event,
    *   event,
-   * 
+   *
    * ).elseIf(criteriaCallback)(
    *   event,
    *   event,
    *   event,
-   * 
+   *
    * ).else(
    *   event,
    *   event,
    *   event,
    * );
-   * 
-   * @param criteriaCallback 
+   *
+   * @param criteriaCallback
    */
-  static if(criteriaCallback: CriteriaCallback): (...events: IScenarioEvent[]) => If {
-    return (...events: IScenarioEvent[]) => (
-      new If(criteriaCallback, events)
-    );
+  static if(
+    criteriaCallback: CriteriaCallback,
+  ): (...events: IScenarioEvent[]) => If {
+    return (...events: IScenarioEvent[]) => new If(criteriaCallback, events);
   }
 
   static loop(...events: IScenarioEvent[]): Loop {

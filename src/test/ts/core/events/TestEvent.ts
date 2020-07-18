@@ -17,7 +17,7 @@ export class TestEvent implements IScenarioEvent {
   update(): void {
     this.complete();
   }
-  
+
   complete(): void {
     this.isComplete = true;
   }

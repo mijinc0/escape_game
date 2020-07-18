@@ -1,13 +1,19 @@
 import * as Asset from '../core/assets';
 import * as Model from '../core/models';
 
-type ItemConfig = {id: number, name: string, description: string, iconImageName: string};
+type ItemConfig = {
+  id: number;
+  name: string;
+  description: string;
+  iconImageName: string;
+};
 
 export const AllItems = [
   {
     id: 0,
     name: 'silverKeyA',
-    description: 'this is test key loooooooooooooooooooo oooooooooooooooo ooooooooooooooooooog descrition',
+    description:
+      'this is test key loooooooooooooooooooo oooooooooooooooo ooooooooooooooooooog descrition',
     iconImageName: 'icon_silver_key',
   },
   {
@@ -55,10 +61,16 @@ export const AllItems = [
   {
     id: 8,
     name: 'silverKeyG',
-    description: 'this is test key G this is test key this is test key this is test key this is test key this is test key',
+    description:
+      'this is test key G this is test key this is test key this is test key this is test key this is test key',
     iconImageName: 'icon_silver_key',
   },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
-  return new Model.Item(config.id, config.name, config.description, iconImageKey);
+  return new Model.Item(
+    config.id,
+    config.name,
+    config.description,
+    iconImageKey,
+  );
 });

@@ -45,15 +45,12 @@ describe('if.update()', () => {
   context('normal', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
-    
-    const opIf = new If(
-      () => (true),
-      [
-        new TestEvent(),
-        new TestEvent(),
-        new TestEvent(),
-      ],
-    );
+
+    const opIf = new If(() => true, [
+      new TestEvent(),
+      new TestEvent(),
+      new TestEvent(),
+    ]);
 
     opIf.update(scene);
 
@@ -71,14 +68,11 @@ describe('if.update()', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
 
-    const opIf = new If(
-      () => (false),
-      [
-        new TestEvent(),
-        new TestEvent(),
-        new TestEvent(),
-      ],
-    );
+    const opIf = new If(() => false, [
+      new TestEvent(),
+      new TestEvent(),
+      new TestEvent(),
+    ]);
 
     opIf.update(scene);
 
@@ -96,19 +90,11 @@ describe('if.update()', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
 
-    const opIf = new If(
-      () => (false),
-      [new TestEvent()],
-    );
+    const opIf = new If(() => false, [new TestEvent()]);
 
-    opIf.elseIf(() => (true))(
-      new TestEvent(),
-      new TestEvent(),
-    ).else(
-      new TestEvent(),
-      new TestEvent(),
-      new TestEvent(),
-    );
+    opIf
+      .elseIf(() => true)(new TestEvent(), new TestEvent())
+      .else(new TestEvent(), new TestEvent(), new TestEvent());
 
     opIf.update(scene);
 
@@ -132,19 +118,11 @@ describe('if.update()', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
 
-    const opIf = new If(
-      () => (false),
-      [new TestEvent()],
-    );
+    const opIf = new If(() => false, [new TestEvent()]);
 
-    opIf.elseIf(() => (false))(
-      new TestEvent(),
-      new TestEvent(),
-    ).else(
-      new TestEvent(),
-      new TestEvent(),
-      new TestEvent(),
-    );
+    opIf
+      .elseIf(() => false)(new TestEvent(), new TestEvent())
+      .else(new TestEvent(), new TestEvent(), new TestEvent());
 
     opIf.update(scene);
 

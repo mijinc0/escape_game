@@ -6,17 +6,17 @@ import { ItemListElement } from './ItemListElement';
 import { ItemDescription } from './ItemDescription';
 
 type ItemMenuConfig = {
-  scene: Phaser.Scene,
-  items: Model.Item[],
+  scene: Phaser.Scene;
+  items: Model.Item[];
 };
 
 export class ItemMenu extends Ui.Group {
   list: Ui.ScrollGroup<Model.Item>;
-  
+
   private scene: Phaser.Scene;
   private items: Model.Item[];
   private description: ItemDescription;
-  
+
   constructor(config: ItemMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
     const width = 600;
     const height = 272;
@@ -29,7 +29,7 @@ export class ItemMenu extends Ui.Group {
     this.items = config.items;
 
     // 先にDescriptionを生成する
-    //const itemDescriptionContainer = this._createItemDescriptionContainer();
+    // const itemDescriptionContainer = this._createItemDescriptionContainer();
     this.description = this._createItemDescription();
 
     const itemListContainer = this._createItemListContainer();
@@ -45,13 +45,21 @@ export class ItemMenu extends Ui.Group {
 
     const group = new Ui.Group(0, 0, width, height);
 
-    const rectangle = new Ui.Rectangle(this.scene, 0, 0, width, height, 0x000000, 0.5);
+    const rectangle = new Ui.Rectangle(
+      this.scene,
+      0,
+      0,
+      width,
+      height,
+      0x000000,
+      0.5,
+    );
     rectangle.setOrigin(0);
-    Render.UiRenderOrder.base(rectangle); 
+    Render.UiRenderOrder.base(rectangle);
 
     const title = new Ui.Text(this.scene, 16, 8, 'items', {});
     title.setOrigin(0);
-    Render.UiRenderOrder.base(title); 
+    Render.UiRenderOrder.base(title);
 
     this.scene.add.existing(rectangle);
     this.scene.add.existing(title);
@@ -78,15 +86,12 @@ export class ItemMenu extends Ui.Group {
   private _createItemList(): Ui.ScrollGroup<Model.Item> {
     const itemList = this._createItemListBaseGroup();
 
-    itemList.setData(
-      this.items,
-      this._createItemListElement.bind(this),
-    );
+    itemList.setData(this.items, this._createItemListElement.bind(this));
 
     return itemList;
   }
 
-  private _createItemListBaseGroup():  Ui.ScrollGroup<Model.Item> {
+  private _createItemListBaseGroup(): Ui.ScrollGroup<Model.Item> {
     const dx = 4;
     const dy = 36;
     const width = 240;
@@ -96,7 +101,16 @@ export class ItemMenu extends Ui.Group {
     const margin = 12;
     const ah = new Ui.RangeAlignmentHandler(margin, Ui.Direction.Down);
 
-    return new Ui.ScrollGroup<Model.Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
+    return new Ui.ScrollGroup<Model.Item>(
+      dx,
+      dy,
+      width,
+      height,
+      null,
+      ah,
+      maxItemViewSize,
+      scrollSize,
+    );
   }
 
   private _createItemListElement(item: Model.Item): ItemListElement {

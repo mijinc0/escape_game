@@ -26,7 +26,14 @@ export class GameFlags {
     this.flags.clear();
   }
 
-  forEach(callbackfn: (value: boolean, key: string, map: Map<string, boolean>) => void, thisArg?: any): void {
+  forEach(
+    callbackfn: (
+      value: boolean,
+      key: string,
+      map: Map<string, boolean>,
+    ) => void,
+    thisArg?: any,
+  ): void {
     this.flags.forEach(callbackfn, thisArg);
   }
 

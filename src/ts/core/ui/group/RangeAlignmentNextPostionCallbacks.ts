@@ -5,8 +5,13 @@ import { IPosition } from '../IPosition';
  * deltaPositionを取得する
  */
 export class RangeAlignmentNextPostionCallbacks {
-  static down(current: IElement, before: IElement, margin: number, anchor: IElement): IPosition {
-    const deltaYFromAnchor = before.y - anchor.y; 
+  static down(
+    current: IElement,
+    before: IElement,
+    margin: number,
+    anchor: IElement,
+  ): IPosition {
+    const deltaYFromAnchor = before.y - anchor.y;
 
     return {
       x: 0,
@@ -14,8 +19,13 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static up(current: IElement, before: IElement, margin: number, anchor: IElement): IPosition {
-    const deltaYFromAnchor = before.y - anchor.y; 
+  static up(
+    current: IElement,
+    before: IElement,
+    margin: number,
+    anchor: IElement,
+  ): IPosition {
+    const deltaYFromAnchor = before.y - anchor.y;
 
     return {
       x: 0,
@@ -23,7 +33,12 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static right(current: IElement, before: IElement, margin: number, anchor: IElement): IPosition {
+  static right(
+    current: IElement,
+    before: IElement,
+    margin: number,
+    anchor: IElement,
+  ): IPosition {
     const deltaXFromAnchor = before.x - anchor.x;
 
     return {
@@ -32,8 +47,13 @@ export class RangeAlignmentNextPostionCallbacks {
     };
   }
 
-  static left(current: IElement, before: IElement, margin: number, anchor: IElement): IPosition {
-    const deltaXFromAnchor = before.x - anchor.x;  
+  static left(
+    current: IElement,
+    before: IElement,
+    margin: number,
+    anchor: IElement,
+  ): IPosition {
+    const deltaXFromAnchor = before.x - anchor.x;
 
     return {
       x: (deltaXFromAnchor + current.width + margin) * -1,

@@ -4,7 +4,7 @@ type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
 
 /**
  * Actorがy座標によって(0~65535)変化するものとしてマップのレイヤーdepthを決める
- * 
+ *
  * baseLayer : -2
  * underActor : -1
  * overActor: 65536 (0x01000)

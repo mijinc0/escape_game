@@ -5,15 +5,21 @@ import * as Scene from '../../core/scenes';
 export class PlaySe implements Event.IScenarioEvent {
   isAsync: boolean;
   isComplete: boolean;
-  
+
   private audioKey: string;
   private audioConfig: Audio.IAudioConfig;
   private startAudio: boolean;
 
-  constructor(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean) {
+  constructor(
+    audioKey: string,
+    volume?: number,
+    delay?: number,
+    rate?: number,
+    async?: boolean,
+  ) {
     this.audioKey = audioKey;
     this.isAsync = async ? async : false;
-    this.isComplete = false; 
+    this.isComplete = false;
     this.startAudio = false;
 
     this.audioConfig = {

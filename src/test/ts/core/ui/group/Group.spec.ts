@@ -48,7 +48,6 @@ describe('group.unshift', () => {
   });
 });
 
-
 describe('group.getNext', () => {
   context('normal', () => {
     const group = new Group();

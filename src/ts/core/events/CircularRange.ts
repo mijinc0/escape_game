@@ -12,7 +12,10 @@ export class CircularRange<T> implements IRange<T> {
 
   next(): T {
     // indexを回転させることでサークルにしている
-    this.currentIndex = Util.MathUtil.mod(this.currentIndex, this.entries.length);
+    this.currentIndex = Util.MathUtil.mod(
+      this.currentIndex,
+      this.entries.length,
+    );
 
     const element = this.entries[this.currentIndex];
 

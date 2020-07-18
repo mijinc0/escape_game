@@ -11,7 +11,7 @@ describe('messageBufferFactory.create()', () => {
       variables: new GameVariables(),
       items: null,
       ownItems: null,
-    }
+    };
 
     testGameGlobal.variables.set('apple', 10);
     testGameGlobal.variables.set('orange', 5);
@@ -32,7 +32,7 @@ describe('messageBufferFactory.create()', () => {
       variables: null,
       items: null,
       ownItems: null,
-    }
+    };
 
     const mbf = new MessageBufferFactory(testGameGlobal);
     const message = 'line1\\!line2\\!line3';

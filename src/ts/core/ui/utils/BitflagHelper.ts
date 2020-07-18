@@ -1,8 +1,8 @@
 export class BitflagHelper {
   /**
-   * 
-   * @param flagField 
-   * @param flag 
+   *
+   * @param flagField
+   * @param flag
    * @return boolean フラグが立っていればtrue、そうでなければfalse
    */
   static has(flagField: number, flag: number): boolean {

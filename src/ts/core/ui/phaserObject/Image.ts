@@ -7,16 +7,6 @@ class ImageBase extends Phaser.GameObjects.Image implements IElement {}
 
 interface ImageBase extends Phaser.GameObjects.Image, IElement {}
 
-MixinUtil.apply(
-  ImageBase,
-  [
-    Element,
-  ],
-  [
-    'destroy',
-    'on',
-    'emit',
-  ],
-);
+MixinUtil.apply(ImageBase, [Element], ['destroy', 'on', 'emit']);
 
 export class Image extends ImageBase {}

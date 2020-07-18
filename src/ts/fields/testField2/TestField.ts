@@ -9,10 +9,10 @@ export const TestField2: Field.IField = {
   tilemapKey: Asset.AssetCacheKey.tilemap('sample_map2'),
 
   tileInfoKey: Asset.AssetCacheKey.tileInfo('sample_tile'),
-  
+
   tileImageKey: Asset.AssetCacheKey.tileImage('sample_tile'),
 
   actors: ActorEntries,
 
   events: EventEntries,
-}
+};

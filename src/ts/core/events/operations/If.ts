@@ -1,9 +1,12 @@
 import * as Scene from '../../scenes';
 import { IScenarioEvent } from '../IScenarioEvent';
 import { LineRange } from '../LineRange';
- 
+
 type CriteriaCallback = () => boolean;
-type EventEntry = {criteriaCallback: CriteriaCallback, events: IScenarioEvent[]};
+type EventEntry = {
+  criteriaCallback: CriteriaCallback;
+  events: IScenarioEvent[];
+};
 
 export class If implements IScenarioEvent {
   readonly isAsync = false;
@@ -15,10 +18,12 @@ export class If implements IScenarioEvent {
   constructor(criteriaCallback: CriteriaCallback, events: IScenarioEvent[]) {
     this.isComplete = false;
 
-    this.entries = [{
-      criteriaCallback: criteriaCallback,
-      events: events,
-    }];
+    this.entries = [
+      {
+        criteriaCallback: criteriaCallback,
+        events: events,
+      },
+    ];
   }
 
   init(scene: Scene.IFieldScene): void {
@@ -26,7 +31,9 @@ export class If implements IScenarioEvent {
   }
 
   update(scene: Scene.IFieldScene): void {
-    const matchedEntry = this.entries.find((entry: EventEntry) => (entry.criteriaCallback()));
+    const matchedEntry = this.entries.find((entry: EventEntry) =>
+      entry.criteriaCallback(),
+    );
 
     // 条件判定コールバックの結果がtrueになるエントリーがあれば、そこに含まれるeventRangeを進行中のイベントに割り込ませる
     if (matchedEntry) {
@@ -34,7 +41,7 @@ export class If implements IScenarioEvent {
 
       const interruptEvents = matchedEntry.events;
       const interruptRange = new LineRange(interruptEvents);
-      
+
       events.unshift(interruptRange);
     }
 
@@ -47,20 +54,22 @@ export class If implements IScenarioEvent {
     this.isComplete = true;
   }
 
-  elseIf(criteriaCallback: CriteriaCallback): (...events: IScenarioEvent[]) => If {
-    return ((...events: IScenarioEvent[]) => {
+  elseIf(
+    criteriaCallback: CriteriaCallback,
+  ): (...events: IScenarioEvent[]) => If {
+    return (...events: IScenarioEvent[]) => {
       this.entries.push({
         criteriaCallback: criteriaCallback,
         events: events,
       });
 
       return this;
-    }).bind(this);
+    };
   }
 
   else(...events: IScenarioEvent[]): If {
     this.entries.push({
-      criteriaCallback: () => (true),
+      criteriaCallback: () => true,
       events: events,
     });
 

@@ -14,14 +14,15 @@ import { IScenarioEvent } from './IScenarioEvent';
  * 7. イベントを割り込ませたい場合はeventsの先頭にRangeを差し込めば良い
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
-export class ScenarioEventManager extends EventEmitter implements IScenarioEventManager {
+export class ScenarioEventManager extends EventEmitter
+  implements IScenarioEventManager {
   scene: Scene.IFieldScene;
   events: EventRange[];
   currentEvents: IScenarioEvent[];
   isGoing: boolean;
 
   /**
-   * 
+   *
    * @param scene IScenarioEvent.updateの引数になる
    */
   constructor(scene: Scene.IFieldScene) {
@@ -34,7 +35,7 @@ export class ScenarioEventManager extends EventEmitter implements IScenarioEvent
   }
 
   start(eventRange: EventRange): void {
-    if (this.currentEvents.length > 0 ) {
+    if (this.currentEvents.length > 0) {
       console.warn('scenario event manager already has events');
       return;
     }
@@ -54,7 +55,9 @@ export class ScenarioEventManager extends EventEmitter implements IScenarioEvent
     });
 
     // 未完了イベントのみを残す
-    this.currentEvents = this.currentEvents.filter((event: IScenarioEvent) => (!event.isComplete));
+    this.currentEvents = this.currentEvents.filter(
+      (event: IScenarioEvent) => !event.isComplete,
+    );
 
     // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする
@@ -101,6 +104,6 @@ export class ScenarioEventManager extends EventEmitter implements IScenarioEvent
   }
 
   private _hasNoSyncEvnetInCurrentEvents(): boolean {
-    return !this.currentEvents.find((event: IScenarioEvent) => (!event.isAsync));
+    return !this.currentEvents.find((event: IScenarioEvent) => !event.isAsync);
   }
 }

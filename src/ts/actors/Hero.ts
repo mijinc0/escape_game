@@ -22,7 +22,7 @@ export class Hero extends Actor.FieldActor {
     if (!scene.keys) {
       super.update(scene);
       return;
-    };
+    }
 
     // search
     if (scene.keys.action.isDown) {
@@ -65,54 +65,50 @@ export class Hero extends Actor.FieldActor {
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed * -1);
-
     } else if (scene.keys.cursors.right.isDown) {
       this.sprite.direction = Model.Direction.Right;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityY(0);
       this.sprite.setVelocityX(speed);
-
     } else if (scene.keys.cursors.down.isDown) {
       this.sprite.direction = Model.Direction.Down;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(speed);
-
     } else if (scene.keys.cursors.up.isDown) {
       this.sprite.direction = Model.Direction.Up;
       this.sprite.playAnim('default', true);
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(speed * -1);
-
     } else {
       // 止まる
       this.sprite.setVelocityX(0);
       this.sprite.setVelocityY(0);
-      
-      switch(this.sprite.direction) {
-        case Model.Direction.Left :
+
+      switch (this.sprite.direction) {
+        case Model.Direction.Left:
           this.sprite.stopAnim();
           break;
 
-        case Model.Direction.Right :
+        case Model.Direction.Right:
           this.sprite.stopAnim();
           break;
 
-        case Model.Direction.Down :
+        case Model.Direction.Down:
           this.sprite.stopAnim();
           break;
 
-        case Model.Direction.Up :
+        case Model.Direction.Up:
           this.sprite.stopAnim();
           break;
       }
     }
 
     // play of stop footstep SE
-    const isMoving = this.sprite.body.velocity.x != 0 || this.sprite.body.velocity.y != 0;
+    const isMoving =
+      this.sprite.body.velocity.x != 0 || this.sprite.body.velocity.y != 0;
     if (isMoving) {
       this._playSeFootstep(scene);
-
     } else if (this.seFootstep) {
       this.seFootstep.pause();
     }
@@ -131,11 +127,13 @@ export class Hero extends Actor.FieldActor {
       };
       // TODO: これだとkeyが見つからなかった場合エラーを吐いて止まってしまうが、音が流れない理由でゲームを止めたくはないので
       // AudioManagerのようなクラスを作ってワンクッション置いてエラーではなくて警告だけが出るようにする
-      this.seFootstep = this.seFootstep ? this.seFootstep : scene.audioManager.playSe(seFootsetpKey, seFootsetpConfig);
+      this.seFootstep = this.seFootstep
+        ? this.seFootstep
+        : scene.audioManager.playSe(seFootsetpKey, seFootsetpConfig);
     }
-    
+
     // オーディオインスタンスが停止中なら再生
-    if (this.seFootstep　&& !this.seFootstep.isPlaying) {
+    if (this.seFootstep && !this.seFootstep.isPlaying) {
       this.seFootstep.play();
     }
   }

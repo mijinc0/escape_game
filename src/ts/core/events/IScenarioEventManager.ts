@@ -23,9 +23,9 @@ export interface IScenarioEventManager {
    * eventは以下の通り
    * -    start : this.start(eventRange)実行時に発火される
    * - complete : currentEventsが空になったタイミングで発火される
-   * 
-   * @param event 
-   * @param listener 
+   *
+   * @param event
+   * @param listener
    */
   on(event: string, listener: (...args: any[]) => void): this;
 }

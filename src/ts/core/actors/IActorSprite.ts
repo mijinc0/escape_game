@@ -7,7 +7,7 @@ export interface IActorSprite {
   x: number;
 
   y: number;
-  
+
   width: number;
 
   height: number;
@@ -21,9 +21,13 @@ export interface IActorSprite {
   visible: boolean;
 
   setAnim(animName: string, animationObject: any): void;
-  
-  playAnim(animName: string, ignoreIfPlaying?: boolean, onCompleteEventCallback?: () => void): this;
-  
+
+  playAnim(
+    animName: string,
+    ignoreIfPlaying?: boolean,
+    onCompleteEventCallback?: () => void,
+  ): this;
+
   stopAnim(): this;
 
   pause(): void;

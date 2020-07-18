@@ -6,15 +6,15 @@ export class Element implements IElement {
    * デバッグ時に使えるように設けたプロパティ
    */
   name: string;
-  
+
   deltaX: number;
-  
+
   deltaY: number;
-  
+
   width: number;
-  
+
   height: number;
-  
+
   anchor?: IElement;
 
   private events: EventEmitter;
@@ -30,45 +30,49 @@ export class Element implements IElement {
   }
 
   get x(): number {
-    return this.anchor ? (this.anchor.x + this.deltaX) : this.deltaX;
+    return this.anchor ? this.anchor.x + this.deltaX : this.deltaX;
   }
 
   set x(x: number) {
-    this.deltaX = this.anchor ? (this.anchor.x - x) : x;
+    this.deltaX = this.anchor ? this.anchor.x - x : x;
   }
 
   get y(): number {
-    return this.anchor ? (this.anchor.y + this.deltaY) : this.deltaY;
+    return this.anchor ? this.anchor.y + this.deltaY : this.deltaY;
   }
 
   set y(y: number) {
-    this.deltaY = this.anchor ? (this.anchor.y - y) : y;
+    this.deltaY = this.anchor ? this.anchor.y - y : y;
   }
 
   destroy(fromScene?: boolean): void {}
 
   /**
    * EveneEmitterを継承しないのは、Phaserが使っている`ementemitter3`との差を吸収するため
-   * 
-   * @param type 
-   * @param args 
+   *
+   * @param type
+   * @param args
    */
   emit(type: string | symbol, ...args: any[]): boolean {
     return this.events.emit(type.toString(), ...args);
-  };
+  }
 
   /**
    * EveneEmitterを継承しないのは、Phaserが使っている`ementemitter3`との差を吸収するため
-   * 
-   * @param event 
-   * @param fn 
-   * @param context 
+   *
+   * @param event
+   * @param fn
+   * @param context
    */
-  on(event: string | symbol, fn: (...args: any[]) => void, context?: any): this {
+  on(
+    event: string | symbol,
+    fn: (...args: any[]) => void,
+    context?: any,
+  ): this {
     fn = context ? fn.bind(context) : fn;
 
     this.events.on(event.toString(), fn);
-    
+
     return this;
-  };
+  }
 }

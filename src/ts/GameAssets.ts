@@ -11,7 +11,7 @@ import { AudioAssetEntries } from './audios/AudioAssetEntries';
  */
 export const GameAssets: Asset.IAssetLoadingConfig = {
   tileMap: TileMapAssetEntries,
-  
+
   tileImage: TileImageAssetEntries,
 
   tileInfo: TileInfoAssetEntries,
@@ -19,6 +19,6 @@ export const GameAssets: Asset.IAssetLoadingConfig = {
   itemIcon: ItemIconAssetEntries,
 
   audio: AudioAssetEntries,
-  
+
   spritesheet: SpritesheetAssetEntries,
 };

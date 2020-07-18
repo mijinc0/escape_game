@@ -27,7 +27,10 @@ export class GameVariables {
     this.variables.clear();
   }
 
-  forEach(callbackfn: (value: number, key: string, map: Map<string, number>) => void, thisArg?: any): void {
+  forEach(
+    callbackfn: (value: number, key: string, map: Map<string, number>) => void,
+    thisArg?: any,
+  ): void {
     this.variables.forEach(callbackfn, thisArg);
   }
 }

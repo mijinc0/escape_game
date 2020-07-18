@@ -4,9 +4,9 @@ import * as Model from '../core/models';
 import * as Render from '../core/renders';
 
 type GettingItemModalConfig = {
-  scene: Phaser.Scene,
-  item: Model.Item,
-  alpha: number,
+  scene: Phaser.Scene;
+  item: Model.Item;
+  alpha: number;
 };
 
 export class GettingItemModal extends Ui.Group {
@@ -16,7 +16,12 @@ export class GettingItemModal extends Ui.Group {
   private itemNameText: Ui.Text;
   private itemDescriptionText: Ui.Text;
 
-  constructor(config: GettingItemModalConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
+  constructor(
+    config: GettingItemModalConfig,
+    dx = 0,
+    dy = 0,
+    anchor?: Ui.IElement,
+  ) {
     const width = 400;
     const height = 200;
 
@@ -24,9 +29,17 @@ export class GettingItemModal extends Ui.Group {
 
     const scene = config.scene;
 
-    const baseRectangle = new Ui.Rectangle(scene, 0, 0, width, height, 0x000000, 1);
+    const baseRectangle = new Ui.Rectangle(
+      scene,
+      0,
+      0,
+      width,
+      height,
+      0x000000,
+      1,
+    );
     baseRectangle.setOrigin(0);
-    
+
     const iconKey = config.item.iconImageKey;
     const itemIcon = new Ui.Image(scene, 16, 32, iconKey);
     itemIcon.setOrigin(0, 0.5);
@@ -54,11 +67,16 @@ export class GettingItemModal extends Ui.Group {
           width: width - 16,
           useAdvancedWrap: true,
         },
-      }
+      },
     );
     itemDescriptionText.setOrigin(0);
 
-    Render.UiRenderOrder.base(baseRectangle, itemIcon, itemNameText, itemDescriptionText);
+    Render.UiRenderOrder.base(
+      baseRectangle,
+      itemIcon,
+      itemNameText,
+      itemDescriptionText,
+    );
 
     scene.add.existing(baseRectangle);
     scene.add.existing(itemIcon);

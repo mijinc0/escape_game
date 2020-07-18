@@ -7,7 +7,7 @@ export interface IActor {
   id: number;
 
   flags: Model.GameFlags;
-  
+
   sprite?: IActorSprite;
 
   update(...data: any[]): void;

@@ -13,15 +13,15 @@ import { IGameGlobal } from '../../../../ts/core/IGameGlobal';
 export class TestFieldScene implements Scene.IFieldScene {
   get phaserScene(): Phaser.Scene {
     throw Error(this._getErrorMessage('phaserScene'));
-  }    
+  }
 
   set phaserScene(v: Phaser.Scene) {
     throw Error(this._getErrorMessage('phaserScene'));
   }
-  
+
   get frame(): number {
     throw Error(this._getErrorMessage('frame'));
-  }    
+  }
 
   set frame(v: number) {
     throw Error(this._getErrorMessage('frame'));
@@ -29,7 +29,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get gameGlobal(): IGameGlobal {
     throw Error(this._getErrorMessage('gameGlobal'));
-  }    
+  }
 
   set gameGlobal(v: IGameGlobal) {
     throw Error(this._getErrorMessage('gameGlobal'));
@@ -37,7 +37,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get primaryActor(): Actor.IActor {
     throw Error(this._getErrorMessage('primaryActor'));
-  }    
+  }
 
   set primaryActor(v: Actor.IActor) {
     throw Error(this._getErrorMessage('primaryActor'));
@@ -45,7 +45,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get actorsManager(): Field.FieldActorsManager {
     throw Error(this._getErrorMessage('actorsManager'));
-  }    
+  }
 
   set actorsManager(v: Field.FieldActorsManager) {
     throw Error(this._getErrorMessage('actorsManager'));
@@ -53,7 +53,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get scenarioEventManager(): Event.IScenarioEventManager {
     throw Error(this._getErrorMessage('scenarioEventManager'));
-  }    
+  }
 
   set scenarioEventManager(v: Event.IScenarioEventManager) {
     throw Error(this._getErrorMessage('scenarioEventManager'));
@@ -61,7 +61,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get audioManager(): Audio.IAudioManager {
     throw Error(this._getErrorMessage('scenarioEventManager'));
-  }    
+  }
 
   set audioManager(v: Audio.IAudioManager) {
     throw Error(this._getErrorMessage('audioManager'));
@@ -69,7 +69,7 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   get keys(): Input.Keys {
     throw Error(this._getErrorMessage('keys'));
-  }    
+  }
 
   set keys(v: Input.Keys) {
     throw Error(this._getErrorMessage('keys'));

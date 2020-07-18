@@ -19,9 +19,9 @@ export class Boot extends Phaser.Game {
       physics: {
         default: 'arcade',
         arcade: {
-          gravity: {y: 0, x: 0},
-          debug: true
-        }
+          gravity: { y: 0, x: 0 },
+          debug: true,
+        },
       },
     };
 
@@ -32,21 +32,21 @@ export class Boot extends Phaser.Game {
     this.scene.add('field', TestScene, false);
     this.scene.add('test_ui', UiTest, false);
   }
-  
+
   on(): void {
     const assetLoadingConfig: Asset.IAssetLoadingConfig = {
       nextScene: 'opening',
 
       tileMap: GameAssets.tileMap,
-  
+
       tileImage: GameAssets.tileImage,
-    
+
       tileInfo: GameAssets.tileInfo,
-    
+
       itemIcon: GameAssets.itemIcon,
 
       audio: GameAssets.audio,
-      
+
       spritesheet: GameAssets.spritesheet,
     };
 

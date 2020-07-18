@@ -16,7 +16,7 @@ export class MapData {
 
   actorPositions: ActorPosition[];
 
-  constructor (
+  constructor(
     layers: ILayerData[],
     tileSize: Model.Size,
     tileInfos: TileInfo[],

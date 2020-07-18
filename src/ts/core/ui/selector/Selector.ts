@@ -9,8 +9,8 @@ import { IElement } from '../IElement';
 import { IGroup } from '../group/IGroup';
 
 type GroupHistoryEntry = {
-  group: IGroup,
-  destroyIfCanceled: IElement[],
+  group: IGroup;
+  destroyIfCanceled: IElement[];
 };
 
 type RootGroupCancelEvent = () => void;
@@ -19,14 +19,14 @@ export class Selector extends EventEmitter implements ISelector {
   cursor: ISelectorCursor;
 
   disable: boolean;
-  
+
   keys?: Input.Keys;
-  
+
   private groupHistory: GroupHistoryEntry[];
-  
+
   // 入力イベント後、次に入力を受け付けるまでのクールタイム(フレーム数:厳密にはupdateが呼ばれた回数)
   private cooldownTime: number;
-  
+
   private cooldownCount: number;
 
   constructor(cursor: ISelectorCursor, keys?: Input.Keys) {
@@ -53,22 +53,17 @@ export class Selector extends EventEmitter implements ISelector {
     // 各キーを押した時の操作
     if (this.keys.cursors.down.isDown) {
       this.goNext(Direction.Down);
-
     } else if (this.keys.cursors.right.isDown) {
       this.goNext(Direction.Right);
-    
     } else if (this.keys.cursors.left.isDown) {
       this.goNext(Direction.Left);
-    
     } else if (this.keys.cursors.up.isDown) {
       this.goNext(Direction.Up);
-
     } else if (this.keys.action.isDown) {
       this._select();
-
-    }　else if (this.keys.cancel.isDown) {
+    } else if (this.keys.cancel.isDown) {
       this._cancel();
-    }　
+    }
   }
 
   setGroup(managedGroup: IGroup, destroyIfCanceled?: IElement[]): void {
@@ -95,7 +90,7 @@ export class Selector extends EventEmitter implements ISelector {
 
     const current = currentGrup.getCurrent();
     const next = currentGrup.getNext(direction);
-      
+
     // 次のノードが無いまたはnextとcurrentが同じであれば即return 何もしない
     if (!next || current === next) return;
 
@@ -111,11 +106,11 @@ export class Selector extends EventEmitter implements ISelector {
     this.on(SelectorEventNames.RootGroupCanceled, event);
   }
 
-  private _getCurrentGroup(): IGroup|null {
+  private _getCurrentGroup(): IGroup | null {
     return this.groupHistory[0] ? this.groupHistory[0].group : null;
   }
 
-  private _getCurrentElement(): IElement|null {
+  private _getCurrentElement(): IElement | null {
     const currentGroup = this._getCurrentGroup();
 
     return currentGroup ? currentGroup.getCurrent() : null;
@@ -132,7 +127,7 @@ export class Selector extends EventEmitter implements ISelector {
     this.emit(SelectorEventNames.Select);
 
     currentElement.emit(ElementEventNames.Select, currentElement, this);
-  
+
     this._setCooldownTime();
   }
 
@@ -151,7 +146,7 @@ export class Selector extends EventEmitter implements ISelector {
 
     // 最初に length < 2 をしているのでここでは必ずelementが取得できる
     const returningElement = this._getCurrentElement();
-    
+
     // unhandledGroupを削除する前にカーソルの移動を行う
     this._moveCursor(returningElement, currentElement);
 
@@ -165,7 +160,7 @@ export class Selector extends EventEmitter implements ISelector {
   }
 
   private _moveCursor(next: IElement, current?: IElement): void {
-    if (current) {  
+    if (current) {
       current.emit(ElementEventNames.Out, current, this);
     }
 

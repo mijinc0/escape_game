@@ -3,16 +3,16 @@ import * as Actor from '../actors';
 
 export interface IFieldActorStatusPage {
   eventId: number;
-  
+
   eventEmitType: string;
 
   spriteType: Actor.ActorSpriteTypes;
-  
+
   /**
    * 指定が無い場合は透明のActor(bodyのみ)を作る
    */
   spriteKey?: string;
-  
+
   /**
    * default = 0
    */
@@ -27,9 +27,9 @@ export interface IFieldActorStatusPage {
    * default = false
    */
   overlapOnly?: boolean;
-  
+
   bodyConfig?: Actor.IBodyConfig;
-  
+
   /**
    * スポーン条件
    */

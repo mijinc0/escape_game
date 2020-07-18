@@ -8,21 +8,17 @@ export class Variable implements IScenarioEvent {
 
   private key: string;
   private value: number;
-  
+
   // 0 : set
   // + : add
   // - : substract
   private type: number;
-  
-  constructor(
-    key: string,
-    value: number,
-    type: number,
-  ) {
+
+  constructor(key: string, value: number, type: number) {
     this.key = key;
     this.value = value;
     this.type = type;
-    this.isComplete = false; 
+    this.isComplete = false;
   }
 
   init(scenes: IFieldScene): void {
@@ -32,11 +28,10 @@ export class Variable implements IScenarioEvent {
   update(scenes: IFieldScene): void {
     if (this.type === 0) {
       scenes.gameGlobal.variables.set(this.key, this.value);
-
     } else {
       const sign = Math.sign(this.type);
       const currentValue = scenes.gameGlobal.variables.get(this.key);
-      const newValue = currentValue + (this.value * sign);
+      const newValue = currentValue + this.value * sign;
       scenes.gameGlobal.variables.set(this.key, newValue);
     }
 

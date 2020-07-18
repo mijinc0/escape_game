@@ -5,10 +5,10 @@ import { IAudioManager } from './IAudioManager';
 
 export class AudioManager implements IAudioManager {
   scene: Phaser.Scene;
-  
+
   private pBgmMaster: number;
   private pSeMaster: number;
-  
+
   constructor(scene: Phaser.Scene, bgmMaster: number, seMaster: number) {
     this.scene = scene;
     this.bgmMaster = bgmMaster;
@@ -31,10 +31,10 @@ export class AudioManager implements IAudioManager {
     this.pSeMaster = Util.MathUtil.clamp(v, 1, 0);
   }
 
-  playSe(key: string, config: IAudioConfig): Phaser.Sound.BaseSound|null {
+  playSe(key: string, config: IAudioConfig): Phaser.Sound.BaseSound | null {
     if (!this.scene.cache.audio.exists(key)) {
       console.warn(`audio ${key} is not found`);
-      return null;  
+      return null;
     }
 
     if (config.volume) {
@@ -47,16 +47,16 @@ export class AudioManager implements IAudioManager {
     if (config.onComplete) {
       soundObject.on('complete', config.onComplete);
     }
-    
+
     soundObject.play();
-    
+
     return soundObject;
   }
 
-  playBgm(key: string, config: IAudioConfig): Phaser.Sound.BaseSound|null {
+  playBgm(key: string, config: IAudioConfig): Phaser.Sound.BaseSound | null {
     if (!this.scene.cache.audio.exists(key)) {
       console.warn(`audio ${key} is not found`);
-      return null;  
+      return null;
     }
 
     if (config.volume) {
@@ -69,7 +69,7 @@ export class AudioManager implements IAudioManager {
     if (config.onComplete) {
       soundObject.on('complete', config.onComplete);
     }
-    
+
     soundObject.play();
 
     return soundObject;

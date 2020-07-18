@@ -22,7 +22,13 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
   ): OneWayAnimActorSprite {
     this._checkExistingSpritesheet(spritesheetKey);
 
-    const sprite = new OneWayAnimActorSprite(this.scene, x, y, spritesheetKey, initFrame);
+    const sprite = new OneWayAnimActorSprite(
+      this.scene,
+      x,
+      y,
+      spritesheetKey,
+      initFrame,
+    );
     sprite.setOrigin(0);
 
     this._addPhaserScene(sprite);
@@ -40,7 +46,13 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
   ): FourWayAnimsActorSprite {
     this._checkExistingSpritesheet(spritesheetKey);
 
-    const sprite = new FourWayAnimsActorSprite(this.scene, x, y, spritesheetKey, initFrame);
+    const sprite = new FourWayAnimsActorSprite(
+      this.scene,
+      x,
+      y,
+      spritesheetKey,
+      initFrame,
+    );
     sprite.setOrigin(0);
 
     this._addPhaserScene(sprite);
@@ -70,9 +82,12 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
     if (bodyConfig.size) {
       // bodyConfig.sizeがnumberであればスプライトの大きさに対して何割かで決める
       // bodyConfig.sizeがSizeであれば指定の大きさをbodyの大きさとする
-      (Util.ValueTypeUtil.isNumber(bodyConfig.size)) ?
-        sprite.body.setSize((sprite.width * bodyConfig.size), (sprite.height * bodyConfig.size)) :
-        sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.width);
+      Util.ValueTypeUtil.isNumber(bodyConfig.size)
+        ? sprite.body.setSize(
+            sprite.width * bodyConfig.size,
+            sprite.height * bodyConfig.size,
+          )
+        : sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.width);
     }
 
     if (bodyConfig.origin) {

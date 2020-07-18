@@ -20,17 +20,19 @@ export class Break implements IScenarioEvent {
     // Breakは進行中のイベントリストのうち、最初のCircularRangeが見つかったところまでレンジを削除する
     // 見つからない場合は削除しない
     const events = scene.scenarioEventManager.events;
-    const circularRangeIndex = events.findIndex((range: EventRange) => (range instanceof CircularRange));
+    const circularRangeIndex = events.findIndex(
+      (range: EventRange) => range instanceof CircularRange,
+    );
     // 参照元の配列を破壊する
     if (circularRangeIndex !== -1) {
       events.splice(0, circularRangeIndex + 1);
     }
 
     this.complete();
-    
+
     return;
   }
-  
+
   complete(): void {
     this.isComplete = true;
   }

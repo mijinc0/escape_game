@@ -6,10 +6,16 @@ export class Item {
   readonly description: string;
 
   readonly iconImageKey: string;
-  
+
   size: number;
 
-  constructor(id: number, name: string, description: string, iconImageKey: string, size?: number) {
+  constructor(
+    id: number,
+    name: string,
+    description: string,
+    iconImageKey: string,
+    size?: number,
+  ) {
     this.id = id;
     this.name = name;
     this.description = description;

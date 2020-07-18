@@ -16,7 +16,7 @@ export class OneWayAnimActorSprite extends ActorSprite {
     x: number,
     y: number,
     spritesheetKey: string,
-    frame?: string|number,
+    frame?: string | number,
     direction?: Model.Direction,
   ) {
     super(scene, x, y, spritesheetKey, frame, direction);
@@ -40,28 +40,37 @@ export class OneWayAnimActorSprite extends ActorSprite {
     const animName = 'default';
     const animKey = this._createActorAnimKey(spritesheetKey, animName);
 
-    const anim = this.scene.anims.get(animKey) ?
-      this.scene.anims.get(animKey) :
-      this._createDefaultAnim(spritesheetKey, animKey);
+    const anim = this.scene.anims.get(animKey)
+      ? this.scene.anims.get(animKey)
+      : this._createDefaultAnim(spritesheetKey, animKey);
 
     this.setAnim(animName, anim);
   }
 
-  private _createActorAnimKey(spriteSheetKey: string, animName: string): string {
+  private _createActorAnimKey(
+    spriteSheetKey: string,
+    animName: string,
+  ): string {
     return Asset.AssetCacheKey.anim(spriteSheetKey, animName);
   }
 
-  private _createDefaultAnim(spritesheetKey: string, animKey: string): SpriteAnimation {
+  private _createDefaultAnim(
+    spritesheetKey: string,
+    animKey: string,
+  ): SpriteAnimation {
     const totalFrames = this.texture.frameTotal - 1;
 
     const startFrame = 0;
     const endFrame = totalFrames - 1;
     const frameRate = 10;
     const repeat = 0;
-    
+
     const anim = this.scene.anims.create({
       key: animKey,
-      frames: this.scene.anims.generateFrameNumbers(spritesheetKey, {start: startFrame, end: endFrame}),
+      frames: this.scene.anims.generateFrameNumbers(spritesheetKey, {
+        start: startFrame,
+        end: endFrame,
+      }),
       frameRate: frameRate,
       repeat: repeat,
     });

@@ -17,9 +17,9 @@ export interface IGroup {
 
   align(): void;
 
-  get(index: number): IElement|null;
+  get(index: number): IElement | null;
 
-  getNext(direction: Direction): IElement|null;
+  getNext(direction: Direction): IElement | null;
 
-  getCurrent(): IElement|null;
+  getCurrent(): IElement | null;
 }

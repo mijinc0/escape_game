@@ -15,7 +15,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
 
   constructor() {
     this.fieldMenu = null;
-    this.selector = null
+    this.selector = null;
     this.isComplete = false;
     this.initCooldown = 0;
   }
@@ -26,23 +26,32 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     this.isComplete = false;
 
     const seConfig = {};
-    scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
-    
+    scene.audioManager.playSe(
+      Assets.AssetCacheKey.audio('se_open_fieldmenu'),
+      seConfig,
+    );
+
     this.selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
     // NOTE: IFieldScene一つに変更可能だが暫定的に維持
-    this.fieldMenu = new FieldMenu({scene: scene.phaserScene, gameGlobal: scene.gameGlobal});
-    
+    this.fieldMenu = new FieldMenu({
+      scene: scene.phaserScene,
+      gameGlobal: scene.gameGlobal,
+    });
+
     // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
-    this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this.closeMenu.bind(this));
+    this.fieldMenu.mainMenu.backButton.on(
+      Ui.ElementEventNames.Select,
+      this.closeMenu.bind(this),
+    );
     this.selector.setRootCancelEvent(this.closeMenu.bind(this));
-    
+
     this.fieldMenu.registSelector(this.selector);
 
     // set SE
     Ui.SelectorSeRegistrar.regist(this.selector, scene.audioManager);
 
     this.initCooldown = 15;
-  };
+  }
 
   update(scene: Scene.IFieldScene): void {
     // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐあとにクールダウンを設ける
@@ -54,7 +63,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     if (this.isComplete || !this.fieldMenu) return;
 
     this.selector.update(scene.frame);
-  };
+  }
 
   complete(): void {
     this.fieldMenu.destroy();
@@ -62,7 +71,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     this.selector.destroy();
     this.selector = null;
     this.isComplete = true;
-  };
+  }
 
   private closeMenu(): void {
     console.log('close field menu');

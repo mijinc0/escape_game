@@ -21,12 +21,11 @@ class TestEvent implements IScenarioEvent {
   update(): void {
     this.complete();
   }
-  
+
   complete(): void {
     this.isComplete = this.canBeComplete;
   }
 }
-
 
 describe('scenarioEventManager.start()', () => {
   context('normal', () => {
@@ -162,4 +161,3 @@ describe('scenarioEventManager.update()', () => {
     });
   });
 });
-

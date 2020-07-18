@@ -9,7 +9,7 @@ type MessageBufferFactoryCallback = (message: string) => string[];
 export class Message implements IScenarioEvent {
   isComplete: boolean;
   isAsync: boolean;
-  
+
   private message: string;
   private hasBackground: boolean;
   private align: string;
@@ -17,7 +17,7 @@ export class Message implements IScenarioEvent {
   private messageBuffers: string[];
   private messageChunkSize: number;
   private messageBox: MessageBox;
-  
+
   // 全てのメッセージが表示された後にすぐキーの入力を受け付けると、
   // 短い文章を表示した時にキー入力判定が起きて文章を飛ばしてしまうことがあるため、
   // 最低限表示する長さを決めるタイマー
@@ -38,12 +38,12 @@ export class Message implements IScenarioEvent {
 
     this.messageChunkSize = 4;
     this.isAsync = async;
-    this.isComplete = false; 
+    this.isComplete = false;
     this.align = align;
     this.hasBackground = hasBackground;
     this.justify = justify;
 
-    this.messageBox = null
+    this.messageBox = null;
     this.waitTimer = 0;
 
     this.messageBufferFactoryCallback = messageBufferFactoryCallback;
@@ -52,7 +52,12 @@ export class Message implements IScenarioEvent {
   init(scene: IFieldScene): void {
     this.isComplete = false;
     this.messageBuffers = this._createMessageBuffer(this.message);
-    this.messageBox = this._createMessageBox(scene.phaserScene, this.justify, this.align, this.hasBackground);
+    this.messageBox = this._createMessageBox(
+      scene.phaserScene,
+      this.justify,
+      this.align,
+      this.hasBackground,
+    );
 
     this._hideWaitingCursor();
   }
@@ -63,11 +68,9 @@ export class Message implements IScenarioEvent {
     if (this._hasReadiedMessage()) {
       // 一番前のバッファからメッセージを出力する
       this._messageOutputFromBuffer();
-    
-    } else if(this.waitTimer < 20) {
+    } else if (this.waitTimer < 20) {
       // 一番前のバッファから全てのメッセージが出力された直後の一時停止 (20フレーム停止)
       this.waitTimer++;
-
     } else {
       // 次のメッセージに進むためのキー入力待ち
       this._flashingKeyWaitCursor(scene.frame);
@@ -82,7 +85,7 @@ export class Message implements IScenarioEvent {
   complete(): void {
     // オブジェクトを削除する
     this.messageBox.destroy();
-    this.messageBox = null
+    this.messageBox = null;
     this.isComplete = true;
   }
 
@@ -128,21 +131,25 @@ export class Message implements IScenarioEvent {
     return displayArea.x + x;
   }
 
-  private _getPositionY(scene: Phaser.Scene, justify: string, boxHeight: number): number {
+  private _getPositionY(
+    scene: Phaser.Scene,
+    justify: string,
+    boxHeight: number,
+  ): number {
     const displayArea = scene.cameras.main.worldView;
 
     // 10pxだけマージンをとる
-    switch(justify) {
-      case 'top' :
+    switch (justify) {
+      case 'top':
         return displayArea.y + 10;
 
-      case 'center' :
+      case 'center':
         return displayArea.y + (scene.cameras.main.height - boxHeight) / 2 + 10;
 
-      case 'bottom' :
+      case 'bottom':
         return displayArea.y + scene.cameras.main.height - boxHeight - 10;
 
-      default :
+      default:
         return 0;
     }
   }
@@ -157,7 +164,9 @@ export class Message implements IScenarioEvent {
     // 切り出してtextObjectに追加、追加分をbufferから削除
     const nextChunk = this.messageBuffers[0].slice(0, this.messageChunkSize);
     this.messageBox.text += nextChunk;
-    this.messageBuffers[0] = this.messageBuffers[0].slice(this.messageChunkSize);
+    this.messageBuffers[0] = this.messageBuffers[0].slice(
+      this.messageChunkSize,
+    );
   }
 
   private _waitKeyInput(keys?: Keys): void {
@@ -172,7 +181,7 @@ export class Message implements IScenarioEvent {
 
   private _flashingKeyWaitCursor(frame: number): void {
     // 入力待ちのカーソルを16フレーム毎に点滅させる
-    if ((frame % 16) === 0) this._toggleWaitingCursorVisible();
+    if (frame % 16 === 0) this._toggleWaitingCursorVisible();
   }
 
   private _toggleWaitingCursorVisible(): void {

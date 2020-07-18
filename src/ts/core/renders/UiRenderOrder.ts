@@ -2,8 +2,8 @@ import * as Phaser from 'phaser';
 
 /**
  * ActorとStaticLayerの上に置きたいので以下の値を割り振る
- * 
- * 1048576 (0x100000) 
+ *
+ * 1048576 (0x100000)
  */
 export class UiRenderOrder {
   static base(...gameObject: Phaser.GameObjects.Components.Depth[]): void {

@@ -7,10 +7,10 @@ export interface IField {
   tilemapKey: string;
 
   tileInfoKey: string;
-  
+
   tileImageKey: string;
 
   actors: IFieldActorEntry[];
 
   events: EventEntry[];
-};
+}

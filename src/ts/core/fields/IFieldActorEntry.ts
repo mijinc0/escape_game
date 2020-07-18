@@ -5,8 +5,8 @@ export interface IFieldActorEntry {
   id: number;
 
   name: string;
-  
+
   statusPages: IFieldActorStatusPage[];
-  
+
   position?: Model.Position;
 }

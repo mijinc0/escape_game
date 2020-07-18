@@ -6,7 +6,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
   {
     id: 0,
     name: 'door',
-    position: {x: 352, y: 192},
+    position: { x: 352, y: 192 },
     statusPages: [
       {
         eventId: 0,
@@ -25,7 +25,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
   {
     id: 1,
     name: 'item',
-    position: {x: 288, y: 192},
+    position: { x: 288, y: 192 },
     statusPages: [
       {
         eventId: 1,
@@ -33,7 +33,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
         spriteType: Actor.ActorSpriteTypes.Invisible,
         overlapOnly: true,
         bodyConfig: {
-          size: {width: 32, height: 32},
+          size: { width: 32, height: 32 },
         },
       },
     ],

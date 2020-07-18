@@ -1,13 +1,13 @@
 import * as Phaser from 'phaser';
-import * as Actor  from '../core/actors';
-import * as Asset  from '../core/assets';
-import * as Audio  from '../core/audios';
-import * as Field  from '../core/fields';
-import * as Scene  from '../core/scenes';
-import * as Map  from '../core/maps';
-import * as Event  from '../core/events';
-import * as Render  from '../core/renders';
-import * as Input  from '../core/input';
+import * as Actor from '../core/actors';
+import * as Asset from '../core/assets';
+import * as Audio from '../core/audios';
+import * as Field from '../core/fields';
+import * as Scene from '../core/scenes';
+import * as Map from '../core/maps';
+import * as Event from '../core/events';
+import * as Render from '../core/renders';
+import * as Input from '../core/input';
 import { IGameGlobal } from '../core/IGameGlobal';
 import { GameGlobal } from '../GameGlobal';
 import { Hero } from '../actors/Hero';
@@ -26,21 +26,23 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   scenarioEventManager: Event.ScenarioEventManager;
   audioManager: Audio.IAudioManager;
   keys: Input.Keys;
-  
+
   private tilemapData: Map.ISceneTilemapData;
-  private fieldData: Field.IField; 
+  private fieldData: Field.IField;
   private actorColliderRegistrar: Field.ActorColliderRegistrar;
 
   init(config: Scene.IFieldSceneConfig): void {
     console.log('== start scene TestScene ==');
-    
+
     // configは型としてはoptionalではないが、`scene.start`の引数として
     // configが渡された時にのコンパイル時の検査を抜けるので、一応確認しておく
     if (!config) {
       throw Error('field config is not found.');
     }
 
-    console.log(`scene data: { fieldId: ${config.fieldId}, initX: ${config.heroX}, initX: ${config.heroY}, initDirection: ${config.heroDirection}}`);
+    console.log(
+      `scene data: { fieldId: ${config.fieldId}, initX: ${config.heroX}, initX: ${config.heroY}, initDirection: ${config.heroDirection}}`,
+    );
 
     this.phaserScene = this;
     this.sceneConfig = config;
@@ -53,12 +55,12 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.actorsManager = this._createActorsManager();
     this.audioManager = new Audio.AudioManager(this, 1, 1);
   }
-  
+
   create(): void {
     this._createTilemap();
 
     this.primaryActor = this._createPrimaryActor();
-    
+
     this._spawnActors();
 
     this._cameraSetting();
@@ -73,7 +75,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       this.scenarioEventManager.update();
       return;
     }
-    
+
     this.primaryActor.update(this);
 
     this.actorsManager.update(this);
@@ -135,12 +137,17 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
 
   private _createActorsManager(): Field.FieldActorsManager {
     if (!this.scenarioEventManager || !this.fieldData) {
-      throw Error('can not create FieldActorsManager before create ScenarioEventmanager & FieldData');
+      throw Error(
+        'can not create FieldActorsManager before create ScenarioEventmanager & FieldData',
+      );
     }
 
     const actorSpriteFactory = new Actor.ActorSpriteFactory(this);
-    const actorEventRegistrar = new Field.ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
-    
+    const actorEventRegistrar = new Field.ActorEventRegistrar(
+      this.scenarioEventManager,
+      this.fieldData.events,
+    );
+
     return new Field.FieldActorsManager(
       actorSpriteFactory,
       actorEventRegistrar,
@@ -161,9 +168,10 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.actorsManager.actorData.forEach((data: Field.FieldActorData) => {
       const targetActorId = data.actorObject.id;
 
-      const targetActorPosition = mapdataActorPositions.find((actorPosition: Map.ActorPosition) => (
-        actorPosition.actorId === targetActorId 
-      ));
+      const targetActorPosition = mapdataActorPositions.find(
+        (actorPosition: Map.ActorPosition) =>
+          actorPosition.actorId === targetActorId,
+      );
 
       if (targetActorPosition) {
         data.position.x = Math.floor(targetActorPosition.positon.x);
@@ -213,16 +221,20 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     actor.sprite = sprite;
 
     // search event
-    const actors = this.actorsManager.actorData.map((data: Field.FieldActorData) => (data.actorObject));
+    const actors = this.actorsManager.actorData.map(
+      (data: Field.FieldActorData) => data.actorObject,
+    );
     const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 
     // field menu event
-    actor.on('fieldMenu', (() => {
+    actor.on('fieldMenu', () => {
       const fieldMenuEvent = new FieldMenuEvent();
-      const fieldMenuEventRange = new Event.EventRangeFactory(fieldMenuEvent).create();
+      const fieldMenuEventRange = new Event.EventRangeFactory(
+        fieldMenuEvent,
+      ).create();
       this.scenarioEventManager.start(fieldMenuEventRange);
-    }).bind(this));
+    });
 
     // collision
     this._tilemapCollisionSetting(actor);
@@ -232,7 +244,10 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     return actor;
   }
 
-  private _addSpawnActorsCollider(spawnActor: Actor.IFieldActor, onlyOverlap: boolean): void {
+  private _addSpawnActorsCollider(
+    spawnActor: Actor.IFieldActor,
+    onlyOverlap: boolean,
+  ): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
@@ -242,7 +257,9 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.actorColliderRegistrar.registActorPair(
       spawnActor,
       this.primaryActor,
-      () => {spawnActor.emit(Field.EventEmitType.Collide);},
+      () => {
+        spawnActor.emit(Field.EventEmitType.Collide);
+      },
       onlyOverlap,
     );
 
@@ -264,11 +281,16 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   private _tilemapCollisionSetting(spawnActor: Actor.IFieldActor): void {
     // overActorのレイヤーは衝突しない
     const overActorLayerIndex = 2;
-    this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
-      if (index < overActorLayerIndex) {
-        this.actorColliderRegistrar.registActorAndGameObject(spawnActor, layer);
-      }
-    });
+    this.tilemapData.staticLayers.forEach(
+      (layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
+        if (index < overActorLayerIndex) {
+          this.actorColliderRegistrar.registActorAndGameObject(
+            spawnActor,
+            layer,
+          );
+        }
+      },
+    );
   }
 
   private _cameraSetting(): void {
@@ -279,7 +301,9 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   }
 
   private _sceneFadeIn(): void {
-    const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
+    const event = new Event.EventRangeFactory(
+      ScenarioEventCommandsFactory.cameraFadeIn(300),
+    ).create();
 
     this.scenarioEventManager.start(event);
   }

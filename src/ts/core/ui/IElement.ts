@@ -8,13 +8,13 @@ export interface IElement extends IEventEmitter {
   y: number;
 
   deltaX: number;
-  
+
   deltaY: number;
-  
+
   width: number;
-  
+
   height: number;
-  
+
   anchor?: IElement;
 
   destroy(fromScene?: boolean): void;

@@ -22,31 +22,30 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
 
   get x(): number {
     return this.primary.x;
-  };
+  }
 
   set x(x: number) {
     this.primary.x = x;
     this.sprites.forEach((sprite: IActorSprite) => {
       this._alignCenter(sprite);
     });
-  };
+  }
 
   get y(): number {
     return this.primary.y;
-  };
+  }
 
   set y(y: number) {
     this.primary.y = y;
     this.sprites.forEach((sprite: IActorSprite) => {
       this._alignCenter(sprite);
     });
-  };
-  
+  }
 
   get depth(): number {
     return this.primary.depth;
   }
-  
+
   get width(): number {
     return this.primary.width;
   }
@@ -95,7 +94,7 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
       this.primary.setAnim(animKey, animObject);
     }
   }
-  
+
   playAnim(animKey: string): this {
     this.primary.playAnim(animKey);
 
@@ -104,7 +103,7 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     });
 
     return this;
-  };
+  }
 
   stopAnim(): this {
     this.primary.stopAnim();
@@ -112,9 +111,9 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     this.sprites.forEach((sprite: IActorSprite) => {
       sprite.stopAnim();
     });
-    
+
     return this;
-  };
+  }
 
   pause(): void {
     this.primary.pause();
@@ -122,7 +121,7 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     this.sprites.forEach((sprite: IActorSprite) => {
       sprite.pause();
     });
-  };
+  }
 
   resume(): void {
     this.primary.resume();
@@ -137,7 +136,7 @@ export class LayeredSprite implements ILayeredSprite, IActorSprite {
     this.sprites.forEach((sprite: IActorSprite) => {
       sprite.destroy(fromScene);
     });
-  };
+  }
 
   setVelocityX(velocityX: number): void {
     this.primary.setVelocityX(velocityX);

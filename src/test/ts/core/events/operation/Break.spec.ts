@@ -50,7 +50,7 @@ describe('break.update()', () => {
       new LineRange(),
     );
     const scene = new FieldScene(sem);
-    
+
     const opBreak = new Break();
     opBreak.update(scene);
 
@@ -71,7 +71,7 @@ describe('break.update()', () => {
       new LineRange(),
     );
     const scene = new FieldScene(sem);
-    
+
     const opBreak = new Break();
     opBreak.update(scene);
 
@@ -92,7 +92,7 @@ describe('break.update()', () => {
       new LineRange(),
     );
     const scene = new FieldScene(sem);
-    
+
     const opBreak = new Break();
     opBreak.update(scene);
 

@@ -84,7 +84,7 @@ describe('actorPositionsFactory.createFromJson()', () => {
     it('can create', async () => {
       const json = JSON.parse(tiledJsonMapData);
       const actorEntries = ActorPositionsFactory.createFromJson(json);
-      
+
       const firstEntry = actorEntries[0];
 
       expect(firstEntry.id).is.equal(2);

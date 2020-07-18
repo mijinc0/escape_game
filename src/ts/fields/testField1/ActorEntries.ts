@@ -16,7 +16,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
         direction: Model.Direction.Left,
         initFrame: 0,
         bodyConfig: {
-          size: 0.8
+          size: 0.8,
         },
       },
     ],
@@ -39,7 +39,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
   {
     id: 2,
     name: 'invisible_npc',
-    position: {x: 100, y: 200},
+    position: { x: 100, y: 200 },
     statusPages: [
       {
         eventId: 1,
@@ -47,7 +47,7 @@ export const ActorEntries: Field.IFieldActorEntry[] = [
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
-          size: {width: 20, height: 30},
+          size: { width: 20, height: 30 },
         },
       },
     ],

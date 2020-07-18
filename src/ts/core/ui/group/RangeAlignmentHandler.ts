@@ -5,7 +5,12 @@ import { RangeAlignmentNextIndexCallbacks } from './RangeAlignmentNextIndexCallb
 import { Direction } from '../Direction';
 import { IAlignmentHandler } from './IAlignmentHandler';
 
-type NextPositionCallback = (current: IElement, before: IElement, margin: number, anchor: IElement) => Model.Position;
+type NextPositionCallback = (
+  current: IElement,
+  before: IElement,
+  margin: number,
+  anchor: IElement,
+) => Model.Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
 export class RangeAlignmentHandler implements IAlignmentHandler {
@@ -14,26 +19,26 @@ export class RangeAlignmentHandler implements IAlignmentHandler {
   private nextPositionCallback: NextPositionCallback;
   private nextIndexCallback: NextIndexCallback;
 
-  constructor (margin: number, type: Direction) {
+  constructor(margin: number, type: Direction) {
     this.margin = margin;
 
-    switch(type) {
-      case Direction.Down :
+    switch (type) {
+      case Direction.Down:
         this.nextPositionCallback = RangeAlignmentNextPostionCallbacks.down;
         this.nextIndexCallback = RangeAlignmentNextIndexCallbacks.down;
         break;
 
-      case Direction.Right :
+      case Direction.Right:
         this.nextPositionCallback = RangeAlignmentNextPostionCallbacks.right;
         this.nextIndexCallback = RangeAlignmentNextIndexCallbacks.right;
         break;
 
-      case Direction.Left :
+      case Direction.Left:
         this.nextPositionCallback = RangeAlignmentNextPostionCallbacks.left;
         this.nextIndexCallback = RangeAlignmentNextIndexCallbacks.left;
         break;
-      
-      case Direction.Up :
+
+      case Direction.Up:
         this.nextPositionCallback = RangeAlignmentNextPostionCallbacks.up;
         this.nextIndexCallback = RangeAlignmentNextIndexCallbacks.up;
         break;
@@ -42,11 +47,17 @@ export class RangeAlignmentHandler implements IAlignmentHandler {
 
   align(transformObjects: IElement[], anchor: IElement): void {
     transformObjects.forEach((transformObject: IElement, index: number) => {
-      let beforeObject = (index === 0) ? anchor : transformObjects[index - 1];
+      const beforeObject = index === 0 ? anchor : transformObjects[index - 1];
 
-      const nextDeltaPosition = (index === 0) ?
-        {x: 0, y: 0} :
-        this.nextPositionCallback(transformObject, beforeObject, this.margin, anchor);
+      const nextDeltaPosition =
+        index === 0
+          ? { x: 0, y: 0 }
+          : this.nextPositionCallback(
+              transformObject,
+              beforeObject,
+              this.margin,
+              anchor,
+            );
 
       transformObject.anchor = anchor;
       transformObject.deltaX = nextDeltaPosition.x;

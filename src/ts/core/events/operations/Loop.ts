@@ -4,14 +4,16 @@ import { CircularRange } from '../CircularRange';
 
 export class Loop implements IScenarioEvent {
   readonly isAsync = false;
-  
+
   isComplete: boolean;
 
   private eventRange: CircularRange<IScenarioEvent>;
 
   constructor(events: IScenarioEvent[]) {
     // Loopに非同期イベントがあると不穏なのでとりあえず禁止しておく
-    const hasAsync = events.map((event: IScenarioEvent) => (event.isAsync)).includes(true);
+    const hasAsync = events
+      .map((event: IScenarioEvent) => event.isAsync)
+      .includes(true);
     if (hasAsync) throw Error('Loop event can not have async event.');
 
     this.eventRange = new CircularRange(events);

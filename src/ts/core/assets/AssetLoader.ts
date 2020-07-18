@@ -19,7 +19,12 @@ export class AssetLoader {
 
     if (config.spritesheet) {
       config.spritesheet.forEach((entry: ISpritesheetAssetEntry) => {
-        this._loadSpritesheet(entry.key, entry.path, entry.frameWidth, entry.frameHeight);
+        this._loadSpritesheet(
+          entry.key,
+          entry.path,
+          entry.frameWidth,
+          entry.frameHeight,
+        );
       });
     }
 
@@ -58,34 +63,34 @@ export class AssetLoader {
 
   onComplete(event: () => void): void {
     this.scene.load.on('complete', event);
-
   }
 
   private _loadItemIcon(key: string, path: string): void {
     this.scene.load.image(key, path);
   }
 
-  private _loadSpritesheet(key: string, path: string, frameWidth: number, frameHeight: number): void {
-    this.scene.load.spritesheet(
-      key,
-      path,
-      {
-        frameWidth: frameWidth,
-        frameHeight: frameHeight,
-      },
-    );
+  private _loadSpritesheet(
+    key: string,
+    path: string,
+    frameWidth: number,
+    frameHeight: number,
+  ): void {
+    this.scene.load.spritesheet(key, path, {
+      frameWidth: frameWidth,
+      frameHeight: frameHeight,
+    });
   }
-  
+
   private _loadTileImage(key: string, path: string): void {
     this.scene.load.image(key, path);
   }
-  
+
   private _loadTileInfo(key: string, path: string): void {
     this.scene.load.json(key, path);
   }
 
   private _loadTileTileMap(key: string, path: string): void {
-    this.scene.load.json(key, path);   
+    this.scene.load.json(key, path);
   }
 
   private _loadAudio(key: string, path: string): void {

@@ -3,7 +3,7 @@ import * as Model from '../models';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 
 export class FieldActorData {
-  constructor (
+  constructor(
     public actorObject: Actor.IFieldActor,
     public position: Model.Position,
     public statusPages: IFieldActorStatusPage[],

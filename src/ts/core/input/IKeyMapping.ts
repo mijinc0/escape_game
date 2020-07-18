@@ -1,4 +1,4 @@
 export interface IKeyMapping {
-  action: string,
-  escape: string,
+  action: string;
+  escape: string;
 }

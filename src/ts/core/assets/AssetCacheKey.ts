@@ -11,7 +11,7 @@ export class AssetCacheKey {
   /**
    * `anim_type_animName` の形でキャッシュに登録される。
    * (e.g.) `anim_spriteSheet_hero_walkDown`(type: `spriteSheet_hero`), `anim_battleEffect_fire (type: battleEffect)`
-   * 
+   *
    * @param type spriteのAnimationの場合はCacheKey.spriteSheetの結果にする
    * @param animName 例えばspriteのAnimationなら`walkDown`など
    */

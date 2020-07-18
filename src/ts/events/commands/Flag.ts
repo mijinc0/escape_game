@@ -12,11 +12,11 @@ export class Flag implements IScenarioEvent {
   // + : on
   // - : off
   private value: number;
-  
+
   constructor(key: string, value: number) {
     this.key = key;
     this.value = value;
-    this.isComplete = false; 
+    this.isComplete = false;
   }
 
   init(scene: IFieldScene): void {
@@ -26,9 +26,10 @@ export class Flag implements IScenarioEvent {
   update(scene: IFieldScene): void {
     if (this.value === 0) {
       scene.gameGlobal.flags.toggle(this.key);
-
     } else {
-      (this.value > 0) ? scene.gameGlobal.flags.on(this.key) : scene.gameGlobal.flags.off(this.key);
+      this.value > 0
+        ? scene.gameGlobal.flags.on(this.key)
+        : scene.gameGlobal.flags.off(this.key);
     }
 
     this.complete();

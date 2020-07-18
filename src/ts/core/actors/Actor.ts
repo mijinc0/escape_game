@@ -5,18 +5,14 @@ import { IActorSprite } from './IActorSprite';
 
 export class Actor extends EventEmitter implements IActor {
   readonly id: number;
-  
+
   readonly name: string;
 
   readonly flags: Model.GameFlags;
-  
+
   sprite?: IActorSprite;
 
-  constructor(
-    id: number,
-    name: string,
-    sprite?: IActorSprite,
-  ) {
+  constructor(id: number, name: string, sprite?: IActorSprite) {
     super();
     this.id = id;
     this.name = name;

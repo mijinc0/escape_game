@@ -63,17 +63,17 @@ describe('LayeredMapDataFactory.createFromJson()', () => {
     it('can create', async () => {
       const json = JSON.parse(tiledJsonMapData);
       const layerdMapData = LayeredMapDataFactory.createFromJson(json);
-      
+
       const expectedLayer0 = [
-        [1,2,3,4,5,6,7,8,9,10],
-        [11,12,13,14,15,16,17,18,19,20],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       ].join('|');
 
       const expectedLayer1 = [
-        [1,2,3,4,5,6,7,8,9,10],
-        [11,12,13,14,15,16,17,18,19,20],
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        [11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
       ].join('|');
-      
+
       expect(layerdMapData[0].data.join('|')).is.equal(expectedLayer0);
       expect(layerdMapData[1].data.join('|')).is.equal(expectedLayer1);
     });

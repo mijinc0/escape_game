@@ -4,6 +4,6 @@ import { MapData } from './MapData';
 type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
 
 export interface ISceneTilemapData {
-  staticLayers: StaticLayer[],
-  mapData: MapData,
+  staticLayers: StaticLayer[];
+  mapData: MapData;
 }

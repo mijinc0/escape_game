@@ -18,7 +18,7 @@ export class MoveField implements IScenarioEvent {
     this.x = x;
     this.y = y;
     this.direction = direction;
-    this.isComplete = false; 
+    this.isComplete = false;
   }
 
   init(scene: IFieldScene): void {

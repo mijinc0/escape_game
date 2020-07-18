@@ -7,7 +7,11 @@ import { TileInfosFactory } from './TileInfosFactory';
 import { ILayerData } from './ILayerData';
 
 export class MapDataFactory {
-  static createFromJson(mapJson: any, tileJson: any, tileImage: string): MapData {
+  static createFromJson(
+    mapJson: any,
+    tileJson: any,
+    tileImage: string,
+  ): MapData {
     const layerData = LayeredMapDataFactory.createFromJson(mapJson);
     const tileSize = this._getTileSizeFromJson(mapJson);
     const tileInfos = TileInfosFactory.createFromJson(tileJson);
@@ -25,12 +29,19 @@ export class MapDataFactory {
   }
 
   private static _getTileSizeFromJson(mapJson: any): Model.Size {
-    const tileWidth = Util.ValueTypeUtil.isNumber(mapJson.tilewidth) ? mapJson.tilewidth : 1;
-    const tileHeight = Util.ValueTypeUtil.isNumber(mapJson.tileheight) ? mapJson.tileheight : 1;
-    return {width: tileWidth, height: tileHeight};
+    const tileWidth = Util.ValueTypeUtil.isNumber(mapJson.tilewidth)
+      ? mapJson.tilewidth
+      : 1;
+    const tileHeight = Util.ValueTypeUtil.isNumber(mapJson.tileheight)
+      ? mapJson.tileheight
+      : 1;
+    return { width: tileWidth, height: tileHeight };
   }
 
-  private static _calcWorldBounce(layerData: ILayerData[], tileSize: Model.Size): Model.Size {
+  private static _calcWorldBounce(
+    layerData: ILayerData[],
+    tileSize: Model.Size,
+  ): Model.Size {
     const maxRowSize = this._getMaxRowSize(layerData);
     const maxColumnSize = this._getMaxColumnSize(layerData);
     return {

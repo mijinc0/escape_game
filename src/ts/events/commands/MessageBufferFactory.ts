@@ -17,7 +17,7 @@ export class MessageBufferFactory implements IMessageBufferFactory {
 
   private _replaceVariables(message: string): string {
     const variableChars = message.match(/\\V\[\w+\]/g);
-    
+
     if (!variableChars) return message;
 
     variableChars.forEach((variableChar: string) => {

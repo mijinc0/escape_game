@@ -8,7 +8,7 @@ export class Sleep implements IScenarioEvent {
 
   private counter: number;
   private sleepCount: number;
-  
+
   constructor(frame: number) {
     this.counter = 0;
     this.sleepCount = frame;

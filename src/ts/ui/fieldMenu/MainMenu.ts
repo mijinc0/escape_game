@@ -5,25 +5,25 @@ import { Button } from '../Button';
 import { IGameGlobal } from '../../core/IGameGlobal';
 
 type FieldMenuConfig = {
-  scene: Phaser.Scene,
-  gameGlobal: IGameGlobal,
+  scene: Phaser.Scene;
+  gameGlobal: IGameGlobal;
 };
 
 type ButtonConfig = {
-  scene: Phaser.Scene,
-  text: string,
-  fontSize?: string,
-  fontColor?: string,
-  fontFamilly?: string,
-  backgroundColor?: number,
-  backgroundAlpha?: number,
+  scene: Phaser.Scene;
+  text: string;
+  fontSize?: string;
+  fontColor?: string;
+  fontFamilly?: string;
+  backgroundColor?: number;
+  backgroundAlpha?: number;
 };
 
 export class MainMenu extends Ui.Group {
   itemButton: Button;
-  
+
   saveButton: Button;
-  
+
   backButton: Button;
 
   constructor(config: FieldMenuConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
@@ -35,7 +35,10 @@ export class MainMenu extends Ui.Group {
     this.currentIndex = -1;
 
     const menuButtonMargin = 16;
-    this.alignmentHandler = new Ui.RangeAlignmentHandler(menuButtonMargin, Ui.Direction.Right);
+    this.alignmentHandler = new Ui.RangeAlignmentHandler(
+      menuButtonMargin,
+      Ui.Direction.Right,
+    );
 
     this._init(config);
   }
@@ -54,8 +57,13 @@ export class MainMenu extends Ui.Group {
     };
 
     buttonConfig.text = 'ITEM';
-    this.itemButton = this._createItemButton(config, buttonConfig, buttonWidth, buttonHeight);
-    
+    this.itemButton = this._createItemButton(
+      config,
+      buttonConfig,
+      buttonWidth,
+      buttonHeight,
+    );
+
     // saveとbackの内容はeventの中で付けるのでここでは空のボタン
     buttonConfig.text = 'SAVE';
     this.saveButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
@@ -66,22 +74,30 @@ export class MainMenu extends Ui.Group {
     this.push(this.itemButton, this.saveButton, this.backButton);
   }
 
-  private _createItemButton(fieldMenuConfig: FieldMenuConfig, buttonConfig: ButtonConfig, width: number, height: number): Button {
+  private _createItemButton(
+    fieldMenuConfig: FieldMenuConfig,
+    buttonConfig: ButtonConfig,
+    width: number,
+    height: number,
+  ): Button {
     const button = new Button(buttonConfig, 0, 0, width, height);
 
     // selectでitemListを開くイベント
-    button.on(Ui.ElementEventNames.Select, (thisButton: Ui.IElement, selector: Ui.ISelector) => {
-      const itemMenuConfig = {
-        scene: fieldMenuConfig.scene,
-        items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
-      };
+    button.on(
+      Ui.ElementEventNames.Select,
+      (thisButton: Ui.IElement, selector: Ui.ISelector) => {
+        const itemMenuConfig = {
+          scene: fieldMenuConfig.scene,
+          items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
+        };
 
-      const itemMenu = new ItemMenu(itemMenuConfig, 0, 80);
-      
-      itemMenu.anchor = this;
+        const itemMenu = new ItemMenu(itemMenuConfig, 0, 80);
 
-      selector.setGroup(itemMenu.list, [itemMenu]);
-    });
+        itemMenu.anchor = this;
+
+        selector.setGroup(itemMenu.list, [itemMenu]);
+      },
+    );
 
     return button;
   }

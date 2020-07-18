@@ -4,21 +4,22 @@ import { IActorSprite } from './IActorSprite';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
-export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorSprite {
+export class ActorSprite extends Phaser.Physics.Arcade.Sprite
+  implements IActorSprite {
   direction: Model.Direction;
-  
-  private spriteAnims: Map<string|number, SpriteAnimation>;
+
+  private spriteAnims: Map<string | number, SpriteAnimation>;
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     spriteKey: string,
-    frame?: string|number,
+    frame?: string | number,
     direction?: Model.Direction,
   ) {
     super(scene, x, y, spriteKey, frame);
-    
+
     this.direction = direction ? direction : Model.Direction.Down;
     this.spriteAnims = new Map<string, SpriteAnimation>();
     this.setOrigin(0);
@@ -32,17 +33,17 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     this.setTexture(key);
   }
 
-  setAnim(animName: string|number, animObject: SpriteAnimation): void {
+  setAnim(animName: string | number, animObject: SpriteAnimation): void {
     this.spriteAnims.set(animName, animObject);
   }
-  
+
   playAnim(
     animName: string,
     ignoreIfPlaying?: boolean,
     onCompleteEventCallback?: () => void,
   ): this {
     const anim = this.spriteAnims.get(animName);
-    
+
     if (anim) {
       // onCompleteコールバックがある場合はセットしておく(一度限りなのでonceで)
       if (onCompleteEventCallback) {
@@ -51,15 +52,14 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
 
       // 自身にキャッシュされていればそのアニメーションを実行する
       this.anims.play(anim, ignoreIfPlaying);
-      
     } else {
       // 自身にキャッシュされていないnameであれば、グローバルに保管されているアニメーションを探す
       // この時、`animName`を`animKey`としてアニメーションを探す
       this.anims.play(animName, ignoreIfPlaying);
     }
-    
+
     return this;
-  };
+  }
 
   stopAnim(): this {
     if (this.anims.isPlaying) {
@@ -92,8 +92,8 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
   resume(): void {
     const savedVelocityX = this.getData('saveVelocityX');
     const savedVelocityY = this.getData('saveVelocityY');
-    const velocityX = (typeof(savedVelocityX) === 'number') ? savedVelocityX : 0;
-    const velocityY = (typeof(savedVelocityY) === 'number') ? savedVelocityY : 0;
+    const velocityX = typeof savedVelocityX === 'number' ? savedVelocityX : 0;
+    const velocityY = typeof savedVelocityY === 'number' ? savedVelocityY : 0;
     this.setVelocity(velocityX, velocityY);
     this.data.remove(['saveVelocityX', 'saveVelocityY']);
 

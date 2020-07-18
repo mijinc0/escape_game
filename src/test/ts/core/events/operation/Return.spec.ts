@@ -11,7 +11,7 @@ import { IScenarioEventManager } from '../../../../../ts/core/events/IScenarioEv
 
 class ScenarioEventManager extends TestScenarioEventManager {
   _events: EventRange[];
-  
+
   _currentEvents: IScenarioEvent[];
 
   constructor(events: EventRange[], currentEvents: IScenarioEvent[]) {
@@ -62,11 +62,7 @@ describe('return.update()', () => {
       new LineRange(),
     ];
 
-    const currentEvent = [
-      new TestEvent(),
-      new TestEvent(),
-      new TestEvent(),
-    ];
+    const currentEvent = [new TestEvent(), new TestEvent(), new TestEvent()];
 
     const sem = new ScenarioEventManager(events, currentEvent);
 

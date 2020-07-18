@@ -7,20 +7,23 @@ import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { IActorEventRegistrar } from './IActorEventRegistrar';
 
 type SpawnCriteriaCallback = () => boolean;
-type CollisionSettingCallback = (spawnActor: Actor.IFieldActor, onlyOverlap: boolean) => void;
+type CollisionSettingCallback = (
+  spawnActor: Actor.IFieldActor,
+  onlyOverlap: boolean,
+) => void;
 
 export class FieldActorsManager {
   actorData: FieldActorData[];
-  
+
   private actorSpriteFactory: Actor.IActorSpriteFactory;
   private actorEventRegistrar: IActorEventRegistrar;
   private collisionSettingCallback: CollisionSettingCallback;
 
   /**
-   * 
-   * @param actorEntries 
-   * @param actorSpriteFactory 
-   * @param actorAnimsFactory 
+   *
+   * @param actorEntries
+   * @param actorSpriteFactory
+   * @param actorAnimsFactory
    * @param actorEventRegistrar
    * @param collisionSettingCallback スポーンまたはページが切り替わったActorに衝突判定を設定するためのコールバック
    */
@@ -30,7 +33,9 @@ export class FieldActorsManager {
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IFieldActorEntry[],
   ) {
-    this.actorData = actorEntries ? this._createFieldActorDataFromActorEntries(actorEntries) : [];
+    this.actorData = actorEntries
+      ? this._createFieldActorDataFromActorEntries(actorEntries)
+      : [];
     this.actorSpriteFactory = actorSpriteFactory;
     this.actorEventRegistrar = actorEventRegistrar;
     this.collisionSettingCallback = collisionSettingCallback;
@@ -42,8 +47,8 @@ export class FieldActorsManager {
 
   getSpawnActors(): Actor.IFieldActor[] {
     return this.actorData
-      .filter((entry: FieldActorData) => (entry.isSpawn))
-      .map((entry: FieldActorData) => (entry.actorObject));
+      .filter((entry: FieldActorData) => entry.isSpawn)
+      .map((entry: FieldActorData) => entry.actorObject);
   }
 
   spawnEntries(): void {
@@ -52,10 +57,10 @@ export class FieldActorsManager {
     });
   }
 
-  findActorById(id: number): Actor.IFieldActor|null {
-    const actor = this.actorData.find((data: FieldActorData) => (
-      data.actorObject.id === id
-    ));
+  findActorById(id: number): Actor.IFieldActor | null {
+    const actor = this.actorData.find(
+      (data: FieldActorData) => data.actorObject.id === id,
+    );
 
     return actor ? actor.actorObject : null;
   }
@@ -63,24 +68,32 @@ export class FieldActorsManager {
   update(scene: Scene.IFieldScene): void {
     this.actorData.forEach((entry: FieldActorData) => {
       this._updateActorStatus(entry);
-      
+
       entry.actorObject.update(scene);
     });
   }
 
-  private _createFieldActorDataFromActorEntries(entries: IFieldActorEntry[]): FieldActorData[] {
+  private _createFieldActorDataFromActorEntries(
+    entries: IFieldActorEntry[],
+  ): FieldActorData[] {
     return entries.map((entry: IFieldActorEntry) => {
       const actorObject = new Actor.FieldActor(entry.id, entry.name);
-      const position = entry.position ? entry.position : {x: 0, y: 0};
+      const position = entry.position ? entry.position : { x: 0, y: 0 };
       const pages = entry.statusPages;
       const isSpawn = false;
       const initPageIndex = -1;
-      
-      return new FieldActorData(actorObject, position, pages, isSpawn, initPageIndex);
+
+      return new FieldActorData(
+        actorObject,
+        position,
+        pages,
+        isSpawn,
+        initPageIndex,
+      );
     });
   }
-  
-  private _updateActorStatus(fieldActorData: FieldActorData): void {    
+
+  private _updateActorStatus(fieldActorData: FieldActorData): void {
     // 1. get status page that matches current criteria
     const pageIndex = this._getCurrentPageIndex(fieldActorData);
 
@@ -106,10 +119,13 @@ export class FieldActorsManager {
 
   /**
    * 最初のスポーンも既にスポーンしているActorの状態を変えるリスポーンも処理は同じ
-   * @param entry 
-   * @param pageIndex 
+   * @param entry
+   * @param pageIndex
    */
-  private _spawnOrRespawnActor(fieldActorData: FieldActorData, pageIndex: number): void {
+  private _spawnOrRespawnActor(
+    fieldActorData: FieldActorData,
+    pageIndex: number,
+  ): void {
     const page = this._getPage(fieldActorData, pageIndex);
     const actor = fieldActorData.actorObject;
 
@@ -120,17 +136,17 @@ export class FieldActorsManager {
     // (create -> reset -> set new sprite の順でないとリスポーンした時に座標が戻ってしまうので注意)
     this._resetActorStatus(actor);
     actor.sprite = newSprite;
-    
+
     // 3. change actor object settings
     actor.sprite.direction = page.direction;
     actor.eventId = page.eventId;
-    
+
     // 4. event setting
     this._setEvents(actor, page);
-    
+
     // 5. collision setting
     this._setCollisionSettings(actor, page.overlapOnly);
-    
+
     // 6. change entry properties
     fieldActorData.currentPageIndex = pageIndex;
     fieldActorData.isSpawn = true;
@@ -140,16 +156,21 @@ export class FieldActorsManager {
   }
 
   private _getCurrentPageIndex(fieldActorData: FieldActorData): number {
-    return fieldActorData.statusPages.findIndex((page: IFieldActorStatusPage) => (
-      this._checkSpawnCriteria(page.criteria)
-    ));
+    return fieldActorData.statusPages.findIndex((page: IFieldActorStatusPage) =>
+      this._checkSpawnCriteria(page.criteria),
+    );
   }
 
-  private _getPage(fieldActorData: FieldActorData, pageIndex: number): IFieldActorStatusPage {
+  private _getPage(
+    fieldActorData: FieldActorData,
+    pageIndex: number,
+  ): IFieldActorStatusPage {
     const page = fieldActorData.statusPages[pageIndex];
 
     if (!page) {
-      throw Error(`actor status page is not found (actor: ${fieldActorData.actorObject.id}, page: ${pageIndex})`);
+      throw Error(
+        `actor status page is not found (actor: ${fieldActorData.actorObject.id}, page: ${pageIndex})`,
+      );
     }
 
     return page;
@@ -164,14 +185,17 @@ export class FieldActorsManager {
 
   private _resetActorStatus(actor: Actor.IFieldActor): void {
     actor.removeAllListeners();
-    
+
     if (actor.sprite) {
       actor.sprite.destroy(true);
       actor.sprite = null;
     }
   }
 
-  private _createActorSprite(fieldActorData: FieldActorData, pageIndex: number): Actor.IActorSprite {
+  private _createActorSprite(
+    fieldActorData: FieldActorData,
+    pageIndex: number,
+  ): Actor.IActorSprite {
     const page = fieldActorData.statusPages[pageIndex];
     const actor = fieldActorData.actorObject;
 
@@ -184,25 +208,47 @@ export class FieldActorsManager {
     const spriteType = page.spriteType;
 
     switch (spriteType) {
-      case Actor.ActorSpriteTypes.OneWayAnim :
-        return this.actorSpriteFactory.createOneWayAnimActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
+      case Actor.ActorSpriteTypes.OneWayAnim:
+        return this.actorSpriteFactory.createOneWayAnimActorSprite(
+          x,
+          y,
+          spritesheetKey,
+          initFrame,
+          bodyConfig,
+        );
 
-      case Actor.ActorSpriteTypes.FourWayAnims :
-        return this.actorSpriteFactory.createFourWayAnimsActorSprite(x, y, spritesheetKey, initFrame, bodyConfig); 
-      
-      case Actor.ActorSpriteTypes.Invisible :
-        return this.actorSpriteFactory.createInvisibleActorSprite(x, y, bodyConfig); 
+      case Actor.ActorSpriteTypes.FourWayAnims:
+        return this.actorSpriteFactory.createFourWayAnimsActorSprite(
+          x,
+          y,
+          spritesheetKey,
+          initFrame,
+          bodyConfig,
+        );
+
+      case Actor.ActorSpriteTypes.Invisible:
+        return this.actorSpriteFactory.createInvisibleActorSprite(
+          x,
+          y,
+          bodyConfig,
+        );
     }
 
     // enum使っているので実際はここまで到達しないが、どこかでnumber使ってすり抜けてきた時用
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
 
-  private _setEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
+  private _setEvents(
+    actor: Actor.IFieldActor,
+    page: IFieldActorStatusPage,
+  ): void {
     this.actorEventRegistrar.regist(actor, page);
   }
 
-  private _setCollisionSettings(actor: Actor.IFieldActor, overlapOnly?: boolean): void {
+  private _setCollisionSettings(
+    actor: Actor.IFieldActor,
+    overlapOnly?: boolean,
+  ): void {
     overlapOnly = overlapOnly ? overlapOnly : false;
     this.collisionSettingCallback(actor, overlapOnly);
   }

@@ -3,7 +3,8 @@ import * as Model from '../../../core/models';
 import * as Asset from '../../../core/assets';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-export default Field.EventEntryFactory.create(0,
+export default Field.EventEntryFactory.create(
+  0,
   cmd.playSe(Asset.AssetCacheKey.audio('se_door'), 1, 0, 1.3, true),
   cmd.playActorAnim(0, 'default', false),
   cmd.cameraFadeOut(300),

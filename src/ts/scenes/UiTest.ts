@@ -2,7 +2,7 @@ import * as Phaser from 'phaser';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';
 import { IGameGlobal } from '../core/IGameGlobal';
-import { GameItems } from '../items/GameItems';;
+import { GameItems } from '../items/GameItems';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
 import { GettingItemModal } from '../ui/GettingItemModal';
 
@@ -15,15 +15,15 @@ export class UiTest extends Phaser.Scene {
     console.log('== start scene UiTest ==');
 
     this.gameGlobal = {
-      flags : new Model.GameFlags(),
-      variables : new Model.GameVariables(),  
-      items : GameItems,
-      ownItems : new Model.ItemBag(),
+      flags: new Model.GameFlags(),
+      variables: new Model.GameVariables(),
+      items: GameItems,
+      ownItems: new Model.ItemBag(),
     };
   }
-  
+
   create(): void {
-    this.cameras.main.setBackgroundColor(0x9955FF);
+    this.cameras.main.setBackgroundColor(0x9955ff);
 
     const config = {
       scene: this,

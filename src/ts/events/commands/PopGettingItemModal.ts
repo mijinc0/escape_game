@@ -12,15 +12,15 @@ enum Step {
 
 export class PopGettingItemModal implements Event.IScenarioEvent {
   readonly isAsync = false;
-  
+
   isComplete: boolean;
- 
+
   private itemName: string;
   private eventStep: Step;
   private modal: GettingItemModal;
 
   constructor(itemName: string) {
-    this.isComplete = false; 
+    this.isComplete = false;
     this.itemName = itemName;
     this.eventStep = Step.Complete;
     this.modal = null;
@@ -35,23 +35,24 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
       // フェードイン演出のtweenをシーンに登録する
       scene.phaserScene.tweens.add({
         targets: this.modal,
-        alpha: {from: 0, to: 1},
+        alpha: { from: 0, to: 1 },
         duration: 500,
         ease: Phaser.Math.Easing.Cubic.In,
 
         // 完了時にステップをWaitingKeyInputに変えるイベントを仕込んでおく
-        onComplete: (() => {
+        onComplete: () => {
           this.eventStep = Step.WaitingKeyInput;
-        }).bind(this),
+        },
       });
 
       // 完了時にステップをCompleteに変えるイベントを仕込んでおいたので、
       // ステップをFadeoutModalにしてtweenでステップがCompleteになるのを待つ
       this.eventStep = Step.FadeinModal;
       this.isComplete = false;
-
     } else {
-      console.warn(`${this.itemName} is not found. PopGettingItemModal will complete immediately.`);
+      console.warn(
+        `${this.itemName} is not found. PopGettingItemModal will complete immediately.`,
+      );
 
       this.eventStep = Step.Complete;
       this.isComplete = true;
@@ -60,11 +61,11 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
 
   update(scene: Scene.IFieldScene): void {
     switch (this.eventStep) {
-      case Step.WaitingKeyInput :
+      case Step.WaitingKeyInput:
         this._waitingKeyInput(scene);
         break;
-      
-      default :
+
+      default:
         break;
     }
   }
@@ -75,7 +76,10 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
     this.isComplete = true;
   }
 
-  private _createModal(scene: Scene.IFieldScene, item: Model.Item): GettingItemModal {
+  private _createModal(
+    scene: Scene.IFieldScene,
+    item: Model.Item,
+  ): GettingItemModal {
     const config = {
       scene: scene.phaserScene,
       item: item,
@@ -90,8 +94,8 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
     const worldWidth = worldView.width;
     const worldHeight = worldView.height;
     // x, y は中央寄せ
-    const x = worldLeft + ((worldWidth - modal.width) / 2);
-    const y = worldTop + ((worldHeight - modal.height) / 2);
+    const x = worldLeft + (worldWidth - modal.width) / 2;
+    const y = worldTop + (worldHeight - modal.height) / 2;
 
     modal.x = x;
     modal.y = y;
@@ -105,20 +109,20 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
     if (keys.action.isDown) {
       scene.phaserScene.tweens.add({
         targets: this.modal,
-        alpha: {from: 1, to: 0},
+        alpha: { from: 1, to: 0 },
         duration: 300,
         ease: Phaser.Math.Easing.Back.Out,
 
         // 完了時にステップをCompleteに変えるイベントを仕込んでおく
-        onComplete: (() => {
+        onComplete: () => {
           this.complete();
           this.eventStep = Step.Complete;
-        }).bind(this),
+        },
       });
 
       // 完了時にステップをCompleteに変えるイベントを仕込んでおいたので、
       // ステップをFadeoutModalにしてtweenでステップがCompleteになるのを待つ
       this.eventStep = Step.FadeoutModal;
     }
-  } 
+  }
 }

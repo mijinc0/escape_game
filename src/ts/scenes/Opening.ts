@@ -8,15 +8,15 @@ import { Button } from '../ui/Button';
 export class Opening extends Phaser.Scene {
   private frame: number;
   private selector: Ui.ISelector;
-  private audioManager: Audio.AudioManager; 
+  private audioManager: Audio.AudioManager;
 
   init(): void {
     console.log('== start scene Opening ==');
   }
-  
+
   create(): void {
-    this.cameras.main.setBackgroundColor(0x9955FF);
-    
+    this.cameras.main.setBackgroundColor(0x9955ff);
+
     this.frame = -1;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, 1, 1);
@@ -26,7 +26,7 @@ export class Opening extends Phaser.Scene {
     this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
   }
-  
+
   update(): void {
     this.frame++;
 
@@ -43,7 +43,7 @@ export class Opening extends Phaser.Scene {
 
     const newgameButton = this._createNewgameButton();
     const continueButton = this._createContinueButton();
-    
+
     menu.push(newgameButton, continueButton);
 
     return menu;
@@ -70,11 +70,17 @@ export class Opening extends Phaser.Scene {
 
       this.selector.disable = true;
 
-      this.cameras.main.fadeOut(800, 0, 0, 0, (camera: any, progress: number) => {
-        if (progress === 1) {
-          this.scene.start('field', fieldConfig);
-        }
-      });
+      this.cameras.main.fadeOut(
+        800,
+        0,
+        0,
+        0,
+        (camera: any, progress: number) => {
+          if (progress === 1) {
+            this.scene.start('field', fieldConfig);
+          }
+        },
+      );
     });
 
     return button;

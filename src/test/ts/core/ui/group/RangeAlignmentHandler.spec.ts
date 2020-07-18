@@ -13,7 +13,7 @@ describe('rangeAlignmentHandler: Drection.Down', () => {
     const elementB = new Element();
     const elementC = new Element();
 
-    ah.align([elementA, elementB, elementC], root)
+    ah.align([elementA, elementB, elementC], root);
 
     // anchor setting
     it('elementA.anchor should be equal root', async () => {

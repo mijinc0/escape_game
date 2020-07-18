@@ -3,20 +3,20 @@ import { ILayerData } from './ILayerData';
 
 export class LayeredMapDataFactory {
   static createFromJson(mapJson: any): ILayerData[] {
-    const result:ILayerData[] = [];
+    const result: ILayerData[] = [];
 
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data.');
 
     // extract map layer
-    const mapLayers = mapJson.layers.filter((layer: any) => (
-      this._isMapLayer(layer)
-    ));
+    const mapLayers = mapJson.layers.filter((layer: any) =>
+      this._isMapLayer(layer),
+    );
 
     // extract map id and data
     mapLayers.forEach((layer: any) => {
       const id = Util.ValueTypeUtil.isNumber(layer.id) ? layer.id : -99;
       const data = this._extractMapData(layer, id);
-      result.push({id: id, data: data});
+      result.push({ id: id, data: data });
     });
 
     return result;
@@ -26,7 +26,7 @@ export class LayeredMapDataFactory {
     const ragneMapData = layerData.data;
     const columnSize = layerData.height;
     const rowSize = layerData.width;
-    
+
     if (this._isLeagalMapdataFromat(ragneMapData, columnSize, rowSize)) {
       throw Error(`illegal map data format (layerID : ${layerId})`);
     }
@@ -34,8 +34,7 @@ export class LayeredMapDataFactory {
     return this._createMapDataFromRangeData(ragneMapData, columnSize, rowSize);
   }
 
-
-  private static _isLeagalMapdataFromat (
+  private static _isLeagalMapdataFromat(
     rawMapData: any,
     columnSize: any,
     rawSize: any,
@@ -50,7 +49,7 @@ export class LayeredMapDataFactory {
   private static _createMapDataFromRangeData(
     rangeMapData: number[],
     columnSize: number,
-    rowSize: number,  
+    rowSize: number,
   ): number[][] {
     const mapData: number[][] = [];
 
@@ -71,10 +70,10 @@ export class LayeredMapDataFactory {
 
   /**
    * 対象のNumber配列に0を加えて指定の長さにする
-   * @param numArray パディング対象の配列 
+   * @param numArray パディング対象の配列
    * @param length 目的の配列長さ
    */
-  private static _padZero(numArray: number[], length: number):void {
+  private static _padZero(numArray: number[], length: number): void {
     const originalLength = numArray.length;
     if (originalLength >= length) return;
     numArray.length = length;

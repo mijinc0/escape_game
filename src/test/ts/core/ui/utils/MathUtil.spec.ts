@@ -3,10 +3,7 @@ import { expect } from 'chai';
 import { MixinUtil } from '../../../../../ts/core/ui/utils/MixinUtil';
 
 class BaseClass {
-  constructor(
-    public baseA = 100,
-    public baseB = 200,
-  ) {}
+  constructor(public baseA = 100, public baseB = 200) {}
 }
 
 class ComponentClass {
@@ -17,15 +14,11 @@ class ComponentClass {
   }
 
   set componentB(v: number) {}
-  
+
   componentC(): void {}
 }
 
-MixinUtil.apply(
-  BaseClass,
-  [ComponentClass],
-  ['componentC'],
-);
+MixinUtil.apply(BaseClass, [ComponentClass], ['componentC']);
 
 describe('MixinUtil.apply', () => {
   context('normal', () => {
