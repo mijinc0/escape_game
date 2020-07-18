@@ -64,14 +64,14 @@ export class ItemListElement extends Ui.Group {
     const itemDescription = config.description ? config.description : null;
 
     // OverになったらDescriptionのテキストを書き換える
-    this.on(Ui.SelectorEventNames.Over, () => {
+    this.on(Ui.ElementEventNames.Over, () => {
       if (itemDescription) {
         itemDescription.text = this.item.description;
       }
     });
 
     // OutになったらDescriptionのテキストをdefaultに戻す
-    this.on(Ui.SelectorEventNames.Out, () => {
+    this.on(Ui.ElementEventNames.Out, () => {
       itemDescription.text = itemDescription.defaultText;
     });
   }

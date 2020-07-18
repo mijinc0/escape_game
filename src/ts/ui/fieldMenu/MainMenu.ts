@@ -70,7 +70,7 @@ export class MainMenu extends Ui.Group {
     const button = new Button(buttonConfig, 0, 0, width, height);
 
     // selectでitemListを開くイベント
-    button.on(Ui.SelectorEventNames.Select, (thisButton: Ui.IElement, selector: Ui.ISelector) => {
+    button.on(Ui.ElementEventNames.Select, (thisButton: Ui.IElement, selector: Ui.ISelector) => {
       const itemMenuConfig = {
         scene: fieldMenuConfig.scene,
         items: fieldMenuConfig.gameGlobal.ownItems.getAll(),

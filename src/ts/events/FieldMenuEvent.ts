@@ -1,9 +1,10 @@
 import * as Ui from '../core/ui';
+import * as Assets from '../core/assets';
+import * as Event from '../core/events';
+import * as Scene from '../core/scenes';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
-import { IScenarioEvent } from '../core/events/IScenarioEvent';
-import { IFieldScene } from '../core/scenes/IFieldScene';
 
-export class FieldMenuEvent implements IScenarioEvent {
+export class FieldMenuEvent implements Event.IScenarioEvent {
   readonly isAsync = false;
 
   isComplete: boolean;
@@ -19,24 +20,31 @@ export class FieldMenuEvent implements IScenarioEvent {
     this.initCooldown = 0;
   }
 
-  init(scene: IFieldScene): void {
+  init(scene: Scene.IFieldScene): void {
     console.log('open field menu');
 
     this.isComplete = false;
+
+    const seConfig = {};
+    scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
     
     this.selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
     // NOTE: IFieldScene一つに変更可能だが暫定的に維持
     this.fieldMenu = new FieldMenu({scene: scene.phaserScene, gameGlobal: scene.gameGlobal});
     
     // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
-    this.fieldMenu.mainMenu.backButton.on(Ui.SelectorEventNames.Select, this.closeMenu.bind(this));
+    this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this.closeMenu.bind(this));
     this.selector.setRootCancelEvent(this.closeMenu.bind(this));
     
     this.fieldMenu.registSelector(this.selector);
+
+    // set SE
+    Ui.SelectorSeRegistrar.regist(this.selector, scene.audioManager);
+
     this.initCooldown = 15;
   };
 
-  update(scene: IFieldScene): void {
+  update(scene: Scene.IFieldScene): void {
     // 開始してすぐに入力を受け付けると誤操作してしまうので開いてすぐあとにクールダウンを設ける
     if (this.initCooldown > 0) {
       this.initCooldown--;

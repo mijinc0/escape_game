@@ -24,4 +24,8 @@ export interface ISelector {
   destroy(fromScene?: boolean): void;
 
   setRootCancelEvent(event: RootGroupCancelEvent): void;
+
+  on(key: string, fn: () => void): void;
+
+  emit(key: string, ...args: any[]): void;
 }

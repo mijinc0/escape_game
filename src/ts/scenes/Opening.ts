@@ -1,20 +1,18 @@
 import * as Phaser from 'phaser';
+import * as Assets from '../core/assets';
+import * as Audio from '../core/audios';
 import * as Ui from '../core/ui';
+import * as Model from '../core/models';
+import * as Scene from '../core/scenes';
 import { Button } from '../ui/Button';
-import { Direction } from '../core/models/Direction';
-import { IFieldSceneConfig } from '../core/scenes/IFieldSceneConfig';
 
 export class Opening extends Phaser.Scene {
   private frame: number;
-
   private selector: Ui.ISelector;
+  private audioManager: Audio.AudioManager; 
 
   init(): void {
     console.log('== start scene Opening ==');
-  }
-
-  preload (): void {
-
   }
   
   create(): void {
@@ -22,9 +20,11 @@ export class Opening extends Phaser.Scene {
     
     this.frame = -1;
     this.selector = Ui.SelectorFactory.create(this);
+    this.audioManager = new Audio.AudioManager(this, 1, 1);
 
     const menu = this._createMenu(440, 320);
 
+    this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
   }
   
@@ -39,7 +39,7 @@ export class Opening extends Phaser.Scene {
 
   private _createMenu(x: number, y: number): Ui.Group {
     const buttonMargin = 16;
-    const ah = new Ui.RangeAlignmentHandler(buttonMargin, Direction.Down);
+    const ah = new Ui.RangeAlignmentHandler(buttonMargin, Model.Direction.Down);
     const menu = new Ui.Group(x, y, 160, 96, null, ah);
 
     const newgameButton = this._createNewgameButton();
@@ -61,12 +61,12 @@ export class Opening extends Phaser.Scene {
 
     const button = new Button(buttonConfig, 0, 0, 160, 40);
 
-    button.on(Ui.SelectorEventNames.Select, () => {
-      const fieldConfig: IFieldSceneConfig = {
+    button.on(Ui.ElementEventNames.Select, () => {
+      const fieldConfig: Scene.IFieldSceneConfig = {
         fieldId: -1,
         heroX: 300,
         heroY: 200,
-        heroDirection: Direction.Down,
+        heroDirection: Model.Direction.Down,
       };
 
       this.selector.disable = true;
@@ -93,5 +93,9 @@ export class Opening extends Phaser.Scene {
     const button = new Button(buttonConfig, 0, 0, 160, 40);
 
     return button;
+  }
+
+  private _setSelectorSounds(selector: Ui.ISelector): void {
+    Ui.SelectorSeRegistrar.regist(selector, this.audioManager);
   }
 }

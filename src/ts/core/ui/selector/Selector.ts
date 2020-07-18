@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { ISelector } from './ISelector';
 import { ISelectorCursor } from './ISelectorCursor';
+import { ElementEventNames } from './ElementEventNames';
 import { SelectorEventNames } from './SelectorEventNames';
 import { Direction } from '../Direction';
 import { IElement } from '../IElement';
@@ -98,6 +99,8 @@ export class Selector extends EventEmitter implements ISelector {
     // 次のノードが無いまたはnextとcurrentが同じであれば即return 何もしない
     if (!next || current === next) return;
 
+    this.emit(SelectorEventNames.GoNext);
+
     this._moveCursor(next, current);
 
     // クールダウンを設定して終了
@@ -105,7 +108,7 @@ export class Selector extends EventEmitter implements ISelector {
   }
 
   setRootCancelEvent(event: RootGroupCancelEvent): void {
-    this.on('rootGroupCanceled', event);
+    this.on(SelectorEventNames.RootGroupCanceled, event);
   }
 
   private _getCurrentGroup(): IGroup|null {
@@ -126,7 +129,9 @@ export class Selector extends EventEmitter implements ISelector {
     const currentElement = this._getCurrentElement();
     if (!currentElement) return;
 
-    currentElement.emit(SelectorEventNames.Select, currentElement, this);
+    this.emit(SelectorEventNames.Select);
+
+    currentElement.emit(ElementEventNames.Select, currentElement, this);
   
     this._setCooldownTime();
   }
@@ -136,7 +141,7 @@ export class Selector extends EventEmitter implements ISelector {
     // Emitterにセットされたイベントを発火して終了
     // (Ui操作の終了などのイベントがここに入る)
     if (this.groupHistory.length === 1) {
-      this.emit('rootGroupCanceled');
+      this.emit(SelectorEventNames.RootGroupCanceled);
       return;
     }
 
@@ -150,6 +155,8 @@ export class Selector extends EventEmitter implements ISelector {
     // unhandledGroupを削除する前にカーソルの移動を行う
     this._moveCursor(returningElement, currentElement);
 
+    this.emit(SelectorEventNames.GroupCanceled);
+
     unhandledGroup.destroyIfCanceled.forEach((entry: IElement) => {
       entry.destroy(true);
     });
@@ -159,11 +166,11 @@ export class Selector extends EventEmitter implements ISelector {
 
   private _moveCursor(next: IElement, current?: IElement): void {
     if (current) {  
-      current.emit(SelectorEventNames.Out, current, this);
+      current.emit(ElementEventNames.Out, current, this);
     }
 
     // カーソルを移動させる
     this.cursor.goTo(next);
-    next.emit(SelectorEventNames.Over, next, this);
+    next.emit(ElementEventNames.Over, next, this);
   }
 }

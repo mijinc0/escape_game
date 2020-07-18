@@ -1,9 +1,12 @@
-// type SelectorEvent = (targetElement: IElement, selector: ISelector) => void;
-
+/**
+ * NOTE : RootGroupCanceled以外は現状効果音を鳴らすイベントを仕込む用途で使っている
+ */
 export enum SelectorEventNames {
-  Over = 'selectorOver',
+  RootGroupCanceled = 'rootGroupCanceled',
 
-  Out = 'selectorOut',
-  
-  Select = 'selectorSelect',
+  GroupCanceled = 'groupCanceled',
+
+  GoNext = 'goNext',
+
+  Select = 'select',
 }

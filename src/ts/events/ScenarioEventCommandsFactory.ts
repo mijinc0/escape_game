@@ -10,6 +10,7 @@ import { CameraFadeIn } from './commands/CameraFadeIn';
 import { CameraFadeOut } from './commands/CameraFadeOut';
 import { PlayActorAnim } from './commands/PlayActorAnim';
 import { PopGettingItemModal } from './commands/PopGettingItemModal';
+import { PlaySe } from './commands/PlaySe';
 import { Direction } from '../core/models/Direction';
 
 export class ScenarioEventCommandsFactory {
@@ -79,5 +80,9 @@ export class ScenarioEventCommandsFactory {
 
   static popGettingItemModal(itemName: string): PopGettingItemModal {
     return new PopGettingItemModal(itemName);
+  }
+
+  static playSe(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean): PlaySe {
+    return new PlaySe(audioKey, volume, delay, rate, async);
   }
 }
