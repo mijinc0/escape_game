@@ -203,19 +203,13 @@ export class ScrollGroup<T> extends Group {
     return elements.length;
   }
 
-  private _unshiftElementsFromData(
-    startIndex: number,
-    endIndex: number,
-  ): number {
+  private _unshiftElementsFromData(startIndex: number, endIndex: number): number {
     const elements = this._createElementsFromData(startIndex, endIndex);
     this.unshift(...elements);
     return elements.length;
   }
 
-  private _createElementsFromData(
-    startIndex: number,
-    endIndex: number,
-  ): IElement[] {
+  private _createElementsFromData(startIndex: number, endIndex: number): IElement[] {
     if (startIndex > endIndex) {
       throw Error('start index must be greater than endIndex');
     }

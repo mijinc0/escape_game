@@ -44,11 +44,7 @@ class FieldScene extends TestFieldScene {
 
 describe('break.update()', () => {
   context('normal', () => {
-    const sem = new ScenarioEventManager(
-      new LineRange(),
-      new CircularRange(),
-      new LineRange(),
-    );
+    const sem = new ScenarioEventManager(new LineRange(), new CircularRange(), new LineRange());
     const scene = new FieldScene(sem);
 
     const opBreak = new Break();
@@ -65,11 +61,7 @@ describe('break.update()', () => {
   });
 
   context('normal 2 (all LineRange)', () => {
-    const sem = new ScenarioEventManager(
-      new LineRange(),
-      new LineRange(),
-      new LineRange(),
-    );
+    const sem = new ScenarioEventManager(new LineRange(), new LineRange(), new LineRange());
     const scene = new FieldScene(sem);
 
     const opBreak = new Break();
@@ -86,11 +78,7 @@ describe('break.update()', () => {
   });
 
   context('normal 3 (there is CircularRange)', () => {
-    const sem = new ScenarioEventManager(
-      new LineRange(),
-      new CircularRange(),
-      new LineRange(),
-    );
+    const sem = new ScenarioEventManager(new LineRange(), new CircularRange(), new LineRange());
     const scene = new FieldScene(sem);
 
     const opBreak = new Break();

@@ -8,9 +8,7 @@ export class LayeredMapDataFactory {
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data.');
 
     // extract map layer
-    const mapLayers = mapJson.layers.filter((layer: any) =>
-      this._isMapLayer(layer),
-    );
+    const mapLayers = mapJson.layers.filter((layer: any) => this._isMapLayer(layer));
 
     // extract map id and data
     mapLayers.forEach((layer: any) => {
@@ -34,11 +32,7 @@ export class LayeredMapDataFactory {
     return this._createMapDataFromRangeData(ragneMapData, columnSize, rowSize);
   }
 
-  private static _isLeagalMapdataFromat(
-    rawMapData: any,
-    columnSize: any,
-    rawSize: any,
-  ): boolean {
+  private static _isLeagalMapdataFromat(rawMapData: any, columnSize: any, rawSize: any): boolean {
     return (
       !Util.ValueTypeUtil.isNumberArray(rawMapData) ||
       !Util.ValueTypeUtil.isNumber(rawSize) ||
@@ -46,11 +40,7 @@ export class LayeredMapDataFactory {
     );
   }
 
-  private static _createMapDataFromRangeData(
-    rangeMapData: number[],
-    columnSize: number,
-    rowSize: number,
-  ): number[][] {
+  private static _createMapDataFromRangeData(rangeMapData: number[], columnSize: number, rowSize: number): number[][] {
     const mapData: number[][] = [];
 
     // マップデータが一列になってしまっているので、行列にする

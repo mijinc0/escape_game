@@ -5,12 +5,7 @@ import { RangeAlignmentNextIndexCallbacks } from './RangeAlignmentNextIndexCallb
 import { Direction } from '../Direction';
 import { IAlignmentHandler } from './IAlignmentHandler';
 
-type NextPositionCallback = (
-  current: IElement,
-  before: IElement,
-  margin: number,
-  anchor: IElement,
-) => Model.Position;
+type NextPositionCallback = (current: IElement, before: IElement, margin: number, anchor: IElement) => Model.Position;
 type NextIndexCallback = (index: number, direction: Direction) => number;
 
 export class RangeAlignmentHandler implements IAlignmentHandler {
@@ -50,14 +45,7 @@ export class RangeAlignmentHandler implements IAlignmentHandler {
       const beforeObject = index === 0 ? anchor : transformObjects[index - 1];
 
       const nextDeltaPosition =
-        index === 0
-          ? { x: 0, y: 0 }
-          : this.nextPositionCallback(
-              transformObject,
-              beforeObject,
-              this.margin,
-              anchor,
-            );
+        index === 0 ? { x: 0, y: 0 } : this.nextPositionCallback(transformObject, beforeObject, this.margin, anchor);
 
       transformObject.anchor = anchor;
       transformObject.deltaX = nextDeltaPosition.x;

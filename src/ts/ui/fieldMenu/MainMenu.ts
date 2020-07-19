@@ -35,10 +35,7 @@ export class MainMenu extends Ui.Group {
     this.currentIndex = -1;
 
     const menuButtonMargin = 16;
-    this.alignmentHandler = new Ui.RangeAlignmentHandler(
-      menuButtonMargin,
-      Ui.Direction.Right,
-    );
+    this.alignmentHandler = new Ui.RangeAlignmentHandler(menuButtonMargin, Ui.Direction.Right);
 
     this._init(config);
   }
@@ -57,12 +54,7 @@ export class MainMenu extends Ui.Group {
     };
 
     buttonConfig.text = 'ITEM';
-    this.itemButton = this._createItemButton(
-      config,
-      buttonConfig,
-      buttonWidth,
-      buttonHeight,
-    );
+    this.itemButton = this._createItemButton(config, buttonConfig, buttonWidth, buttonHeight);
 
     // saveとbackの内容はeventの中で付けるのでここでは空のボタン
     buttonConfig.text = 'SAVE';
@@ -83,21 +75,18 @@ export class MainMenu extends Ui.Group {
     const button = new Button(buttonConfig, 0, 0, width, height);
 
     // selectでitemListを開くイベント
-    button.on(
-      Ui.ElementEventNames.Select,
-      (thisButton: Ui.IElement, selector: Ui.ISelector) => {
-        const itemMenuConfig = {
-          scene: fieldMenuConfig.scene,
-          items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
-        };
+    button.on(Ui.ElementEventNames.Select, (thisButton: Ui.IElement, selector: Ui.ISelector) => {
+      const itemMenuConfig = {
+        scene: fieldMenuConfig.scene,
+        items: fieldMenuConfig.gameGlobal.ownItems.getAll(),
+      };
 
-        const itemMenu = new ItemMenu(itemMenuConfig, 0, 80);
+      const itemMenu = new ItemMenu(itemMenuConfig, 0, 80);
 
-        itemMenu.anchor = this;
+      itemMenu.anchor = this;
 
-        selector.setGroup(itemMenu.list, [itemMenu]);
-      },
-    );
+      selector.setGroup(itemMenu.list, [itemMenu]);
+    });
 
     return button;
   }

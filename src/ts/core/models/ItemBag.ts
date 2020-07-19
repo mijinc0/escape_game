@@ -20,10 +20,7 @@ export class ItemBag {
 
   add(item: Item, size: number): number {
     const limitedSize = Math.max(0, size);
-    const newItemSize = Math.min(
-      ItemBag.maxItems,
-      this.getSize(item) + limitedSize,
-    );
+    const newItemSize = Math.min(ItemBag.maxItems, this.getSize(item) + limitedSize);
 
     if (this.has(item)) {
       this.getItem(item).size = newItemSize;

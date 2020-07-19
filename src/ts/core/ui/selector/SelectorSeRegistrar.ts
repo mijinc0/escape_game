@@ -14,33 +14,19 @@ type SelectorSeConfig = {
 };
 
 export class SelectorSeRegistrar {
-  private static readonly defaultRootGroupCanceled = Asset.AssetCacheKey.audio(
-    'se_ui_cancel',
-  );
-  private static readonly defaultGroupCanceled = Asset.AssetCacheKey.audio(
-    'se_ui_cancel',
-  );
-  private static readonly defaultGoNext = Asset.AssetCacheKey.audio(
-    'se_ui_curor_move',
-  );
-  private static readonly defaultSelect = Asset.AssetCacheKey.audio(
-    'se_ui_select',
-  );
+  private static readonly defaultRootGroupCanceled = Asset.AssetCacheKey.audio('se_ui_cancel');
+  private static readonly defaultGroupCanceled = Asset.AssetCacheKey.audio('se_ui_cancel');
+  private static readonly defaultGoNext = Asset.AssetCacheKey.audio('se_ui_curor_move');
+  private static readonly defaultSelect = Asset.AssetCacheKey.audio('se_ui_select');
 
-  static regist(
-    selector: ISelector,
-    audioManager: Audio.IAudioManager,
-    config?: SelectorSeConfig,
-  ): void {
+  static regist(selector: ISelector, audioManager: Audio.IAudioManager, config?: SelectorSeConfig): void {
     config = config ? config : {};
 
     config = {
       rootGroupCanceled: config.rootGroupCanceled
         ? config.rootGroupCanceled
         : SelectorSeRegistrar.defaultRootGroupCanceled,
-      groupCanceled: config.groupCanceled
-        ? config.groupCanceled
-        : SelectorSeRegistrar.defaultGroupCanceled,
+      groupCanceled: config.groupCanceled ? config.groupCanceled : SelectorSeRegistrar.defaultGroupCanceled,
       goNext: config.goNext ? config.goNext : SelectorSeRegistrar.defaultGoNext,
       select: config.select ? config.select : SelectorSeRegistrar.defaultSelect,
     };

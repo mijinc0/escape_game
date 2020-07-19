@@ -137,16 +137,11 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
 
   private _createActorsManager(): Field.FieldActorsManager {
     if (!this.scenarioEventManager || !this.fieldData) {
-      throw Error(
-        'can not create FieldActorsManager before create ScenarioEventmanager & FieldData',
-      );
+      throw Error('can not create FieldActorsManager before create ScenarioEventmanager & FieldData');
     }
 
     const actorSpriteFactory = new Actor.ActorSpriteFactory(this);
-    const actorEventRegistrar = new Field.ActorEventRegistrar(
-      this.scenarioEventManager,
-      this.fieldData.events,
-    );
+    const actorEventRegistrar = new Field.ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
 
     return new Field.FieldActorsManager(
       actorSpriteFactory,
@@ -169,8 +164,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       const targetActorId = data.actorObject.id;
 
       const targetActorPosition = mapdataActorPositions.find(
-        (actorPosition: Map.ActorPosition) =>
-          actorPosition.actorId === targetActorId,
+        (actorPosition: Map.ActorPosition) => actorPosition.actorId === targetActorId,
       );
 
       if (targetActorPosition) {
@@ -221,18 +215,14 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     actor.sprite = sprite;
 
     // search event
-    const actors = this.actorsManager.actorData.map(
-      (data: Field.FieldActorData) => data.actorObject,
-    );
+    const actors = this.actorsManager.actorData.map((data: Field.FieldActorData) => data.actorObject);
     const searchEvent = new ActorSearchEvent(actors);
     searchEvent.setEvent(actor);
 
     // field menu event
     actor.on('fieldMenu', () => {
       const fieldMenuEvent = new FieldMenuEvent();
-      const fieldMenuEventRange = new Event.EventRangeFactory(
-        fieldMenuEvent,
-      ).create();
+      const fieldMenuEventRange = new Event.EventRangeFactory(fieldMenuEvent).create();
       this.scenarioEventManager.start(fieldMenuEventRange);
     });
 
@@ -244,10 +234,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     return actor;
   }
 
-  private _addSpawnActorsCollider(
-    spawnActor: Actor.IFieldActor,
-    onlyOverlap: boolean,
-  ): void {
+  private _addSpawnActorsCollider(spawnActor: Actor.IFieldActor, onlyOverlap: boolean): void {
     // set immovable
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
@@ -266,12 +253,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     // with other actors that has already spawned
     const spawnActors = this.actorsManager.getSpawnActors();
     spawnActors.forEach((actor: Actor.IFieldActor) => {
-      this.actorColliderRegistrar.registActorPair(
-        spawnActor,
-        actor,
-        undefined,
-        onlyOverlap,
-      );
+      this.actorColliderRegistrar.registActorPair(spawnActor, actor, undefined, onlyOverlap);
     });
 
     // with tilemap
@@ -281,16 +263,11 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   private _tilemapCollisionSetting(spawnActor: Actor.IFieldActor): void {
     // overActorのレイヤーは衝突しない
     const overActorLayerIndex = 2;
-    this.tilemapData.staticLayers.forEach(
-      (layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
-        if (index < overActorLayerIndex) {
-          this.actorColliderRegistrar.registActorAndGameObject(
-            spawnActor,
-            layer,
-          );
-        }
-      },
-    );
+    this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
+      if (index < overActorLayerIndex) {
+        this.actorColliderRegistrar.registActorAndGameObject(spawnActor, layer);
+      }
+    });
   }
 
   private _cameraSetting(): void {
@@ -301,9 +278,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   }
 
   private _sceneFadeIn(): void {
-    const event = new Event.EventRangeFactory(
-      ScenarioEventCommandsFactory.cameraFadeIn(300),
-    ).create();
+    const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
 
     this.scenarioEventManager.start(event);
   }

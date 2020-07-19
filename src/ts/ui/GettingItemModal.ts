@@ -16,12 +16,7 @@ export class GettingItemModal extends Ui.Group {
   private itemNameText: Ui.Text;
   private itemDescriptionText: Ui.Text;
 
-  constructor(
-    config: GettingItemModalConfig,
-    dx = 0,
-    dy = 0,
-    anchor?: Ui.IElement,
-  ) {
+  constructor(config: GettingItemModalConfig, dx = 0, dy = 0, anchor?: Ui.IElement) {
     const width = 400;
     const height = 200;
 
@@ -29,15 +24,7 @@ export class GettingItemModal extends Ui.Group {
 
     const scene = config.scene;
 
-    const baseRectangle = new Ui.Rectangle(
-      scene,
-      0,
-      0,
-      width,
-      height,
-      0x000000,
-      1,
-    );
+    const baseRectangle = new Ui.Rectangle(scene, 0, 0, width, height, 0x000000, 1);
     baseRectangle.setOrigin(0);
 
     const iconKey = config.item.iconImageKey;
@@ -45,38 +32,21 @@ export class GettingItemModal extends Ui.Group {
     itemIcon.setOrigin(0, 0.5);
 
     const itemNameTextX = itemIcon.deltaX + itemIcon.width + 16;
-    const itemNameText = new Ui.Text(
-      scene,
-      itemNameTextX,
-      32,
-      config.item.name,
-      {
-        fontSize: '24px',
-      },
-    );
+    const itemNameText = new Ui.Text(scene, itemNameTextX, 32, config.item.name, {
+      fontSize: '24px',
+    });
     itemNameText.setOrigin(0, 0.5);
 
-    const itemDescriptionText = new Ui.Text(
-      scene,
-      16,
-      64,
-      config.item.description,
-      {
-        fontSize: '20px',
-        wordWrap: {
-          width: width - 16,
-          useAdvancedWrap: true,
-        },
+    const itemDescriptionText = new Ui.Text(scene, 16, 64, config.item.description, {
+      fontSize: '20px',
+      wordWrap: {
+        width: width - 16,
+        useAdvancedWrap: true,
       },
-    );
+    });
     itemDescriptionText.setOrigin(0);
 
-    Render.UiRenderOrder.base(
-      baseRectangle,
-      itemIcon,
-      itemNameText,
-      itemDescriptionText,
-    );
+    Render.UiRenderOrder.base(baseRectangle, itemIcon, itemNameText, itemDescriptionText);
 
     scene.add.existing(baseRectangle);
     scene.add.existing(itemIcon);

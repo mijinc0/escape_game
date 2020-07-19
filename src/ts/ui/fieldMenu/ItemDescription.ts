@@ -23,14 +23,7 @@ export class ItemDescription extends Ui.Group implements IItemDescription {
     this.textObject.text = text;
   }
 
-  constructor(
-    config: ItemDescriptionConfig,
-    dx = 0,
-    dy = 0,
-    width = 0,
-    height = 0,
-    anchor?: Ui.IElement,
-  ) {
+  constructor(config: ItemDescriptionConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
     super(dx, dy, width, height, anchor);
 
     this.alignmentHandler = null;
@@ -46,25 +39,11 @@ export class ItemDescription extends Ui.Group implements IItemDescription {
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;
     const bgAlpha = config.backgroundAlpha ? config.backgroundAlpha : 0.8;
-    const baseRectangle = new Ui.Rectangle(
-      scene,
-      0,
-      0,
-      this.width,
-      this.height,
-      bgColor,
-      bgAlpha,
-    );
+    const baseRectangle = new Ui.Rectangle(scene, 0, 0, this.width, this.height, bgColor, bgAlpha);
     baseRectangle.setOrigin(0);
 
     const textMargin = 16;
-    this.textObject = new Ui.Text(
-      scene,
-      textMargin,
-      textMargin,
-      this.defaultText,
-      {},
-    );
+    this.textObject = new Ui.Text(scene, textMargin, textMargin, this.defaultText, {});
     this.textObject.setOrigin(0);
     this.textObject.setWordWrapWidth(this.width - textMargin * 2, true);
 

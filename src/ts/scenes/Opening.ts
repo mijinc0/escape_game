@@ -70,17 +70,11 @@ export class Opening extends Phaser.Scene {
 
       this.selector.disable = true;
 
-      this.cameras.main.fadeOut(
-        800,
-        0,
-        0,
-        0,
-        (camera: any, progress: number) => {
-          if (progress === 1) {
-            this.scene.start('field', fieldConfig);
-          }
-        },
-      );
+      this.cameras.main.fadeOut(800, 0, 0, 0, (camera: any, progress: number) => {
+        if (progress === 1) {
+          this.scene.start('field', fieldConfig);
+        }
+      });
     });
 
     return button;

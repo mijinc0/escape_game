@@ -27,9 +27,7 @@ export class Flag implements IScenarioEvent {
     if (this.value === 0) {
       scene.gameGlobal.flags.toggle(this.key);
     } else {
-      this.value > 0
-        ? scene.gameGlobal.flags.on(this.key)
-        : scene.gameGlobal.flags.off(this.key);
+      this.value > 0 ? scene.gameGlobal.flags.on(this.key) : scene.gameGlobal.flags.off(this.key);
     }
 
     this.complete();

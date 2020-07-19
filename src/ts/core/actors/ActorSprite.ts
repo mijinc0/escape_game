@@ -4,8 +4,7 @@ import { IActorSprite } from './IActorSprite';
 
 type SpriteAnimation = Phaser.Animations.Animation;
 
-export class ActorSprite extends Phaser.Physics.Arcade.Sprite
-  implements IActorSprite {
+export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorSprite {
   direction: Model.Direction;
 
   private spriteAnims: Map<string | number, SpriteAnimation>;
@@ -37,11 +36,7 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite
     this.spriteAnims.set(animName, animObject);
   }
 
-  playAnim(
-    animName: string,
-    ignoreIfPlaying?: boolean,
-    onCompleteEventCallback?: () => void,
-  ): this {
+  playAnim(animName: string, ignoreIfPlaying?: boolean, onCompleteEventCallback?: () => void): this {
     const anim = this.spriteAnims.get(animName);
 
     if (anim) {

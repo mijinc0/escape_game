@@ -19,15 +19,7 @@ export class PhaserObjectFactory {
     fillAlpha?: number,
     anchor?: IElement,
   ): Phaser.GameObjects.Rectangle & IElement {
-    const go = new Rectangle(
-      this.scene,
-      x,
-      y,
-      width,
-      height,
-      fillColor,
-      fillAlpha,
-    );
+    const go = new Rectangle(this.scene, x, y, width, height, fillColor, fillAlpha);
     go.anchor = anchor ? anchor : null;
     go.setOrigin(0);
     this.scene.add.existing(go);

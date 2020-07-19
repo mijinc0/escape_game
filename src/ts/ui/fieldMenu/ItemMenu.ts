@@ -45,15 +45,7 @@ export class ItemMenu extends Ui.Group {
 
     const group = new Ui.Group(0, 0, width, height);
 
-    const rectangle = new Ui.Rectangle(
-      this.scene,
-      0,
-      0,
-      width,
-      height,
-      0x000000,
-      0.5,
-    );
+    const rectangle = new Ui.Rectangle(this.scene, 0, 0, width, height, 0x000000, 0.7);
     rectangle.setOrigin(0);
     Render.UiRenderOrder.base(rectangle);
 
@@ -101,16 +93,7 @@ export class ItemMenu extends Ui.Group {
     const margin = 12;
     const ah = new Ui.RangeAlignmentHandler(margin, Ui.Direction.Down);
 
-    return new Ui.ScrollGroup<Model.Item>(
-      dx,
-      dy,
-      width,
-      height,
-      null,
-      ah,
-      maxItemViewSize,
-      scrollSize,
-    );
+    return new Ui.ScrollGroup<Model.Item>(dx, dy, width, height, null, ah, maxItemViewSize, scrollSize);
   }
 
   private _createItemListElement(item: Model.Item): ItemListElement {

@@ -26,10 +26,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     this.isComplete = false;
 
     const seConfig = {};
-    scene.audioManager.playSe(
-      Assets.AssetCacheKey.audio('se_open_fieldmenu'),
-      seConfig,
-    );
+    scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
 
     this.selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
     // NOTE: IFieldScene一つに変更可能だが暫定的に維持
@@ -39,10 +36,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     });
 
     // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
-    this.fieldMenu.mainMenu.backButton.on(
-      Ui.ElementEventNames.Select,
-      this.closeMenu.bind(this),
-    );
+    this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this.closeMenu.bind(this));
     this.selector.setRootCancelEvent(this.closeMenu.bind(this));
 
     this.fieldMenu.registSelector(this.selector);

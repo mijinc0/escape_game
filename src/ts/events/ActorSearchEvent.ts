@@ -14,30 +14,16 @@ export class ActorSearchEvent {
     actor.on('search', this.search.bind(this));
   }
 
-  search(
-    actorX: number,
-    actorY: number,
-    actorWidth: number,
-    actorHeight: number,
-    direction: Model.Direction,
-  ): void {
+  search(actorX: number, actorY: number, actorWidth: number, actorHeight: number, direction: Model.Direction): void {
     console.log('start actor search event');
 
-    const zone = this._calcSearchZone(
-      actorX,
-      actorY,
-      actorWidth,
-      actorHeight,
-      direction,
-    );
+    const zone = this._calcSearchZone(actorX, actorY, actorWidth, actorHeight, direction);
 
     console.log(`target actors : ${this.actors.length}`);
     console.log(
       `actor: {x: ${actorX}, y: ${actorY}, width: ${actorWidth}, height: ${actorHeight}, direction: ${direction}`,
     );
-    console.log(
-      `search zone: {x: ${zone.x}, y: ${zone.y}, width: ${zone.width}, height: ${zone.height}`,
-    );
+    console.log(`search zone: {x: ${zone.x}, y: ${zone.y}, width: ${zone.width}, height: ${zone.height}`);
 
     this._search(zone);
   }
@@ -93,10 +79,7 @@ export class ActorSearchEvent {
     });
   }
 
-  private _isOverlappingSearchZone(
-    zone: Model.Zone,
-    target: Actor.IActor,
-  ): boolean {
+  private _isOverlappingSearchZone(zone: Model.Zone, target: Actor.IActor): boolean {
     if (!target.sprite || !target.sprite.body) return false;
 
     const searchLeft = zone.x;

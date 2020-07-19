@@ -10,13 +10,7 @@ export class PlaySe implements Event.IScenarioEvent {
   private audioConfig: Audio.IAudioConfig;
   private startAudio: boolean;
 
-  constructor(
-    audioKey: string,
-    volume?: number,
-    delay?: number,
-    rate?: number,
-    async?: boolean,
-  ) {
+  constructor(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean) {
     this.audioKey = audioKey;
     this.isAsync = async ? async : false;
     this.isComplete = false;

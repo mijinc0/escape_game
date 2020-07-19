@@ -37,9 +37,7 @@ export class SceneEventOprationsFactory {
    *
    * @param criteriaCallback
    */
-  static if(
-    criteriaCallback: CriteriaCallback,
-  ): (...events: IScenarioEvent[]) => If {
+  static if(criteriaCallback: CriteriaCallback): (...events: IScenarioEvent[]) => If {
     return (...events: IScenarioEvent[]) => new If(criteriaCallback, events);
   }
 

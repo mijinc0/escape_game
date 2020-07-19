@@ -22,11 +22,9 @@ const entries: EntryBase[] = [
   },
 ];
 
-export const SpritesheetAssetEntries: Asset.ISpritesheetAssetEntry[] = entries.map(
-  (base: EntryBase) => ({
-    key: Asset.AssetCacheKey.spritesheet(base.name),
-    path: base.path,
-    frameWidth: base.frameWidth,
-    frameHeight: base.frameHeight,
-  }),
-);
+export const SpritesheetAssetEntries: Asset.ISpritesheetAssetEntry[] = entries.map((base: EntryBase) => ({
+  key: Asset.AssetCacheKey.spritesheet(base.name),
+  path: base.path,
+  frameWidth: base.frameWidth,
+  frameHeight: base.frameHeight,
+}));

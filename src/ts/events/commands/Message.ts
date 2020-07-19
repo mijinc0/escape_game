@@ -52,12 +52,7 @@ export class Message implements IScenarioEvent {
   init(scene: IFieldScene): void {
     this.isComplete = false;
     this.messageBuffers = this._createMessageBuffer(this.message);
-    this.messageBox = this._createMessageBox(
-      scene.phaserScene,
-      this.justify,
-      this.align,
-      this.hasBackground,
-    );
+    this.messageBox = this._createMessageBox(scene.phaserScene, this.justify, this.align, this.hasBackground);
 
     this._hideWaitingCursor();
   }
@@ -99,12 +94,7 @@ export class Message implements IScenarioEvent {
     this.messageBuffers.push(...newBuffer);
   }
 
-  private _createMessageBox(
-    scene: Phaser.Scene,
-    justify: string,
-    align: string,
-    hasBackground: boolean,
-  ): MessageBox {
+  private _createMessageBox(scene: Phaser.Scene, justify: string, align: string, hasBackground: boolean): MessageBox {
     const width = scene.cameras.main.width - 20;
     const height = 160;
     const x = this._getPositionX(scene, 10);
@@ -131,11 +121,7 @@ export class Message implements IScenarioEvent {
     return displayArea.x + x;
   }
 
-  private _getPositionY(
-    scene: Phaser.Scene,
-    justify: string,
-    boxHeight: number,
-  ): number {
+  private _getPositionY(scene: Phaser.Scene, justify: string, boxHeight: number): number {
     const displayArea = scene.cameras.main.worldView;
 
     // 10pxだけマージンをとる
@@ -164,9 +150,7 @@ export class Message implements IScenarioEvent {
     // 切り出してtextObjectに追加、追加分をbufferから削除
     const nextChunk = this.messageBuffers[0].slice(0, this.messageChunkSize);
     this.messageBox.text += nextChunk;
-    this.messageBuffers[0] = this.messageBuffers[0].slice(
-      this.messageChunkSize,
-    );
+    this.messageBuffers[0] = this.messageBuffers[0].slice(this.messageChunkSize);
   }
 
   private _waitKeyInput(keys?: Keys): void {

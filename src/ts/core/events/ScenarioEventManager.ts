@@ -14,8 +14,7 @@ import { IScenarioEvent } from './IScenarioEvent';
  * 7. イベントを割り込ませたい場合はeventsの先頭にRangeを差し込めば良い
  * 8. break等でイベントをRange単位でスキップさせたい場合はそのRangeをeventsから削除すれば良い
  */
-export class ScenarioEventManager extends EventEmitter
-  implements IScenarioEventManager {
+export class ScenarioEventManager extends EventEmitter implements IScenarioEventManager {
   scene: Scene.IFieldScene;
   events: EventRange[];
   currentEvents: IScenarioEvent[];
@@ -55,9 +54,7 @@ export class ScenarioEventManager extends EventEmitter
     });
 
     // 未完了イベントのみを残す
-    this.currentEvents = this.currentEvents.filter(
-      (event: IScenarioEvent) => !event.isComplete,
-    );
+    this.currentEvents = this.currentEvents.filter((event: IScenarioEvent) => !event.isComplete);
 
     // 全てのイベントを取得済みではない、かつ、
     // 現在進行中のイベントが全て非同期イベントであれば、次のイベントをチャンクから取得しセットする

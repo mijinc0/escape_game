@@ -19,12 +19,7 @@ export class AssetLoader {
 
     if (config.spritesheet) {
       config.spritesheet.forEach((entry: ISpritesheetAssetEntry) => {
-        this._loadSpritesheet(
-          entry.key,
-          entry.path,
-          entry.frameWidth,
-          entry.frameHeight,
-        );
+        this._loadSpritesheet(entry.key, entry.path, entry.frameWidth, entry.frameHeight);
       });
     }
 
@@ -69,12 +64,7 @@ export class AssetLoader {
     this.scene.load.image(key, path);
   }
 
-  private _loadSpritesheet(
-    key: string,
-    path: string,
-    frameWidth: number,
-    frameHeight: number,
-  ): void {
+  private _loadSpritesheet(key: string, path: string, frameWidth: number, frameHeight: number): void {
     this.scene.load.spritesheet(key, path, {
       frameWidth: frameWidth,
       frameHeight: frameHeight,

@@ -16,14 +16,7 @@ export class MessageBox extends Ui.Group {
   private textObject: Ui.Text;
   private waitingCursor: Ui.Text;
 
-  constructor(
-    config: MessageBoxConfig,
-    dx = 0,
-    dy = 0,
-    width = 0,
-    height = 0,
-    anchor?: Ui.IElement,
-  ) {
+  constructor(config: MessageBoxConfig, dx = 0, dy = 0, width = 0, height = 0, anchor?: Ui.IElement) {
     super(dx, dy, width, height, anchor, null);
 
     this.init(config);
@@ -50,15 +43,7 @@ export class MessageBox extends Ui.Group {
 
     const bgColor = config.backgroundColor ? config.backgroundColor : 0x000000;
     const bgAlpha = config.backgroundAlpha ? config.backgroundAlpha : 0.8;
-    const baseRectangle = new Ui.Rectangle(
-      scene,
-      0,
-      0,
-      this.width,
-      this.height,
-      bgColor,
-      bgAlpha,
-    );
+    const baseRectangle = new Ui.Rectangle(scene, 0, 0, this.width, this.height, bgColor, bgAlpha);
 
     const textMargin = 16;
     const text = new Ui.Text(scene, textMargin, textMargin, config.text, {
@@ -69,16 +54,10 @@ export class MessageBox extends Ui.Group {
     text.setOrigin(0);
     text.setWordWrapWidth(this.width - textMargin * 2, true);
 
-    const waitingCursor = new Ui.Text(
-      scene,
-      this.width - 30,
-      this.height - 30,
-      '*',
-      {
-        fontSize: '24px',
-        fontStyle: 'bold',
-      },
-    );
+    const waitingCursor = new Ui.Text(scene, this.width - 30, this.height - 30, '*', {
+      fontSize: '24px',
+      fontStyle: 'bold',
+    });
     baseRectangle.setOrigin(0);
     // hide waiting cursor by default
     waitingCursor.renderFlags &= ~1;

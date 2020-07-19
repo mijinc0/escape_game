@@ -7,9 +7,7 @@ const entries: EntryBase[] = [
   { name: 'sample_map2', path: 'assets/map/sample_map2.json' },
 ];
 
-export const TileMapAssetEntries: Asset.IAssetEntry[] = entries.map(
-  (base: EntryBase) => ({
-    key: Asset.AssetCacheKey.tilemap(base.name),
-    path: base.path,
-  }),
-);
+export const TileMapAssetEntries: Asset.IAssetEntry[] = entries.map((base: EntryBase) => ({
+  key: Asset.AssetCacheKey.tilemap(base.name),
+  path: base.path,
+}));

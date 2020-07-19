@@ -3,9 +3,7 @@ import { TileInfo } from './TileInfo';
 
 export class TileInfosFactory {
   static createFromJson(jsonFile: any): TileInfo[] {
-    const tiles: any[] = Util.ValueTypeUtil.isObjectArray(jsonFile.tiles)
-      ? jsonFile.tiles
-      : [];
+    const tiles: any[] = Util.ValueTypeUtil.isObjectArray(jsonFile.tiles) ? jsonFile.tiles : [];
     return this._createTileInfos(tiles);
   }
 
@@ -19,9 +17,7 @@ export class TileInfosFactory {
     // マップデータとタイルデータを合わせた時にIDがひとつずれてしまうため、タイルIDを+1して修正している
     const id = Util.ValueTypeUtil.isNumber(tileData.id) ? tileData.id + 1 : -1;
     const properties = this._parsePropertiesObject(tileData.properties);
-    const collide = Util.ValueTypeUtil.isBoolean(properties.get('collide'))
-      ? properties.get('collide')
-      : false;
+    const collide = Util.ValueTypeUtil.isBoolean(properties.get('collide')) ? properties.get('collide') : false;
     return {
       id: id,
       collide: collide,

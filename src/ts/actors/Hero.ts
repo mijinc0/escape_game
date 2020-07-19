@@ -7,12 +7,7 @@ import * as Scene from '../core/scenes';
 export class Hero extends Actor.FieldActor {
   private seFootstep: Phaser.Sound.BaseSound;
 
-  constructor(
-    id: number,
-    name: string,
-    sprite?: Actor.IActorSprite,
-    eventId?: number,
-  ) {
+  constructor(id: number, name: string, sprite?: Actor.IActorSprite, eventId?: number) {
     super(id, name, sprite, eventId);
 
     this.seFootstep = null;
@@ -33,14 +28,7 @@ export class Hero extends Actor.FieldActor {
         this.flags.on('search');
         this.flags.on('fieldMenu');
 
-        this.emit(
-          'search',
-          this.sprite.x,
-          this.sprite.y,
-          this.sprite.width,
-          this.sprite.height,
-          this.sprite.direction,
-        );
+        this.emit('search', this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height, this.sprite.direction);
       }
     } else {
       this.flags.off('search');
@@ -105,8 +93,7 @@ export class Hero extends Actor.FieldActor {
     }
 
     // play of stop footstep SE
-    const isMoving =
-      this.sprite.body.velocity.x != 0 || this.sprite.body.velocity.y != 0;
+    const isMoving = this.sprite.body.velocity.x != 0 || this.sprite.body.velocity.y != 0;
     if (isMoving) {
       this._playSeFootstep(scene);
     } else if (this.seFootstep) {
@@ -125,11 +112,8 @@ export class Hero extends Actor.FieldActor {
         rate: 1.4,
         roop: false,
       };
-      // TODO: これだとkeyが見つからなかった場合エラーを吐いて止まってしまうが、音が流れない理由でゲームを止めたくはないので
-      // AudioManagerのようなクラスを作ってワンクッション置いてエラーではなくて警告だけが出るようにする
-      this.seFootstep = this.seFootstep
-        ? this.seFootstep
-        : scene.audioManager.playSe(seFootsetpKey, seFootsetpConfig);
+
+      this.seFootstep = this.seFootstep ? this.seFootstep : scene.audioManager.playSe(seFootsetpKey, seFootsetpConfig);
     }
 
     // オーディオインスタンスが停止中なら再生

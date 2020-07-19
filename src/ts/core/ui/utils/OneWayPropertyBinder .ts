@@ -1,10 +1,5 @@
 export class OneWayPropertyBinder {
-  static bind(
-    emitter: any,
-    emitterProperty: string,
-    receiver: any,
-    receiverProperty?: string,
-  ): void {
+  static bind(emitter: any, emitterProperty: string, receiver: any, receiverProperty?: string): void {
     receiverProperty = receiverProperty ? receiverProperty : emitterProperty;
 
     if (!(emitterProperty in emitter) || !(receiverProperty in receiver)) {
@@ -12,9 +7,7 @@ export class OneWayPropertyBinder {
     }
 
     if (typeof emitter[emitterProperty] != typeof receiver[receiverProperty]) {
-      throw Error(
-        "type of emitter[property] should equal receiver[property]'s",
-      );
+      throw Error("type of emitter[property] should equal receiver[property]'s");
     }
 
     let currentValue = emitter[emitterProperty];

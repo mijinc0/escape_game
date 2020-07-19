@@ -50,9 +50,7 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
       this.eventStep = Step.FadeinModal;
       this.isComplete = false;
     } else {
-      console.warn(
-        `${this.itemName} is not found. PopGettingItemModal will complete immediately.`,
-      );
+      console.warn(`${this.itemName} is not found. PopGettingItemModal will complete immediately.`);
 
       this.eventStep = Step.Complete;
       this.isComplete = true;
@@ -76,10 +74,7 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
     this.isComplete = true;
   }
 
-  private _createModal(
-    scene: Scene.IFieldScene,
-    item: Model.Item,
-  ): GettingItemModal {
+  private _createModal(scene: Scene.IFieldScene, item: Model.Item): GettingItemModal {
     const config = {
       scene: scene.phaserScene,
       item: item,

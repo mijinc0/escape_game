@@ -56,11 +56,7 @@ class FieldScene extends TestFieldScene {
 
 describe('return.update()', () => {
   context('normal', () => {
-    const events: EventRange[] = [
-      new LineRange(),
-      new LineRange(),
-      new LineRange(),
-    ];
+    const events: EventRange[] = [new LineRange(), new LineRange(), new LineRange()];
 
     const currentEvent = [new TestEvent(), new TestEvent(), new TestEvent()];
 

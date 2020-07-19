@@ -22,13 +22,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
   ): OneWayAnimActorSprite {
     this._checkExistingSpritesheet(spritesheetKey);
 
-    const sprite = new OneWayAnimActorSprite(
-      this.scene,
-      x,
-      y,
-      spritesheetKey,
-      initFrame,
-    );
+    const sprite = new OneWayAnimActorSprite(this.scene, x, y, spritesheetKey, initFrame);
     sprite.setOrigin(0);
 
     this._addPhaserScene(sprite);
@@ -46,13 +40,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
   ): FourWayAnimsActorSprite {
     this._checkExistingSpritesheet(spritesheetKey);
 
-    const sprite = new FourWayAnimsActorSprite(
-      this.scene,
-      x,
-      y,
-      spritesheetKey,
-      initFrame,
-    );
+    const sprite = new FourWayAnimsActorSprite(this.scene, x, y, spritesheetKey, initFrame);
     sprite.setOrigin(0);
 
     this._addPhaserScene(sprite);
@@ -61,11 +49,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
     return sprite;
   }
 
-  createInvisibleActorSprite(
-    x: number,
-    y: number,
-    bodyConfig?: IBodyConfig,
-  ): ActorSprite {
+  createInvisibleActorSprite(x: number, y: number, bodyConfig?: IBodyConfig): ActorSprite {
     const sprite = new ActorSprite(this.scene, x, y, 'invisible', 0);
     sprite.setOrigin(0);
     sprite.visible = false;
@@ -83,10 +67,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
       // bodyConfig.sizeがnumberであればスプライトの大きさに対して何割かで決める
       // bodyConfig.sizeがSizeであれば指定の大きさをbodyの大きさとする
       Util.ValueTypeUtil.isNumber(bodyConfig.size)
-        ? sprite.body.setSize(
-            sprite.width * bodyConfig.size,
-            sprite.height * bodyConfig.size,
-          )
+        ? sprite.body.setSize(sprite.width * bodyConfig.size, sprite.height * bodyConfig.size)
         : sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.width);
     }
 
@@ -100,10 +81,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
 
     if (bodyConfig.offset) {
       const offset = sprite.body.offset;
-      sprite.body.setOffset(
-        offset.x + bodyConfig.offset.x,
-        offset.y + bodyConfig.offset.y,
-      );
+      sprite.body.setOffset(offset.x + bodyConfig.offset.x, offset.y + bodyConfig.offset.y);
     }
   }
 

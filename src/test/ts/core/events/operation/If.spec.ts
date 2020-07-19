@@ -46,11 +46,7 @@ describe('if.update()', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
 
-    const opIf = new If(() => true, [
-      new TestEvent(),
-      new TestEvent(),
-      new TestEvent(),
-    ]);
+    const opIf = new If(() => true, [new TestEvent(), new TestEvent(), new TestEvent()]);
 
     opIf.update(scene);
 
@@ -68,11 +64,7 @@ describe('if.update()', () => {
     const sem = new ScenarioEventManager([]);
     const scene = new FieldScene(sem);
 
-    const opIf = new If(() => false, [
-      new TestEvent(),
-      new TestEvent(),
-      new TestEvent(),
-    ]);
+    const opIf = new If(() => false, [new TestEvent(), new TestEvent(), new TestEvent()]);
 
     opIf.update(scene);
 

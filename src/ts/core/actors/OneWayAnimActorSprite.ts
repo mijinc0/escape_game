@@ -47,17 +47,11 @@ export class OneWayAnimActorSprite extends ActorSprite {
     this.setAnim(animName, anim);
   }
 
-  private _createActorAnimKey(
-    spriteSheetKey: string,
-    animName: string,
-  ): string {
+  private _createActorAnimKey(spriteSheetKey: string, animName: string): string {
     return Asset.AssetCacheKey.anim(spriteSheetKey, animName);
   }
 
-  private _createDefaultAnim(
-    spritesheetKey: string,
-    animKey: string,
-  ): SpriteAnimation {
+  private _createDefaultAnim(spritesheetKey: string, animKey: string): SpriteAnimation {
     const totalFrames = this.texture.frameTotal - 1;
 
     const startFrame = 0;

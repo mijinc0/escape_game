@@ -16,13 +16,7 @@ import { PlaySe } from './commands/PlaySe';
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
 
-  static message(
-    message: string,
-    isAsync = false,
-    align = 'left',
-    hasBackground = true,
-    justify = 'bottom',
-  ): Message {
+  static message(message: string, isAsync = false, align = 'left', hasBackground = true, justify = 'bottom'): Message {
     return new Message(
       message,
       isAsync,
@@ -62,12 +56,7 @@ export class ScenarioEventCommandsFactory {
     return new Sleep(frame);
   }
 
-  static moveField(
-    fieldId: number,
-    x: number,
-    y: number,
-    direction: Model.Direction,
-  ): MoveField {
+  static moveField(fieldId: number, x: number, y: number, direction: Model.Direction): MoveField {
     return new MoveField(fieldId, x, y, direction);
   }
 
@@ -79,11 +68,7 @@ export class ScenarioEventCommandsFactory {
     return new CameraFadeOut(duration, async);
   }
 
-  static playActorAnim(
-    actorId: number,
-    animName: string,
-    async?: boolean,
-  ): PlayActorAnim {
+  static playActorAnim(actorId: number, animName: string, async?: boolean): PlayActorAnim {
     return new PlayActorAnim(actorId, animName, async);
   }
 
@@ -91,13 +76,7 @@ export class ScenarioEventCommandsFactory {
     return new PopGettingItemModal(itemName);
   }
 
-  static playSe(
-    audioKey: string,
-    volume?: number,
-    delay?: number,
-    rate?: number,
-    async?: boolean,
-  ): PlaySe {
+  static playSe(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean): PlaySe {
     return new PlaySe(audioKey, volume, delay, rate, async);
   }
 }

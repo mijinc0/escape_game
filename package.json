@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rm -rf ./dist/* && npx webpack",
     "serve": "npx http-server ./dist -p 8080 -o -c-1",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')"
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')",
+    "format": "npx eslint 'src/**/*.ts' --fix"
   },
   "author": "",
   "license": "ISC",

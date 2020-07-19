@@ -18,11 +18,7 @@ export interface IActorSpriteFactory {
     bodyConfig?: IBodyConfig,
   ): IActorSprite;
 
-  createInvisibleActorSprite(
-    x: number,
-    y: number,
-    bodyConfig?: IBodyConfig,
-  ): IActorSprite;
+  createInvisibleActorSprite(x: number, y: number, bodyConfig?: IBodyConfig): IActorSprite;
 
   bodySetting(sprite: IActorSprite, bodyConfig?: IBodyConfig): void;
 }

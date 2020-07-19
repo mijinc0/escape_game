@@ -23,17 +23,11 @@ export class CameraFadeIn implements IScenarioEvent {
   update(scene: IFieldScene): void {
     if (this.startFadeIn) return;
 
-    scene.phaserScene.cameras.main.fadeIn(
-      this.duration,
-      0,
-      0,
-      0,
-      (camera: any, progress: number) => {
-        if (progress === 1) {
-          this.complete();
-        }
-      },
-    );
+    scene.phaserScene.cameras.main.fadeIn(this.duration, 0, 0, 0, (camera: any, progress: number) => {
+      if (progress === 1) {
+        this.complete();
+      }
+    });
 
     this.startFadeIn = true;
   }

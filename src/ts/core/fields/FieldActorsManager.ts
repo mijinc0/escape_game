@@ -7,10 +7,7 @@ import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 import { IActorEventRegistrar } from './IActorEventRegistrar';
 
 type SpawnCriteriaCallback = () => boolean;
-type CollisionSettingCallback = (
-  spawnActor: Actor.IFieldActor,
-  onlyOverlap: boolean,
-) => void;
+type CollisionSettingCallback = (spawnActor: Actor.IFieldActor, onlyOverlap: boolean) => void;
 
 export class FieldActorsManager {
   actorData: FieldActorData[];
@@ -33,9 +30,7 @@ export class FieldActorsManager {
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IFieldActorEntry[],
   ) {
-    this.actorData = actorEntries
-      ? this._createFieldActorDataFromActorEntries(actorEntries)
-      : [];
+    this.actorData = actorEntries ? this._createFieldActorDataFromActorEntries(actorEntries) : [];
     this.actorSpriteFactory = actorSpriteFactory;
     this.actorEventRegistrar = actorEventRegistrar;
     this.collisionSettingCallback = collisionSettingCallback;
@@ -58,9 +53,7 @@ export class FieldActorsManager {
   }
 
   findActorById(id: number): Actor.IFieldActor | null {
-    const actor = this.actorData.find(
-      (data: FieldActorData) => data.actorObject.id === id,
-    );
+    const actor = this.actorData.find((data: FieldActorData) => data.actorObject.id === id);
 
     return actor ? actor.actorObject : null;
   }
@@ -73,9 +66,7 @@ export class FieldActorsManager {
     });
   }
 
-  private _createFieldActorDataFromActorEntries(
-    entries: IFieldActorEntry[],
-  ): FieldActorData[] {
+  private _createFieldActorDataFromActorEntries(entries: IFieldActorEntry[]): FieldActorData[] {
     return entries.map((entry: IFieldActorEntry) => {
       const actorObject = new Actor.FieldActor(entry.id, entry.name);
       const position = entry.position ? entry.position : { x: 0, y: 0 };
@@ -83,13 +74,7 @@ export class FieldActorsManager {
       const isSpawn = false;
       const initPageIndex = -1;
 
-      return new FieldActorData(
-        actorObject,
-        position,
-        pages,
-        isSpawn,
-        initPageIndex,
-      );
+      return new FieldActorData(actorObject, position, pages, isSpawn, initPageIndex);
     });
   }
 
@@ -122,10 +107,7 @@ export class FieldActorsManager {
    * @param entry
    * @param pageIndex
    */
-  private _spawnOrRespawnActor(
-    fieldActorData: FieldActorData,
-    pageIndex: number,
-  ): void {
+  private _spawnOrRespawnActor(fieldActorData: FieldActorData, pageIndex: number): void {
     const page = this._getPage(fieldActorData, pageIndex);
     const actor = fieldActorData.actorObject;
 
@@ -161,16 +143,11 @@ export class FieldActorsManager {
     );
   }
 
-  private _getPage(
-    fieldActorData: FieldActorData,
-    pageIndex: number,
-  ): IFieldActorStatusPage {
+  private _getPage(fieldActorData: FieldActorData, pageIndex: number): IFieldActorStatusPage {
     const page = fieldActorData.statusPages[pageIndex];
 
     if (!page) {
-      throw Error(
-        `actor status page is not found (actor: ${fieldActorData.actorObject.id}, page: ${pageIndex})`,
-      );
+      throw Error(`actor status page is not found (actor: ${fieldActorData.actorObject.id}, page: ${pageIndex})`);
     }
 
     return page;
@@ -192,10 +169,7 @@ export class FieldActorsManager {
     }
   }
 
-  private _createActorSprite(
-    fieldActorData: FieldActorData,
-    pageIndex: number,
-  ): Actor.IActorSprite {
+  private _createActorSprite(fieldActorData: FieldActorData, pageIndex: number): Actor.IActorSprite {
     const page = fieldActorData.statusPages[pageIndex];
     const actor = fieldActorData.actorObject;
 
@@ -209,46 +183,24 @@ export class FieldActorsManager {
 
     switch (spriteType) {
       case Actor.ActorSpriteTypes.OneWayAnim:
-        return this.actorSpriteFactory.createOneWayAnimActorSprite(
-          x,
-          y,
-          spritesheetKey,
-          initFrame,
-          bodyConfig,
-        );
+        return this.actorSpriteFactory.createOneWayAnimActorSprite(x, y, spritesheetKey, initFrame, bodyConfig);
 
       case Actor.ActorSpriteTypes.FourWayAnims:
-        return this.actorSpriteFactory.createFourWayAnimsActorSprite(
-          x,
-          y,
-          spritesheetKey,
-          initFrame,
-          bodyConfig,
-        );
+        return this.actorSpriteFactory.createFourWayAnimsActorSprite(x, y, spritesheetKey, initFrame, bodyConfig);
 
       case Actor.ActorSpriteTypes.Invisible:
-        return this.actorSpriteFactory.createInvisibleActorSprite(
-          x,
-          y,
-          bodyConfig,
-        );
+        return this.actorSpriteFactory.createInvisibleActorSprite(x, y, bodyConfig);
     }
 
     // enum使っているので実際はここまで到達しないが、どこかでnumber使ってすり抜けてきた時用
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
 
-  private _setEvents(
-    actor: Actor.IFieldActor,
-    page: IFieldActorStatusPage,
-  ): void {
+  private _setEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
     this.actorEventRegistrar.regist(actor, page);
   }
 
-  private _setCollisionSettings(
-    actor: Actor.IFieldActor,
-    overlapOnly?: boolean,
-  ): void {
+  private _setCollisionSettings(actor: Actor.IFieldActor, overlapOnly?: boolean): void {
     overlapOnly = overlapOnly ? overlapOnly : false;
     this.collisionSettingCallback(actor, overlapOnly);
   }

@@ -10,9 +10,7 @@ class TestAlignmentHandler implements IAlignmentHandler {
   align(elements: IElement[], anchor?: IElement): void {}
 
   getNextIndex(currentIndex: number, direction: Direction): number {
-    return direction === Direction.Down || direction === Direction.Right
-      ? currentIndex + 1
-      : currentIndex - 1;
+    return direction === Direction.Down || direction === Direction.Right ? currentIndex + 1 : currentIndex - 1;
   }
 }
 
@@ -23,16 +21,7 @@ describe('scrollGroup.push', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const elementA = new Element();
     const elementB = new Element();
@@ -42,15 +31,7 @@ describe('scrollGroup.push', () => {
     const elementF = new Element();
     const elementG = new Element();
 
-    scrollGroup.push(
-      elementA,
-      elementB,
-      elementC,
-      elementD,
-      elementE,
-      elementF,
-      elementG,
-    );
+    scrollGroup.push(elementA, elementB, elementC, elementD, elementE, elementF, elementG);
 
     it('group should have mazSize elements', async () => {
       expect(scrollGroup.entries.length).is.equal(maxSize);
@@ -69,16 +50,7 @@ describe('scrollGroup.unshift', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const elementA = new Element();
     const elementB = new Element();
@@ -88,15 +60,7 @@ describe('scrollGroup.unshift', () => {
     const elementF = new Element();
     const elementG = new Element();
 
-    scrollGroup.unshift(
-      elementA,
-      elementB,
-      elementC,
-      elementD,
-      elementE,
-      elementF,
-      elementG,
-    );
+    scrollGroup.unshift(elementA, elementB, elementC, elementD, elementE, elementF, elementG);
 
     it('group should have mazSize elements', async () => {
       expect(scrollGroup.entries.length).is.equal(maxSize);
@@ -115,28 +79,9 @@ describe('scrollGroup.setData', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
-    const data = [
-      '0apple',
-      '1lemon',
-      '2orange',
-      '3kiwi',
-      '4berry',
-      '5meron',
-      '6grapefruit',
-      '7banana',
-      '8avocado',
-    ];
+    const data = ['0apple', '1lemon', '2orange', '3kiwi', '4berry', '5meron', '6grapefruit', '7banana', '8avocado'];
 
     const elementFactoryCallback = (name: string) => {
       const element = new Element();
@@ -163,16 +108,7 @@ describe('scrollGroup.getNext', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const data = [
       '0apple',
@@ -220,16 +156,7 @@ describe('scrollGroup.getNext', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const data = [
       '0apple',
@@ -283,28 +210,9 @@ describe('scrollGroup.getNext (over data)', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
-    const data = [
-      '0apple',
-      '1lemon',
-      '2orange',
-      '3kiwi',
-      '4berry',
-      '5meron',
-      '6grapefruit',
-      '7banana',
-      '8avocado',
-    ];
+    const data = ['0apple', '1lemon', '2orange', '3kiwi', '4berry', '5meron', '6grapefruit', '7banana', '8avocado'];
 
     const elementFactoryCallback = (name: string) => {
       const element = new Element();
@@ -334,16 +242,7 @@ describe('scrollGroup.getNext (over data) 2', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const data = [
       '0apple',
@@ -384,16 +283,7 @@ describe('scrollGroup.getNext (over data) 3', () => {
 
     const ah = new TestAlignmentHandler();
 
-    const scrollGroup = new ScrollGroup<string>(
-      0,
-      0,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup<string>(0, 0, 0, 0, null, ah, maxSize, scrollSize);
 
     const data = ['0apple', '1lemon', '2orange', '3kiwi'];
 
@@ -428,16 +318,7 @@ describe('entry.x', () => {
     // use default
     const ah: IAlignmentHandler = null;
 
-    const scrollGroup = new ScrollGroup(
-      10,
-      20,
-      0,
-      0,
-      null,
-      ah,
-      maxSize,
-      scrollSize,
-    );
+    const scrollGroup = new ScrollGroup(10, 20, 0, 0, null, ah, maxSize, scrollSize);
 
     const elementA = new Element(10, 20);
     const elementB = new Element(20, 40);

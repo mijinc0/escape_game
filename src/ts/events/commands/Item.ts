@@ -37,11 +37,7 @@ export class Item implements IScenarioEvent {
     this.isComplete = true;
   }
 
-  private _getItem(
-    itemName: string,
-    num: number,
-    gameGlobal: IGameGlobal,
-  ): ItemObject | null {
+  private _getItem(itemName: string, num: number, gameGlobal: IGameGlobal): ItemObject | null {
     const item = gameGlobal.items.get(itemName);
 
     // アイテムデータが存在しない
@@ -50,11 +46,7 @@ export class Item implements IScenarioEvent {
     gameGlobal.ownItems.add(item, num);
   }
 
-  private _lostItem(
-    itemName: string,
-    num: number,
-    gameGlobal: IGameGlobal,
-  ): void {
+  private _lostItem(itemName: string, num: number, gameGlobal: IGameGlobal): void {
     const item = gameGlobal.items.get(itemName);
 
     // アイテムデータが存在しない

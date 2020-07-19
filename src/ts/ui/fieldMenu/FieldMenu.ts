@@ -36,15 +36,7 @@ export class FieldMenu extends Ui.Group {
     // yは適当だが、mainMenuを囲える位置
     const y = 16;
 
-    const rectangle = new Ui.Rectangle(
-      config.scene,
-      x,
-      y,
-      width,
-      height,
-      0x000000,
-      0.5,
-    );
+    const rectangle = new Ui.Rectangle(config.scene, x, y, width, height, 0x000000, 0.5);
 
     rectangle.setOrigin(0);
     Render.UiRenderOrder.base(rectangle);

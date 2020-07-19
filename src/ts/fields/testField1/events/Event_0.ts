@@ -15,10 +15,7 @@ export default Field.EventEntryFactory.create(
 
   op.loop(
     op
-      .if(() => GameGlobal.variables.get('loop') < 10)(
-        cmd.message('loop now'),
-        cmd.addVariable('loop', 1),
-      )
+      .if(() => GameGlobal.variables.get('loop') < 10)(cmd.message('loop now'), cmd.addVariable('loop', 1))
       .else(op.break()),
   ),
 

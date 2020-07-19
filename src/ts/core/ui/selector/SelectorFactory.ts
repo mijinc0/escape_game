@@ -6,11 +6,7 @@ import { ISelectorCursor } from './ISelectorCursor';
 import { DefaultSelectorCursor } from './DefaultSelectorCursor';
 
 export class SelectorFactory {
-  static create(
-    scene: Phaser.Scene,
-    keys?: Input.Keys,
-    cursor?: ISelectorCursor,
-  ): ISelector {
+  static create(scene: Phaser.Scene, keys?: Input.Keys, cursor?: ISelectorCursor): ISelector {
     keys = keys ? keys : this._createDefaultKeys(scene);
     cursor = cursor ? cursor : new DefaultSelectorCursor(scene);
 

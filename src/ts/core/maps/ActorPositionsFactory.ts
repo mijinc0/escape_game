@@ -10,17 +10,13 @@ export class ActorPositionsFactory {
   static createFromJson(mapJson: any): ActorPosition[] {
     if (!(mapJson.layers instanceof Array)) throw Error('illegal layers data');
 
-    const objectLayers = mapJson.layers.filter((layer: any) =>
-      this._isObjectLayer(layer),
-    );
+    const objectLayers = mapJson.layers.filter((layer: any) => this._isObjectLayer(layer));
 
     const objectDataArray = this._flatMap(objectLayers, (layer: any) =>
       layer.objects instanceof Array ? layer.objects : [],
     );
 
-    return objectDataArray.map((objectData: any) =>
-      this._createEntryFromObjectData(objectData),
-    );
+    return objectDataArray.map((objectData: any) => this._createEntryFromObjectData(objectData));
   }
 
   private static _isObjectLayer(layer: any): boolean {
@@ -44,15 +40,9 @@ export class ActorPositionsFactory {
     if (!properties) throw Error('illegal object data');
 
     const id = Util.ValueTypeUtil.isNumber(objectData.id) ? objectData.id : -1;
-    const positionX = Util.ValueTypeUtil.isNumber(objectData.x)
-      ? objectData.x
-      : 0;
-    const positionY = Util.ValueTypeUtil.isNumber(objectData.y)
-      ? objectData.y
-      : 0;
-    const actorId = Util.ValueTypeUtil.isNumber(properties.get('actorId'))
-      ? properties.get('actorId')
-      : id;
+    const positionX = Util.ValueTypeUtil.isNumber(objectData.x) ? objectData.x : 0;
+    const positionY = Util.ValueTypeUtil.isNumber(objectData.y) ? objectData.y : 0;
+    const actorId = Util.ValueTypeUtil.isNumber(properties.get('actorId')) ? properties.get('actorId') : id;
 
     return new ActorPosition(id, actorId, { x: positionX, y: positionY });
   }

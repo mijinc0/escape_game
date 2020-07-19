@@ -12,14 +12,7 @@ export class Group extends Element implements IGroup {
 
   alignmentHandler?: IAlignmentHandler;
 
-  constructor(
-    dx = 0,
-    dy = 0,
-    width = 0,
-    height = 0,
-    anchor?: IElement,
-    ah?: IAlignmentHandler,
-  ) {
+  constructor(dx = 0, dy = 0, width = 0, height = 0, anchor?: IElement, ah?: IAlignmentHandler) {
     super(dx, dy, width, height, anchor);
 
     this.alignmentHandler = ah ? ah : null;
@@ -79,9 +72,7 @@ export class Group extends Element implements IGroup {
       ? this.alignmentHandler.getNextIndex(this.currentIndex, direction)
       : this.currentIndex + 1;
 
-    return limit
-      ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1)
-      : nextNodeIndex;
+    return limit ? MathUtil.clamp(nextNodeIndex, 0, this.entries.length - 1) : nextNodeIndex;
   }
 
   private _defaultAlignmentHandler(entries: IElement[]): void {

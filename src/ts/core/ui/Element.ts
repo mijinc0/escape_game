@@ -64,11 +64,7 @@ export class Element implements IElement {
    * @param fn
    * @param context
    */
-  on(
-    event: string | symbol,
-    fn: (...args: any[]) => void,
-    context?: any,
-  ): this {
+  on(event: string | symbol, fn: (...args: any[]) => void, context?: any): this {
     fn = context ? fn.bind(context) : fn;
 
     this.events.on(event.toString(), fn);

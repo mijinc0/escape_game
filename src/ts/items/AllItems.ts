@@ -12,8 +12,7 @@ export const AllItems = [
   {
     id: 0,
     name: 'silverKeyA',
-    description:
-      'this is test key loooooooooooooooooooo oooooooooooooooo ooooooooooooooooooog descrition',
+    description: 'this is test key loooooooooooooooooooo oooooooooooooooo ooooooooooooooooooog descrition',
     iconImageName: 'icon_silver_key',
   },
   {
@@ -67,10 +66,5 @@ export const AllItems = [
   },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
-  return new Model.Item(
-    config.id,
-    config.name,
-    config.description,
-    iconImageKey,
-  );
+  return new Model.Item(config.id, config.name, config.description, iconImageKey);
 });
