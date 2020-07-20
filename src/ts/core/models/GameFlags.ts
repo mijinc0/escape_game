@@ -1,24 +1,24 @@
 export class GameFlags {
-  private flags: Map<string, boolean>;
+  private flags: Map<number, boolean>;
 
   constructor() {
-    this.flags = new Map<string, boolean>();
+    this.flags = new Map<number, boolean>();
   }
 
-  on(key: string): void {
+  on(key: number): void {
     this.flags.set(key, true);
   }
 
-  off(key: string): void {
+  off(key: number): void {
     this.flags.set(key, false);
   }
 
-  toggle(key: string): void {
+  toggle(key: number): void {
     const toggled = this.flags.get(key) ? false : true;
     this.flags.set(key, toggled);
   }
 
-  get(key: string): boolean {
+  get(key: number): boolean {
     return !!this.flags.get(key);
   }
 
@@ -26,7 +26,7 @@ export class GameFlags {
     this.flags.clear();
   }
 
-  forEach(callbackfn: (value: boolean, key: string, map: Map<string, boolean>) => void, thisArg?: any): void {
+  forEach(callbackfn: (value: boolean, key: number, map: Map<number, boolean>) => void, thisArg?: any): void {
     this.flags.forEach(callbackfn, thisArg);
   }
 

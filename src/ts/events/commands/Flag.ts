@@ -6,14 +6,14 @@ export class Flag implements IScenarioEvent {
 
   isComplete: boolean;
 
-  private key: string;
+  private key: number;
 
   // 0 : toggle
   // + : on
   // - : off
   private value: number;
 
-  constructor(key: string, value: number) {
+  constructor(key: number, value: number) {
     this.key = key;
     this.value = value;
     this.isComplete = false;

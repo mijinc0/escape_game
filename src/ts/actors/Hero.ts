@@ -4,6 +4,11 @@ import * as Asset from '../core/assets';
 import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
 
+enum HeroFlags {
+  Search,
+  FieldMenu,
+}
+
 export class Hero extends Actor.FieldActor {
   private seFootstep: Phaser.Sound.BaseSound;
 
@@ -22,29 +27,29 @@ export class Hero extends Actor.FieldActor {
     // search
     if (scene.keys.action.isDown) {
       // 連射防止
-      if (!this.flags.get('search')) {
+      if (!this.flags.get(HeroFlags.Search)) {
         // ここで関係のない`fieldMenu`もonにするのは、調べるコマンド復帰直後に
         // cancelボタンが押されているとすぐにフィールドメニューを誤操作的に開いてしまうから
-        this.flags.on('search');
-        this.flags.on('fieldMenu');
+        this.flags.on(HeroFlags.Search);
+        this.flags.on(HeroFlags.FieldMenu);
 
         this.emit('search', this.sprite.x, this.sprite.y, this.sprite.width, this.sprite.height, this.sprite.direction);
       }
     } else {
-      this.flags.off('search');
+      this.flags.off(HeroFlags.Search);
     }
 
     // open field menu
     if (scene.keys.cancel.isDown) {
       // 連射防止
-      if (!this.flags.get('fieldMenu')) {
-        this.flags.on('search');
-        this.flags.on('fieldMenu');
+      if (!this.flags.get(HeroFlags.FieldMenu)) {
+        this.flags.on(HeroFlags.Search);
+        this.flags.on(HeroFlags.FieldMenu);
 
-        this.emit('fieldMenu');
+        this.emit(HeroFlags.FieldMenu);
       }
     } else {
-      this.flags.off('fieldMenu');
+      this.flags.off(HeroFlags.FieldMenu);
     }
 
     const speed = 184;

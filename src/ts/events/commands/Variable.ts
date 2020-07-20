@@ -6,7 +6,7 @@ export class Variable implements IScenarioEvent {
 
   isComplete: boolean;
 
-  private key: string;
+  private key: number;
   private value: number;
 
   // 0 : set
@@ -14,7 +14,7 @@ export class Variable implements IScenarioEvent {
   // - : substract
   private type: number;
 
-  constructor(key: string, value: number, type: number) {
+  constructor(key: number, value: number, type: number) {
     this.key = key;
     this.value = value;
     this.type = type;

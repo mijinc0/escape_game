@@ -15,13 +15,6 @@ export default Field.EventEntryFactory.create(
       cmd.message('this event is in block of operation else ')
     ),
 
-    cmd.addVariable('test', 100),
-
-    op.loop(
-      op
-        .if(() => GameGlobal.variables.get('loop') < 10)(cmd.message('loop now'), cmd.addVariable('loop', 1))
-        .else(op.break()),
-    ),
 
     cmd.message('this is end of event \\V[test]'),
   ],

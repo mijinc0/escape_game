@@ -16,13 +16,13 @@ export class MessageBufferFactory implements IMessageBufferFactory {
   }
 
   private _replaceVariables(message: string): string {
-    const variableChars = message.match(/\\V\[\w+\]/g);
+    const variableChars = message.match(/\\V\[[0-9]+\]/g);
 
     if (!variableChars) return message;
 
     variableChars.forEach((variableChar: string) => {
       // \\V[key] から key を抜き出す
-      const variableKey = variableChar.slice(3, variableChar.length - 1);
+      const variableKey = parseInt(variableChar.slice(3, variableChar.length - 1), 10);
       const variable = this.gameGlobal.variables.get(variableKey);
       message = message.replace(variableChar, variable.toString());
     });

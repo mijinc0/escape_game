@@ -13,11 +13,11 @@ describe('messageBufferFactory.create()', () => {
       ownItems: null,
     };
 
-    testGameGlobal.variables.set('apple', 10);
-    testGameGlobal.variables.set('orange', 5);
+    testGameGlobal.variables.set(11, 10);
+    testGameGlobal.variables.set(22, 5);
 
     const mbf = new MessageBufferFactory(testGameGlobal);
-    const message = 'I have \\V[apple] apples and \\V[orange] oranges.';
+    const message = 'I have \\V[11] apples and \\V[22] oranges.';
     const expected = 'I have 10 apples and 5 oranges.';
     const buffer = mbf.create(message);
 

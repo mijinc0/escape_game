@@ -31,24 +31,24 @@ export class ScenarioEventCommandsFactory {
     return new Item(itemName, delta);
   }
 
-  static flag(key: string, value: boolean): Flag {
+  static flag(key: number, value: boolean): Flag {
     const _value = value ? 1 : -1;
     return new Flag(key, _value);
   }
 
-  static toggleFlag(key: string): Flag {
+  static toggleFlag(key: number): Flag {
     return new Flag(key, 0);
   }
 
-  static setVariable(key: string, value: number): Variable {
+  static setVariable(key: number, value: number): Variable {
     return new Variable(key, value, 0);
   }
 
-  static addVariable(key: string, value: number): Variable {
+  static addVariable(key: number, value: number): Variable {
     return new Variable(key, value, 1);
   }
 
-  static substractVariable(key: string, value: number): Variable {
+  static substractVariable(key: number, value: number): Variable {
     return new Variable(key, value, -1);
   }
 
