@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="15">
+ <tileset firstgid="1" source="maptiles.tsx"/>
+ <layer id="1" name="base" width="20" height="15">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,21,24,24,24,24,24,24,24,24,24,24,22,1,1,1,1,
+1,1,1,1,15,34,34,34,34,34,34,34,34,34,34,13,1,1,1,1,
+1,1,1,1,15,2,2,2,2,2,2,2,2,2,2,13,1,1,1,1,
+1,1,1,1,15,2,2,2,2,2,2,2,2,2,2,13,1,1,1,1,
+1,1,1,1,15,2,2,2,2,2,2,2,2,2,2,13,1,1,1,1,
+1,1,1,1,15,2,2,2,2,2,2,2,2,2,2,13,1,1,1,1,
+1,1,1,1,31,2,2,2,2,2,2,2,2,2,2,32,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,31,2,2,32,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <layer id="2" name="underActor" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,59,60,83,83,0,0,41,58,58,58,0,0,0,0,0,
+0,0,0,0,0,69,70,93,93,0,0,51,68,68,68,0,0,0,0,0,
+0,0,0,0,0,64,65,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,74,75,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,52,53,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="overActor" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,42,43,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,4,4,4,4,4,5,0,0,3,4,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="4" name="actorPositions">
+  <object id="7" x="352" y="376" width="64" height="8">
+   <properties>
+    <property name="actorId" type="int" value="7"/>
+    <property name="describe" value=""/>
+    <property name="name" value="transferHallway2FA"/>
+   </properties>
+  </object>
+  <object id="8" x="268" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="2"/>
+    <property name="describe" value=""/>
+    <property name="name" value="fridgeR"/>
+   </properties>
+  </object>
+  <object id="9" x="236" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="1"/>
+    <property name="describe" value=""/>
+    <property name="name" value="fridgeL"/>
+   </properties>
+  </object>
+  <object id="10" x="168" y="216" width="44" height="8">
+   <properties>
+    <property name="actorId" type="int" value="0"/>
+    <property name="describe" value=""/>
+    <property name="name" value="kitchen"/>
+   </properties>
+  </object>
+  <object id="11" x="364" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="3"/>
+    <property name="describe" value=""/>
+    <property name="name" value="shelf"/>
+   </properties>
+  </object>
+  <object id="12" x="396" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="4"/>
+    <property name="describe" value=""/>
+    <property name="name" value="displayShelfA"/>
+   </properties>
+  </object>
+  <object id="13" x="428" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="5"/>
+    <property name="describe" value=""/>
+    <property name="name" value="displayShelfA"/>
+   </properties>
+  </object>
+  <object id="14" x="460" y="216" width="8" height="8">
+   <properties>
+    <property name="actorId" type="int" value="6"/>
+    <property name="describe" value=""/>
+    <property name="name" value="displayShelfA"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
