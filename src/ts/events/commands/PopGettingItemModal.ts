@@ -15,19 +15,19 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
 
   isComplete: boolean;
 
-  private itemName: string;
+  private itemId: number;
   private eventStep: Step;
   private modal: GettingItemModal;
 
-  constructor(itemName: string) {
+  constructor(itemId: number) {
     this.isComplete = false;
-    this.itemName = itemName;
+    this.itemId = itemId;
     this.eventStep = Step.Complete;
     this.modal = null;
   }
 
   init(scene: Scene.IFieldScene): void {
-    const itemObject = scene.gameGlobal.items.get(this.itemName);
+    const itemObject = scene.gameGlobal.items.get(this.itemId);
 
     if (itemObject) {
       this.modal = this._createModal(scene, itemObject);
@@ -50,7 +50,7 @@ export class PopGettingItemModal implements Event.IScenarioEvent {
       this.eventStep = Step.FadeinModal;
       this.isComplete = false;
     } else {
-      console.warn(`${this.itemName} is not found. PopGettingItemModal will complete immediately.`);
+      console.warn(`item id ${this.itemId} is not found. PopGettingItemModal will complete immediately.`);
 
       this.eventStep = Step.Complete;
       this.isComplete = true;

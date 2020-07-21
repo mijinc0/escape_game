@@ -8,8 +8,8 @@ export class GameItems implements IGameItems {
     this.entries = items;
   }
 
-  get(name: string): Item | null {
-    const item = this.entries.find((entry: Item) => entry.name === name);
+  get(id: number): Item | null {
+    const item = this.entries.find((entry: Item) => entry.id === id);
     return item ? item : null;
   }
 }

@@ -27,8 +27,8 @@ export class ScenarioEventCommandsFactory {
     );
   }
 
-  static item(itemName: string, delta: number): Item {
-    return new Item(itemName, delta);
+  static item(itemId: number, delta: number): Item {
+    return new Item(itemId, delta);
   }
 
   static flag(key: number, value: boolean): Flag {
@@ -72,8 +72,8 @@ export class ScenarioEventCommandsFactory {
     return new PlayActorAnim(actorId, animName, async);
   }
 
-  static popGettingItemModal(itemName: string): PopGettingItemModal {
-    return new PopGettingItemModal(itemName);
+  static popGettingItemModal(itemId: number): PopGettingItemModal {
+    return new PopGettingItemModal(itemId);
   }
 
   static playSe(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean): PlaySe {

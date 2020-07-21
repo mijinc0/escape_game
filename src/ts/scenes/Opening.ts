@@ -4,6 +4,7 @@ import * as Ui from '../core/ui';
 import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
 import { Button } from '../ui/Button';
+import { FieldIds } from '../fields/FieldIds';
 
 export class Opening extends Phaser.Scene {
   private frame: number;
@@ -62,9 +63,9 @@ export class Opening extends Phaser.Scene {
 
     button.on(Ui.ElementEventNames.Select, () => {
       const fieldConfig: Scene.IFieldSceneConfig = {
-        fieldId: -1,
-        heroX: 300,
-        heroY: 200,
+        fieldId: FieldIds.RoomA,
+        heroX: 306,
+        heroY: 270,
         heroDirection: Model.Direction.Down,
       };
 

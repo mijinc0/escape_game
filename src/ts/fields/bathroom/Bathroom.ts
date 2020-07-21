@@ -2,9 +2,10 @@ import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
 import * as ActorEntries from './ActorEntries';
 import * as EventEntries from './EventEntries';
+import { FieldIds } from '../FieldIds';
 
 export const Bathroom: Field.IField = {
-  id: 0,
+  id: FieldIds.Bathroom,
 
   tilemapKey: Asset.AssetCacheKey.tilemap('sample_map1'),
 

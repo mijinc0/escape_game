@@ -27,7 +27,7 @@ export class UiTest extends Phaser.Scene {
 
     const config = {
       scene: this,
-      item: GameItems.get('silverKeyA'),
+      item: GameItems.get(0),
       alpha: 1,
     };
     new GettingItemModal(config, 50, 50);

@@ -10,7 +10,7 @@ describe('itemBag.has()', () => {
     itemBag.add(item, 10);
 
     it('should be true (key: string)', async () => {
-      expect(itemBag.has('item')).is.true;
+      expect(itemBag.has(1)).is.true;
     });
 
     it('should be true (key: object)', async () => {
@@ -26,7 +26,7 @@ describe('itemBag.getSize()', () => {
     itemBag.add(item, 10);
 
     it('should have 10 items (key: string)', async () => {
-      expect(itemBag.getSize('item')).is.equals(10);
+      expect(itemBag.getSize(1)).is.equals(10);
     });
 
     it('should have 10 items (key: object)', async () => {

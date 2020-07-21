@@ -9,12 +9,12 @@ export class ItemBag {
     this.items = [];
   }
 
-  has(item: string | Item): boolean {
-    return this.getSize(item) !== 0;
+  has(itemOrId: number | Item): boolean {
+    return this.getSize(itemOrId) !== 0;
   }
 
-  getSize(item: string | Item): number {
-    const entry = this.getItem(item);
+  getSize(itemOrId: number | Item): number {
+    const entry = this.getItem(itemOrId);
     return entry ? entry.size : 0;
   }
 
@@ -49,11 +49,11 @@ export class ItemBag {
     this.items = [];
   }
 
-  getItem(item: string | Item): Item | null {
+  getItem(itemOrId: number | Item): Item | null {
     const storedItem =
-      item instanceof Item
-        ? this.items.find((entry: Item) => entry === item)
-        : this.items.find((entry: Item) => entry.name === item);
+      itemOrId instanceof Item
+        ? this.items.find((entry: Item) => entry === itemOrId)
+        : this.items.find((entry: Item) => entry.id === itemOrId);
 
     return storedItem ? storedItem : null;
   }

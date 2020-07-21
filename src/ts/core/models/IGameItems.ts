@@ -6,5 +6,5 @@ import { Item } from './Item';
 export interface IGameItems {
   entries: Item[];
 
-  get(name: string): Item | null;
+  get(id: number): Item | null;
 }

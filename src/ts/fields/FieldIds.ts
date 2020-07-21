@@ -1,0 +1,16 @@
+export enum FieldIds {
+  Bathroom,
+  Hallway1FA,
+  Hallway1FB,
+  Hallway2FA,
+  Hallway2FB,
+  RoomA,
+  RoomB,
+  RoomC,
+  RoomD,
+  RoomE,
+  RoomF,
+  RoomG,
+  Storeroom,
+  Toilet,
+}
