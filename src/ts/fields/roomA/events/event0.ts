@@ -17,6 +17,8 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   0,
   [
-
+    cmd.cameraFadeIn(1000),
+    cmd.message('GAME START'),
+    cmd.flag(GameFlagKeys.Opening, true),
   ],
 );

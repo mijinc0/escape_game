@@ -1,11 +1,11 @@
 export { ActorColliderRegistrar } from './ActorColliderRegistrar';
-export { ActorEventRegistrar } from './ActorEventRegistrar';
+export { ActorEventManager } from './ActorEventManager';
 export { EventEmitType } from './EventEmitType';
 export { EventEntry } from './EventEntry';
 export { EventEntryFactory } from './EventEntryFactory';
 export { FieldActorData } from './FieldActorData';
 export { FieldActorsManager } from './FieldActorsManager';
-export { IActorEventRegistrar } from './IActorEventRegistrar';
+export { IActorEventManager } from './IActorEventManager';
 export { IField } from './IField';
 export { IFieldActorEntry } from './IFieldActorEntry';
 export { IFieldActorStatusPage } from './IFieldActorStatusPage';

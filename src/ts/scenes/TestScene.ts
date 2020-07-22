@@ -141,11 +141,11 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     }
 
     const actorSpriteFactory = new Actor.ActorSpriteFactory(this);
-    const actorEventRegistrar = new Field.ActorEventRegistrar(this.scenarioEventManager, this.fieldData.events);
+    const actorEventManager = new Field.ActorEventManager(this.scenarioEventManager, this.fieldData.events);
 
     return new Field.FieldActorsManager(
       actorSpriteFactory,
-      actorEventRegistrar,
+      actorEventManager,
       this._addSpawnActorsCollider.bind(this),
       this.fieldData.actors,
     );

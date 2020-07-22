@@ -1,10 +1,11 @@
 import * as Actor from '../actors';
 import * as Event from '../events';
-import { IActorEventRegistrar } from './IActorEventRegistrar';
+import { IActorEventManager } from './IActorEventManager';
+import { EventEmitType } from './EventEmitType';
 import { EventEntry } from './EventEntry';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
 
-export class ActorEventRegistrar implements IActorEventRegistrar {
+export class ActorEventManager implements IActorEventManager {
   scenarioEventManager: Event.ScenarioEventManager;
   eventEntries: EventEntry[];
 
@@ -13,10 +14,26 @@ export class ActorEventRegistrar implements IActorEventRegistrar {
     this.eventEntries = eventEntries;
   }
 
-  regist(actor: Actor.IActor, page: IFieldActorStatusPage): void {
+  apply(actor: Actor.IActor, page: IFieldActorStatusPage): void {
     const eventId = page.eventId;
     const emitType = page.eventEmitType;
-    this._regist(actor, eventId, emitType);
+
+    if (emitType === EventEmitType.Immediately) {
+      this._startImmediately(eventId)
+    } else {
+      this._regist(actor, eventId, emitType);
+    }
+  }
+
+  private _startImmediately(eventId: number): void {
+    const event = this.eventEntries.find((entry: EventEntry) => entry.id === eventId);
+
+    if (!event) {
+      console.warn(`actor event is not found (event id : ${eventId})`);
+      return;
+    }
+
+    this.scenarioEventManager.start(event.getEvents());
   }
 
   private _regist(actor: Actor.IActor, eventId: number, emitType: string): void {

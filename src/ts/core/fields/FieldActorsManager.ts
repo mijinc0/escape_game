@@ -4,7 +4,7 @@ import { FieldActorData } from './FieldActorData';
 import { EventEmitType } from './EventEmitType';
 import { IFieldActorEntry } from './IFieldActorEntry';
 import { IFieldActorStatusPage } from './IFieldActorStatusPage';
-import { IActorEventRegistrar } from './IActorEventRegistrar';
+import { IActorEventManager } from './IActorEventManager';
 
 type SpawnCriteriaCallback = () => boolean;
 type CollisionSettingCallback = (spawnActor: Actor.IFieldActor, onlyOverlap: boolean) => void;
@@ -13,7 +13,7 @@ export class FieldActorsManager {
   actorData: FieldActorData[];
 
   private actorSpriteFactory: Actor.IActorSpriteFactory;
-  private actorEventRegistrar: IActorEventRegistrar;
+  private actorEventManager: IActorEventManager;
   private collisionSettingCallback: CollisionSettingCallback;
 
   /**
@@ -21,18 +21,18 @@ export class FieldActorsManager {
    * @param actorEntries
    * @param actorSpriteFactory
    * @param actorAnimsFactory
-   * @param actorEventRegistrar
+   * @param actorEventManager
    * @param collisionSettingCallback スポーンまたはページが切り替わったActorに衝突判定を設定するためのコールバック
    */
   constructor(
     actorSpriteFactory: Actor.IActorSpriteFactory,
-    actorEventRegistrar: IActorEventRegistrar,
+    actorEventManager: IActorEventManager,
     collisionSettingCallback: CollisionSettingCallback,
     actorEntries?: IFieldActorEntry[],
   ) {
     this.actorData = actorEntries ? this._createFieldActorDataFromActorEntries(actorEntries) : [];
     this.actorSpriteFactory = actorSpriteFactory;
-    this.actorEventRegistrar = actorEventRegistrar;
+    this.actorEventManager = actorEventManager;
     this.collisionSettingCallback = collisionSettingCallback;
   }
 
@@ -124,7 +124,7 @@ export class FieldActorsManager {
     actor.eventId = page.eventId;
 
     // 4. event setting
-    this._setEvents(actor, page);
+    this._applyEvents(actor, page);
 
     // 5. collision setting
     this._setCollisionSettings(actor, page.overlapOnly);
@@ -195,9 +195,9 @@ export class FieldActorsManager {
     // enum使っているので実際はここまで到達しないが、どこかでnumber使ってすり抜けてきた時用
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
-
-  private _setEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
-    this.actorEventRegistrar.regist(actor, page);
+  
+  private _applyEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
+    this.actorEventManager.apply(actor, page);
   }
 
   private _setCollisionSettings(actor: Actor.IFieldActor, overlapOnly?: boolean): void {

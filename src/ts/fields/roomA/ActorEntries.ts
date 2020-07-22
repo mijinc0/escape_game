@@ -1,9 +1,24 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import { GameFlagKeys } from '../../GameFlagKeys';
+import { GameGlobal } from '../../GameGlobal';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
+  {
+    id: 99,
+    name: 'openingEvent',
+    statusPages: [
+      {
+        eventId: 0,
+        eventEmitType: Field.EventEmitType.Immediately,
+        spriteType: Actor.ActorSpriteTypes.Invisible,
+        criteria: () => ( !GameGlobal.flags.get(GameFlagKeys.Opening) ),
+      },
+    ],
+  },
+
   {
     id: 0,
     name: 'door',
