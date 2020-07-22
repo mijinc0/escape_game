@@ -1,4 +1,5 @@
 import * as Model from './models';
+import * as Locales from './locales';
 /**
  * グローバルに置いておきたいもの
  */
@@ -10,4 +11,6 @@ export interface IGameGlobal {
   items: Model.GameItems;
 
   ownItems: Model.ItemBag;
+
+  texts: Locales.ITextStore;
 }

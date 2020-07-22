@@ -19,6 +19,7 @@ export class UiTest extends Phaser.Scene {
       variables: new Model.GameVariables(),
       items: GameItems,
       ownItems: new Model.ItemBag(),
+      texts: null,
     };
   }
 

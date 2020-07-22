@@ -8,10 +8,15 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
+const texts = GameGlobal.texts.event.get('roomA');
 
 // prettier-ignore
+
+/**
+ * door
+ */
 export default Field.EventEntryFactory.create(
-  0,
+  1,
   [
     op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomADoorOpen) ))(
       cmd.playActorAnim(0, 'default'),
@@ -20,7 +25,7 @@ export default Field.EventEntryFactory.create(
 
     ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomA) )) (   
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
-      cmd.message('use key'),
+      cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.RoomADoorOpen, true),
       cmd.playActorAnim(0, 'default'),
       cmd.cameraFadeOut(500),
@@ -29,7 +34,7 @@ export default Field.EventEntryFactory.create(
     ).else (
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
-      cmd.message('door is locked'),
+      cmd.message(texts.get(1)),
     ),
   ],
 );

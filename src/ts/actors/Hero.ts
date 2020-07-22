@@ -46,7 +46,7 @@ export class Hero extends Actor.FieldActor {
         this.flags.on(HeroFlags.Search);
         this.flags.on(HeroFlags.FieldMenu);
 
-        this.emit(HeroFlags.FieldMenu);
+        this.emit('fieldMenu');
       }
     } else {
       this.flags.off(HeroFlags.FieldMenu);

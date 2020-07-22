@@ -9,7 +9,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'door',
     statusPages: [
       {
-        eventId: 0,
+        eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('door'),
@@ -23,7 +23,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelf',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -38,7 +38,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetL',
     statusPages: [
       {
-        eventId: 2,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,

@@ -278,6 +278,9 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   }
 
   private _sceneFadeIn(): void {
+    // もしcreateフェーズでセットされたイベントがあればそれを優先するのでここでは何もしない
+    if (this.scenarioEventManager.events.length > 0) return;
+
     const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
 
     this.scenarioEventManager.start(event);

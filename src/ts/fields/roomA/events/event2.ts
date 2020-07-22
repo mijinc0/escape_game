@@ -3,10 +3,13 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 import { Direction } from '../../../core/models/Direction';
 
 // prettier-ignore
+
+/**
+ * bookshelf
+ */
 export default Field.EventEntryFactory.create(
-  1,
+  2,
   [
-    cmd.cameraFadeOut(300),
-    cmd.moveField(-2, 50, 100, Direction.Left),
+    cmd.message(''),
   ]
 );

@@ -1,8 +1,11 @@
 import * as Model from './core/models';
 import { IGameGlobal } from './core/IGameGlobal';
+import { GameTexts } from './locales/GameTexts';
 import { GameItems } from './items/GameItems';
 
 export const GameGlobal: IGameGlobal = {
+  texts: GameTexts.ja,
+  
   items: GameItems,
 
   flags: new Model.GameFlags(),
