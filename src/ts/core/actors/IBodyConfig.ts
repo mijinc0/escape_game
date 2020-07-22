@@ -1,7 +1,7 @@
 import * as Model from '../models';
 
 export interface IBodyConfig {
-  size?: Model.Size | number;
+  size?: Model.Size;
 
   offset?: Model.Position;
 

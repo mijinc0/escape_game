@@ -51,6 +51,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
 
   createInvisibleActorSprite(x: number, y: number, bodyConfig?: IBodyConfig): ActorSprite {
     const sprite = new ActorSprite(this.scene, x, y, 'invisible', 0);
+
     sprite.setOrigin(0);
     sprite.visible = false;
 
@@ -64,11 +65,7 @@ export class ActorSpriteFactory implements IActorSpriteFactory {
     if (!bodyConfig) return;
 
     if (bodyConfig.size) {
-      // bodyConfig.sizeがnumberであればスプライトの大きさに対して何割かで決める
-      // bodyConfig.sizeがSizeであれば指定の大きさをbodyの大きさとする
-      Util.ValueTypeUtil.isNumber(bodyConfig.size)
-        ? sprite.body.setSize(sprite.width * bodyConfig.size, sprite.height * bodyConfig.size)
-        : sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.width);
+      sprite.body.setSize(bodyConfig.size.width, bodyConfig.size.height, false);
     }
 
     if (bodyConfig.origin) {

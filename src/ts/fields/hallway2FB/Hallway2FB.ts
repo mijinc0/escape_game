@@ -7,7 +7,7 @@ import { FieldIds } from '../FieldIds';
 export const Hallway2FB: Field.IField = {
   id: FieldIds.Hallway2FB,
 
-  tilemapKey: Asset.AssetCacheKey.tilemap('sample_map1'),
+  tilemapKey: Asset.AssetCacheKey.tilemap('hallway2FB'),
 
   tileInfoKey: Asset.AssetCacheKey.tileInfo('sample_tile'),
 

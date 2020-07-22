@@ -91,7 +91,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
-          size: { width: 20, height: 30 },
+          size: { width: 32, height: 48 },
         },
       },
     ],
