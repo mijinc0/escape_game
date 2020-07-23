@@ -9,9 +9,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'shelfL',
     statusPages: [
       {
-        eventId: 0,
+        eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -25,9 +24,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'shelfR',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -41,7 +39,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfA',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -56,7 +54,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfB',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -71,7 +69,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfC',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -86,7 +84,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfD',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -101,7 +99,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfE',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -116,7 +114,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfF',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -131,7 +129,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfG',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -146,7 +144,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfH',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -161,7 +159,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfI',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -176,7 +174,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bookShelfJ',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -191,9 +189,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferHollway1FA',
     statusPages: [
       {
-        eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
+        eventId: 0,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },

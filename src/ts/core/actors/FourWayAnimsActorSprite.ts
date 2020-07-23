@@ -64,6 +64,7 @@ export class FourWayAnimsActorSprite extends ActorSprite {
   private _initFrame(): void {
     const oneDirectionAnimFrames = this._getOneDirectionAnimFrames();
     const currentDirectionFrame = this.direction * oneDirectionAnimFrames;
+
     this.setFrame(currentDirectionFrame);
   }
 

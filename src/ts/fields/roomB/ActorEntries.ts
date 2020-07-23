@@ -59,7 +59,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
-          size: { width: 16, height: 8 },
+          size: { width: 8, height: 8 },
         },
       },
     ],
@@ -70,7 +70,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetR',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,

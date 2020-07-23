@@ -19,7 +19,9 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
   ) {
     super(scene, x, y, spriteKey, frame);
 
-    this.direction = direction ? direction : Model.Direction.Down;
+    // NOTE: defaultの向きがLeft以外の時は`typeof(direction) === 'number'`にしないと
+    //       `0`の時にfalse扱いとなるので注意
+    this.direction = direction ? direction : Model.Direction.Left;
     this.spriteAnims = new Map<string, SpriteAnimation>();
     this.setOrigin(0);
   }

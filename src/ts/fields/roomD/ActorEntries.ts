@@ -11,7 +11,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 0,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -27,7 +26,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -42,8 +40,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     statusPages: [
       {
         eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },

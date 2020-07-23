@@ -1,20 +1,21 @@
+import * as Assets from '../../../core/assets';
 import * as Field from '../../../core/fields';
+import * as Model from '../../../core/models';
+import { FieldIds } from '../../FieldIds';
 import { GameGlobal } from '../../../GameGlobal';
+import { GameFlagKeys } from '../../../GameFlagKeys';
+import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
+
+/**
+ * bath
+ */
 export default Field.EventEntryFactory.create(
-  0,
+  2,
   [
-    cmd.message('this is message\\!this event is page 0'),
-
-    op.if(() => false)(
-      cmd.message('this event is in block of operation if')
-    ).else(
-      cmd.message('this event is in block of operation else ')
-    ),
-
-    cmd.message('this is end of event \\V[test]'),
+    cmd.message('bath'),
   ],
 );

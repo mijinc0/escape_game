@@ -1,10 +1,10 @@
-import Event_0 from './events/Event_0';
-import Event_1 from './events/Event_1';
+import event0 from './events/event0';
+import event1 from './events/event1';
 
 // prettier-ignore
 const eventEntries = [
-  Event_0,
-  Event_1
+  event0,
+  event1,
 ];
 
 export default eventEntries;
