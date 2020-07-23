@@ -39,6 +39,10 @@ const entries: EntryBase[] = [
     path: 'assets/audio/se_maoudamashii_se_door04.ogg',
   },
   {
+    name: 'se_open_drawer',
+    path: 'assets/audio/se_maoudamashii_se_door03.ogg',
+  },
+  {
     name: 'se_find_item',
     path: 'assets/audio/se_maoudamashii_onepoint07.ogg',
   },

@@ -8,9 +8,8 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-const texts = GameGlobal.texts.event.get('roomA');
-
 // prettier-ignore
+const texts = GameGlobal.texts.event.get('roomA_event1');
 
 /**
  * door

@@ -2,7 +2,7 @@ import * as Locales from '../../../core/locales';
 import * as roomA from './roomA';
 
 // prettier-ignore
-const events = new Locales.EventTexts(
+const events = Locales.EventTextFactory.createFromMultipileConfigsChunks(
   roomA.default,
 );
 

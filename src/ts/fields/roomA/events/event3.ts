@@ -8,19 +8,18 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
+
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomA_event0');
+const texts = GameGlobal.texts.event.get('roomA_event3');
 
 /**
- * Opening
+ * closet
  */
 export default Field.EventEntryFactory.create(
-  0,
+  3,
   [
-    cmd.cameraFadeIn(3000),
-    cmd.cameraFadeOut(2000),
-    cmd.cameraFadeIn(5000),
-    cmd.message('GAME START'),
-    cmd.flag(GameFlagKeys.Opening, true),
-  ],
+    cmd.message(texts.get(0)),
+    cmd.playSe(Assets.AssetCacheKey.audio('se_open_drawer'), 1, 0, 5),
+    cmd.message(texts.get(1)),
+  ]
 );

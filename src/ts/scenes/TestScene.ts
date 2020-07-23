@@ -65,7 +65,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
 
     this._cameraSetting();
 
-    this._sceneFadeIn();
+    this._sceneFadeInIfNeed();
   }
 
   update(): void {
@@ -277,7 +277,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.cameras.main.setZoom(1);
   }
 
-  private _sceneFadeIn(): void {
+  private _sceneFadeInIfNeed(): void {
     // もしcreateフェーズでセットされたイベントがあればそれを優先するのでここでは何もしない
     if (this.scenarioEventManager.events.length > 0) return;
 

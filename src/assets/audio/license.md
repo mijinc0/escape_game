@@ -17,5 +17,6 @@ https://maoudamashii.jokersounds.com/
 - システム18 : se_maoudamashii_system18.ogg
 - システム44 : se_maoudamashii_system44.ogg
 - システム47 : se_maoudamashii_system47.ogg
+- ドア03 : se_maoudamashii_se_door03.ogg
 - ドア04 : se_maoudamashii_se_door04.ogg
 - ワンポイント07 : se_maoudamashii_onepoint07.ogg
