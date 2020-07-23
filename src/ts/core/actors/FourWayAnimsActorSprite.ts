@@ -20,6 +20,7 @@ export class FourWayAnimsActorSprite extends ActorSprite {
   ) {
     super(scene, x, y, spritesheetKey, frame, direction);
 
+    this._initFrame();
     this._initDefaultAnims();
   }
 
@@ -55,6 +56,15 @@ export class FourWayAnimsActorSprite extends ActorSprite {
     }
 
     return super.playAnim(animName, ignoreIfPlaying);
+  }
+
+  /**
+   * Directionに合わせてframeを変更する
+   */
+  private _initFrame(): void {
+    const oneDirectionAnimFrames = this._getOneDirectionAnimFrames();
+    const currentDirectionFrame = this.direction * oneDirectionAnimFrames;
+    this.setFrame(currentDirectionFrame);
   }
 
   private _initDefaultAnims(): void {

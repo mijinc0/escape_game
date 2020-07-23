@@ -12,24 +12,24 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 const texts = GameGlobal.texts.event.get('roomA_event1');
 
 /**
- * door
+ * door (roomD)
  */
 export default Field.EventEntryFactory.create(
   1,
   [
-    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomADoorOpen) ))(
-      cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5, true),
-      cmd.playActorAnim(0, 'default'),
+    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomDDoorOpen) ))(
+      cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
+      cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOut(500),
-      cmd.moveField(FieldIds.Hallway1FB, 336, 300, Model.Direction.Up),
+      cmd.moveField(FieldIds.RoomD, 304, 342, Model.Direction.Up),
 
-    ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomA) )) (   
+    ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomD) )) (   
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
-      cmd.flag(GameFlagKeys.RoomADoorOpen, true),
-      cmd.playActorAnim(0, 'default'),
+      cmd.flag(GameFlagKeys.RoomDDoorOpen, true),
+      cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOut(500),
-      cmd.moveField(FieldIds.Hallway1FB, 336, 300, Model.Direction.Up),
+      cmd.moveField(FieldIds.RoomD, 304, 342, Model.Direction.Up),
     
     ).else (
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),

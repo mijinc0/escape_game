@@ -1,13 +1,24 @@
 import * as Phaser from 'phaser';
 import * as Asset from './core/assets';
 import { GameAssets } from './GameAssets';
+import { GameFlagKeys } from './GameFlagKeys';
+import { GameGlobal } from './GameGlobal';
+import { IGameGlobal } from './core/IGameGlobal';
 import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
 import { UiTest } from './scenes/UiTest';
 
 export class Boot extends Phaser.Game {
+  /**
+   * デバッグ時にフラグを触れるようにプロパティを作っておく
+   * (chromeのDeveloper toolsのコンソールから操作できる)
+   */
+  readonly gameGlobal: IGameGlobal;
+
   constructor() {
+    const debugMode = true;
+
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: 640,
@@ -20,17 +31,23 @@ export class Boot extends Phaser.Game {
         default: 'arcade',
         arcade: {
           gravity: { y: 0, x: 0 },
-          debug: true,
+          debug: debugMode,
         },
       },
     };
 
     super(config);
 
+    this.gameGlobal = GameGlobal;
+
     this.scene.add('opening', Opening, false);
     this.scene.add('loading', Loading, false);
     this.scene.add('field', TestScene, false);
     this.scene.add('test_ui', UiTest, false);
+
+    if (debugMode) {
+      this._debugInit();
+    }
   }
 
   on(): void {
@@ -51,5 +68,18 @@ export class Boot extends Phaser.Game {
     };
 
     this.scene.start('loading', assetLoadingConfig);
+  }
+
+  /**
+   * デバッグモード時に最初にやっておきたいセッティング(フラグなど)を
+   * まとめてハードコードしておく場所
+   */
+  private _debugInit(): void {
+    this.gameGlobal.flags.on(GameFlagKeys.Opening);
+    this.gameGlobal.flags.on(GameFlagKeys.ReadRoomAMemo);
+    this.gameGlobal.flags.on(GameFlagKeys.RoomADoorOpen);
+    this.gameGlobal.flags.on(GameFlagKeys.RoomBDoorOpen);
+    this.gameGlobal.flags.on(GameFlagKeys.RoomCDoorOpen);
+    this.gameGlobal.flags.on(GameFlagKeys.RoomDDoorOpen);
   }
 }

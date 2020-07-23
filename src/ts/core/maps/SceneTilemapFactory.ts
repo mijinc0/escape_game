@@ -20,7 +20,9 @@ export class SceneTilemapFactory {
     const jsonTilesetInfos = this.scene.cache.json.get(tileInfoKey);
 
     // check existance
-    if (!jsonTilesetInfos || !jsonMapDataFile) throw Error('json (mapdata or tilesetInfo) is not found.');
+    if (!jsonTilesetInfos || !jsonMapDataFile) {
+      throw Error(`json (mapdata or tilesetInfo) is not found. {tilemapKey: ${tilemapKey}, tileInfoKey: ${tileInfoKey}}`);
+    }
 
     // create
     return this._createMap(jsonMapDataFile, jsonTilesetInfos, tileImageKey);

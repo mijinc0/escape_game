@@ -24,6 +24,14 @@ export interface IFieldActorStatusPage {
   direction?: Model.Direction;
 
   /**
+   * 'default'でActorSpriteにセットされたアニメーションを
+   * スポーン時に再生するかどうか。(repeat = -1)
+   * 
+   * default = false;
+   */
+  playAnim?: boolean;
+
+  /**
    * default = false
    */
   overlapOnly?: boolean;

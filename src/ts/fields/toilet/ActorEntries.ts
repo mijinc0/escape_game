@@ -28,7 +28,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
-          size: { width: 8, height: 32 },
+          size: { width: 32, height: 8 },
         },
       },
     ],

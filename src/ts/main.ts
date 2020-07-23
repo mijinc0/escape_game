@@ -13,6 +13,10 @@ window.addEventListener('load', () => {
       button.remove();
 
       const game: Boot = new Boot();
+
+      // デバッグ用にwindowにgameを追加しておく
+      (<any>window).game = game;
+
       game.on();
     },
     false,

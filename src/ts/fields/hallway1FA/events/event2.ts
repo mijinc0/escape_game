@@ -8,20 +8,15 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomA_event7');
 
 /**
- * deskDrawer
+ * transferHalway1FB
  */
 export default Field.EventEntryFactory.create(
-  7,
+  2,
   [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-    cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
-    cmd.popGettingItemModal(GameItemIds.KeyRoomA),
-    cmd.item(GameItemIds.KeyRoomA, +1),
-  ]
+    cmd.cameraFadeOut(500),
+    cmd.moveField(FieldIds.Hallway1FB, 10, 256, Model.Direction.Right),
+  ],
 );

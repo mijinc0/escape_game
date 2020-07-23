@@ -138,6 +138,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('someitem'),
         initFrame: 10,
+        playAnim: true,
         overlapOnly: true,
         criteria: () => (
           GameGlobal.flags.get(GameFlagKeys.ReadRoomAMemo) &&

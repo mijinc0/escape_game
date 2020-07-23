@@ -8,20 +8,17 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomA_event7');
 
 /**
- * deskDrawer
+ * doorB (toilet)
  */
 export default Field.EventEntryFactory.create(
-  7,
+  1,
   [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-    cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
-    cmd.popGettingItemModal(GameItemIds.KeyRoomA),
-    cmd.item(GameItemIds.KeyRoomA, +1),
-  ]
+    cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
+    cmd.playActorAnim(1, 'default'),
+    cmd.cameraFadeOut(500),
+    cmd.moveField(FieldIds.Toilet, 288, 246, Model.Direction.Up),
+  ],
 );

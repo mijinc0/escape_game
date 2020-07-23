@@ -68,8 +68,8 @@ export class ScenarioEventCommandsFactory {
     return new CameraFadeOut(duration, async);
   }
 
-  static playActorAnim(actorId: number, animName: string, async?: boolean): PlayActorAnim {
-    return new PlayActorAnim(actorId, animName, async);
+  static playActorAnim(actorId: number, animName: string, repeat?: number, async?: boolean): PlayActorAnim {
+    return new PlayActorAnim(actorId, animName, repeat, async);
   }
 
   static popGettingItemModal(itemId: number): PopGettingItemModal {

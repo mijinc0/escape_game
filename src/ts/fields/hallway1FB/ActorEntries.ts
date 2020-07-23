@@ -9,8 +9,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferHallway2FB',
     statusPages: [
       {
-        eventId: 1,
-        eventEmitType: Field.EventEmitType.Search,
+        eventId: 0,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },
@@ -24,7 +24,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'door',
     statusPages: [
       {
-        eventId: 0,
+        eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('door'),
@@ -38,8 +38,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferHallway1FA',
     statusPages: [
       {
-        eventId: 1,
-        eventEmitType: Field.EventEmitType.Search,
+        eventId: 2,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 96 },
@@ -53,8 +53,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferRoomA',
     statusPages: [
       {
-        eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Collide,
         overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {

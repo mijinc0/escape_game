@@ -123,10 +123,15 @@ export class FieldActorsManager {
     actor.sprite.direction = page.direction;
     actor.eventId = page.eventId;
 
-    // 4. event setting
+    // 4. play default anim if needed
+    if (page.playAnim) {
+      actor.sprite.playAnim('default', false, -1);
+    }
+
+    // 5. event setting
     this._applyEvents(actor, page);
 
-    // 5. collision setting
+    // 6. collision setting
     this._setCollisionSettings(actor, page.overlapOnly);
 
     // 6. change entry properties

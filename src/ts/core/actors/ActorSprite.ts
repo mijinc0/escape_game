@@ -36,8 +36,11 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
     this.spriteAnims.set(animName, animObject);
   }
 
-  playAnim(animName: string, ignoreIfPlaying?: boolean, onCompleteEventCallback?: () => void): this {
+  playAnim(animName: string, ignoreIfPlaying?: boolean, repeat?: number, onCompleteEventCallback?: () => void): this {
     const anim = this.spriteAnims.get(animName);
+
+    repeat = repeat ? repeat : 0;
+    anim.repeat = repeat;
 
     if (anim) {
       // onCompleteコールバックがある場合はセットしておく(一度限りなのでonceで)
