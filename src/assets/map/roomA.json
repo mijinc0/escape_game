@@ -204,6 +204,60 @@
                  "width":32,
                  "x":160,
                  "y":368
+                }, 
+                {
+                 "height":16,
+                 "id":14,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"actorId",
+                         "type":"int",
+                         "value":7
+                        }, 
+                        {
+                         "name":"describe",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"key"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":460,
+                 "y":388
+                }, 
+                {
+                 "height":16,
+                 "id":15,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"actorId",
+                         "type":"int",
+                         "value":6
+                        }, 
+                        {
+                         "name":"describe",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"memo"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":424,
+                 "y":156
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -212,7 +266,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":13,
+ "nextobjectid":16,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

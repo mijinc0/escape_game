@@ -3,6 +3,8 @@
  */
 export enum GameFlagKeys {
   Opening,
+
+  ReadRoomAMemo,
   
   RoomADoorOpen,
 }

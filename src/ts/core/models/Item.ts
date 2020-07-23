@@ -1,9 +1,9 @@
 export class Item {
   readonly id: number;
 
-  readonly name: string;
+  name: string;
 
-  readonly description: string;
+  description: string;
 
   readonly iconImageKey: string;
 

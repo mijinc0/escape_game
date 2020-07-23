@@ -6,7 +6,7 @@ import { GameItems } from './items/GameItems';
 export const GameGlobal: IGameGlobal = {
   texts: GameTexts.ja,
   
-  items: GameItems,
+  items: GameItems(GameTexts.ja.item),
 
   flags: new Model.GameFlags(),
 

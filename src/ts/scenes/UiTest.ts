@@ -3,6 +3,7 @@ import * as Ui from '../core/ui';
 import * as Model from '../core/models';
 import { IGameGlobal } from '../core/IGameGlobal';
 import { GameItems } from '../items/GameItems';
+import { GameTexts } from '../locales/GameTexts';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
 import { GettingItemModal } from '../ui/GettingItemModal';
 
@@ -17,9 +18,9 @@ export class UiTest extends Phaser.Scene {
     this.gameGlobal = {
       flags: new Model.GameFlags(),
       variables: new Model.GameVariables(),
-      items: GameItems,
       ownItems: new Model.ItemBag(),
-      texts: null,
+      texts: GameTexts.ja,
+      items: GameItems(GameTexts.ja.item),
     };
   }
 
@@ -28,7 +29,7 @@ export class UiTest extends Phaser.Scene {
 
     const config = {
       scene: this,
-      item: GameItems.get(0),
+      item: this.gameGlobal.items.get(0),
       alpha: 1,
     };
     new GettingItemModal(config, 50, 50);

@@ -3,6 +3,7 @@ import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
 import { GameFlagKeys } from '../../GameFlagKeys';
 import { GameGlobal } from '../../GameGlobal';
+import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -55,7 +56,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 16, height: 8 },
@@ -71,7 +71,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 16, height: 8 },
@@ -87,7 +86,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 4,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 16, height: 8 },
@@ -108,6 +106,43 @@ const actorEntries: Field.IFieldActorEntry[] = [
         bodyConfig: {
           size: { width: 32, height: 48 },
         },
+      },
+    ],
+  },
+
+  {
+    id: 6,
+    name: 'memo',
+    statusPages: [
+      {
+        eventId: 6,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('memo'),
+        initFrame: 0,
+        bodyConfig: {
+          offset: { x: 0, y: 20 },
+        },
+      },
+    ],
+  },
+
+    
+  {
+    id: 7,
+    name: 'keyRoomA',
+    statusPages: [
+      {
+        eventId: 7,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('someitem'),
+        initFrame: 10,
+        overlapOnly: true,
+        criteria: () => (
+          GameGlobal.flags.get(GameFlagKeys.ReadRoomAMemo) &&
+          !GameGlobal.ownItems.has(GameItemIds.KeyRoomA)
+        ),
       },
     ],
   },

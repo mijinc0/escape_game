@@ -20,6 +20,18 @@ const entries: EntryBase[] = [
     frameWidth: 32,
     frameHeight: 32,
   },
+  {
+    name: 'memo',
+    path: 'assets/sprites/memo.png',
+    frameWidth: 16,
+    frameHeight: 16,
+  },
+  {
+    name: 'someitem',
+    path: 'assets/sprites/someitem.png',
+    frameWidth: 16,
+    frameHeight: 16,
+  },
 ];
 
 export const SpritesheetAssetEntries: Asset.ISpritesheetAssetEntry[] = entries.map((base: EntryBase) => ({

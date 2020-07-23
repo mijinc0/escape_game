@@ -1,5 +1,3 @@
-import * as Locales from '../../../core/locales';
-
 // prettier-ignore
 export default [
   {
@@ -47,6 +45,23 @@ export default [
     texts: [
       'ベッドだ。',
       '少し埃っぽい。最近は使われていないようだ。',
+    ],
+  },
+
+  {
+    key: 'roomA_event6',
+    texts: [
+      '机の上のメモを読んだ。',
+      '『外は危険だ。家の中にいろ。』と書かれている。',
+      '外は危険？\\!私は保護されているのか？',
+    ],
+  },
+
+  {
+    key: 'roomA_event7',
+    texts: [
+      '部屋の隅に何かある。',
+      '"部屋の鍵A"を手に入れた。',
     ],
   },
 ];
