@@ -23,8 +23,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferHalway2FB',
     statusPages: [
       {
-        eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
+        eventId: 1,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 96 },
@@ -38,9 +38,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferStoreroom',
     statusPages: [
       {
-        eventId: 3,
-        eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
+        eventId: 2,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },
@@ -54,9 +53,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferRoomE',
     statusPages: [
       {
-        eventId: 4,
-        eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },

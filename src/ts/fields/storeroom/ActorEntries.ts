@@ -40,7 +40,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -54,9 +53,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'displayShelfR',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -70,9 +68,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetA',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -86,9 +83,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetB',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -104,7 +100,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 4,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -120,7 +115,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 4,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -134,9 +128,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetC',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -150,9 +143,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'closetD',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -168,7 +160,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 4,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -184,7 +175,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 4,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },

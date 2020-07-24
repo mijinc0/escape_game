@@ -15,6 +15,12 @@ const items = new Locales.ItemTexts(
   },
 
   {
+    id: id.KeyRoomE,
+    name: '2階南側部屋の鍵',
+    description: '2階廊下の南側(下側)部屋の鍵',
+  },
+
+  {
     id: id.KeyRoomFG,
     name: '2階北側部屋の鍵',
     description: '2階廊下の北側(上側)2部屋の鍵',

@@ -14,7 +14,9 @@ export enum GameFlagKeys {
 
   RoomDDoorOpen,
 
-  RoomEDoorOpen,
+  RoomElDoorOpen,
+  
+  RoomErDoorOpen,
 
   RoomFDoorOpen,
 

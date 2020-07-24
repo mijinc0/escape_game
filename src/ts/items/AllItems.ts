@@ -27,6 +27,11 @@ export const AllItems = [
   },
 
   {
+    id: GameItemIds.KeyRoomE,
+    iconImageName: 'icon_silver_key',
+  },
+
+  {
     id: GameItemIds.KeyRoomFG,
     iconImageName: 'icon_silver_key',
   },

@@ -4,6 +4,7 @@ import { GameAssets } from './GameAssets';
 import { GameFlagKeys } from './GameFlagKeys';
 import { GameGlobal } from './GameGlobal';
 import { IGameGlobal } from './core/IGameGlobal';
+import { GameItemIds } from './items/GameItemIds';
 import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
@@ -77,9 +78,15 @@ export class Boot extends Phaser.Game {
   private _debugInit(): void {
     this.gameGlobal.flags.on(GameFlagKeys.Opening);
     this.gameGlobal.flags.on(GameFlagKeys.ReadRoomAMemo);
-    this.gameGlobal.flags.on(GameFlagKeys.RoomADoorOpen);
-    this.gameGlobal.flags.on(GameFlagKeys.RoomBDoorOpen);
-    this.gameGlobal.flags.on(GameFlagKeys.RoomCDoorOpen);
-    this.gameGlobal.flags.on(GameFlagKeys.RoomDDoorOpen);
+
+    [
+      this.gameGlobal.items.get(GameItemIds.KeyRoomBC),
+      this.gameGlobal.items.get(GameItemIds.KeyRoomD),
+      this.gameGlobal.items.get(GameItemIds.KeyRoomFG),
+      this.gameGlobal.items.get(GameItemIds.KeyStoreroom),
+      this.gameGlobal.items.get(GameItemIds.KeyRoomE),
+    ].forEach((item) => {
+      this.gameGlobal.ownItems.add(item, 1);
+    });
   }
 }

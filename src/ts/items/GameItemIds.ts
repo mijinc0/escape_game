@@ -3,8 +3,10 @@ export enum GameItemIds {
 
   KeyRoomBC,
 
+  KeyRoomE,
+  
   KeyRoomFG,
-
+  
   KeyStoreroom,
   
   KeyRoomD,

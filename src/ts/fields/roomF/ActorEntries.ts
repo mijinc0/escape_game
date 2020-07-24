@@ -11,7 +11,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 0,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 44, height: 8 },
@@ -27,7 +26,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -43,7 +41,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 1,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 8, height: 8 },
@@ -57,7 +54,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'shelf',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -72,7 +69,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'displayShelfA',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -87,7 +84,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'displayShelfB',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -102,7 +99,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'displayShelfC',
     statusPages: [
       {
-        eventId: 1,
+        eventId: 3,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -117,9 +114,8 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'transferHollway2FA',
     statusPages: [
       {
-        eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
+        eventId: 4,
+        eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
           size: { width: 64, height: 8 },
