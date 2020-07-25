@@ -9,6 +9,7 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
+const texts = GameGlobal.texts.event.get('roomD_event1');
 
 /**
  * shelfR
@@ -16,6 +17,8 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   1,
   [
-    cmd.message('shelfR'),
+    cmd.message(texts.get(0)),
+    cmd.playSe(Assets.AssetCacheKey.audio('se_open_drawer'), 1, 0, 5),
+    cmd.message(texts.get(1)),
   ],
 );

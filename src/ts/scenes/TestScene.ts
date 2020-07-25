@@ -212,6 +212,9 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.add.existing(sprite);
     this.physics.add.existing(sprite);
 
+    sprite.body.setSize(12, 12, false);
+    sprite.body.setOffset(10, 20);
+
     actor.sprite = sprite;
 
     // search event

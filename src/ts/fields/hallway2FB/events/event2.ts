@@ -9,7 +9,7 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('hallway2FB_event0');
+const texts = GameGlobal.texts.event.get('hallway2FB_event2');
 
 /**
  * transferRoomE (right)

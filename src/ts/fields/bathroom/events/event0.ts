@@ -8,7 +8,7 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-// prettier-ignore
+// prettier-ignor
 
 /**
  * door (hallway1FA)

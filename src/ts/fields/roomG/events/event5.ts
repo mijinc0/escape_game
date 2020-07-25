@@ -9,7 +9,7 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('hallway1FA_event0');
+const texts = GameGlobal.texts.event.get('roomG_event5');
 
 /**
  * bed
@@ -17,6 +17,7 @@ const texts = GameGlobal.texts.event.get('hallway1FA_event0');
 export default Field.EventEntryFactory.create(
   5,
   [
-    cmd.message('bed'),
+    cmd.message(texts.get(0)),
+    cmd.message(texts.get(1)),
   ],
 );

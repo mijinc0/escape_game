@@ -9,6 +9,7 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
+const texts = GameGlobal.texts.event.get('toilet_event0');
 
 /**
  * toilet
@@ -16,6 +17,7 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   0,
   [
-    cmd.message('toilet'),
+    cmd.message(texts.get(0)),
+    cmd.message(texts.get(1)),
   ],
 );

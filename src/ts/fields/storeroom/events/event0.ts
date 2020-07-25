@@ -9,7 +9,6 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('hallway1FA_event0');
 
 /**
  * door (hallway2FA)

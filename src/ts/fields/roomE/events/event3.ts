@@ -9,6 +9,7 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
+const texts = GameGlobal.texts.event.get('roomE_event3');
 
 /**
  * bookShelf
@@ -16,6 +17,7 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   3,
   [
-    cmd.message('bookshelf'),
+    cmd.message(texts.get(0)),
+    cmd.message(texts.get(1)),
   ],
 );
