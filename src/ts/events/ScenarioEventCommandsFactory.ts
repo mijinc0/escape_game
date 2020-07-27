@@ -12,6 +12,7 @@ import { CameraFadeOut } from './commands/CameraFadeOut';
 import { PlayActorAnim } from './commands/PlayActorAnim';
 import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { PlaySe } from './commands/PlaySe';
+import { Choices } from './commands/Choices';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -78,5 +79,9 @@ export class ScenarioEventCommandsFactory {
 
   static playSe(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean): PlaySe {
     return new PlaySe(audioKey, volume, delay, rate, async);
+  }
+
+  static choices(message: string, items: string[], resultValueKey: number, defaultValue?: number): Choices {
+    return new Choices(message, items, resultValueKey, defaultValue);
   }
 }

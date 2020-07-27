@@ -14,23 +14,40 @@ const entries: EntryBase[] = [
     frameWidth: 32,
     frameHeight: 32,
   },
+
   {
     name: 'door',
     path: 'assets/sprites/door.png',
     frameWidth: 32,
     frameHeight: 32,
   },
+
   {
     name: 'memo',
     path: 'assets/sprites/memo.png',
     frameWidth: 16,
     frameHeight: 16,
   },
+  
   {
     name: 'someitem',
     path: 'assets/sprites/someitem.png',
     frameWidth: 16,
     frameHeight: 16,
+  },
+
+  {
+    name: 'safetybox',
+    path: 'assets/sprites/safetybox.png',
+    frameWidth: 24,
+    frameHeight: 24,
+  },
+
+  {
+    name: 'bath',
+    path: 'assets/sprites/bath.png',
+    frameWidth: 64,
+    frameHeight: 64,
   },
 ];
 

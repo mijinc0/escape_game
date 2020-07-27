@@ -80,6 +80,7 @@ export class Boot extends Phaser.Game {
     this.gameGlobal.flags.on(GameFlagKeys.ReadRoomAMemo);
 
     [
+      this.gameGlobal.items.get(GameItemIds.KeyRoomA),
       this.gameGlobal.items.get(GameItemIds.KeyRoomBC),
       this.gameGlobal.items.get(GameItemIds.KeyRoomD),
       this.gameGlobal.items.get(GameItemIds.KeyRoomFG),

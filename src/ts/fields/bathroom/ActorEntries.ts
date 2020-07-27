@@ -1,6 +1,8 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import { GameGlobal } from '../../GameGlobal';
+import { GameFlagKeys } from '../../GameFlagKeys';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -40,10 +42,21 @@ const actorEntries: Field.IFieldActorEntry[] = [
       {
         eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
-        overlapOnly: true,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
-          size: { width: 64, height: 32 },
+          size: { width: 64, height: 64 },
+        },
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.DrainBathWater)),
+      },
+
+      {
+        eventId: 2,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('bath'),
+        initFrame: 0,
+        bodyConfig: {
+          size: { width: 64, height: 64 },
         },
       },
     ],
