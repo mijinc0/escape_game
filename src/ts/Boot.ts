@@ -18,7 +18,7 @@ export class Boot extends Phaser.Game {
   readonly gameGlobal: IGameGlobal;
 
   constructor() {
-    const debugMode = true;
+    const debugMode = false;
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
@@ -68,7 +68,7 @@ export class Boot extends Phaser.Game {
       spritesheet: GameAssets.spritesheet,
     };
 
-    this.scene.start('loading', assetLoadingConfig);
+    this.scene.start('test_ui', assetLoadingConfig);
   }
 
   /**

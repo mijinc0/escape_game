@@ -29,6 +29,10 @@ export class Selector extends EventEmitter implements ISelector {
 
   private cooldownCount: number;
 
+  // 連射防止用のロックに使う
+  private selectDisable: boolean;
+  private cancelDisable: boolean;
+
   constructor(cursor: ISelectorCursor, keys?: Input.Keys) {
     super();
 
@@ -50,6 +54,16 @@ export class Selector extends EventEmitter implements ISelector {
     this.cooldownCount = Math.max(0, this.cooldownCount - 1);
     if (this.cooldownCount != 0) return;
 
+    // selectボタンの連射防止
+    if (this.keys.action.isUp) {
+      this.selectDisable = false;
+    }
+
+    // cancelボタンの連射防止
+    if (this.keys.cancel.isUp) {
+      this.cancelDisable = false;
+    }
+
     // 各キーを押した時の操作
     if (this.keys.cursors.down.isDown) {
       this.goNext(Direction.Down);
@@ -59,23 +73,32 @@ export class Selector extends EventEmitter implements ISelector {
       this.goNext(Direction.Left);
     } else if (this.keys.cursors.up.isDown) {
       this.goNext(Direction.Up);
-    } else if (this.keys.action.isDown) {
+    } else if (this.keys.action.isDown && !this.selectDisable) {
+    // selectボタンの連射防止
+      this.selectDisable = true;
       this._select();
-    } else if (this.keys.cancel.isDown) {
+    } else if (this.keys.cancel.isDown && !this.cancelDisable) {
+    // cancelボタンの連射防止
+      this.cancelDisable = true;
       this._cancel();
     }
   }
 
   setGroup(managedGroup: IGroup, destroyIfCanceled?: IElement[]): void {
+    const currentGroup = this._getCurrentGroup();
+    this._logChangeGroup(currentGroup, managedGroup);
+
     // historyの先頭に加える
     this.groupHistory.unshift({
       group: managedGroup,
       destroyIfCanceled: destroyIfCanceled ? destroyIfCanceled : [],
     });
 
-    // 最初のグループで無い場合はカーソルを最初のelementに移動させるためにgoNextを行う
+    // 最初のグループでない場合はカーソルを移動させる
     if (this.groupHistory.length > 1) {
-      this.goNext(Direction.Down);
+      let currentElement = currentGroup.getCurrent();
+      let nextElement = managedGroup.getCurrent();
+      this._moveCursor(nextElement, currentElement);
     }
   }
 
@@ -142,13 +165,17 @@ export class Selector extends EventEmitter implements ISelector {
 
     // shiftすることで、現在のgroupを削除して一つ前に選択していたgroupを先頭に(現在の管理対象に)する
     const unhandledGroup = this.groupHistory.shift();
-    const currentElement = unhandledGroup.group.getCurrent();
 
-    // 最初に length < 2 をしているのでここでは必ずelementが取得できる
-    const returningElement = this._getCurrentElement();
+    // 放棄するグループの名前と戻るグループの名前を表示
+    const leavedGroup = unhandledGroup.group;
+    const returnGroup = this._getCurrentGroup();
+    this._logChangeGroup(leavedGroup, returnGroup);
+
+    const leavedElement = unhandledGroup.group.getCurrent();
+    const returnElement = this._getCurrentElement();
 
     // unhandledGroupを削除する前にカーソルの移動を行う
-    this._moveCursor(returningElement, currentElement);
+    this._moveCursor(returnElement, leavedElement);
 
     this.emit(SelectorEventNames.GroupCanceled);
 
@@ -159,13 +186,29 @@ export class Selector extends EventEmitter implements ISelector {
     this._setCooldownTime();
   }
 
-  private _moveCursor(next: IElement, current?: IElement): void {
+  private _moveCursor(next?: IElement, current?: IElement): void {
     if (current) {
       current.emit(ElementEventNames.Out, current, this);
     }
 
+    const currentElementName = current ? current.name : 'NULL';
+    const nextElementName = next ? next.name : 'NULL';
+    console.log(`move cursor {current: ${currentElementName}, next: ${nextElementName}}`);
+
+    if (!next) {
+      this.cursor.visible = false;
+      return;
+    }
+
     // カーソルを移動させる
+    this.cursor.visible =  true;  
     this.cursor.goTo(next);
     next.emit(ElementEventNames.Over, next, this);
+  }
+
+  private _logChangeGroup(before: IGroup|null, next: IGroup|null): void {
+    const beforeName = before ? before.name : 'NULL';
+    const nextName = next ? next.name : 'NULL';
+    console.log(`change group {before: ${beforeName}, next: ${nextName}}`);
   }
 }

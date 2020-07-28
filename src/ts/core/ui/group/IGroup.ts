@@ -2,7 +2,7 @@ import { IAlignmentHandler } from './IAlignmentHandler';
 import { IElement } from '../IElement';
 import { Direction } from '../Direction';
 
-export interface IGroup {
+export interface IGroup extends IElement {
   entries: IElement[];
 
   currentIndex: number;

@@ -19,7 +19,7 @@ export class RangeAlignmentNextPostionCallbacks {
 
     return {
       x: 0,
-      y: (deltaYFromAnchor + current.height + margin) * -1,
+      y: deltaYFromAnchor - (current.height + margin),
     };
   }
 
@@ -36,7 +36,7 @@ export class RangeAlignmentNextPostionCallbacks {
     const deltaXFromAnchor = before.x - anchor.x;
 
     return {
-      x: (deltaXFromAnchor + current.width + margin) * -1,
+      x: deltaXFromAnchor - (current.width + margin),
       y: 0,
     };
   }
