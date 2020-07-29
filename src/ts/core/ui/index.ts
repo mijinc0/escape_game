@@ -15,6 +15,7 @@ export { Rectangle } from './phaserObject/Rectangle';
 export { Text } from './phaserObject/Text';
 export { DefaultSelectorCursor } from './selector/DefaultSelectorCursor';
 export { ElementEventNames } from './selector/ElementEventNames';
+export { ISelectEventCallback } from './selector/ISelectEventCallback';
 export { ISelector } from './selector/ISelector';
 export { ISelectorCursor } from './selector/ISelectorCursor';
 export { Selector } from './selector/Selector';

@@ -3,4 +3,6 @@
  */
 export enum GameVariableKeys {
   ChoiceDrainBathWater,
+
+  RoomBSatetyboxPasscode,
 }

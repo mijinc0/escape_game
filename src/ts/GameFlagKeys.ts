@@ -25,4 +25,6 @@ export enum GameFlagKeys {
   StoreroomDoorOpen,
 
   DrainBathWater,
+  
+  RoomBSafetyboxOpen,
 }

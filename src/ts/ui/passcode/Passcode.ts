@@ -59,6 +59,17 @@ export class Passcode extends Ui.Group {
     return passcode != NaN ? passcode : -1;
   }
 
+  addSelectEnterButtonEvent(callback: Ui.ISelectEventCallback): void {
+    const enterButton  = this.enterButton.entries[0];
+
+    if (!enterButton) {
+      console.warn('enter button is not found in the group');
+      return;
+    }
+
+    enterButton.on(Ui.ElementEventNames.Select, callback);
+  }
+
   private _getPasscodeAsString(): string {
     return this.passcodeText.text.replace(/\s+/g, "");;
   }
@@ -117,7 +128,7 @@ export class Passcode extends Ui.Group {
       return button;
     });
 
-    // 一文字消すボタン
+    // backspace button
     buttonConfig.text = '<';
     const backButton = new Button(buttonConfig, 0, 0, 32, 32);
     backButton.name = 'button_<';
@@ -156,7 +167,8 @@ export class Passcode extends Ui.Group {
   }
 
   /**
-   * ボタンを
+   * 数字のボタンを押すとパスコードを表示するテキストに入力を反映されるイベントを
+   * 数字のボタンに設定する
    * 
    * @param button 
    * @param n 
@@ -180,7 +192,7 @@ export class Passcode extends Ui.Group {
   }
 
   /**
-   * 現在の入力の末尾一文字を消すボタンのイベント
+   * 現在の入力から末尾一文字(一行)を消すボタンのイベント(backspace)
    * 
    * @param button 
    */

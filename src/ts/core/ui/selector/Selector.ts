@@ -54,12 +54,12 @@ export class Selector extends EventEmitter implements ISelector {
     this.cooldownCount = Math.max(0, this.cooldownCount - 1);
     if (this.cooldownCount != 0) return;
 
-    // selectボタンの連射防止
+    // selectボタンの連射防止ロックを解除
     if (this.keys.action.isUp) {
       this.selectDisable = false;
     }
 
-    // cancelボタンの連射防止
+    // cancelボタンの連射防止ロックを解除
     if (this.keys.cancel.isUp) {
       this.cancelDisable = false;
     }
@@ -114,14 +114,12 @@ export class Selector extends EventEmitter implements ISelector {
     const current = currentGrup.getCurrent();
     const next = currentGrup.getNext(direction);
 
-    // 次のノードが無いまたはnextとcurrentが同じであれば即return 何もしない
     if (!next || current === next) return;
 
     this.emit(SelectorEventNames.GoNext);
 
     this._moveCursor(next, current);
 
-    // クールダウンを設定して終了
     this._setCooldownTime();
   }
 
@@ -147,8 +145,8 @@ export class Selector extends EventEmitter implements ISelector {
     const currentElement = this._getCurrentElement();
     if (!currentElement) return;
 
-    this.emit(SelectorEventNames.Select);
-
+    this.emit(SelectorEventNames.Select, currentElement, this);
+    
     currentElement.emit(ElementEventNames.Select, currentElement, this);
 
     this._setCooldownTime();

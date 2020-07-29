@@ -29,14 +29,15 @@ export class PlayActorAnim implements IScenarioEvent {
 
     const actor = scene.actorsManager.findActorById(this.actorId);
 
-    if (actor.sprite) {
-      // NOTE: ignoreIfPlayingはfalse(強制的に変える)にしているが必要であれば変更する
-      // アニメーション終了時にこのイベントがcompleteになるようにcomplte関数を渡しておく
-      actor.sprite.playAnim(this.animName, false, this.repeat, this.complete.bind(this));
-    } else {
-      console.warn(`sprite of actor is not found to play anim`);
+    if (!actor || !actor.sprite) {
+      console.warn(`actor or sprite of actor is not found {id: ${this.actorId}}`);
       this.complete();
+      return;
     }
+
+    // NOTE: ignoreIfPlayingはfalse(強制的に変える)にしているが必要であれば変更する
+    // アニメーション終了時にこのイベントがcompleteになるようにcomplte関数を渡しておく
+    actor.sprite.playAnim(this.animName, false, this.repeat, this.complete.bind(this));
 
     this.startAnim = true;
   }

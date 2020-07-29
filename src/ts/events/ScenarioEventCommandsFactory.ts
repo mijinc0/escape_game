@@ -13,6 +13,7 @@ import { PlayActorAnim } from './commands/PlayActorAnim';
 import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { PlaySe } from './commands/PlaySe';
 import { Choices } from './commands/Choices';
+import { Passcode } from './commands/Passcode';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -83,5 +84,9 @@ export class ScenarioEventCommandsFactory {
 
   static choices(message: string, items: string[], resultValueKey: number, defaultValue?: number): Choices {
     return new Choices(message, items, resultValueKey, defaultValue);
+  }
+
+  static passcode(digits: number, resultValueKey: number): Passcode {
+    return new Passcode(digits, resultValueKey);
   }
 }
