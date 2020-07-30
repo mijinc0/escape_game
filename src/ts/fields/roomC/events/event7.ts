@@ -9,15 +9,20 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomC_event3');
+const texts = GameGlobal.texts.event.get('roomC_event7');
 
 /**
- * bookShelfs (未使用)
+ * bookShelfs 2
  */
 export default Field.EventEntryFactory.create(
-  3,
+  7,
   [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
+    op.if(() => (GameGlobal.flags.get(GameFlagKeys.ReadRoomCMemo)))(
+      cmd.message(texts.get(0)),
+    ).else(
+      cmd.message(texts.get(1)),
+    ),
+
+    cmd.message(texts.get(2)),
   ],
 );

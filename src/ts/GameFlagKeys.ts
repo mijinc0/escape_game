@@ -27,4 +27,6 @@ export enum GameFlagKeys {
   DrainBathWater,
   
   RoomBSafetyboxOpen,
+
+  ReadRoomCMemo,
 }

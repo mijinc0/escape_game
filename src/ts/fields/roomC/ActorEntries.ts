@@ -36,10 +36,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 2,
-    name: 'bookShelfA',
+    name: 'bookShelf0',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 5,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -51,10 +51,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 3,
-    name: 'bookShelfB',
+    name: 'bookShelf1',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 6,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -66,10 +66,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 4,
-    name: 'bookShelfC',
+    name: 'bookShelf2',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 7,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -81,10 +81,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 5,
-    name: 'bookShelfD',
+    name: 'bookShelf3',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 8,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -96,10 +96,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 6,
-    name: 'bookShelfE',
+    name: 'bookShelf4',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 9,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -111,10 +111,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 7,
-    name: 'bookShelfF',
+    name: 'bookShelf5',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 10,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -126,10 +126,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 8,
-    name: 'bookShelfG',
+    name: 'bookShelf6',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 11,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -141,10 +141,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 9,
-    name: 'bookShelfH',
+    name: 'bookShelf7',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 12,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -156,10 +156,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 10,
-    name: 'bookShelfI',
+    name: 'bookShelf8',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 13,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -171,10 +171,10 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 11,
-    name: 'bookShelfJ',
+    name: 'bookShelf9',
     statusPages: [
       {
-        eventId: 3,
+        eventId: 14,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -195,6 +195,20 @@ const actorEntries: Field.IFieldActorEntry[] = [
         bodyConfig: {
           size: { width: 64, height: 8 },
         },
+      },
+    ],
+  },
+
+  {
+    id: 13,
+    name: 'memo',
+    statusPages: [
+      {
+        eventId: 4,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('memo'),
+        initFrame: 0,
       },
     ],
   },
