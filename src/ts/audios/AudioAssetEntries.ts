@@ -46,6 +46,10 @@ const entries: EntryBase[] = [
     name: 'se_find_item',
     path: 'assets/audio/se_maoudamashii_onepoint07.ogg',
   },
+  {
+    name: 'se_glass_break',
+    path: 'assets/audio/se_soundeffect-lab_glass-break3.mp3',
+  },
 ];
 
 export const AudioAssetEntries: Asset.IAssetEntry[] = entries.map((base: EntryBase) => ({

@@ -29,4 +29,8 @@ export enum GameFlagKeys {
   RoomBSafetyboxOpen,
 
   ReadRoomCMemo,
+  
+  SearchRoomGSofa,
+
+  RoomGSafetyboxOpen,
 }

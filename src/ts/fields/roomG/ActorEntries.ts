@@ -1,6 +1,9 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import { GameFlagKeys } from '../../GameFlagKeys';
+import { GameGlobal } from '../../GameGlobal';
+import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -136,6 +139,37 @@ const actorEntries: Field.IFieldActorEntry[] = [
         bodyConfig: {
           size: { width: 64, height: 8 },
         },
+      },
+    ],
+  },
+
+  {
+    id: 9,
+    name: 'safetybox',
+    statusPages: [
+      // 金庫を開ける前
+      {
+        eventId: 7,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
+        initFrame: 0,
+        bodyConfig: {
+          offset: {x: 0, y: 8},
+        },
+      },
+
+      // 金庫を開けた後
+      {
+        eventId: 7,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
+        initFrame: 1,
+        bodyConfig: {
+          offset: {x: 0, y: 8},
+        },
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.RoomGSafetyboxOpen)),
       },
     ],
   },

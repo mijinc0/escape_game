@@ -1,6 +1,9 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import { GameFlagKeys } from '../../GameFlagKeys';
+import { GameGlobal } from '../../GameGlobal';
+import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -209,6 +212,22 @@ const actorEntries: Field.IFieldActorEntry[] = [
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('memo'),
         initFrame: 0,
+      },
+    ],
+  },
+
+  {
+    id: 14,
+    name: 'safetyboxKey',
+    statusPages: [
+      {
+        eventId: 15,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('someitem'),
+        playAnim: true,
+        initFrame: 0,
+        criteria: () => (!GameGlobal.ownItems.has(GameItemIds.RoomGSafetyboxKey)),
       },
     ],
   },

@@ -37,6 +37,36 @@ const items = new Locales.ItemTexts(
     name: '1階東側部屋の鍵',
     description: '1階東(右側)廊下の部屋の鍵',
   },
+
+  {
+    id: id.Hammer,
+    name: 'ハンマー',
+    description: '普通の金槌。小さいものであれば割ることが出来そう。',
+  },
+
+  {
+    id: id.Lighter,
+    name: 'ライター',
+    description: 'オイルを注げるタイプのライター。油が無くなっているようでこれだけでは火がつかない。',
+  },
+
+  {
+    id: id.LighterOil,
+    name: 'ライターオイル',
+    description: 'ライターのオイル',
+  },
+
+  {
+    id: id.BlokenDish,
+    name: '割れたお皿',
+    description: '割れた面が鋭利で危ない。柔らかいものであれば切ったり穴を開けることが出来そう。',
+  },
+
+  {
+    id: id.RoomGSafetyboxKey,
+    name: '金庫の鍵',
+    description: '2階北東の部屋の金庫の鍵',
+  },
 );
 
 export default items;

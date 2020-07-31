@@ -13,6 +13,7 @@ import event11 from './events/event11'
 import event12 from './events/event12'
 import event13 from './events/event13'
 import event14 from './events/event14'
+import event15 from './events/event15'
 
 // prettier-ignore
 const eventEntries = [
@@ -31,6 +32,7 @@ const eventEntries = [
   event12,
   event13,
   event14,
+  event15,
 ];
 
 export default eventEntries;

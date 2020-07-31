@@ -40,6 +40,31 @@ export const AllItems = [
     id: GameItemIds.KeyStoreroom,
     iconImageName: 'icon_silver_key',
   },
+
+  {
+    id: GameItemIds.Hammer,
+    iconImageName: 'icon_hammer',
+  },
+
+  {
+    id: GameItemIds.BlokenDish,
+    iconImageName: 'icon_blokendish',
+  },
+
+  {
+    id: GameItemIds.RoomGSafetyboxKey,
+    iconImageName: 'icon_toykey',
+  },
+
+  {
+    id: GameItemIds.Lighter,
+    iconImageName: 'icon_lighter',
+  },
+
+  {
+    id: GameItemIds.LighterOil,
+    iconImageName: 'icon_lighteroil',
+  },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
   

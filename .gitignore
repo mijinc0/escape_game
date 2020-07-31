@@ -2,3 +2,4 @@
 /dist/
 
 /src/assets/audio/*.ogg
+/src/assets/audio/*.mp3

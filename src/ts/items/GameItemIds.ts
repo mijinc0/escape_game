@@ -10,4 +10,14 @@ export enum GameItemIds {
   KeyStoreroom,
   
   KeyRoomD,
+
+  Hammer,
+  
+  BlokenDish,
+  
+  RoomGSafetyboxKey,
+
+  Lighter,
+  
+  LighterOil,
 }
