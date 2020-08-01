@@ -1,9 +1,9 @@
-import { IScenarioEvent } from '../../core/events/IScenarioEvent';
-import { Item as ItemObject } from '../../core/models/Item';
+import * as Event from '../../core/events';
+import * as Model from '../../core/models';
+import * as Scene from '../../core/scenes';
 import { IGameGlobal } from '../../core/IGameGlobal';
-import { IFieldScene } from '../../core/scenes/IFieldScene';
 
-export class Item implements IScenarioEvent {
+export class Item implements Event.IScenarioEvent {
   static readonly maxOwnItems = 99;
 
   readonly isAsync = true;
@@ -19,11 +19,11 @@ export class Item implements IScenarioEvent {
     this.isComplete = false;
   }
 
-  init(scene: IFieldScene): void {
+  init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
   }
 
-  update(scene: IFieldScene): void {
+  update(scene: Scene.IFieldScene): void {
     if (this.delta > 0) {
       this._getItem(this.itemId, this.delta, scene.gameGlobal);
     } else {
@@ -37,7 +37,7 @@ export class Item implements IScenarioEvent {
     this.isComplete = true;
   }
 
-  private _getItem(id: number, num: number, gameGlobal: IGameGlobal): ItemObject | null {
+  private _getItem(id: number, num: number, gameGlobal: IGameGlobal): Model.Item | null {
     const item = gameGlobal.items.get(id);
 
     // アイテムデータが存在しない

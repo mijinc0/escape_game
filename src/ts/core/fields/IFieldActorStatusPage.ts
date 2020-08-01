@@ -1,5 +1,6 @@
 import * as Model from '../models';
 import * as Actor from '../actors';
+import * as Render from '../renders';
 
 export interface IFieldActorStatusPage {
   eventId: number;
@@ -37,6 +38,8 @@ export interface IFieldActorStatusPage {
   overlapOnly?: boolean;
 
   bodyConfig?: Actor.IBodyConfig;
+
+  renderType?: Render.ActorRenderType;
 
   /**
    * スポーン条件

@@ -33,4 +33,12 @@ export enum GameFlagKeys {
   SearchRoomGSofa,
 
   RoomGSafetyboxOpen,
+
+  StoreroomSafetyboxOpen,
+
+  SarchRoomDFloor,
+
+  SearchHiddenLadder,
+
+  FindHiddenLadder,
 }

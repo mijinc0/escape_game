@@ -65,6 +65,11 @@ export const AllItems = [
     id: GameItemIds.LighterOil,
     iconImageName: 'icon_lighteroil',
   },
+
+  {
+    id: GameItemIds.Barl,
+    iconImageName: 'icon_barl',
+  },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
   

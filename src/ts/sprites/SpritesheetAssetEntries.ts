@@ -49,6 +49,13 @@ const entries: EntryBase[] = [
     frameWidth: 64,
     frameHeight: 64,
   },
+
+  {
+    name: 'hiddenladder',
+    path: 'assets/sprites/hiddenladder.png',
+    frameWidth: 32,
+    frameHeight: 32,
+  },
 ];
 
 export const SpritesheetAssetEntries: Asset.ISpritesheetAssetEntry[] = entries.map((base: EntryBase) => ({

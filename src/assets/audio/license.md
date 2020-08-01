@@ -1,4 +1,4 @@
-# License
+# Audio Licenses
 
 オーディオファイルのライセンス、製作者等の情報
 

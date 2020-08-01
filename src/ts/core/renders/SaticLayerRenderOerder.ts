@@ -5,18 +5,18 @@ type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
 /**
  * Actorがy座標によって(0~65535)変化するものとしてマップのレイヤーdepthを決める
  *
- * baseLayer : -2
- * underActor : -1
+ * baseLayer : -512 (0x00200 * -1)
+ * underActor : -256 (0x00100 * -1)
  * overActor: 65536 (0x01000)
  *
  */
 export class SaticLayerRenderOerder {
   static baseLayer(staticLayer: StaticLayer): void {
-    staticLayer.depth = -2;
+    staticLayer.depth = -512;
   }
 
   static underActorLayer(staticLayer: StaticLayer): void {
-    staticLayer.depth = -1;
+    staticLayer.depth = -265;
   }
 
   static overActorLayer(staticLayer: StaticLayer): void {

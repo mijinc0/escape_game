@@ -20,4 +20,6 @@ export enum GameItemIds {
   Lighter,
   
   LighterOil,
+
+  Barl,
 }

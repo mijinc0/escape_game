@@ -1,5 +1,6 @@
 import * as Actor from '../actors';
 import * as Scene from '../scenes';
+import * as Render from '../renders';
 import { FieldActorData } from './FieldActorData';
 import { EventEmitType } from './EventEmitType';
 import { IFieldActorEntry } from './IFieldActorEntry';
@@ -134,11 +135,16 @@ export class FieldActorsManager {
     // 6. collision setting
     this._setCollisionSettings(actor, page.overlapOnly);
 
-    // 6. change entry properties
+    // 7. rendering setting
+    // (ActorRenderTypeは文字enumなので0=falseを気にしなくて良い)
+    const renderType = page.renderType ? page.renderType : Render.ActorRenderType.Normal;
+    Render.ActorRenderOrder.setWithType(actor.sprite, renderType);
+
+    // 8. change entry properties
     fieldActorData.currentPageIndex = pageIndex;
     fieldActorData.isSpawn = true;
 
-    // 7. emit "Immediately" event
+    // 9. emit "Immediately" event
     actor.emit(EventEmitType.Immediately);
   }
 

@@ -14,6 +14,7 @@ import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { PlaySe } from './commands/PlaySe';
 import { Choices } from './commands/Choices';
 import { Passcode } from './commands/Passcode';
+import { MoveActor } from './commands/MoveActor';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -88,5 +89,9 @@ export class ScenarioEventCommandsFactory {
 
   static passcode(digits: number, resultValueKey: number): Passcode {
     return new Passcode(digits, resultValueKey);
+  }
+
+  static moveActor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean): MoveActor {
+    return new MoveActor(actorId, x, y, velocity, playAnim, gridMoving, lockDirection);
   }
 }

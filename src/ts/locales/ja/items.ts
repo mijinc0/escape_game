@@ -41,7 +41,7 @@ const items = new Locales.ItemTexts(
   {
     id: id.Hammer,
     name: 'ハンマー',
-    description: '普通の金槌。小さいものであれば割ることが出来そう。',
+    description: '普通の金槌。小さいものであれば壊すことが出来そう。',
   },
 
   {
@@ -66,6 +66,12 @@ const items = new Locales.ItemTexts(
     id: id.RoomGSafetyboxKey,
     name: '金庫の鍵',
     description: '2階北東の部屋の金庫の鍵',
+  },
+
+  {
+    id: id.Barl,
+    name: 'バール',
+    description: '普通のバール。釘を抜いたり、てこの原理で何かを剥がしたりするのに使われる。',
   },
 );
 

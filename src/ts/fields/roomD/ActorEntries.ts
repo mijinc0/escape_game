@@ -1,6 +1,10 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import * as Render from '../../core/renders';
+import { GameFlagKeys } from '../../GameFlagKeys';
+import { GameGlobal } from '../../GameGlobal';
+import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -45,6 +49,33 @@ const actorEntries: Field.IFieldActorEntry[] = [
         bodyConfig: {
           size: { width: 64, height: 8 },
         },
+      },
+    ],
+  },
+
+  {
+    id: 3,
+    name: 'safetybox',
+    statusPages: [
+      // 床を外す前
+      {
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('hiddenladder'),
+        initFrame: 0,
+        renderType: Render.ActorRenderType.UnderActor,
+        overlapOnly: true,
+      },
+
+      // 床を外してハシゴを出現させた後
+      {
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Collide,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('hiddenladder'),
+        initFrame: 1,
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.FindHiddenLadder)),
       },
     ],
   },
