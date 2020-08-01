@@ -19,6 +19,7 @@ export default Field.EventEntryFactory.create(
   [
     cmd.message(texts.get(0)),
     cmd.playSe(Assets.AssetCacheKey.audio('se_open_drawer'), 1, 0, 5),
+    cmd.moveActor(-1, 160, 288),
     cmd.message(texts.get(1)),
   ],
 );

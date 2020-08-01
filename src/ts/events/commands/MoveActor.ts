@@ -5,7 +5,7 @@ import * as Scene from '../../core/scenes';
 import { IGameGlobal } from '../../core/IGameGlobal';
 
 export class MoveActor implements Event.IScenarioEvent {
-  readonly isAsync = true;
+  readonly isAsync: boolean;
 
   isComplete: boolean;
 
@@ -22,13 +22,24 @@ export class MoveActor implements Event.IScenarioEvent {
   private playAnim: boolean;
   private startMove: boolean;
 
-  constructor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean) {
+  /**
+   * 
+   * @param actorId primaryActor : actorId < 0, fieldActor : actorId > 0
+   * @param x 
+   * @param y 
+   * @param velocity 
+   * @param playAnim 
+   * @param gridMoving 
+   * @param lockDirection 
+   */
+  constructor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean, isAsync?: boolean) {
     this.actorId = actorId;
     this.targetPosition = {x: x, y: y};
-    this.velocity = velocity ? velocity : 184;
-    this.playAnim = playAnim ? playAnim : true;
-    this.gridMoving = gridMoving ? gridMoving : true;
-    this.lockDirection = lockDirection ? lockDirection : false;
+    this.velocity = typeof(velocity) === 'number' ? velocity : 184;
+    this.playAnim = typeof(playAnim) === 'boolean' ? playAnim : true;
+    this.gridMoving = typeof(gridMoving) === 'boolean' ? gridMoving : true;
+    this.lockDirection = typeof(lockDirection) === 'boolean' ? lockDirection : false;
+    this.isAsync = isAsync ? isAsync : false;
     this.isComplete = false;
     this.startMove = false;
   }
@@ -41,7 +52,9 @@ export class MoveActor implements Event.IScenarioEvent {
   update(scene: Scene.IFieldScene): void {
     if (this.startMove || this.isComplete) return;
 
-    const actor = scene.actorsManager.findActorById(this.actorId);
+    const actor = this.actorId > 0 ?
+      scene.actorsManager.findActorById(this.actorId) :
+      scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor sprite is not found. actor moving event will be completed {id: ${this.actorId}}`);
@@ -80,6 +93,8 @@ export class MoveActor implements Event.IScenarioEvent {
       positionToB,
       this.complete.bind(this),
     );
+
+    timeline.play();
   }
 
   private _startShortestDistanceMoving(sprite: Actor.IActorSprite, scene: Scene.IFieldScene): void {
@@ -94,6 +109,8 @@ export class MoveActor implements Event.IScenarioEvent {
       this.targetPosition,
       this.complete.bind(this),
     );
+
+    timeline.play();
   }
 
   /**
@@ -129,12 +146,13 @@ export class MoveActor implements Event.IScenarioEvent {
       onStart: () => {
         // 方向の転換
         if (!this.lockDirection) {
-          this._setDirectionByTargetPosition(sprite, positionTo);
+          this._setDirectionByTargetPosition(sprite, positionFrom, positionTo);
         }
-        
+      },
+      onUpdate: () => {
         // アニメーション
         if (this.playAnim) {
-          sprite.playAnim('default', false, -1);
+          sprite.playAnim('default', true);
         }
       },
       onComplete: () => {
@@ -145,11 +163,14 @@ export class MoveActor implements Event.IScenarioEvent {
     })
   }
 
-  private _setDirectionByTargetPosition(sprite: Actor.IActorSprite, positionTo: Model.Position): void {
-    const distanceX = positionTo.x - sprite.x;
-    const distanceY = positionTo.y - sprite.y;
+  private _setDirectionByTargetPosition(sprite: Actor.IActorSprite, positionFrom: Model.Position, positionTo: Model.Position): void {
+    const distanceX = positionTo.x - positionFrom.x;
+    const distanceY = positionTo.y - positionFrom.y;
 
-    if (distanceY > distanceX) {
+    const absDistanceX = Math.abs(distanceX);
+    const absDistanceY = Math.abs(distanceY);
+
+    if (absDistanceY > absDistanceX) {
       // 上を向くか下を向くか
       if (distanceY > 0) {
         sprite.direction = Model.Direction.Down;
