@@ -9,16 +9,28 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomD_event0');
+const texts = GameGlobal.texts.event.get('storeroom_event6');
 
 /**
- * shelfL
+ * shelfC
  */
 export default Field.EventEntryFactory.create(
-  0,
+  6,
   [
     cmd.message(texts.get(0)),
-    cmd.playSe(Assets.AssetCacheKey.audio('se_open_drawer'), 1, 0, 5),
     cmd.message(texts.get(1)),
+
+    op.if(() => (
+      GameGlobal.flags.get(GameFlagKeys.SearchHiddenLadder) &&
+      !GameGlobal.ownItems.has(GameItemIds.Barl)
+    ))(
+      cmd.message(texts.get(2)),
+      cmd.message(texts.get(3)),
+      cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
+      cmd.popGettingItemModal(GameItemIds.Barl),
+      cmd.item(GameItemIds.Barl, +1),
+    ).else(
+      cmd.message(texts.get(4)),
+    ),
   ],
 );

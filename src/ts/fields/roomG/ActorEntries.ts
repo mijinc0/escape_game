@@ -147,18 +147,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
     id: 9,
     name: 'safetybox',
     statusPages: [
-      // 金庫を開ける前
-      {
-        eventId: 7,
-        eventEmitType: Field.EventEmitType.Search,
-        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
-        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
-        initFrame: 0,
-        bodyConfig: {
-          offset: {x: 0, y: 8},
-        },
-      },
-
       // 金庫を開けた後
       {
         eventId: 7,
@@ -170,6 +158,18 @@ const actorEntries: Field.IFieldActorEntry[] = [
           offset: {x: 0, y: 8},
         },
         criteria: () => (GameGlobal.flags.get(GameFlagKeys.RoomGSafetyboxOpen)),
+      },
+
+      // 金庫を開ける前
+      {
+        eventId: 7,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
+        initFrame: 0,
+        bodyConfig: {
+          offset: {x: 0, y: 8},
+        },
       },
     ],
   },

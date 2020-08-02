@@ -86,6 +86,8 @@ export class Boot extends Phaser.Game {
       this.gameGlobal.items.get(GameItemIds.KeyRoomFG),
       this.gameGlobal.items.get(GameItemIds.KeyStoreroom),
       this.gameGlobal.items.get(GameItemIds.KeyRoomE),
+      this.gameGlobal.items.get(GameItemIds.Barl),
+      this.gameGlobal.items.get(GameItemIds.RoomGSafetyboxKey),
     ].forEach((item) => {
       this.gameGlobal.ownItems.add(item, 1);
     });

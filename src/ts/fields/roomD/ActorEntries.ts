@@ -55,8 +55,19 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 3,
-    name: 'safetybox',
+    name: 'hiddenladder',
     statusPages: [
+      // 床を外してハシゴを出現させた後
+      {
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Collide,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('hiddenladder'),
+        initFrame: 1,
+        renderType: Render.ActorRenderType.UnderActor,
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.FindHiddenLadder)),
+      },
+
       // 床を外す前
       {
         eventId: 3,
@@ -66,16 +77,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
         initFrame: 0,
         renderType: Render.ActorRenderType.UnderActor,
         overlapOnly: true,
-      },
-
-      // 床を外してハシゴを出現させた後
-      {
-        eventId: 3,
-        eventEmitType: Field.EventEmitType.Collide,
-        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
-        spriteKey: Asset.AssetCacheKey.spritesheet('hiddenladder'),
-        initFrame: 1,
-        criteria: () => (GameGlobal.flags.get(GameFlagKeys.FindHiddenLadder)),
       },
     ],
   },

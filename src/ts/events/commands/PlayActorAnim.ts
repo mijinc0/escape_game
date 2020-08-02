@@ -34,7 +34,7 @@ export class PlayActorAnim implements IScenarioEvent {
   update(scene: IFieldScene): void {
     if (this.startAnim) return;
 
-    const actor = this.actorId > 0 ?
+    const actor = this.actorId >= 0 ?
       scene.actorsManager.findActorById(this.actorId) :
       scene.primaryActor;
 

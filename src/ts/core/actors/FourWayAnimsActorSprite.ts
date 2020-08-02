@@ -10,6 +10,8 @@ type SpriteAnimation = Phaser.Animations.Animation;
  * spritesheetを四等分し、それぞれLeft,Right,Down,Upとしてアニメーションをセットする
  */
 export class FourWayAnimsActorSprite extends ActorSprite {
+  private pDirection: Model.Direction;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -22,6 +24,22 @@ export class FourWayAnimsActorSprite extends ActorSprite {
 
     this._initFrame();
     this._initDefaultAnims();
+  }
+
+  get direction(): Model.Direction {
+    return this.pDirection;
+  }
+
+  set direction(d: Model.Direction) {
+    this.pDirection = d;
+
+    if (this.anims.isPlaying) return;
+
+    // 以下テクスチャの変更(アニメーションが動いていなかったときのみ)
+    const oneDirectionAnimFrames = this._getOneDirectionAnimFrames();
+    // セットする方向の最初のフレームにする
+    const frame = oneDirectionAnimFrames * d;
+    this.setFrame(frame);
   }
 
   get spriteKey(): string {

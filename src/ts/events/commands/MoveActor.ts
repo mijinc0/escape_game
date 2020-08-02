@@ -52,7 +52,7 @@ export class MoveActor implements Event.IScenarioEvent {
   update(scene: Scene.IFieldScene): void {
     if (this.startMove || this.isComplete) return;
 
-    const actor = this.actorId > 0 ?
+    const actor = this.actorId >= 0 ?
       scene.actorsManager.findActorById(this.actorId) :
       scene.primaryActor;
 

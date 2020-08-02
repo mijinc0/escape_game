@@ -31,7 +31,7 @@ export default Field.EventEntryFactory.create(
       op.if(() => (GameGlobal.ownItems.has(GameItemIds.RoomGSafetyboxKey)))(
         cmd.message(texts.get(4)),
         cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 7, true),
-        cmd.playActorAnim(9, 'default', 0),
+        cmd.playActorAnim(9, 'default'),
         cmd.message(texts.get(5)),
         cmd.message(texts.get(6)),
         cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),

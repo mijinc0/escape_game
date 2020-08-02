@@ -238,7 +238,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   }
 
   private _addSpawnActorsCollider(spawnActor: Actor.IFieldActor, onlyOverlap: boolean): void {
-    // set immovable
+    // set immovable (GameObject同士が接触した時の反動で動かないようにする設定)
     if (spawnActor.sprite instanceof Phaser.Physics.Arcade.Sprite) {
       spawnActor.sprite.setImmovable(true);
     }

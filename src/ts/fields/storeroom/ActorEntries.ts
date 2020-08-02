@@ -161,7 +161,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'shelfC',
     statusPages: [
       {
-        eventId: 4,
+        eventId: 6,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {
@@ -190,18 +190,6 @@ const actorEntries: Field.IFieldActorEntry[] = [
     id: 12,
     name: 'safetybox',
     statusPages: [
-      // 金庫を開ける前
-      {
-        eventId: 5,
-        eventEmitType: Field.EventEmitType.Search,
-        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
-        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
-        initFrame: 0,
-        bodyConfig: {
-          offset: {x: 0, y: 8},
-        },
-      },
-
       // 金庫を開けた後
       {
         eventId: 5,
@@ -213,6 +201,18 @@ const actorEntries: Field.IFieldActorEntry[] = [
           offset: {x: 0, y: 8},
         },
         criteria: () => (GameGlobal.flags.get(GameFlagKeys.StoreroomSafetyboxOpen)),
+      },
+
+      // 金庫を開ける前
+      {
+        eventId: 5,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('safetybox'),
+        initFrame: 0,
+        bodyConfig: {
+          offset: {x: 0, y: 8},
+        },
       },
     ],
   },

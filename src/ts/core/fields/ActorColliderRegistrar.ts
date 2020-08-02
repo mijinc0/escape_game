@@ -48,6 +48,8 @@ export class ActorColliderRegistrar {
       return false;
     }
 
+    console.log(`regist actors collider : {a: ${actorA.name}, b: ${actorB.name}}`);
+
     if (onlyOverlap) {
       this.scene.physics.world.addOverlap(spriteA, spriteB, collideCallback);
     } else {

@@ -149,6 +149,7 @@ export class FieldActorsManager {
   }
 
   private _getCurrentPageIndex(fieldActorData: FieldActorData): number {
+    // 配列の前あるものが優先される
     return fieldActorData.statusPages.findIndex((page: IFieldActorStatusPage) =>
       this._checkSpawnCriteria(page.criteria),
     );

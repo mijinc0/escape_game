@@ -18,18 +18,29 @@ const texts = GameGlobal.texts.event.get('roomD_event3');
 export default Field.EventEntryFactory.create(
   3,
   [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-
     op.if(() => (GameGlobal.flags.get(GameFlagKeys.FindHiddenLadder)))(
       // 移動するイベントがここに来る
+      cmd.message(texts.get(7)),
 
     ).elseIf(() => (GameGlobal.ownItems.has(GameItemIds.Barl)))(
+      cmd.message(texts.get(0)),
+      cmd.message(texts.get(1)),
       cmd.message(texts.get(2)),
-      // TODO: 主人公を定位置に移動させるイベントを作らないといけない。
+      cmd.moveActor(-1, 192, 128),
+      cmd.changeActorDirection(-1, Model.Direction.Left),
+      cmd.sleep(10),
+      cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 3, true),
+      cmd.playActorAnim(3, 'default'),
+      cmd.sleep(10),
+      cmd.message(texts.get(3)),
+      cmd.message(texts.get(4)),
+      cmd.message(texts.get(5)),
+      cmd.flag(GameFlagKeys.FindHiddenLadder, true),
 
     ).else(
-      cmd.message(texts.get(3)),
+      cmd.message(texts.get(0)),
+      cmd.message(texts.get(1)),
+      cmd.message(texts.get(6)),
       cmd.flag(GameFlagKeys.SearchHiddenLadder, true),
     ),
   ],
