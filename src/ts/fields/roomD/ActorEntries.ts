@@ -59,7 +59,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     statusPages: [
       // 床を外してハシゴを出現させた後
       {
-        eventId: 3,
+        eventId: 4,
         eventEmitType: Field.EventEmitType.Collide,
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('hiddenladder'),

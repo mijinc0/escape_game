@@ -12,7 +12,7 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 const texts = GameGlobal.texts.event.get('roomG_event5');
 
 /**
- * bed
+ * bed R
  */
 export default Field.EventEntryFactory.create(
   5,

@@ -10,6 +10,7 @@ const entries: EntryBase[] = [
   { name: 'icon_lighter', path: 'assets/icons/items/icon_lighter.png' },
   { name: 'icon_silver_key', path: 'assets/icons/items/icon_silver_key.png' },
   { name: 'icon_toykey', path: 'assets/icons/items/icon_toykey.png' },
+  { name: 'icon_flashlight', path: 'assets/icons/items/icon_flashlight.png' },
 ];
 
 export const ItemIconAssetEntries: Asset.IAssetEntry[] = entries.map((base: EntryBase) => ({

@@ -1,6 +1,9 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
+import { GameFlagKeys } from '../../GameFlagKeys';
+import { GameGlobal } from '../../GameGlobal';
+import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
@@ -133,6 +136,23 @@ const actorEntries: Field.IFieldActorEntry[] = [
         bodyConfig: {
           size: { width: 8, height: 8 },
         },
+      },
+    ],
+  },
+
+  {
+    id: 9,
+    name: 'flashlight',
+    statusPages: [
+      {
+        eventId: 5,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.Invisible,
+        overlapOnly: true,
+        bodyConfig: {
+          size: { width: 16, height: 16 },
+        },
+        criteria: () => (!GameGlobal.ownItems.has(GameItemIds.FlashLight)),
       },
     ],
   },

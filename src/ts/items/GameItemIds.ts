@@ -22,4 +22,6 @@ export enum GameItemIds {
   LighterOil,
 
   Barl,
+
+  FlashLight,
 }

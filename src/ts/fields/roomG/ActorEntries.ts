@@ -103,7 +103,7 @@ const actorEntries: Field.IFieldActorEntry[] = [
     name: 'bedL',
     statusPages: [
       {
-        eventId: 5,
+        eventId: 8,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.Invisible,
         bodyConfig: {

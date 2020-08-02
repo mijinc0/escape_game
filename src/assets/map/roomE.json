@@ -277,7 +277,7 @@
                         {
                          "name":"name",
                          "type":"string",
-                         "value":"bookshelfL"
+                         "value":"bookshelfR"
                         }],
                  "rotation":0,
                  "type":"",
@@ -285,6 +285,33 @@
                  "width":44,
                  "x":488,
                  "y":120
+                }, 
+                {
+                 "height":16,
+                 "id":19,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"actorId",
+                         "type":"int",
+                         "value":9
+                        }, 
+                        {
+                         "name":"describe",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"flashlight"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":264,
+                 "y":268
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -293,7 +320,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":18,
+ "nextobjectid":20,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

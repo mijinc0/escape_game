@@ -25,9 +25,9 @@ export default Field.EventEntryFactory.create(
     ).else (
       cmd.message(texts.get(2)),
       cmd.message(texts.get(3)),
-      cmd.choices(texts.get(4), [texts.get(5), texts.get(6)], GameVariableKeys.ChoiceDrainBathWater),
+      cmd.choices(texts.get(4), [texts.get(5), texts.get(6)], GameVariableKeys.Choices),
 
-      op.if (() => (GameGlobal.variables.get(GameVariableKeys.ChoiceDrainBathWater) === 0)) (
+      op.if (() => (GameGlobal.variables.get(GameVariableKeys.Choices) === 0)) (
         cmd.message(texts.get(7)),
         cmd.playActorAnim(2, 'default', 0),
         cmd.message(texts.get(8)),

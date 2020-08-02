@@ -17,8 +17,17 @@ const texts = GameGlobal.texts.event.get('roomD_event1');
 export default Field.EventEntryFactory.create(
   1,
   [
-    cmd.message(texts.get(0)),
-    cmd.playSe(Assets.AssetCacheKey.audio('se_open_drawer'), 1, 0, 5),
-    cmd.message(texts.get(1)),
+    op.if(() => (GameGlobal.ownItems.has(GameItemIds.Lighter)))(
+      cmd.message(texts.get(0)),
+      cmd.message(texts.get(1)),
+
+    ).else(
+      cmd.message(texts.get(2)),
+      cmd.message(texts.get(3)),
+      cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
+      cmd.popGettingItemModal(GameItemIds.Lighter),
+      cmd.item(GameItemIds.Lighter, +1),
+      cmd.message(texts.get(4)),
+    )
   ],
 );

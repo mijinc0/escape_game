@@ -70,6 +70,11 @@ export const AllItems = [
     id: GameItemIds.Barl,
     iconImageName: 'icon_barl',
   },
+
+  {
+    id: GameItemIds.FlashLight,
+    iconImageName: 'icon_flashlight',
+  },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
   

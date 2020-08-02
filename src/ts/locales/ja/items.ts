@@ -73,6 +73,12 @@ const items = new Locales.ItemTexts(
     name: 'バール',
     description: '普通のバール。釘を抜いたり、てこの原理で何かを剥がしたりするのに使われる。',
   },
+
+  {
+    id: id.FlashLight,
+    name: '懐中電灯',
+    description: '懐中電灯。本体に「防爆」と書かれてある。',
+  },
 );
 
 export default items;

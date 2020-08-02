@@ -9,15 +9,19 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('roomD_event0');
+const texts = GameGlobal.texts.event.get('roomE_event5');
 
 /**
- * shelfL
+ * flashlight
  */
 export default Field.EventEntryFactory.create(
-  0,
+  5,
   [
     cmd.message(texts.get(0)),
     cmd.message(texts.get(1)),
+    cmd.message(texts.get(2)),
+    cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
+    cmd.popGettingItemModal(GameItemIds.FlashLight),
+    cmd.item(GameItemIds.FlashLight, +1),
   ],
 );
