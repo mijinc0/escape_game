@@ -3,6 +3,7 @@ import * as Asset from '../core/assets';
 type EntryBase = { name: string; path: string };
 
 const entries: EntryBase[] = [
+  { name: 'debugroom', path: 'assets/map/debugroom.json' },
   { name: 'bathroom', path: 'assets/map/bathroom.json' },
   { name: 'hallway1FA', path: 'assets/map/hallway1FA.json' },
   { name: 'hallway1FB', path: 'assets/map/hallway1FB.json' },

@@ -1,4 +1,5 @@
 export enum FieldIds {
+  Debugroom,
   Bathroom,
   Hallway1FA,
   Hallway1FB,

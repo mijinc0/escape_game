@@ -63,7 +63,7 @@ export class Opening extends Phaser.Scene {
 
     button.on(Ui.ElementEventNames.Select, () => {
       const fieldConfig: Scene.IFieldSceneConfig = {
-        fieldId: FieldIds.RoomA,
+        fieldId: FieldIds.Debugroom,
         heroX: 306,
         heroY: 270,
         heroDirection: Model.Direction.Down,

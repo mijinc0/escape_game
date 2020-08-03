@@ -1,5 +1,6 @@
 import * as Model from '../core/models';
 import { GameGlobal } from '../GameGlobal';
+import { TestEvent } from './commands/TestEvent';
 import { Message } from './commands/Message';
 import { MessageBufferFactory } from './commands/MessageBufferFactory';
 import { Item } from './commands/Item';
@@ -19,6 +20,10 @@ import { ChangeActorDirection } from './commands/ChangeActorDirection';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
+
+  static test(isAsync?: boolean): TestEvent {
+    return new TestEvent(isAsync);
+  }
 
   static message(message: string, isAsync = false, align = 'left', hasBackground = true, justify = 'bottom'): Message {
     return new Message(

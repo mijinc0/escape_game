@@ -1,4 +1,5 @@
 import * as Field from '../core/fields';
+import { Debugroom } from './debugroom/Debugroom';
 import { Bathroom } from './bathroom/Bathroom';
 import { Hallway1FA } from './hallway1FA/Hallway1FA';
 import { Hallway1FB } from './hallway1FB/Hallway1FB';
@@ -15,6 +16,7 @@ import { Storeroom } from './storeroom/Storeroom';
 import { Toilet } from './toilet/Toilet';
 
 export const GameFields = new Map<number, Field.IField>([
+  [ Debugroom.id, Debugroom ],
   [ Bathroom.id, Bathroom ],
   [ Hallway1FA.id, Hallway1FA ],
   [ Hallway1FB.id, Hallway1FB ],

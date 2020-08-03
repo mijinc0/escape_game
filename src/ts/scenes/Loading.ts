@@ -48,11 +48,8 @@ export class Loading extends Phaser.Scene {
    */
   update(): void {
     this.frame++;
-
-    // preloadが一瞬で済んだ場合、画面がちらついたように見えるだけになってしまうので
-    // Loading画面であることが確認できるように少しだけスリープを入れる
-    // (画面が一瞬ちらついたように見えても構わなければこの処理は不要)
-    if (this.frame === 30) {
+    
+    if(this.frame === 1) {
       this._complete();
     }
   }
@@ -69,6 +66,8 @@ export class Loading extends Phaser.Scene {
   }
 
   private _complete(): void {
+    console.log('loading complete');
+
     this.cameras.main.fadeOut(500, 0, 0, 0, (camera: any, progress: number) => {
       if (progress === 1) {
         this._goNextScene();
