@@ -28,7 +28,7 @@ export class ActorRenderOrder {
    * @param actor
    */
   static prioritizeBottom(sprite: Actor.IActorSprite): void {
-    // 描写順を決めるのはDisplayListであり、これはComponent.Depthのset depthが呼ばれた時に
+    // 描写順を決めるのはDisplayListであり、これはComponent.Depthのset depthが呼ばれた次のフレームで
     // ソートされるようになっている。この仕様により、yとdepthを同じ値にするには、yのセッターを置き換えるのが良い
     // (yが変更されたらdepthが書き換わるようにする)
 

@@ -7,7 +7,7 @@ type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
  *
  * baseLayer : -512 (0x00200 * -1)
  * underActor : -256 (0x00100 * -1)
- * overActor: 65536 (0x01000)
+ * overActor: 65536 (0x010000)
  *
  */
 export class SaticLayerRenderOerder {

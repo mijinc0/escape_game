@@ -66,10 +66,10 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this._cameraSetting();
 
     this._sceneFadeInIfNeed();
-    
+
   }
 
-  update(): void {
+  update(time: number, delta: number): void {
     this.frame++;
 
     if (this.scenarioEventManager.isGoing) {

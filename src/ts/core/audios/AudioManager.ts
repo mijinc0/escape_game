@@ -3,6 +3,10 @@ import * as Util from '../utils';
 import { IAudioConfig } from './IAudioConfig';
 import { IAudioManager } from './IAudioManager';
 
+/**
+ * 音の生成自体はPhaserに任せる。
+ * このクラスはbgmとseのマスターボリュームを持ち、再生する音量を調整する機能を持つ
+ */
 export class AudioManager implements IAudioManager {
   scene: Phaser.Scene;
 
