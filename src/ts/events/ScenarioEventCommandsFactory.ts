@@ -19,6 +19,8 @@ import { Choices } from './commands/Choices';
 import { Passcode } from './commands/Passcode';
 import { MoveActor } from './commands/MoveActor';
 import { ChangeActorDirection } from './commands/ChangeActorDirection';
+import { CameraAddColorFilter } from './commands/CameraAddColorFilter';
+import { CameraRemoveColorFilter } from './commands/CameraRemoveColorFilter';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -113,5 +115,13 @@ export class ScenarioEventCommandsFactory {
 
   static changeActorDirection (actorId: number, direction: Model.Direction, isAsync?: boolean): ChangeActorDirection {
     return new ChangeActorDirection(actorId, direction, isAsync);
+  }
+
+  static cameraAddColorFilter (color: number, alpha: number, duration?: number, async?: boolean): CameraAddColorFilter {
+    return new CameraAddColorFilter(color, alpha, duration, async);
+  }
+
+  static cameraRemoveColorFilter (): CameraRemoveColorFilter {
+    return new CameraRemoveColorFilter();
   }
 }

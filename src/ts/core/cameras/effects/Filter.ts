@@ -42,7 +42,7 @@ export class Filter extends SceneCameraEffect {
     // filterエフェクトが既にある時に再度startを呼ばれると、現在のfilterのステータスをデフォルト値として
     // filterエフェクトを開始する。無い場合にはフィルターを作るところからはじめる。
     if (this.filter) {
-      this.startAlpha = typeof(config.startAlpha) === 'number' ? config.startAlpha : this.filter.alpha;
+      this.startAlpha = typeof(config.startAlpha) === 'number' ? config.startAlpha : this.filter.fillAlpha;
       this.startColor = typeof(config.startColor) === 'number' ? config.startColor : this.filter.fillColor;
 
     } else {
@@ -142,14 +142,14 @@ export class Filter extends SceneCameraEffect {
    */
   private _calcCurrentColor(startColor: number, endColor: number, progress: number): number {
     // start
-    const sRed = (startColor && 0xff0000) >> 16;
-    const sGreen = (startColor && 0x00ff00) >> 8;
-    const sBlue = startColor && 0x0000ff;
+    const sRed = (startColor & 0xff0000) >> 16;
+    const sGreen = (startColor & 0x00ff00) >> 8;
+    const sBlue = startColor & 0x0000ff;
 
     // end
-    const eRed = (endColor && 0xff0000) >> 16;
-    const eGreen = (endColor && 0x00ff00) >> 8;
-    const eBlue = endColor && 0x0000ff;
+    const eRed = (endColor & 0xff0000) >> 16;
+    const eGreen = (endColor & 0x00ff00) >> 8;
+    const eBlue = endColor & 0x0000ff;
 
     // delta
     const dRed = eRed - sRed; 
