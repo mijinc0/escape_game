@@ -16,7 +16,7 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   1,
   [
-    cmd.cameraFadeOut(500),
+    cmd.cameraFadeOutAll(500),
     cmd.moveField(FieldIds.Hallway2FB, 8, 256, Model.Direction.Right),
   ],
 );

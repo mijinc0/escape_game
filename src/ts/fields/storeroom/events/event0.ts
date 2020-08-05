@@ -18,7 +18,7 @@ export default Field.EventEntryFactory.create(
   [
     cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
     cmd.playActorAnim(0, 'default'),
-    cmd.cameraFadeOut(500),
+    cmd.cameraFadeOutAll(500),
     cmd.moveField(FieldIds.Hallway2FA, 112, 312, Model.Direction.Up),
   ],
 );

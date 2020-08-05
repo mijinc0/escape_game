@@ -30,29 +30,37 @@ export class Filter extends SceneCameraEffect {
   }
 
   start(config: FilterConfig): boolean {
+    if (config.duration < 0) {
+      throw Error('duration must be positive num');
+    }
+
+    this.endAlpha = config.endAlpha;
+    this.endColor = config.endColor;
     this.duration = config.duration;
     this.elapsed = 0;
 
     // filterエフェクトが既にある時に再度startを呼ばれると、現在のfilterのステータスをデフォルト値として
     // filterエフェクトを開始する。無い場合にはフィルターを作るところからはじめる。
     if (this.filter) {
-      this.startAlpha = config.startAlpha ? config.startAlpha : this.filter.alpha;
-      this.startColor = config.startColor ? config.startColor : this.filter.fillColor;
+      this.startAlpha = typeof(config.startAlpha) === 'number' ? config.startAlpha : this.filter.alpha;
+      this.startColor = typeof(config.startColor) === 'number' ? config.startColor : this.filter.fillColor;
 
     } else {
       const worldView = this.scene.cameras.main.worldView;
 
-      this.startAlpha = config.startAlpha ? config.startAlpha : 0;
-      this.startColor = config.startColor ? config.startColor : config.endColor;
+      this.startAlpha = typeof(config.startAlpha) === 'number' ? config.startAlpha : 0;
+      this.startColor = typeof(config.startColor) === 'number' ? config.startColor : config.endColor;
 
       this.filter = this.scene.add.rectangle(
-        worldView.centerX,
-        worldView.centerY,
+        worldView.x,
+        worldView.y,
         worldView.width,
         worldView.height,
-        config.startColor,
-        config.startAlpha,
+        this.startColor,
+        this.startAlpha,
       );
+
+      this.filter.setOrigin(0);
   
       Render.CameraEffectRenderOrder.base(this.filter);
     }
@@ -81,8 +89,7 @@ export class Filter extends SceneCameraEffect {
     const currentAlpha = this._calcCurrentAlpha(this.startAlpha, this.endAlpha, progress);
     const currentColor = this._calcCurrentColor(this.startColor, this.endColor, progress);
 
-    this.filter.alpha = currentAlpha;
-    this.filter.fillColor = currentColor;
+    this.filter.setFillStyle(currentColor, currentAlpha);
 
     if (progress === 1) {
       this.complete();
@@ -105,8 +112,8 @@ export class Filter extends SceneCameraEffect {
     this.elapsed = 0;
     this.startAlpha = 0;
     this.endAlpha = 0;
-    this.startColor = 0xffffff;
-    this.endColor = 0xffffff;
+    this.startColor = 0x000000;
+    this.endColor = 0x000000;
 
     this.removeAllListeners();
 
@@ -121,9 +128,9 @@ export class Filter extends SceneCameraEffect {
    * @param progress 0-1
    */
   private _calcCurrentAlpha(startAlpha: number, endAlpha: number, progress: number): number {
-    const dAlpha = this.endAlpha - this.startAlpha;
+    const dAlpha = endAlpha - startAlpha;
 
-    return this.startAlpha + (dAlpha * progress);
+    return startAlpha + (dAlpha * progress);
   }
 
   /**

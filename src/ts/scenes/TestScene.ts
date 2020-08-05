@@ -2,6 +2,7 @@ import * as Phaser from 'phaser';
 import * as Actor from '../core/actors';
 import * as Asset from '../core/assets';
 import * as Audio from '../core/audios';
+import * as Camera from '../core/cameras';
 import * as Field from '../core/fields';
 import * as Scene from '../core/scenes';
 import * as Map from '../core/maps';
@@ -25,6 +26,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   actorsManager: Field.FieldActorsManager;
   scenarioEventManager: Event.ScenarioEventManager;
   audioManager: Audio.IAudioManager;
+  cameraEffectManager: Camera.CameraEffectManager;
   keys: Input.Keys;
 
   private tilemapData: Map.ISceneTilemapData;
@@ -54,6 +56,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.scenarioEventManager = this._createScenarioEventManager();
     this.actorsManager = this._createActorsManager();
     this.audioManager = new Audio.AudioManager(this, 1, 1);
+    this.cameraEffectManager = new Camera.DefaultCameraEffectManager(this);
   }
 
   create(): void {
@@ -66,7 +69,6 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this._cameraSetting();
 
     this._sceneFadeInIfNeed();
-
   }
 
   update(time: number, delta: number): void {
@@ -74,12 +76,13 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
 
     if (this.scenarioEventManager.isGoing) {
       this.scenarioEventManager.update();
-      return;
+
+    } else {
+      this.primaryActor.update(this);
+      this.actorsManager.update(this);
     }
 
-    this.primaryActor.update(this);
-
-    this.actorsManager.update(this);
+    this.cameraEffectManager.update(time, delta);
   }
 
   private _createKeys(): Input.Keys {
@@ -285,7 +288,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     // もしcreateフェーズでセットされたイベントがあればそれを優先するのでここでは何もしない
     if (this.scenarioEventManager.events.length > 0) return;
 
-    const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeIn(300)).create();
+    const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeInAll(300)).create();
 
     this.scenarioEventManager.start(event);
   }

@@ -14,14 +14,10 @@ import { ICameraEffect } from './ICameraEffect';
  * (複数カメラは想定しない)
  */
 export class DefaultCameraEffectManager extends CameraEffectManager {
-  constructor(scene: Phaser.Scene, effects?: ICameraEffect[]) {
-    effects = effects ? effects : [];
-
-    effects.push(
+  constructor(scene: Phaser.Scene) {
+    super([
       new Effect.Filter(scene),
-    );
-
-    super(effects);
+    ]);
   }
 
   fadeIn(duration: number, onComplete?: () => void): boolean {

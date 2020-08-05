@@ -1,12 +1,11 @@
 import * as Event from '../../core/events';
 import * as Scene from '../../core/scenes';
-import * as Camera from '../../core/cameras';
 
 /**
- * cameraEffectManagerのfade effectを使う。
- * map,actorsはエフェクトの影響を受けるが、UIは影響を受けない
+ * Phaserのデフォルトのfade effectを使う
+ * 画面上の全ての要素がフェードアウトする
  */
-export class CameraFadeOut implements Event.IScenarioEvent {
+export class CameraFadeOutAll implements Event.IScenarioEvent {
   isAsync: boolean;
   isComplete: boolean;
 
@@ -21,12 +20,11 @@ export class CameraFadeOut implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
     
-    if (scene.cameraEffectManager instanceof Camera.DefaultCameraEffectManager) {
-      scene.cameraEffectManager.fadeOut(this.duration, this.complete.bind(this));
-    } else {
-      console.warn('cameraEffectManager is not DefaultCameraEffectManager');
-      this.complete();
-    }
+    scene.phaserScene.cameras.main.fadeOut(this.duration, 0, 0, 0, (camera: any, progress: number) => {
+      if (progress === 1) {
+        this.complete();
+      }
+    });
   }
 
   update(scene: Scene.IFieldScene): void {

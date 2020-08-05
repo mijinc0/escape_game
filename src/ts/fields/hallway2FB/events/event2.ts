@@ -19,14 +19,14 @@ export default Field.EventEntryFactory.create(
   [
     op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomErDoorOpen) ))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
-      cmd.cameraFadeOut(500),
+      cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomE, 560, 96, Model.Direction.Down),
 
     ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomE) )) (   
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.RoomErDoorOpen, true),
-      cmd.cameraFadeOut(500),
+      cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomE, 560, 96, Model.Direction.Down),
     
     ).else (

@@ -10,6 +10,8 @@ import { Sleep } from './commands/Sleep';
 import { MoveField } from './commands/MoveField';
 import { CameraFadeIn } from './commands/CameraFadeIn';
 import { CameraFadeOut } from './commands/CameraFadeOut';
+import { CameraFadeInAll } from './commands/CameraFadeInAll';
+import { CameraFadeOutAll } from './commands/CameraFadeOutAll';
 import { PlayActorAnim } from './commands/PlayActorAnim';
 import { PopGettingItemModal } from './commands/PopGettingItemModal';
 import { PlaySe } from './commands/PlaySe';
@@ -75,6 +77,14 @@ export class ScenarioEventCommandsFactory {
 
   static cameraFadeOut(duration?: number, async?: boolean): CameraFadeOut {
     return new CameraFadeOut(duration, async);
+  }
+
+  static cameraFadeInAll(duration?: number, async?: boolean): CameraFadeInAll {
+    return new CameraFadeInAll(duration, async);
+  }
+
+  static cameraFadeOutAll(duration?: number, async?: boolean): CameraFadeOutAll {
+    return new CameraFadeOutAll(duration, async);
   }
 
   static playActorAnim(actorId: number, animName: string, repeat?: number, async?: boolean): PlayActorAnim {
