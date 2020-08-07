@@ -3,6 +3,7 @@ import * as Audio from '../core/audios';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
+import { GameGlobal } from '../GameGlobal';
 import { Button } from '../ui/Button';
 import { FieldIds } from '../fields/FieldIds';
 
@@ -16,8 +17,6 @@ export class Opening extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(0x9955ff);
-
     this.frame = -1;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, 1, 1);
@@ -35,6 +34,7 @@ export class Opening extends Phaser.Scene {
     if (this.frame < 20) return;
 
     this.selector.update(this.frame);
+
   }
 
   private _createMenu(x: number, y: number): Ui.Group {
@@ -62,8 +62,10 @@ export class Opening extends Phaser.Scene {
     const button = new Button(buttonConfig, 0, 0, 160, 40);
 
     button.on(Ui.ElementEventNames.Select, () => {
+      const initFieldId = GameGlobal.debug ? FieldIds.Debugroom : FieldIds.RoomA;
+
       const fieldConfig: Scene.IFieldSceneConfig = {
-        fieldId: FieldIds.Debugroom,
+        fieldId: initFieldId,
         heroX: 306,
         heroY: 270,
         heroDirection: Model.Direction.Down,

@@ -14,6 +14,7 @@ import { RoomF } from './roomF/RoomF';
 import { RoomG } from './roomG/RoomG';
 import { Storeroom } from './storeroom/Storeroom';
 import { Toilet } from './toilet/Toilet';
+import { UndergroundPathway } from './undergroundPathway/UndergroundPathway';
 
 export const GameFields = new Map<number, Field.IField>([
   [ Debugroom.id, Debugroom ],
@@ -31,4 +32,5 @@ export const GameFields = new Map<number, Field.IField>([
   [ RoomG.id, RoomG ],
   [ Storeroom.id, Storeroom ],
   [ Toilet.id, Toilet ],
+  [ UndergroundPathway.id, UndergroundPathway ],
 ]);

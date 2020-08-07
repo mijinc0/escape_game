@@ -20,15 +20,9 @@ export class CameraAddColorFilter implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    scene.cameraEffectManager.startEffect(
-      'filter',
-      {
-        duration: this.duration,
-        endAlpha: this.alpha,
-        endColor: this.color,
-        onComplete: this.complete.bind(this),
-      },
-    );
+    
+
+    this.complete();
   }
 
   update(scene: Scene.IFieldScene): void {

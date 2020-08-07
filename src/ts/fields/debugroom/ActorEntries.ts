@@ -23,10 +23,24 @@ const actorEntries: Field.IFieldActorEntry[] = [
 
   {
     id: 1,
-    name: 'event',
+    name: 'eventA',
     statusPages: [
       {
         eventId: 1,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('memo'),
+        initFrame: 0,
+      },
+    ],
+  },
+
+  {
+    id: 2,
+    name: 'eventA',
+    statusPages: [
+      {
+        eventId: 2,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
         spriteKey: Asset.AssetCacheKey.spritesheet('memo'),

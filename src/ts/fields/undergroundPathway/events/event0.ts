@@ -11,14 +11,13 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 // prettier-ignor
 
 /**
- * door (hallway1FA)
+ * endingEvent
  */
 export default Field.EventEntryFactory.create(
   0,
   [
-    cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
-    cmd.playActorAnim(0, 'default'),
-    cmd.cameraFadeOut(500),
-    cmd.moveField(FieldIds.Hallway1FA, 112, 312, Model.Direction.Up),
+    cmd.cameraAddColorFilter(0x111144, 0.7, 0, true),
+    cmd.cameraFadeInAll(2000),
+    cmd.message('OK?'),
   ],
 );

@@ -28,10 +28,10 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     const seConfig = {};
     scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
 
-    this.selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
-    // NOTE: IFieldScene一つに変更可能だが暫定的に維持
+    this.selector = Ui.SelectorFactory.create(scene.uiScene, scene.keys);
+    
     this.fieldMenu = new FieldMenu({
-      scene: scene.phaserScene,
+      scene: scene.uiScene,
       gameGlobal: scene.gameGlobal,
     });
 

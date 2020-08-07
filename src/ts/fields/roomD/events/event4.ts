@@ -33,7 +33,8 @@ export default Field.EventEntryFactory.create(
       
       op.if(() => (GameGlobal.variables.get(GameVariableKeys.Choices) === 0))(
         cmd.message(texts.get(5)),
-        // normal endへ
+        cmd.cameraFadeOutAll(),
+        cmd.moveField(FieldIds.UndergroundPathway, 64, 352, Model.Direction.Down),
 
       ).else(
         cmd.message(texts.get(6)),

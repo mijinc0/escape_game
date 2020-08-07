@@ -9,6 +9,7 @@ import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
 import { UiTest } from './scenes/UiTest';
+import { Ui } from './scenes/Ui';
 
 export class Boot extends Phaser.Game {
   /**
@@ -18,7 +19,7 @@ export class Boot extends Phaser.Game {
   readonly gameGlobal: IGameGlobal;
 
   constructor() {
-    const debugMode = true;
+    GameGlobal.debug = true;
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
@@ -32,7 +33,7 @@ export class Boot extends Phaser.Game {
         default: 'arcade',
         arcade: {
           gravity: { y: 0, x: 0 },
-          debug: debugMode,
+          debug: GameGlobal.debug,
         },
       },
     };
@@ -41,12 +42,15 @@ export class Boot extends Phaser.Game {
 
     this.gameGlobal = GameGlobal;
 
-    this.scene.add('opening', Opening, false);
+    // NOTE: 複数のシーンを同時に動かした時、ここでaddしている順に描写の順番が決まる。
+    // (最初にaddしたものが先に描写される。つまり重なった時に下に表示される。)
     this.scene.add('loading', Loading, false);
     this.scene.add('field', TestScene, false);
+    this.scene.add('opening', Opening, false);
+    this.scene.add('ui', Ui, false);
     this.scene.add('test_ui', UiTest, false);
 
-    if (debugMode) {
+    if (GameGlobal.debug) {
       this._debugInit();
     }
   }
@@ -68,6 +72,7 @@ export class Boot extends Phaser.Game {
       spritesheet: GameAssets.spritesheet,
     };
 
+    this.scene.run('ui');
     this.scene.start('loading', assetLoadingConfig);
   }
 
@@ -88,6 +93,8 @@ export class Boot extends Phaser.Game {
       this.gameGlobal.items.get(GameItemIds.KeyRoomE),
       this.gameGlobal.items.get(GameItemIds.Barl),
       this.gameGlobal.items.get(GameItemIds.RoomGSafetyboxKey),
+      this.gameGlobal.items.get(GameItemIds.Lighter),
+      this.gameGlobal.items.get(GameItemIds.LighterOil),
     ].forEach((item) => {
       this.gameGlobal.ownItems.add(item, 1);
     });

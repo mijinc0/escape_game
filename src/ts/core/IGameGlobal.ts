@@ -13,4 +13,6 @@ export interface IGameGlobal {
   ownItems: Model.ItemBag;
 
   texts: Locales.ITextStore;
+
+  debug: boolean;
 }

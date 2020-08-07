@@ -9,15 +9,16 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignore
-const texts = GameGlobal.texts.event.get('bathroom_event1');
+
 
 /**
  * showerhead
  */
 export default Field.EventEntryFactory.create(
-  1,
+  2,
   [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
+    cmd.message('shader test'),
+    cmd.test(false),
+    cmd.message('shader end'),
   ],
 );

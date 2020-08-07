@@ -2,7 +2,6 @@ import * as Phaser from 'phaser';
 import * as Actor from '../core/actors';
 import * as Asset from '../core/assets';
 import * as Audio from '../core/audios';
-import * as Camera from '../core/cameras';
 import * as Field from '../core/fields';
 import * as Scene from '../core/scenes';
 import * as Map from '../core/maps';
@@ -19,6 +18,7 @@ import { GameFields } from '../fields/GameFields';
 
 export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   phaserScene: Phaser.Scene;
+  uiScene: Phaser.Scene;
   frame: number;
   gameGlobal: IGameGlobal;
   sceneConfig: Scene.IFieldSceneConfig;
@@ -26,7 +26,6 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   actorsManager: Field.FieldActorsManager;
   scenarioEventManager: Event.ScenarioEventManager;
   audioManager: Audio.IAudioManager;
-  cameraEffectManager: Camera.CameraEffectManager;
   keys: Input.Keys;
 
   private tilemapData: Map.ISceneTilemapData;
@@ -47,6 +46,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     );
 
     this.phaserScene = this;
+    this.uiScene = this._getUiScene();
     this.sceneConfig = config;
     this.frame = -1;
     this.gameGlobal = GameGlobal;
@@ -56,7 +56,6 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.scenarioEventManager = this._createScenarioEventManager();
     this.actorsManager = this._createActorsManager();
     this.audioManager = new Audio.AudioManager(this, 1, 1);
-    this.cameraEffectManager = new Camera.DefaultCameraEffectManager(this);
   }
 
   create(): void {
@@ -81,8 +80,16 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       this.primaryActor.update(this);
       this.actorsManager.update(this);
     }
+  }
 
-    this.cameraEffectManager.update(time, delta);
+  private _getUiScene(): Phaser.Scene {
+    const scene = this.scene.get('ui');
+
+    if (!scene) {
+      throw Error('ui scene is not found');
+    }
+
+    return scene;
   }
 
   private _createKeys(): Input.Keys {

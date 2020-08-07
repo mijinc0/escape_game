@@ -8,56 +8,40 @@ import { GameFlagKeys } from '../../GameFlagKeys';
 const actorEntries: Field.IFieldActorEntry[] = [
   {
     id: 0,
-    name: 'door',
+    name: 'endingEvent',
     statusPages: [
       {
         eventId: 0,
-        eventEmitType: Field.EventEmitType.Search,
-        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
-        spriteKey: Asset.AssetCacheKey.spritesheet('door'),
-        initFrame: 0,
+        eventEmitType: Field.EventEmitType.Immediately,
+        spriteType: Actor.ActorSpriteTypes.Invisible,
       },
     ],
   },
 
   {
     id: 1,
-    name: 'showerhead',
+    name: 'ladderL',
     statusPages: [
       {
-        eventId: 1,
+        eventId: -1,
         eventEmitType: Field.EventEmitType.Search,
-        spriteType: Actor.ActorSpriteTypes.Invisible,
-        bodyConfig: {
-          size: { width: 8, height: 8 },
-        },
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('ladder'),
+        initFrame: 0,
       },
     ],
   },
 
   {
     id: 2,
-    name: 'bath',
+    name: 'ladderR',
     statusPages: [
       {
-        eventId: 2,
-        eventEmitType: Field.EventEmitType.Search,
-        spriteType: Actor.ActorSpriteTypes.Invisible,
-        bodyConfig: {
-          size: { width: 64, height: 64 },
-        },
-        criteria: () => (GameGlobal.flags.get(GameFlagKeys.DrainBathWater)),
-      },
-
-      {
-        eventId: 2,
+        eventId: -1,
         eventEmitType: Field.EventEmitType.Search,
         spriteType: Actor.ActorSpriteTypes.OneWayAnim,
-        spriteKey: Asset.AssetCacheKey.spritesheet('bath'),
+        spriteKey: Asset.AssetCacheKey.spritesheet('ladder'),
         initFrame: 0,
-        bodyConfig: {
-          size: { width: 64, height: 64 },
-        },
       },
     ],
   },

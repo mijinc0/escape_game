@@ -13,4 +13,6 @@ export const GameGlobal: IGameGlobal = {
   variables: new Model.GameVariables(),
 
   ownItems: new Model.ItemBag(),
+
+  debug: false,
 };

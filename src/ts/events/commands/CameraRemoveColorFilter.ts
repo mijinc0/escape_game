@@ -13,7 +13,7 @@ export class CameraRemoveColorFilter implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    scene.cameraEffectManager.resetEffect('filter');
+    scene.phaserScene.cameras.main.clearTint();
     
     this.complete();
   }
