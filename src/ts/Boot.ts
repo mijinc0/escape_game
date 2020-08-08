@@ -5,6 +5,7 @@ import { GameFlagKeys } from './GameFlagKeys';
 import { GameGlobal } from './GameGlobal';
 import { IGameGlobal } from './core/IGameGlobal';
 import { GameItemIds } from './items/GameItemIds';
+import { GameShadersRegistrar } from './renders/GameShadersRegistrar';
 import { TestScene } from './scenes/TestScene';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
@@ -56,6 +57,10 @@ export class Boot extends Phaser.Game {
   }
 
   on(): void {
+    console.log('== Boot Game ==');
+
+    GameShadersRegistrar.regist(this);
+
     const assetLoadingConfig: Asset.IAssetLoadingConfig = {
       nextScene: 'opening',
 

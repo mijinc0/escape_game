@@ -1,7 +1,8 @@
 import * as Event from '../../core/events';
 import * as Scene from '../../core/scenes';
 import * as Asset from '../../core/assets';
-import { GameShaders } from '../../shaders/GameShaders';
+import * as Render from '../../core/renders';
+import { GameShaders } from '../../renders/GameShaders';
 
 /**
  * 色々試す時に使うイベント(本編では不要)
@@ -11,6 +12,8 @@ export class TestEvent implements Event.IScenarioEvent {
 
   isComplete: boolean;
 
+  private pipeline: Phaser.Renderer.WebGL.WebGLPipeline;
+
   constructor(isAsync?: boolean) {
     this.isAsync = isAsync ? isAsync : false;
   }
@@ -18,17 +21,15 @@ export class TestEvent implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    const config = {
-      game: scene.phaserScene.game,
-      renderer: scene.phaserScene.game.renderer,
-      fragShader: GameShaders.test,  // GLSL shader
-    };
+    this.pipeline = Render.ShaderUtil.getRegisterdPipeline(scene.phaserScene.game, 'test');
 
-    const pipelineInstance = new Phaser.Renderer.WebGL.Pipelines.TextureTintPipeline(config);
-
-    scene.phaserScene.cameras.main.setRenderToTexture(pipelineInstance);
-
-    this.isComplete = true;
+    if (this.pipeline) {
+      scene.phaserScene.cameras.main.setRenderToTexture(this.pipeline);
+      this.complete();
+      
+    } else {
+      this.complete();
+    }
   }
 
   update(scenes: Scene.IFieldScene): void {
