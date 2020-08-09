@@ -14,7 +14,7 @@ export interface IScenarioEvent {
    */
   init(scene: Scene.IFieldScene): void;
 
-  update(scene: Scene.IFieldScene): void;
+  update(scene: Scene.IFieldScene, time: number, delta: number): void;
 
   complete(): void;
 }

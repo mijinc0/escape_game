@@ -20,9 +20,9 @@ vec3 adjustSaturation(vec3 rgb) {
   const vec3 W = vec3(0.2125, 0.7154, 0.0721);
   float gray = dot(rgb, W);
 
-  float s = clamp(1.0 - saturation, 0.0, 1.0);
+  float s = clamp(saturation, 0.0, 1.0);
 
-  return mix(rgb, vec3(gray), s);
+  return mix(vec3(gray), rgb, s);
 }
 
 void main(void) {

@@ -13,7 +13,7 @@ export interface IScenarioEventManager {
 
   start(eventRange: EventRange): void;
 
-  update(): void;
+  update(time: number, delta: number): void;
 
   getCurrentEventSize(): number;
 

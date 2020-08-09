@@ -19,14 +19,14 @@ import { Choices } from './commands/Choices';
 import { Passcode } from './commands/Passcode';
 import { MoveActor } from './commands/MoveActor';
 import { ChangeActorDirection } from './commands/ChangeActorDirection';
-import { CameraAddColorFilter } from './commands/CameraAddColorFilter';
+import { CameraColorAdjustment } from './commands/CameraColorAdjustment';
 import { CameraRemoveColorFilter } from './commands/CameraRemoveColorFilter';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
 
   static test(isAsync?: boolean): TestEvent {
-    return new TestEvent(isAsync);
+    return new TestEvent(1000, isAsync);
   }
 
   static message(message: string, isAsync = false, align = 'left', hasBackground = true, justify = 'bottom'): Message {
@@ -117,8 +117,16 @@ export class ScenarioEventCommandsFactory {
     return new ChangeActorDirection(actorId, direction, isAsync);
   }
 
-  static cameraAddColorFilter (color: number, alpha: number, duration?: number, async?: boolean): CameraAddColorFilter {
-    return new CameraAddColorFilter(color, alpha, duration, async);
+  static cameraColorAdjustment (duration: number, colorBalance?: number[], saturation?: number, lightness?: number, async?: boolean): CameraColorAdjustment {
+    return new CameraColorAdjustment(
+      {
+        duration: duration,
+        colorBalance: colorBalance,
+        saturation: saturation,
+        lightness: lightness,
+      },
+      async,
+    );
   }
 
   static cameraRemoveColorFilter (): CameraRemoveColorFilter {

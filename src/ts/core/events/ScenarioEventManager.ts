@@ -46,11 +46,11 @@ export class ScenarioEventManager extends EventEmitter implements IScenarioEvent
     this._setNextEvnet();
   }
 
-  update(): void {
+  update(time: number, delta: number): void {
     if (!this.isGoing) return;
 
     this.currentEvents.forEach((event: IScenarioEvent) => {
-      event.update(this.scene);
+      event.update(this.scene, time, delta);
     });
 
     // 未完了イベントのみを残す

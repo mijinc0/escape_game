@@ -74,7 +74,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.frame++;
 
     if (this.scenarioEventManager.isGoing) {
-      this.scenarioEventManager.update();
+      this.scenarioEventManager.update(time, delta);
 
     } else {
       this.primaryActor.update(this);

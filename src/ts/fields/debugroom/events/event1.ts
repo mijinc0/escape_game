@@ -16,33 +16,10 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   1,
   [
-    cmd.message('fadeOut event start'),
-    cmd.cameraFadeOut(1000),
-    cmd.message('fadeOut event end'),
 
-    cmd.message('fadeIn event start'),
-    cmd.cameraFadeIn(1000),
-    cmd.message('fadeIn event end'),
-
-    cmd.message('fadeOutAll event start'),
-    cmd.cameraFadeOutAll(1000),
-    cmd.message('fadeOut event end'),
-
-    cmd.message('fadeInAll event start'),
-    cmd.cameraFadeInAll(1000),
-    cmd.message('fadeIn event end'),
-
-    cmd.message('color filter red event start'),
-    cmd.cameraAddColorFilter(0xff0000, 0.5, 1000, false),
-    cmd.message('color filter red event start'),
-
-    cmd.message('color filter green event start'),
-    cmd.cameraAddColorFilter(0x00ff00, 0.5, 1000, false),
-    cmd.message('color filter green event start'),
-
-    cmd.message('color filter blue event start'),
-    cmd.cameraAddColorFilter(0x0000ff, 0.5, 1000, false),
-    cmd.message('color filter blue event start'),
+    cmd.message('color adjustment red event start'),
+    cmd.cameraColorAdjustment(2000, [1.0, 0.0, 0.0]),
+    cmd.message('color adjustment red event end'),
 
     cmd.cameraRemoveColorFilter(),
   ],

@@ -65,7 +65,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update();
+    sem.update(0, 0);
 
     it('current event size should be 2', () => {
       expect(sem.getCurrentEventSize()).is.equals(2);
@@ -87,7 +87,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update();
+    sem.update(0, 0);
 
     it('current event size should be 3', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);
@@ -109,10 +109,10 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update();
-    sem.update();
-    sem.update();
-    sem.update();
+    sem.update(0, 0);
+    sem.update(0, 0);
+    sem.update(0, 0);
+    sem.update(0, 0);
 
     it('current event size should be 1', () => {
       expect(sem.getCurrentEventSize()).is.equals(1);
@@ -132,9 +132,9 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update();
-    sem.update();
-    sem.update();
+    sem.update(0, 0);
+    sem.update(0, 0);
+    sem.update(0, 0);
 
     it('current event size should be 0', () => {
       expect(sem.getCurrentEventSize()).is.equals(0);
@@ -154,7 +154,7 @@ describe('scenarioEventManager.update()', () => {
 
     sem.start(eventRange);
 
-    sem.update();
+    sem.update(0, 0);
 
     it('current event size should be 3', () => {
       expect(sem.getCurrentEventSize()).is.equals(3);

@@ -16,7 +16,7 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 export default Field.EventEntryFactory.create(
   0,
   [
-    cmd.cameraAddColorFilter(0x111144, 0.7, 0, true),
+
     cmd.cameraFadeInAll(2000),
     cmd.message('OK?'),
   ],
