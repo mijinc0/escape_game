@@ -12,13 +12,13 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 
 
 /**
- * showerhead
+ * memo
  */
 export default Field.EventEntryFactory.create(
   2,
   [
-    cmd.message('shader test'),
+    cmd.message('TestEvent'),
     cmd.test(false),
-    cmd.message('shader end'),
+    cmd.message('end'),
   ],
 );

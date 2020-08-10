@@ -14,6 +14,7 @@ import { Hero } from '../actors/Hero';
 import { ActorSearchEvent } from '../events/ActorSearchEvent';
 import { FieldMenuEvent } from '../events/FieldMenuEvent';
 import { ScenarioEventCommandsFactory } from '../events/ScenarioEventCommandsFactory';
+import { CameraEffectManagerFactory } from '../renders/CameraEffectManagerFactory';
 import { GameFields } from '../fields/GameFields';
 
 export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
@@ -25,6 +26,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
   primaryActor: Actor.IFieldActor;
   actorsManager: Field.FieldActorsManager;
   scenarioEventManager: Event.ScenarioEventManager;
+  cameraEffectManager: Render.CameraEffectManager;
   audioManager: Audio.IAudioManager;
   keys: Input.Keys;
 
@@ -54,6 +56,7 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
     this.fieldData = this._getFieldData(config.fieldId);
     this.actorColliderRegistrar = new Field.ActorColliderRegistrar(this);
     this.scenarioEventManager = this._createScenarioEventManager();
+    this.cameraEffectManager = CameraEffectManagerFactory.create(this);
     this.actorsManager = this._createActorsManager();
     this.audioManager = new Audio.AudioManager(this, 1, 1);
   }
@@ -80,6 +83,8 @@ export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
       this.primaryActor.update(this);
       this.actorsManager.update(this);
     }
+
+    this.cameraEffectManager.update(time, delta);
   }
 
   private _getUiScene(): Phaser.Scene {

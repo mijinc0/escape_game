@@ -17,8 +17,19 @@ const texts = GameGlobal.texts.event.get('undergroundPathway_event1');
 export default Field.EventEntryFactory.create(
   1,
   [
-    cmd.cameraColorAdjustment(0, [0.1, 0.1, 0.3], null, 0.5),
+    cmd.cameraEffectNight(),
+    cmd.actorSpriteTint(3, 0x000000, 0, false),
     cmd.cameraFadeInAll(2000),
-    cmd.message('OK?'),
+    cmd.changeActorDirection(-1, Model.Direction.Right),
+    cmd.message(texts.get(0)),
+    cmd.message(texts.get(1)),
+    cmd.moveActor(-1, 512, 352),
+    cmd.moveActor(-1, 512, 182),
+    cmd.message(texts.get(2)),
+    cmd.message(texts.get(3)),
+    cmd.cameraFadeOut(10, false),
+    cmd.message(texts.get(4)),
+    cmd.message(texts.get(5)),
+    cmd.sleep(800),
   ],
 );

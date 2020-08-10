@@ -50,6 +50,10 @@ const entries: EntryBase[] = [
     name: 'se_glass_break',
     path: 'assets/audio/se_soundeffect-lab_glass-break3.mp3',
   },
+  {
+    name: 'se_knife_stab',
+    path: 'assets/audio/se_soundeffect-lab_knife-stab-1.mp3',
+  },
 ];
 
 export const AudioAssetEntries: Asset.IAssetEntry[] = entries.map((base: EntryBase) => ({

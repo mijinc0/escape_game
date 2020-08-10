@@ -32,18 +32,5 @@ export default Field.EventEntryFactory.create(
     cmd.cameraFadeInAll(1000),
     cmd.message('fadeIn event end'),
 
-    cmd.message('color adjustment red event start'),
-    cmd.cameraColorAdjustment(1000, [1.0, 0.0, 0.0]),
-    cmd.message('color adjustment red event end'),
-
-    cmd.message('color adjustment green event start'),
-    cmd.cameraColorAdjustment(1000, [0.0, 1.0, 0.0]),
-    cmd.message('color adjustment green event end'),
-
-    cmd.message('color adjustment blue event start'),
-    cmd.cameraColorAdjustment(1000, [0.0, 0.0, 1.0]),
-    cmd.message('color adjustment blue event end'),
-
-    cmd.cameraRemoveColorFilter(),
   ],
 );

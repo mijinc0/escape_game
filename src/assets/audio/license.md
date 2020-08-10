@@ -28,3 +28,4 @@ https://soundeffect-lab.info/
 ## SE
 
 - ガラスが割れる3 : se_soundeffect-lab_glass-break3.mp3
+- ナイフで突き刺す1 : se_soundeffect-lab_knife-stab-1.mp3

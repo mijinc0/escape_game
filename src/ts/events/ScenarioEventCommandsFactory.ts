@@ -1,6 +1,7 @@
 import * as Model from '../core/models';
 import { GameGlobal } from '../GameGlobal';
 import { TestEvent } from './commands/TestEvent';
+import { ActorSpriteTint } from './commands/ActorSpriteTint';
 import { Message } from './commands/Message';
 import { MessageBufferFactory } from './commands/MessageBufferFactory';
 import { Item } from './commands/Item';
@@ -19,14 +20,13 @@ import { Choices } from './commands/Choices';
 import { Passcode } from './commands/Passcode';
 import { MoveActor } from './commands/MoveActor';
 import { ChangeActorDirection } from './commands/ChangeActorDirection';
-import { CameraColorAdjustment } from './commands/CameraColorAdjustment';
-import { CameraRemoveColorFilter } from './commands/CameraRemoveColorFilter';
+import { CameraEffectNight } from './commands/CameraEffectNight';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
 
   static test(isAsync?: boolean): TestEvent {
-    return new TestEvent(1000, isAsync);
+    return new TestEvent();
   }
 
   static message(message: string, isAsync = false, align = 'left', hasBackground = true, justify = 'bottom'): Message {
@@ -73,6 +73,10 @@ export class ScenarioEventCommandsFactory {
     return new MoveField(fieldId, x, y, direction);
   }
 
+  static cameraEffectNight(): CameraEffectNight {
+    return new CameraEffectNight();
+  }
+
   static cameraFadeIn(duration?: number, async?: boolean): CameraFadeIn {
     return new CameraFadeIn(duration, async);
   }
@@ -109,27 +113,15 @@ export class ScenarioEventCommandsFactory {
     return new Passcode(digits, resultValueKey);
   }
 
-  static moveActor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean): MoveActor {
-    return new MoveActor(actorId, x, y, velocity, playAnim, gridMoving, lockDirection);
+  static moveActor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean, isAsync?: boolean): MoveActor {
+    return new MoveActor(actorId, x, y, velocity, playAnim, gridMoving, lockDirection, isAsync);
   }
 
   static changeActorDirection (actorId: number, direction: Model.Direction, isAsync?: boolean): ChangeActorDirection {
     return new ChangeActorDirection(actorId, direction, isAsync);
   }
 
-  static cameraColorAdjustment (duration: number, colorBalance?: number[], saturation?: number, lightness?: number, async?: boolean): CameraColorAdjustment {
-    return new CameraColorAdjustment(
-      {
-        duration: duration,
-        colorBalance: colorBalance,
-        saturation: saturation,
-        lightness: lightness,
-      },
-      async,
-    );
-  }
-
-  static cameraRemoveColorFilter (): CameraRemoveColorFilter {
-    return new CameraRemoveColorFilter();
+  static actorSpriteTint (actorId: number, color: number, duration: number, isAsync?: boolean): ActorSpriteTint {
+    return new ActorSpriteTint(actorId, color, duration, isAsync);
   }
 }

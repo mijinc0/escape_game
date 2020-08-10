@@ -20,6 +20,8 @@ export interface IActorSprite {
 
   visible: boolean;
 
+  tint: number;
+
   setAnim(animName: string, animationObject: any): void;
 
   playAnim(animName: string, ignoreIfPlaying?: boolean, repeat?: number, onCompleteEventCallback?: () => void): this;

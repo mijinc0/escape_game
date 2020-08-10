@@ -11,6 +11,4 @@ export { IActorSprite } from './IActorSprite';
 export { IActorSpriteFactory } from './IActorSpriteFactory';
 export { IBodyConfig } from './IBodyConfig';
 export { IFieldActor } from './IFieldActor';
-export { ILayeredSprite } from './ILayeredSprite';
-export { LayeredSprite } from './LayeredSprite';
 export { OneWayAnimActorSprite } from './OneWayAnimActorSprite';

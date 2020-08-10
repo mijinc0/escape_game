@@ -78,21 +78,34 @@ export class MoveActor implements Event.IScenarioEvent {
   private _startGridMoving(sprite: Actor.IActorSprite, scene: Scene.IFieldScene): void {
     const timeline = scene.phaserScene.tweens.createTimeline();
     
-    // y軸の移動
+    // y軸の移動    
     const positionFromA = {x: sprite.x, y: sprite.y};
     const positionToA = {x: sprite.x, y: this.targetPosition.y};
-    this._addMovingTweenIntoTimeline(timeline, sprite, positionFromA, positionToA);
+    // fromとtoのy座標が同じであれば移動は不要
+    if (positionFromA.y !== positionToA.y) {
+      this._addMovingTweenIntoTimeline(
+        timeline,
+        sprite,
+        positionFromA,
+        positionToA,
+      );
+    }
 
     // x軸の移動
     const positionFromB = positionToA;
     const positionToB = {x: this.targetPosition.x, y: this.targetPosition.y};
-    this._addMovingTweenIntoTimeline(
-      timeline,
-      sprite,
-      positionFromB,
-      positionToB,
-      this.complete.bind(this),
-    );
+    // fromとtoのx座標が同じであれば移動は不要
+    if (positionFromB.x !== positionToB.x) {
+      this._addMovingTweenIntoTimeline(
+        timeline,
+        sprite,
+        positionFromB,
+        positionToB,
+      );
+    }
+
+    // 最後に終了フラグを立てるイベントを仕込んでおく
+    timeline.on('complete', this.complete.bind(this));
 
     timeline.play();
   }

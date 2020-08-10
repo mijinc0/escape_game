@@ -5,6 +5,7 @@ import * as Field from '../../../../ts/core/fields';
 import * as Event from '../../../../ts/core/events';
 import * as Scene from '../../../../ts/core/scenes';
 import * as Input from '../../../../ts/core/input';
+import * as Render from '../../../../ts/core/renders';
 import { IGameGlobal } from '../../../../ts/core/IGameGlobal';
 
 /**
@@ -73,6 +74,14 @@ export class TestFieldScene implements Scene.IFieldScene {
 
   set audioManager(v: Audio.IAudioManager) {
     throw Error(this._getErrorMessage('audioManager'));
+  }
+
+  get cameraEffectManager(): Render.CameraEffectManager {
+    throw Error(this._getErrorMessage('cameraEffectManager'));
+  }
+
+  set cameraEffectManager(v: Render.CameraEffectManager) {
+    throw Error(this._getErrorMessage('cameraEffectManager'));
   }
 
   get keys(): Input.Keys {

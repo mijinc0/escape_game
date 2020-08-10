@@ -53,6 +53,21 @@ const actorEntries: Field.IFieldActorEntry[] = [
       },
     ],
   },
+
+  {
+    id: 3,
+    name: 'enemy',
+    statusPages: [
+      {
+        eventId: -1,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('enemy'),
+        initFrame: 0,
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.EndingA)),
+      },
+    ],
+  },
 ];
 
 export default actorEntries;

@@ -5,25 +5,29 @@ import * as Render from '../../core/renders';
 import { ColorAdjustmentPipeline } from '../../renders/pipelines/ColorAdjustmentPipeline';
 
 /**
- * 色々試す時に使うイベント(本編では不要)
+ * 夜間のような効果をカメラに加える
  */
-export class TestEvent implements Event.IScenarioEvent {
+export class CameraEffectNight implements Event.IScenarioEvent {
   readonly isAsync = false;
 
   isComplete: boolean;
 
   constructor() {
+    this.isComplete = false;
   }
 
   init(scene: Scene.IFieldScene): void {
-    const primaryActor = scene.primaryActor;
-
-    (<any>primaryActor.sprite).tint = 0x555555;
-
-    this.complete();
+   this.isComplete = false;
   }
 
-  update(scenes: Scene.IFieldScene, time: number, delta: number): void {
+  update(scene: Scene.IFieldScene, time: number, delta: number): void {
+    if (this.isComplete) return;
+
+    const primaryActor = scene.primaryActor;
+   
+    scene.cameraEffectManager.startEffect('nightEffect', primaryActor.sprite);
+  
+    this.complete();
   }
 
   complete(): void {
