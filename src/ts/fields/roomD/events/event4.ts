@@ -22,7 +22,9 @@ export default Field.EventEntryFactory.create(
     // 何も持っていない、ライターのみ、だと会話イベントのみで先に進めない。
     op.if(() => (GameGlobal.ownItems.has(GameItemIds.FlashLight)))(
       cmd.message(texts.get(0)),
-      // good endへ
+      cmd.cameraFadeOutAll(),
+      cmd.flag(GameFlagKeys.EndingB, true),
+      cmd.moveField(FieldIds.UndergroundPathway, 64, 352, Model.Direction.Down),
     
     ).elseIf(() => (
       GameGlobal.ownItems.has(GameItemIds.Lighter) &&
@@ -34,6 +36,7 @@ export default Field.EventEntryFactory.create(
       op.if(() => (GameGlobal.variables.get(GameVariableKeys.Choices) === 0))(
         cmd.message(texts.get(5)),
         cmd.cameraFadeOutAll(),
+        cmd.flag(GameFlagKeys.EndingA, true),
         cmd.moveField(FieldIds.UndergroundPathway, 64, 352, Model.Direction.Down),
 
       ).else(

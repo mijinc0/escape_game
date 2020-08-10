@@ -116,6 +116,28 @@
                  "width":16,
                  "x":160,
                  "y":352
+                }, 
+                {
+                 "height":32,
+                 "id":26,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"actorId",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":""
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":192,
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -124,7 +146,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":26,
+ "nextobjectid":27,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

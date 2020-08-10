@@ -35,13 +35,13 @@ export class CameraColorAdjustment implements Event.IScenarioEvent {
     this.duration = config.duration;
     this.elasped = 0;
 
-    this.startColorBalance = [0.0, 0.0, 0.0];
-    this.startSaturation = 0.0;
-    this.startLightness = 0.0;
+    this.startColorBalance = null;
+    this.startSaturation = null;
+    this.startLightness = null;
 
-    this.targetColorBalance = config.colorBalance ? config.colorBalance : [0.0, 0.0, 0.0];
-    this.targetSaturation = config.saturation ? config.saturation : 1.0;
-    this.targetLightness = config.lightness ? config.lightness : 1.0;
+    this.targetColorBalance = config.colorBalance ? config.colorBalance : null;
+    this.targetSaturation = config.saturation ? config.saturation : null;
+    this.targetLightness = config.lightness ? config.lightness : null;
     
     this.isAsync = async ? async : false;
     this.isComplete = false;
@@ -60,7 +60,10 @@ export class CameraColorAdjustment implements Event.IScenarioEvent {
       this.startSaturation = pipeline.saturation;
       this.startLightness = pipeline.lightness;
 
-      scene.phaserScene.cameras.main.clearRenderToTexture();
+      this.targetColorBalance = this.targetColorBalance ? this.targetColorBalance : pipeline.colorBalance;
+      this.targetSaturation = this.targetSaturation ? this.targetSaturation : pipeline.saturation;
+      this.targetLightness = this.targetLightness ? this.targetLightness : pipeline.lightness;
+
       scene.phaserScene.cameras.main.setRenderToTexture(pipeline);
     } else {
       console.warn(`ColorAdjustmentPipeline is not found.`);
@@ -92,7 +95,7 @@ export class CameraColorAdjustment implements Event.IScenarioEvent {
       this.targetColorBalance[2] - this.startColorBalance[2],
     ]; 
     const dSaturation = this.targetSaturation - this.startSaturation; 
-    const dLightness = this.targetLightness - this.startLightness; 
+    const dLightness = this.targetLightness - this.startLightness;
 
     // current
     const cColorBalance = [
@@ -104,11 +107,7 @@ export class CameraColorAdjustment implements Event.IScenarioEvent {
     const cLightness = this.startLightness + (dLightness * progress); 
 
     // set values
-    this.pipeline.colorBalance = [
-      cColorBalance[0] * progress,
-      cColorBalance[1] * progress,
-      cColorBalance[2] * progress,
-    ];
+    this.pipeline.colorBalance = cColorBalance;
     this.pipeline.saturation = cSaturation;
     this.pipeline.lightness = cLightness;
   }

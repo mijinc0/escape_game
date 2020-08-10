@@ -14,6 +14,14 @@ const actorEntries: Field.IFieldActorEntry[] = [
         eventId: 0,
         eventEmitType: Field.EventEmitType.Immediately,
         spriteType: Actor.ActorSpriteTypes.Invisible,
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.EndingA)),
+      },
+
+      {
+        eventId: 1,
+        eventEmitType: Field.EventEmitType.Immediately,
+        spriteType: Actor.ActorSpriteTypes.Invisible,
+        criteria: () => (GameGlobal.flags.get(GameFlagKeys.EndingB)),
       },
     ],
   },

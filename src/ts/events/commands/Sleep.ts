@@ -6,24 +6,26 @@ export class Sleep implements IScenarioEvent {
 
   isComplete: boolean;
 
-  private counter: number;
-  private sleepCount: number;
+  private duration: number;
+  private elasped: number;
 
-  constructor(frame: number) {
-    this.counter = 0;
-    this.sleepCount = frame;
+  constructor(duration: number) {
+    this.duration = duration;
+    this.elasped = 0;
   }
 
   init(scenes: IFieldScene): void {
     this.isComplete = false;
-    this.counter = this.sleepCount;
+    this.elasped = 0;
   }
 
-  update(scenes: IFieldScene): void {
-    this.counter--;
+  update(scenes: IFieldScene, time: number, delta: number): void {
+    if (this.isComplete) return;
 
-    if (this.counter <= 0) {
-      this.isComplete = true;
+    this.elasped += delta;
+
+    if (this.elasped >= this.duration) {
+      this.complete();
     }
   }
 

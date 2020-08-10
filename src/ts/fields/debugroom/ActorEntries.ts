@@ -48,6 +48,20 @@ const actorEntries: Field.IFieldActorEntry[] = [
       },
     ],
   },
+
+  {
+    id: 3,
+    name: 'eventA',
+    statusPages: [
+      {
+        eventId: 3,
+        eventEmitType: Field.EventEmitType.Search,
+        spriteType: Actor.ActorSpriteTypes.OneWayAnim,
+        spriteKey: Asset.AssetCacheKey.spritesheet('door'),
+        initFrame: 0,
+      },
+    ],
+  },
 ];
 
 export default actorEntries;

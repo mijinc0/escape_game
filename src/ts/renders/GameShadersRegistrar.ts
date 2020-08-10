@@ -7,7 +7,7 @@ export class GameShadersRegistrar {
     const renderer = game.renderer;
 
     if (renderer instanceof Phaser.Renderer.WebGL.WebGLRenderer) {
-      const pipelines = CustomPipelines(game);
+      const pipelines = CustomPipelines(game);  
       this._registShaders(renderer, pipelines);
       return true;
 

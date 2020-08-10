@@ -41,4 +41,8 @@ export enum GameFlagKeys {
   SearchHiddenLadder,
 
   FindHiddenLadder,
+
+  EndingA,
+  
+  EndingB,
 }
