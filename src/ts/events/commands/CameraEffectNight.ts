@@ -2,7 +2,6 @@ import * as Event from '../../core/events';
 import * as Scene from '../../core/scenes';
 import * as Asset from '../../core/assets';
 import * as Render from '../../core/renders';
-import { ColorAdjustmentPipeline } from '../../renders/pipelines/ColorAdjustmentPipeline';
 
 /**
  * 夜間のような効果をカメラに加える

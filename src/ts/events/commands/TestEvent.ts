@@ -2,7 +2,7 @@ import * as Event from '../../core/events';
 import * as Scene from '../../core/scenes';
 import * as Asset from '../../core/assets';
 import * as Render from '../../core/renders';
-import { ColorAdjustmentPipeline } from '../../renders/pipelines/ColorAdjustmentPipeline';
+
 
 /**
  * 色々試す時に使うイベント(本編では不要)
