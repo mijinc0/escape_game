@@ -100,10 +100,10 @@ export class Ending extends Phaser.Scene {
     const textConfig = {
       fontFamily: 'san-serif',
       fontSize: '40px',
+      align: 'center',
     };
 
     const text = this.add.text(centerX, 136, headigText, textConfig);
-    text.setAlign('center');
     text.setOrigin(0.5);
     text.alpha = 0;
 
@@ -116,10 +116,10 @@ export class Ending extends Phaser.Scene {
     const textConfig = {
       fontFamily: 'san-serif',
       fontSize: '32px',
+      align: 'center',
     };
 
     const text = this.add.text(centerX, 208, bodyTexts, textConfig);
-    text.setAlign('center');
     text.setOrigin(0.5);
     text.alpha = 0;
 

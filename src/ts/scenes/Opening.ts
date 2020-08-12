@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import * as Audio from '../core/audios';
+import * as Asset from '../core/assets';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
@@ -22,12 +23,28 @@ export class Opening extends Phaser.Scene {
     this.startOpening = false;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, 1, 1);
+    
+    // add title image & text
+    const centerX = 320;
+    const titleImage = this.add.image(0, 0, Asset.AssetCacheKey.image('titleImage'));
+    titleImage.setOrigin(0);
 
-    const menu = this._createMenu(440, 320);
+    const title = 'Stay Home';
+    const textConfig = {
+      fontFamily: 'san-serif',
+      fontSize: '40px',
+      align: 'center',
+    };
+    const titleText = this.add.text(centerX, 92, title, textConfig);
+    titleText.setOrigin(0.5);
+
+    // add menu
+    const menu = this._createMenu(320 - 76, 340);
 
     this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
     
+    // start
     this.cameras.main.fadeIn(1000, 0, 0, 0, ((camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
       if (progress === 1) {
         this.startOpening = true;
@@ -44,7 +61,7 @@ export class Opening extends Phaser.Scene {
   }
 
   private _createMenu(x: number, y: number): Ui.Group {
-    const buttonMargin = 16;
+    const buttonMargin = 8;
     const ah = new Ui.RangeAlignmentHandler(buttonMargin, Model.Direction.Down);
     const menu = new Ui.Group(x, y, 160, 96, null, ah);
 
@@ -65,7 +82,7 @@ export class Opening extends Phaser.Scene {
       backgroundAlpha: 0,
     };
 
-    const button = new Button(buttonConfig, 0, 0, 160, 40);
+    const button = new Button(buttonConfig, 0, 0, 144, 40);
 
     button.on(Ui.ElementEventNames.Select, () => {
       const initFieldId = GameGlobal.debug ? FieldIds.Debugroom : FieldIds.RoomA;
@@ -98,7 +115,7 @@ export class Opening extends Phaser.Scene {
       backgroundAlpha: 0,
     };
 
-    const button = new Button(buttonConfig, 0, 0, 160, 40);
+    const button = new Button(buttonConfig, 0, 0, 144, 40);
 
     return button;
   }

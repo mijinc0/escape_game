@@ -17,8 +17,8 @@ const texts = GameGlobal.texts.event.get('roomA_event0');
 export default Field.EventEntryFactory.create(
   0,
   [
-    cmd.cameraFadeIn(1000),
-    cmd.sleep(1500),
+    cmd.cameraFadeIn(3000),
+    cmd.sleep(3000),
     cmd.message(texts.get(0)),
     cmd.message(texts.get(1)),
     cmd.sleep(800),

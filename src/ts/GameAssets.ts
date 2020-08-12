@@ -5,6 +5,7 @@ import { TileInfoAssetEntries } from './maps/TileInfoAssetEntries';
 import { TileMapAssetEntries } from './maps/TileMapAssetEntries';
 import { SpritesheetAssetEntries } from './sprites/SpritesheetAssetEntries';
 import { AudioAssetEntries } from './audios/AudioAssetEntries';
+import { ImageAssetEntries } from './images/ImageAssetEntries';
 
 /**
  * 最初に全てのアセットを読み込む前提になっている
@@ -19,6 +20,8 @@ export const GameAssets: Asset.IAssetLoadingConfig = {
   itemIcon: ItemIconAssetEntries,
 
   audio: AudioAssetEntries,
+
+  image: ImageAssetEntries,
 
   spritesheet: SpritesheetAssetEntries,
 };

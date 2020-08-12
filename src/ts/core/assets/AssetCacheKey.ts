@@ -39,6 +39,10 @@ export class AssetCacheKey {
     return this._createKey('audio', name);
   }
 
+  static image(name: string): string {
+    return this._createKey('image', name);
+  }
+
   private static _createKey(...words: string[]): string {
     return words.join('_');
   }

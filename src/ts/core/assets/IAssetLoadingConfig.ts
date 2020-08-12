@@ -14,5 +14,7 @@ export interface IAssetLoadingConfig {
 
   audio?: IAssetEntry[];
 
+  image?: IAssetEntry[];
+
   spritesheet?: ISpritesheetAssetEntry[];
 }

@@ -35,6 +35,12 @@ export class AssetLoader {
       });
     }
 
+    if (config.image) {
+      config.image.forEach((entry: IAssetEntry) => {
+        this._loadImage(entry.key, entry.path);
+      });
+    }
+
     if (config.audio) {
       config.audio.forEach((entry: IAssetEntry) => {
         this._loadAudio(entry.key, entry.path);
@@ -61,6 +67,10 @@ export class AssetLoader {
   }
 
   private _loadItemIcon(key: string, path: string): void {
+    this.scene.load.image(key, path);
+  }
+
+  private _loadImage(key: string, path: string): void {
     this.scene.load.image(key, path);
   }
 
