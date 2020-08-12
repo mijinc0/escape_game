@@ -14,27 +14,21 @@ const texts = GameGlobal.texts.event.get('roomF_event3');
 /**
  * displayShelf
  */
-export default Field.EventEntryFactory.create(
-  3,
-  [
-    cmd.message(texts.get(0)),
+export default Field.EventEntryFactory.create(3, [
+  cmd.message(texts.get(0)),
 
-    op.if(() => (!GameGlobal.ownItems.has(GameItemIds.BlokenDish)))(
+  op
+    .if(() => !GameGlobal.ownItems.has(GameItemIds.BlokenDish))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_glass_break'), 1, 0, 1, false),
       cmd.message(texts.get(1)),
-      
-      op.if(() => (GameGlobal.flags.get(GameFlagKeys.SearchRoomGSofa)))(
-        cmd.message(texts.get(2)),
-      ).else(
-        cmd.message(texts.get(3)),
-      ),
+
+      op
+        .if(() => GameGlobal.flags.get(GameFlagKeys.SearchRoomGSofa))(cmd.message(texts.get(2)))
+        .else(cmd.message(texts.get(3))),
 
       cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
       cmd.popGettingItemModal(GameItemIds.BlokenDish),
       cmd.item(GameItemIds.BlokenDish, +1),
-
-    ).else(
-      cmd.message(texts.get(4)),
-    ),
-  ],
-);
+    )
+    .else(cmd.message(texts.get(4))),
+]);

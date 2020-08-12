@@ -10,18 +10,14 @@ export class EventTextFactory {
   }
 
   static createFromMultipileConfigsChunks(...configsChunk: IEventTextConfig[][]): EventTexts {
-    const entriesChunks = configsChunk.map((configs: IEventTextConfig[]) => (
-      EventTextFactory.createEntries(configs)
-    ));
+    const entriesChunks = configsChunk.map((configs: IEventTextConfig[]) => EventTextFactory.createEntries(configs));
 
-    const entries = entriesChunks.reduce((a: EventTextEntry[], b: EventTextEntry[]) => (a.concat(b)));
+    const entries = entriesChunks.reduce((a: EventTextEntry[], b: EventTextEntry[]) => a.concat(b));
 
     return new EventTexts(...entries);
   }
 
   private static createEntries(configs: IEventTextConfig[]): EventTextEntry[] {
-    return configs.map((config: IEventTextConfig) => (
-      new EventTextEntry(config.key, config.texts)
-    ));
+    return configs.map((config: IEventTextConfig) => new EventTextEntry(config.key, config.texts));
   }
 }

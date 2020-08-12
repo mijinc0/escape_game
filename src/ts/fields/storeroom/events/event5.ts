@@ -15,18 +15,17 @@ const texts = GameGlobal.texts.event.get('storeroom_event5');
 /**
  * safetybox
  */
-export default Field.EventEntryFactory.create(
-  5,
-  [
-    op.if(() => (GameGlobal.flags.get(GameFlagKeys.StoreroomSafetyboxOpen)))(
+export default Field.EventEntryFactory.create(5, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.StoreroomSafetyboxOpen))(
       cmd.message(texts.get(0)),
       cmd.message(texts.get(1)),
-
-    ).else(
+    )
+    .else(
       cmd.message(texts.get(2)),
       cmd.message(texts.get(3)),
 
-      op.if(() => (GameGlobal.ownItems.has(GameItemIds.Hammer)))(
+      op.if(() => GameGlobal.ownItems.has(GameItemIds.Hammer))(
         cmd.message(texts.get(4)),
         cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 7, true),
         cmd.playActorAnim(12, 'default', 0),
@@ -38,5 +37,4 @@ export default Field.EventEntryFactory.create(
         cmd.flag(GameFlagKeys.StoreroomSafetyboxOpen, true),
       ),
     ),
-  ],
-);
+]);

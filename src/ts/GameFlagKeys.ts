@@ -5,7 +5,7 @@ export enum GameFlagKeys {
   Opening,
 
   ReadRoomAMemo,
-  
+
   RoomADoorOpen,
 
   RoomBDoorOpen,
@@ -15,7 +15,7 @@ export enum GameFlagKeys {
   RoomDDoorOpen,
 
   RoomElDoorOpen,
-  
+
   RoomErDoorOpen,
 
   RoomFDoorOpen,
@@ -25,16 +25,16 @@ export enum GameFlagKeys {
   StoreroomDoorOpen,
 
   DrainBathWater,
-  
+
   RoomBSafetyboxOpen,
 
   ReadRoomCMemo,
-  
+
   SearchRoomGSofa,
 
   RoomGSafetyboxOpen,
 
-  StoreroomSafetyboxOpen, //16
+  StoreroomSafetyboxOpen,
 
   SarchRoomDFloor,
 
@@ -43,6 +43,6 @@ export enum GameFlagKeys {
   FindHiddenLadder,
 
   EndingA,
-  
+
   EndingB,
 }

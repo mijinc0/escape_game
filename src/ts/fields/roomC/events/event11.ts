@@ -13,17 +13,12 @@ const texts = GameGlobal.texts.event.get('roomC_event11');
 
 /**
  * bookShelfs 6
- * 
+ *
  */
-export default Field.EventEntryFactory.create(
-  11,
-  [
-    op.if(() => (GameGlobal.flags.get(GameFlagKeys.ReadRoomCMemo)))(
-      cmd.message(texts.get(0)),
-    ).else(
-      cmd.message(texts.get(1)),
-    ),
+export default Field.EventEntryFactory.create(11, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.ReadRoomCMemo))(cmd.message(texts.get(0)))
+    .else(cmd.message(texts.get(1))),
 
-    cmd.message(texts.get(2)),
-  ],
-);
+  cmd.message(texts.get(2)),
+]);

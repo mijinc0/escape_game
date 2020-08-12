@@ -16,4 +16,3 @@ const eventEntries = [
 ];
 
 export default eventEntries;
-

@@ -24,7 +24,7 @@ export class UiTest extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(0xAADD66);
+    this.cameras.main.setBackgroundColor(0xaadd66);
 
     // 画面サイズ
     const width = 640;

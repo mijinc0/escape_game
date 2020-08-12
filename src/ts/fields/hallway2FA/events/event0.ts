@@ -14,27 +14,25 @@ const texts = GameGlobal.texts.event.get('hallway2FA_event0');
 /**
  * door (roomF)
  */
-export default Field.EventEntryFactory.create(
-  0,
-  [
-    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomFDoorOpen) ))(
+export default Field.EventEntryFactory.create(0, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.RoomFDoorOpen))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
       cmd.playActorAnim(0, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomF, 370, 344, Model.Direction.Up),
-
-    ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomFG) )) (   
+    )
+    .elseIf(() => GameGlobal.ownItems.has(GameItemIds.KeyRoomFG))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.RoomFDoorOpen, true),
       cmd.playActorAnim(0, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomF, 370, 344, Model.Direction.Up),
-    
-    ).else (
+    )
+    .else(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(1)),
     ),
-  ],
-);
+]);

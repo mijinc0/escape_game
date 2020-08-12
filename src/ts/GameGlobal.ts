@@ -5,8 +5,8 @@ import { GameItems } from './items/GameItems';
 
 export const GameGlobal: IGameGlobal = {
   texts: GameTexts.ja,
-  
-  items: GameItems(GameTexts.ja.item),
+
+  items: GameItems.create(GameTexts.ja.item),
 
   flags: new Model.GameFlags(),
 

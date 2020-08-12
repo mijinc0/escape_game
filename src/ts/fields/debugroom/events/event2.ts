@@ -10,7 +10,6 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 
 // prettier-ignore
 
-
 /**
  * memo
  */

@@ -3,19 +3,19 @@ import { ICameraEffect } from './ICameraEffect';
 
 export class CameraEffectManager {
   camera: Phaser.Cameras.Scene2D.Camera;
-  effects:ICameraEffect[];
+  effects: ICameraEffect[];
 
   constructor(camera: Phaser.Cameras.Scene2D.Camera) {
     this.camera = camera;
     this.effects = [];
   }
 
-  addEffect(effect :ICameraEffect): void {
+  addEffect(effect: ICameraEffect): void {
     this.effects.push(effect);
   }
 
   startEffect(key: string, ...args: any[]): boolean {
-    const effect = this.effects.find((effect: ICameraEffect) => (effect.name === key));
+    const effect = this.effects.find((effect: ICameraEffect) => effect.name === key);
 
     if (!effect) {
       console.warn(`camera effect named ${key} is not found.`);
@@ -28,7 +28,7 @@ export class CameraEffectManager {
   }
 
   resetEffect(key: string): boolean {
-    const effect = this.effects.find((effect: ICameraEffect) => (effect.name === key));
+    const effect = this.effects.find((effect: ICameraEffect) => effect.name === key);
 
     if (!effect) {
       console.warn(`camera effect tagged ${key} is not found.`);

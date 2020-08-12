@@ -14,22 +14,20 @@ const texts = GameGlobal.texts.event.get('roomE_event1');
 /**
  * doorR (hallway2FB)
  */
-export default Field.EventEntryFactory.create(
-  1,
-  [
-    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomErDoorOpen) ))(
+export default Field.EventEntryFactory.create(1, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.RoomErDoorOpen))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
       cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.Hallway2FB, 336, 312, Model.Direction.Up),
-
-    ).else (   
+    )
+    .else(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.RoomErDoorOpen, true),
       cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.Hallway2FB, 336, 312, Model.Direction.Up),
-    )
-  ],
-);
+    ),
+]);

@@ -14,6 +14,6 @@ export class ItemTexts {
   get(id: number): IItemTextsEntry {
     const entry = this.entries.get(id);
 
-    return entry ? entry : {id: -1, name: `FAIL_TO_GET_NAME_${id}`, description: `FAIL_TO_GET_DESCRIPTION_${id}`};
+    return entry ? entry : { id: -1, name: `FAIL_TO_GET_NAME_${id}`, description: `FAIL_TO_GET_DESCRIPTION_${id}` };
   }
 }

@@ -8,17 +8,10 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-
 // prettier-ignore
 const texts = GameGlobal.texts.event.get('roomA_event4');
 
 /**
  * deskDrawer
  */
-export default Field.EventEntryFactory.create(
-  4,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-  ]
-);
+export default Field.EventEntryFactory.create(4, [cmd.message(texts.get(0)), cmd.message(texts.get(1))]);

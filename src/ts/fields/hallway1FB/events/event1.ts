@@ -14,27 +14,25 @@ const texts = GameGlobal.texts.event.get('roomA_event1');
 /**
  * door (roomD)
  */
-export default Field.EventEntryFactory.create(
-  1,
-  [
-    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.RoomDDoorOpen) ))(
+export default Field.EventEntryFactory.create(1, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.RoomDDoorOpen))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomD, 304, 342, Model.Direction.Up),
-
-    ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyRoomD) )) (   
+    )
+    .elseIf(() => GameGlobal.ownItems.has(GameItemIds.KeyRoomD))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.RoomDDoorOpen, true),
       cmd.playActorAnim(1, 'default'),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.RoomD, 304, 342, Model.Direction.Up),
-    
-    ).else (
+    )
+    .else(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(1)),
     ),
-  ],
-);
+]);

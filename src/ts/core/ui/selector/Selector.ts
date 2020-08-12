@@ -74,11 +74,11 @@ export class Selector extends EventEmitter implements ISelector {
     } else if (this.keys.cursors.up.isDown) {
       this.goNext(Direction.Up);
     } else if (this.keys.action.isDown && !this.selectDisable) {
-    // selectボタンの連射防止
+      // selectボタンの連射防止
       this.selectDisable = true;
       this._select();
     } else if (this.keys.cancel.isDown && !this.cancelDisable) {
-    // cancelボタンの連射防止
+      // cancelボタンの連射防止
       this.cancelDisable = true;
       this._cancel();
     }
@@ -96,8 +96,8 @@ export class Selector extends EventEmitter implements ISelector {
 
     // 最初のグループでない場合はカーソルを移動させる
     if (this.groupHistory.length > 1) {
-      let currentElement = currentGroup.getCurrent();
-      let nextElement = managedGroup.getCurrent();
+      const currentElement = currentGroup.getCurrent();
+      const nextElement = managedGroup.getCurrent();
       this._moveCursor(nextElement, currentElement);
     }
   }
@@ -146,7 +146,7 @@ export class Selector extends EventEmitter implements ISelector {
     if (!currentElement) return;
 
     this.emit(SelectorEventNames.Select, currentElement, this);
-    
+
     currentElement.emit(ElementEventNames.Select, currentElement, this);
 
     this._setCooldownTime();
@@ -199,12 +199,12 @@ export class Selector extends EventEmitter implements ISelector {
     }
 
     // カーソルを移動させる
-    this.cursor.visible =  true;  
+    this.cursor.visible = true;
     this.cursor.goTo(next);
     next.emit(ElementEventNames.Over, next, this);
   }
 
-  private _logChangeGroup(before: IGroup|null, next: IGroup|null): void {
+  private _logChangeGroup(before: IGroup | null, next: IGroup | null): void {
     const beforeName = before ? before.name : 'NULL';
     const nextName = next ? next.name : 'NULL';
     console.log(`change group {before: ${beforeName}, next: ${nextName}}`);

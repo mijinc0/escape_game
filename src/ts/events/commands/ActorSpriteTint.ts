@@ -25,7 +25,7 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
     this.elasped = 0;
     this.targetR = (color & 0xff0000) >> 16;
     this.targetG = (color & 0x00ff00) >> 8;
-    this.targetB = (color & 0x0000ff);
+    this.targetB = color & 0x0000ff;
     this.startR = 0xff;
     this.startG = 0xff;
     this.startB = 0xff;
@@ -38,9 +38,7 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
     this.isComplete = false;
     this.elasped = 0;
 
-    const actor = this.actorId >= 0 ?
-      scene.actorsManager.findActorById(this.actorId) :
-      scene.primaryActor;
+    const actor = this.actorId >= 0 ? scene.actorsManager.findActorById(this.actorId) : scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor sprite is not found. actor moving event will be completed {id: ${this.actorId}}`);
@@ -54,7 +52,7 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
 
     this.startR = (currentTint & 0xff0000) >> 16;
     this.startG = (currentTint & 0x00ff00) >> 8;
-    this.startB = (currentTint & 0x0000ff);
+    this.startB = currentTint & 0x0000ff;
   }
 
   update(scene: Scene.IFieldScene, time: number, delta: number): void {
@@ -68,11 +66,11 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
     const dG = this.targetR - this.startR;
     const dR = this.targetG - this.startG;
     const dB = this.targetB - this.startB;
-    
+
     // current
-    const cR = this.startR + (dR * progress);
-    const cG = this.startG + (dG * progress);
-    const cB = this.startB + (dB * progress);
+    const cR = this.startR + dR * progress;
+    const cG = this.startG + dG * progress;
+    const cB = this.startB + dB * progress;
 
     // concat
     this.sprite.tint = (cR << 16) | (cG << 8) | cB;

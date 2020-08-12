@@ -15,9 +15,7 @@ export class Ending implements Event.IScenarioEvent {
     scene.phaserScene.scene.start('ending');
   }
 
-  update(): void {
-
-  }
+  update(): void {}
 
   complete(): void {
     this.isComplete = true;

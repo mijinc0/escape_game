@@ -23,7 +23,7 @@ export class Opening extends Phaser.Scene {
     this.startOpening = false;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, 1, 1);
-    
+
     // add title image & text
     const centerX = 320;
     const titleImage = this.add.image(0, 0, Asset.AssetCacheKey.image('titleImage'));
@@ -43,13 +43,13 @@ export class Opening extends Phaser.Scene {
 
     this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
-    
+
     // start
-    this.cameras.main.fadeIn(1000, 0, 0, 0, ((camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
+    this.cameras.main.fadeIn(1000, 0, 0, 0, (camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
       if (progress === 1) {
         this.startOpening = true;
       }
-    }).bind(this));
+    });
   }
 
   update(): void {

@@ -115,23 +115,32 @@ export class ScenarioEventCommandsFactory {
     return new Passcode(digits, resultValueKey);
   }
 
-  static moveActor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean, isAsync?: boolean): MoveActor {
+  static moveActor(
+    actorId: number,
+    x: number,
+    y: number,
+    velocity?: number,
+    playAnim?: boolean,
+    gridMoving?: boolean,
+    lockDirection?: boolean,
+    isAsync?: boolean,
+  ): MoveActor {
     return new MoveActor(actorId, x, y, velocity, playAnim, gridMoving, lockDirection, isAsync);
   }
 
-  static changeActorDirection (actorId: number, direction: Model.Direction, isAsync?: boolean): ChangeActorDirection {
+  static changeActorDirection(actorId: number, direction: Model.Direction, isAsync?: boolean): ChangeActorDirection {
     return new ChangeActorDirection(actorId, direction, isAsync);
   }
 
-  static actorSpriteTint (actorId: number, color: number, duration: number, isAsync?: boolean): ActorSpriteTint {
+  static actorSpriteTint(actorId: number, color: number, duration: number, isAsync?: boolean): ActorSpriteTint {
     return new ActorSpriteTint(actorId, color, duration, isAsync);
   }
 
-  static actorSpriteAlpha (actorId: number, alpha: number, duration: number, isAsync?: boolean): ActorSpriteAlpha {
+  static actorSpriteAlpha(actorId: number, alpha: number, duration: number, isAsync?: boolean): ActorSpriteAlpha {
     return new ActorSpriteAlpha(actorId, alpha, duration, isAsync);
   }
 
-  static ending (): Ending {
+  static ending(): Ending {
     return new Ending();
   }
 }

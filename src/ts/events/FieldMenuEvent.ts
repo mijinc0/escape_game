@@ -29,7 +29,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
 
     this.selector = Ui.SelectorFactory.create(scene.uiScene, scene.keys);
-    
+
     this.fieldMenu = new FieldMenu({
       scene: scene.uiScene,
       gameGlobal: scene.gameGlobal,

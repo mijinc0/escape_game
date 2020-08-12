@@ -7,6 +7,6 @@ const ja: Locales.ITextStore = {
   event: events.default,
   item: items.default,
   credits: credits.default,
-}
+};
 
 export default ja;

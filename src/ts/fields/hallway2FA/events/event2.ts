@@ -14,25 +14,23 @@ const texts = GameGlobal.texts.event.get('hallway2FA_event2');
 /**
  * transferStroreroom
  */
-export default Field.EventEntryFactory.create(
-  2,
-  [
-    op.if(() => ( GameGlobal.flags.get(GameFlagKeys.StoreroomDoorOpen) ))(
+export default Field.EventEntryFactory.create(2, [
+  op
+    .if(() => GameGlobal.flags.get(GameFlagKeys.StoreroomDoorOpen))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.Storeroom, 304, 160, Model.Direction.Down),
-
-    ).elseIf(() => ( GameGlobal.ownItems.has(GameItemIds.KeyStoreroom) )) (   
+    )
+    .elseIf(() => GameGlobal.ownItems.has(GameItemIds.KeyStoreroom))(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(0)),
       cmd.flag(GameFlagKeys.StoreroomDoorOpen, true),
       cmd.cameraFadeOutAll(500),
       cmd.moveField(FieldIds.Storeroom, 304, 160, Model.Direction.Down),
-    
-    ).else (
+    )
+    .else(
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 5),
       cmd.message(texts.get(1)),
     ),
-  ],
-);
+]);

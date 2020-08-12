@@ -1,7 +1,7 @@
 /**
  * 数字の(通常の)enumだと0の時に条件式でfalseが返って
  * オプショナルなフィールドで使う時に扱いづらいので文字のenumにしている
- * 
+ *
  */
 export enum ActorRenderType {
   /**

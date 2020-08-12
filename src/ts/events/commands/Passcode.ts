@@ -4,7 +4,7 @@ import { IFieldScene } from '../../core/scenes/IFieldScene';
 import { Passcode as UiPasscode } from '../../ui/passcode/Passcode';
 
 export class Passcode implements IScenarioEvent {
-  readonly isAsync  = false;
+  readonly isAsync = false;
 
   isComplete: boolean;
 
@@ -18,7 +18,7 @@ export class Passcode implements IScenarioEvent {
     this.resultValueKey = resultValueKey;
     this.isComplete = false;
     this.selector = null;
-    this.uiComponent = null;;
+    this.uiComponent = null;
   }
 
   init(scene: IFieldScene): void {
@@ -64,14 +64,14 @@ export class Passcode implements IScenarioEvent {
 
     const uiComponent = new UiPasscode(config, 0, 0);
 
-    uiComponent.x = worldView.x + ((worldView.width - uiComponent.width) / 2);
-    uiComponent.y = worldView.y + ((worldView.height - uiComponent.height) / 2);
+    uiComponent.x = worldView.x + (worldView.width - uiComponent.width) / 2;
+    uiComponent.y = worldView.y + (worldView.height - uiComponent.height) / 2;
 
     // enterボタンが押されたらGameVariablesに指定のキーで値を格納してcompleteするイベントを仕込む
-    uiComponent.addSelectEnterButtonEvent((() => {
+    uiComponent.addSelectEnterButtonEvent(() => {
       scene.gameGlobal.variables.set(this.resultValueKey, uiComponent.getPasscode());
       this.complete();
-    }).bind(this));
+    });
 
     return uiComponent;
   }

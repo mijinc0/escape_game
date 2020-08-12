@@ -27,8 +27,7 @@ export class CameraFadeInAll implements Event.IScenarioEvent {
     });
   }
 
-  update(scene: Scene.IFieldScene): void {
-  }
+  update(scene: Scene.IFieldScene): void {}
 
   complete(): void {
     this.isComplete = true;

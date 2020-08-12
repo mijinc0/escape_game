@@ -16,16 +16,16 @@ export class CameraEffectNight implements Event.IScenarioEvent {
   }
 
   init(scene: Scene.IFieldScene): void {
-   this.isComplete = false;
+    this.isComplete = false;
   }
 
   update(scene: Scene.IFieldScene, time: number, delta: number): void {
     if (this.isComplete) return;
 
     const primaryActor = scene.primaryActor;
-   
+
     scene.cameraEffectManager.startEffect('nightEffect', primaryActor.sprite);
-  
+
     this.complete();
   }
 

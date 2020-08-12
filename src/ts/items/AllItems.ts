@@ -77,6 +77,6 @@ export const AllItems = [
   },
 ].map((config: ItemConfig) => {
   const iconImageKey = Asset.AssetCacheKey.itemIcon(config.iconImageName);
-  
+
   return new Model.Item(config.id, '', '', iconImageKey);
 });

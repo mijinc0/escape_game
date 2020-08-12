@@ -4,14 +4,14 @@ import { IFieldScene } from '../../core/scenes/IFieldScene';
 import { Choices as UiChoices } from '../../ui/choices/Choices';
 
 export class Choices implements IScenarioEvent {
-  readonly isAsync  = false;
+  readonly isAsync = false;
 
   isComplete: boolean;
 
   private message: string;
   private items: string[];
   private resultValueKey: number;
-  private defaultValue: number|null;
+  private defaultValue: number | null;
   private selector: Ui.ISelector;
   private uiComponent: UiChoices;
 
@@ -22,7 +22,7 @@ export class Choices implements IScenarioEvent {
     this.defaultValue = defaultValue ? defaultValue : null;
     this.isComplete = false;
     this.selector = null;
-    this.uiComponent = null;;
+    this.uiComponent = null;
   }
 
   init(scene: IFieldScene): void {
@@ -53,13 +53,13 @@ export class Choices implements IScenarioEvent {
   private _createSelector(scene: IFieldScene): Ui.ISelector {
     const selector = Ui.SelectorFactory.create(scene.phaserScene, scene.keys);
 
-    selector.on(Ui.SelectorEventNames.RootGroupCanceled, (() => {
+    selector.on(Ui.SelectorEventNames.RootGroupCanceled, () => {
       // defaultValueが設定されていない場合はキャンセルでの終了は無し
       // defaultValueが設定されている場合はcomplete。結果はinitで設定されたdefaultValueとなる。
       if (this.defaultValue === null) return;
 
       this.complete();
-    }).bind(this));
+    });
 
     Ui.SelectorSeRegistrar.regist(selector, scene.audioManager);
 
@@ -82,18 +82,17 @@ export class Choices implements IScenarioEvent {
 
     const uiComponent = new UiChoices(config, x, y, width, height);
 
-    uiComponent.choices.entries.forEach(((button: Ui.IElement, index: number) => {
+    uiComponent.choices.entries.forEach((button: Ui.IElement, index: number) => {
       this._setButtonSelectEvent(button, index, scene);
-    }).bind(this));
+    });
 
     return uiComponent;
   }
 
-
   private _setButtonSelectEvent(button: Ui.IElement, index: number, scene: IFieldScene): void {
-    button.on(Ui.ElementEventNames.Select, (() => {
+    button.on(Ui.ElementEventNames.Select, () => {
       scene.gameGlobal.variables.set(this.resultValueKey, index);
       this.complete();
-    }).bind(this));
+    });
   }
 }

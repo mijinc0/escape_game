@@ -14,10 +14,4 @@ const texts = GameGlobal.texts.event.get('storeroom_event3');
 /**
  * closet
  */
-export default Field.EventEntryFactory.create(
-  3,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-  ],
-);
+export default Field.EventEntryFactory.create(3, [cmd.message(texts.get(0)), cmd.message(texts.get(1))]);

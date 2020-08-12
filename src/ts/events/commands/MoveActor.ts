@@ -13,7 +13,7 @@ export class MoveActor implements Event.IScenarioEvent {
   private targetPosition: Model.Position;
   private velocity: number;
   private lockDirection: boolean;
-  
+
   /**
    * true  : y軸の移動をしたあとにx軸の移動を行う(グリッド状に移動する)
    * false : 直線距離で移動する。x,y座標の移動がある時はななめ移動をする
@@ -23,22 +23,31 @@ export class MoveActor implements Event.IScenarioEvent {
   private startMove: boolean;
 
   /**
-   * 
+   *
    * @param actorId primaryActor : actorId < 0, fieldActor : actorId > 0
-   * @param x 
-   * @param y 
-   * @param velocity 
-   * @param playAnim 
-   * @param gridMoving 
-   * @param lockDirection 
+   * @param x
+   * @param y
+   * @param velocity
+   * @param playAnim
+   * @param gridMoving
+   * @param lockDirection
    */
-  constructor(actorId: number, x: number, y: number, velocity?: number, playAnim?: boolean, gridMoving?: boolean, lockDirection?: boolean, isAsync?: boolean) {
+  constructor(
+    actorId: number,
+    x: number,
+    y: number,
+    velocity?: number,
+    playAnim?: boolean,
+    gridMoving?: boolean,
+    lockDirection?: boolean,
+    isAsync?: boolean,
+  ) {
     this.actorId = actorId;
-    this.targetPosition = {x: x, y: y};
-    this.velocity = typeof(velocity) === 'number' ? velocity : 184;
-    this.playAnim = typeof(playAnim) === 'boolean' ? playAnim : true;
-    this.gridMoving = typeof(gridMoving) === 'boolean' ? gridMoving : true;
-    this.lockDirection = typeof(lockDirection) === 'boolean' ? lockDirection : false;
+    this.targetPosition = { x: x, y: y };
+    this.velocity = typeof velocity === 'number' ? velocity : 184;
+    this.playAnim = typeof playAnim === 'boolean' ? playAnim : true;
+    this.gridMoving = typeof gridMoving === 'boolean' ? gridMoving : true;
+    this.lockDirection = typeof lockDirection === 'boolean' ? lockDirection : false;
     this.isAsync = isAsync ? isAsync : false;
     this.isComplete = false;
     this.startMove = false;
@@ -52,9 +61,7 @@ export class MoveActor implements Event.IScenarioEvent {
   update(scene: Scene.IFieldScene): void {
     if (this.startMove || this.isComplete) return;
 
-    const actor = this.actorId >= 0 ?
-      scene.actorsManager.findActorById(this.actorId) :
-      scene.primaryActor;
+    const actor = this.actorId >= 0 ? scene.actorsManager.findActorById(this.actorId) : scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor sprite is not found. actor moving event will be completed {id: ${this.actorId}}`);
@@ -62,7 +69,7 @@ export class MoveActor implements Event.IScenarioEvent {
       return;
     }
 
-    if(this.gridMoving) {
+    if (this.gridMoving) {
       this._startGridMoving(actor.sprite, scene);
     } else {
       this._startShortestDistanceMoving(actor.sprite, scene);
@@ -77,31 +84,21 @@ export class MoveActor implements Event.IScenarioEvent {
 
   private _startGridMoving(sprite: Actor.IActorSprite, scene: Scene.IFieldScene): void {
     const timeline = scene.phaserScene.tweens.createTimeline();
-    
-    // y軸の移動    
-    const positionFromA = {x: sprite.x, y: sprite.y};
-    const positionToA = {x: sprite.x, y: this.targetPosition.y};
+
+    // y軸の移動
+    const positionFromA = { x: sprite.x, y: sprite.y };
+    const positionToA = { x: sprite.x, y: this.targetPosition.y };
     // fromとtoのy座標が同じであれば移動は不要
     if (positionFromA.y !== positionToA.y) {
-      this._addMovingTweenIntoTimeline(
-        timeline,
-        sprite,
-        positionFromA,
-        positionToA,
-      );
+      this._addMovingTweenIntoTimeline(timeline, sprite, positionFromA, positionToA);
     }
 
     // x軸の移動
     const positionFromB = positionToA;
-    const positionToB = {x: this.targetPosition.x, y: this.targetPosition.y};
+    const positionToB = { x: this.targetPosition.x, y: this.targetPosition.y };
     // fromとtoのx座標が同じであれば移動は不要
     if (positionFromB.x !== positionToB.x) {
-      this._addMovingTweenIntoTimeline(
-        timeline,
-        sprite,
-        positionFromB,
-        positionToB,
-      );
+      this._addMovingTweenIntoTimeline(timeline, sprite, positionFromB, positionToB);
     }
 
     // 最後に終了フラグを立てるイベントを仕込んでおく
@@ -112,32 +109,26 @@ export class MoveActor implements Event.IScenarioEvent {
 
   private _startShortestDistanceMoving(sprite: Actor.IActorSprite, scene: Scene.IFieldScene): void {
     const timeline = scene.phaserScene.tweens.createTimeline();
-    
-    const positionFrom = {x: sprite.x, y: sprite.y};
 
-    this._addMovingTweenIntoTimeline(
-      timeline,
-      sprite,
-      positionFrom,
-      this.targetPosition,
-      this.complete.bind(this),
-    );
+    const positionFrom = { x: sprite.x, y: sprite.y };
+
+    this._addMovingTweenIntoTimeline(timeline, sprite, positionFrom, this.targetPosition, this.complete.bind(this));
 
     timeline.play();
   }
 
   /**
    * Phaser3のvelocityは pixel/sec である。
-   * 
-   * @param velocity 
-   * @param positionFrom 
-   * @param positionTo 
+   *
+   * @param velocity
+   * @param positionFrom
+   * @param positionTo
    * @return number millisec
    */
   private _calcDuration(velocity: number, positionFrom: Model.Position, positionTo: Model.Position): number {
     const dx = positionTo.x - positionFrom.x;
     const dy = positionTo.y - positionFrom.y;
-    const distance = Math.floor(Math.sqrt(dx**2 + dy**2));
+    const distance = Math.floor(Math.sqrt(dx ** 2 + dy ** 2));
     // (distance / velocity)は秒、返り値はミリ秒にして返したいので1000倍
     return Math.round((distance / velocity) * 1000);
   }
@@ -173,10 +164,14 @@ export class MoveActor implements Event.IScenarioEvent {
 
         if (onComplete) onComplete();
       },
-    })
+    });
   }
 
-  private _setDirectionByTargetPosition(sprite: Actor.IActorSprite, positionFrom: Model.Position, positionTo: Model.Position): void {
+  private _setDirectionByTargetPosition(
+    sprite: Actor.IActorSprite,
+    positionFrom: Model.Position,
+    positionTo: Model.Position,
+  ): void {
     const distanceX = positionTo.x - positionFrom.x;
     const distanceY = positionTo.y - positionFrom.y;
 

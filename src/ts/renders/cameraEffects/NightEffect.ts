@@ -30,9 +30,9 @@ export class NightEffect implements Render.ICameraEffect {
     if (lightTarget instanceof Actor.ActorSprite) {
       this.lightTarget = lightTarget;
       this.light = this._createLight(camera);
-      
+
       this.darkFilter.setMask(this.light);
-      
+
       this._updateLightPosition();
     } else {
       this.light = null;
@@ -79,7 +79,7 @@ export class NightEffect implements Render.ICameraEffect {
     );
 
     rectangle.setOrigin(0);
-    Render.CameraEffectRenderOrder.base(rectangle)
+    Render.CameraEffectRenderOrder.base(rectangle);
 
     return rectangle;
   }

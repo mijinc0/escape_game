@@ -28,7 +28,7 @@ const entries: EntryBase[] = [
     frameWidth: 16,
     frameHeight: 16,
   },
-  
+
   {
     name: 'someitem',
     path: 'assets/sprites/someitem.png',

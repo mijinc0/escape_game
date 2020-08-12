@@ -21,7 +21,9 @@ export class SceneTilemapFactory {
 
     // check existance
     if (!jsonTilesetInfos || !jsonMapDataFile) {
-      throw Error(`json (mapdata or tilesetInfo) is not found. {tilemapKey: ${tilemapKey}, tileInfoKey: ${tileInfoKey}}`);
+      throw Error(
+        `json (mapdata or tilesetInfo) is not found. {tilemapKey: ${tilemapKey}, tileInfoKey: ${tileInfoKey}}`,
+      );
     }
 
     // create

@@ -19,7 +19,7 @@ export class ActorEventManager implements IActorEventManager {
     const emitType = page.eventEmitType;
 
     if (emitType === EventEmitType.Immediately) {
-      this._startImmediately(eventId)
+      this._startImmediately(eventId);
     } else {
       this._regist(actor, eventId, emitType);
     }

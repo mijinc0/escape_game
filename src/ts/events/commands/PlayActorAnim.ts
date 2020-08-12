@@ -11,11 +11,11 @@ export class PlayActorAnim implements IScenarioEvent {
   private startAnim: boolean;
 
   /**
-   * 
+   *
    * @param actorId primaryActor : actorId < 0, fieldActor : actorId > 0
-   * @param animName 
-   * @param repeat 
-   * @param async 
+   * @param animName
+   * @param repeat
+   * @param async
    */
   constructor(actorId: number, animName: string, repeat?: number, async?: boolean) {
     this.actorId = actorId;
@@ -34,9 +34,7 @@ export class PlayActorAnim implements IScenarioEvent {
   update(scene: IFieldScene): void {
     if (this.startAnim) return;
 
-    const actor = this.actorId >= 0 ?
-      scene.actorsManager.findActorById(this.actorId) :
-      scene.primaryActor;
+    const actor = this.actorId >= 0 ? scene.actorsManager.findActorById(this.actorId) : scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor or sprite of actor is not found {id: ${this.actorId}}`);

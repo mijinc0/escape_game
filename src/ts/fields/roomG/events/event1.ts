@@ -14,11 +14,8 @@ const texts = GameGlobal.texts.event.get('roomG_event1');
 /**
  * displayShelf
  */
-export default Field.EventEntryFactory.create(
-  1,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-    cmd.message(texts.get(2)),
-  ],
-);
+export default Field.EventEntryFactory.create(1, [
+  cmd.message(texts.get(0)),
+  cmd.message(texts.get(1)),
+  cmd.message(texts.get(2)),
+]);

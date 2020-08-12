@@ -15,10 +15,9 @@ const texts = GameGlobal.texts.event.get('roomD_event3');
 /**
  * hidden ladder (closed)
  */
-export default Field.EventEntryFactory.create(
-  3,
-  [
-    op.if(() => (GameGlobal.ownItems.has(GameItemIds.Barl)))(
+export default Field.EventEntryFactory.create(3, [
+  op
+    .if(() => GameGlobal.ownItems.has(GameItemIds.Barl))(
       cmd.message(texts.get(0)),
       cmd.message(texts.get(1)),
       cmd.message(texts.get(2)),
@@ -32,12 +31,11 @@ export default Field.EventEntryFactory.create(
       cmd.message(texts.get(4)),
       cmd.message(texts.get(5)),
       cmd.flag(GameFlagKeys.FindHiddenLadder, true),
-
-    ).else(
+    )
+    .else(
       cmd.message(texts.get(6)),
       cmd.message(texts.get(7)),
       cmd.message(texts.get(8)),
       cmd.flag(GameFlagKeys.SearchHiddenLadder, true),
     ),
-  ],
-);
+]);

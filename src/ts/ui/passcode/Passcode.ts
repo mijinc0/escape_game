@@ -60,7 +60,7 @@ export class Passcode extends Ui.Group {
   }
 
   addSelectEnterButtonEvent(callback: Ui.ISelectEventCallback): void {
-    const enterButton  = this.enterButton.entries[0];
+    const enterButton = this.enterButton.entries[0];
 
     if (!enterButton) {
       console.warn('enter button is not found in the group');
@@ -71,7 +71,7 @@ export class Passcode extends Ui.Group {
   }
 
   private _getPasscodeAsString(): string {
-    return this.passcodeText.text.replace(/\s+/g, "");;
+    return this.passcodeText.text.replace(/\s+/g, '');
   }
 
   private _createPasscodeText(config: PasscodeConfig): Ui.Text {
@@ -119,7 +119,7 @@ export class Passcode extends Ui.Group {
 
     const numberButtons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n: number) => {
       buttonConfig.text = n.toString();
-      
+
       const button = new Button(buttonConfig, 0, 0, 32, 32);
       button.name = `button_${n}`;
 
@@ -169,12 +169,12 @@ export class Passcode extends Ui.Group {
   /**
    * 数字のボタンを押すとパスコードを表示するテキストに入力を反映されるイベントを
    * 数字のボタンに設定する
-   * 
-   * @param button 
-   * @param n 
+   *
+   * @param button
+   * @param n
    */
   private _setNumberButtonEvent(button: Ui.IElement, n: number): void {
-    button.on(Ui.ElementEventNames.Select, ((button: Ui.IElement, selector: Ui.ISelector) => {
+    button.on(Ui.ElementEventNames.Select, (button: Ui.IElement, selector: Ui.ISelector) => {
       let strPasscode = this._getPasscodeAsString();
 
       if (strPasscode.length >= this.digits) return;
@@ -188,16 +188,16 @@ export class Passcode extends Ui.Group {
 
       strPasscode = strPasscode.split('').join('  ');
       this.passcodeText.text = strPasscode;
-    }).bind(this));
+    });
   }
 
   /**
    * 現在の入力から末尾一文字(一行)を消すボタンのイベント(backspace)
-   * 
-   * @param button 
+   *
+   * @param button
    */
   private _setBackButtonEnvet(button: Button): void {
-    button.on(Ui.ElementEventNames.Select, ((button: Ui.IElement, selector: Ui.ISelector) => {
+    button.on(Ui.ElementEventNames.Select, (button: Ui.IElement, selector: Ui.ISelector) => {
       let strPasscode = this._getPasscodeAsString();
 
       if (strPasscode.length === 0) return;
@@ -206,6 +206,6 @@ export class Passcode extends Ui.Group {
 
       strPasscode = strPasscode.split('').join(' ');
       this.passcodeText.text = strPasscode;
-    }).bind(this));
+    });
   }
 }

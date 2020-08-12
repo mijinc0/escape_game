@@ -3,7 +3,6 @@ import * as Scene from '../../core/scenes';
 import * as Asset from '../../core/assets';
 import * as Render from '../../core/renders';
 
-
 /**
  * 色々試す時に使うイベント(本編では不要)
  */
@@ -12,8 +11,7 @@ export class TestEvent implements Event.IScenarioEvent {
 
   isComplete: boolean;
 
-  constructor() {
-  }
+  constructor() {}
 
   init(scene: Scene.IFieldScene): void {
     const primaryActor = scene.primaryActor;
@@ -23,8 +21,7 @@ export class TestEvent implements Event.IScenarioEvent {
     this.complete();
   }
 
-  update(scenes: Scene.IFieldScene, time: number, delta: number): void {
-  }
+  update(scenes: Scene.IFieldScene, time: number, delta: number): void {}
 
   complete(): void {
     this.isComplete = true;

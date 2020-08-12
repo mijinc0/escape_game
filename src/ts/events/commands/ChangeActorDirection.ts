@@ -22,9 +22,7 @@ export class ChangeActorDirection implements Event.IScenarioEvent {
   }
 
   update(scene: Scene.IFieldScene): void {
-    const actor = this.actorId >= 0 ?
-      scene.actorsManager.findActorById(this.actorId) :
-      scene.primaryActor;
+    const actor = this.actorId >= 0 ? scene.actorsManager.findActorById(this.actorId) : scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor sprite is not found. actor changing direction event will be completed {id: ${this.actorId}}`);

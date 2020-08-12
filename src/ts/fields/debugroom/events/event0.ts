@@ -13,9 +13,4 @@ import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEve
 /**
  * door (hallway1FA)
  */
-export default Field.EventEntryFactory.create(
-  0,
-  [
-
-  ],
-);
+export default Field.EventEntryFactory.create(0, []);

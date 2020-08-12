@@ -27,7 +27,7 @@ export interface IFieldActorStatusPage {
   /**
    * 'default'でActorSpriteにセットされたアニメーションを
    * スポーン時に再生するかどうか。(repeat = -1)
-   * 
+   *
    * default = false;
    */
   playAnim?: boolean;

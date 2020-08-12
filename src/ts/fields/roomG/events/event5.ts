@@ -14,10 +14,4 @@ const texts = GameGlobal.texts.event.get('roomG_event5');
 /**
  * bed R
  */
-export default Field.EventEntryFactory.create(
-  5,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-  ],
-);
+export default Field.EventEntryFactory.create(5, [cmd.message(texts.get(0)), cmd.message(texts.get(1))]);

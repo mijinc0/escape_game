@@ -22,9 +22,7 @@ export class ActorSpriteAlpha implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    const actor = this.actorId >= 0 ?
-      scene.actorsManager.findActorById(this.actorId) :
-      scene.primaryActor;
+    const actor = this.actorId >= 0 ? scene.actorsManager.findActorById(this.actorId) : scene.primaryActor;
 
     if (!actor || !actor.sprite) {
       console.warn(`actor sprite is not found. actor moving event will be completed {id: ${this.actorId}}`);
@@ -37,13 +35,12 @@ export class ActorSpriteAlpha implements Event.IScenarioEvent {
     scene.phaserScene.add.tween({
       targets: actor.sprite,
       duration: this.duration,
-      alpha: {from: startAlpha, to: this.targetAlpha},
+      alpha: { from: startAlpha, to: this.targetAlpha },
       onComplete: this.complete.bind(this),
     });
   }
 
-  update(scene: Scene.IFieldScene, time: number, delta: number): void {
-  }
+  update(scene: Scene.IFieldScene, time: number, delta: number): void {}
 
   complete(): void {
     this.isComplete = true;

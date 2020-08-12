@@ -207,7 +207,7 @@ export class FieldActorsManager {
     // enum使っているので実際はここまで到達しないが、どこかでnumber使ってすり抜けてきた時用
     throw Error(`sprite type of ${spriteType} is unknown`);
   }
-  
+
   private _applyEvents(actor: Actor.IFieldActor, page: IFieldActorStatusPage): void {
     this.actorEventManager.apply(actor, page);
   }

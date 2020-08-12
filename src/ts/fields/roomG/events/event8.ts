@@ -14,19 +14,15 @@ const texts = GameGlobal.texts.event.get('roomG_event8');
 /**
  * bed L
  */
-export default Field.EventEntryFactory.create(
-  8,
-  [
-    op.if(() => (GameGlobal.ownItems.has(GameItemIds.LighterOil)))(
-      cmd.message(texts.get(0)),
-      cmd.message(texts.get(1)),
-
-    ).else(
+export default Field.EventEntryFactory.create(8, [
+  op
+    .if(() => GameGlobal.ownItems.has(GameItemIds.LighterOil))(cmd.message(texts.get(0)), cmd.message(texts.get(1)))
+    .else(
       cmd.message(texts.get(2)),
       cmd.message(texts.get(3)),
       cmd.message(texts.get(4)),
 
-      op.if(() => (GameGlobal.ownItems.has(GameItemIds.Barl)))(
+      op.if(() => GameGlobal.ownItems.has(GameItemIds.Barl))(
         cmd.message(texts.get(5)),
         cmd.sleep(20),
         cmd.message(texts.get(6)),
@@ -39,5 +35,4 @@ export default Field.EventEntryFactory.create(
         cmd.item(GameItemIds.LighterOil, +1),
       ),
     ),
-  ],
-);
+]);

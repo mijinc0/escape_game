@@ -7,10 +7,8 @@ export class CameraEffectManagerFactory {
   static create(scene: Phaser.Scene): Render.CameraEffectManager {
     const manager = new Render.CameraEffectManager(scene.cameras.main);
 
-    const effects = [
-      new NightEffect(),
-    ];
-    
+    const effects = [new NightEffect()];
+
     effects.forEach((effect: Render.ICameraEffect) => {
       manager.addEffect(effect);
     });

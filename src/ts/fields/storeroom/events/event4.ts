@@ -14,10 +14,4 @@ const texts = GameGlobal.texts.event.get('storeroom_event4');
 /**
  * shelf
  */
-export default Field.EventEntryFactory.create(
-  4,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
-  ],
-);
+export default Field.EventEntryFactory.create(4, [cmd.message(texts.get(0)), cmd.message(texts.get(1))]);

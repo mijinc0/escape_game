@@ -1,4 +1,4 @@
 export interface ICreditTextEntry {
-  heading: string,
-  body: string[],
+  heading: string;
+  body: string[];
 }

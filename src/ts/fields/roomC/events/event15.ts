@@ -14,13 +14,12 @@ const texts = GameGlobal.texts.event.get('roomC_event15');
 /**
  * safetybox key
  */
-export default Field.EventEntryFactory.create(
-  15,
-  [
-    cmd.message(texts.get(0)),
-    cmd.message(texts.get(1)),
+export default Field.EventEntryFactory.create(15, [
+  cmd.message(texts.get(0)),
+  cmd.message(texts.get(1)),
 
-    op.if(() => (GameGlobal.ownItems.has(GameItemIds.BlokenDish)))(
+  op
+    .if(() => GameGlobal.ownItems.has(GameItemIds.BlokenDish))(
       cmd.message(texts.get(2)),
       cmd.message(texts.get(3)),
       cmd.message(texts.get(4)),
@@ -28,10 +27,6 @@ export default Field.EventEntryFactory.create(
       cmd.popGettingItemModal(GameItemIds.RoomGSafetyboxKey),
       cmd.item(GameItemIds.RoomGSafetyboxKey, +1),
       cmd.message(texts.get(5)),
-
-    ).else(
-      cmd.message(texts.get(6)),
-      cmd.flag(GameFlagKeys.SearchRoomGSofa, true),
-    ),
-  ],
-);
+    )
+    .else(cmd.message(texts.get(6)), cmd.flag(GameFlagKeys.SearchRoomGSofa, true)),
+]);

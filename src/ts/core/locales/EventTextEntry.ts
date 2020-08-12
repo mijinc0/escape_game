@@ -5,7 +5,7 @@
  */
 export class EventTextEntry {
   readonly key: string;
-  
+
   private texts: Map<number, string>;
 
   constructor(key: string, texts: string[]) {

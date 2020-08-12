@@ -78,7 +78,6 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
 
     if (this.scenarioEventManager.isGoing) {
       this.scenarioEventManager.update(time, delta);
-
     } else {
       this.primaryActor.update(this);
       this.actorsManager.update(this);

@@ -35,8 +35,8 @@ export class Choices extends Ui.Group {
     baseRectangle.setOrigin(0);
 
     // messageはbaseRectangleに対して中央寄せ
-    const baseRectangleCenterX = baseRectangle.x + (baseRectangle.width / 2);
-    const baseRectangleCenterY = baseRectangle.y + (baseRectangle.height / 2);
+    const baseRectangleCenterX = baseRectangle.x + baseRectangle.width / 2;
+    const baseRectangleCenterY = baseRectangle.y + baseRectangle.height / 2;
     const textConfig = {
       fontSize: '20px',
     };

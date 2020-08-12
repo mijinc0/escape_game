@@ -129,4 +129,4 @@ const actorEntries: Field.IFieldActorEntry[] = [
   },
 ];
 
-export default actorEntries; 
+export default actorEntries;
