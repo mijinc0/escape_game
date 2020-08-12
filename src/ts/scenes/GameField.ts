@@ -17,7 +17,7 @@ import { ScenarioEventCommandsFactory } from '../events/ScenarioEventCommandsFac
 import { CameraEffectManagerFactory } from '../renders/CameraEffectManagerFactory';
 import { GameFields } from '../fields/GameFields';
 
-export class TestScene extends Phaser.Scene implements Scene.IFieldScene {
+export class GameField extends Phaser.Scene implements Scene.IFieldScene {
   phaserScene: Phaser.Scene;
   uiScene: Phaser.Scene;
   frame: number;

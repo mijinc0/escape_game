@@ -15,4 +15,5 @@ export enum FieldIds {
   Storeroom,
   Toilet,
   UndergroundPathway,
+  LastRoom,
 }

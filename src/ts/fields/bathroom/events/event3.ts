@@ -8,18 +8,23 @@ import { GameItemIds } from '../../../items/GameItemIds';
 import { SceneEventOprationsFactory as op } from '../../../core/events/operations/SceneEventOprationsFactory';
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
-// prettier-ignore
 
+// prettier-ignore
+const texts = GameGlobal.texts.event.get('bathroom_event3');
 
 /**
- * memo
+ * key roomE
  */
 export default Field.EventEntryFactory.create(
-  2,
+  3,
   [
-    cmd.message('TestEvent'),
-    cmd.actorSpriteTint(-1, 0x000000, 1000),
-    cmd.actorSpriteTint(-1, 0xffffff, 1000),
-    cmd.message('end'),
-  ],
+    cmd.message(texts.get(0)),
+    cmd.message(texts.get(1)),
+    cmd.playSe(Assets.AssetCacheKey.audio('se_find_item'), 1, 0, 1, true),
+    cmd.popGettingItemModal(GameItemIds.KeyRoomE),
+    cmd.item(GameItemIds.KeyRoomE, +1),
+    cmd.sleep(1000),
+    cmd.message(texts.get(2)),
+    cmd.message(texts.get(3)),
+  ]
 );

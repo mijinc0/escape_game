@@ -11,6 +11,7 @@ export class Opening extends Phaser.Scene {
   private frame: number;
   private selector: Ui.ISelector;
   private audioManager: Audio.AudioManager;
+  private startOpening: boolean;
 
   init(): void {
     console.log('== start scene Opening ==');
@@ -18,6 +19,7 @@ export class Opening extends Phaser.Scene {
 
   create(): void {
     this.frame = -1;
+    this.startOpening = false;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, 1, 1);
 
@@ -25,16 +27,20 @@ export class Opening extends Phaser.Scene {
 
     this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
+    
+    this.cameras.main.fadeIn(1000, 0, 0, 0, ((camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
+      if (progress === 1) {
+        this.startOpening = true;
+      }
+    }).bind(this));
   }
 
   update(): void {
     this.frame++;
 
-    // 誤操作防止の為に開始直後に休止時間をを設ける
-    if (this.frame < 20) return;
+    if (!this.startOpening) return;
 
     this.selector.update(this.frame);
-
   }
 
   private _createMenu(x: number, y: number): Ui.Group {

@@ -14,6 +14,7 @@ import * as roomG from './roomG';
 import * as storeroom from './storeroom';
 import * as toilet from './toilet';
 import * as undergroundPathway from './undergroundPathway';
+import * as lastRoom from './lastRoom';
 
 // prettier-ignore
 const events = Locales.EventTextFactory.createFromMultipileConfigsChunks(
@@ -32,6 +33,7 @@ const events = Locales.EventTextFactory.createFromMultipileConfigsChunks(
   storeroom.default,
   toilet.default,
   undergroundPathway.default,
+  lastRoom.default,
 );
 
 export default events;

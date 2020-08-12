@@ -6,7 +6,6 @@ export { FieldActor } from './FieldActor';
 export { FourWayAnimsActorSprite } from './FourWayAnimsActorSprite';
 export { IActor } from './IActor';
 export { IActorAnimsFactory } from './IActorAnimsFactory';
-export { IActorBody } from './IActorBody';
 export { IActorSprite } from './IActorSprite';
 export { IActorSpriteFactory } from './IActorSpriteFactory';
 export { IBodyConfig } from './IBodyConfig';

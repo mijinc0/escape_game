@@ -1,7 +1,6 @@
 export { CircularRange } from './CircularRange';
 export { EventRange } from './EventRange';
 export { EventRangeFactory } from './EventRangeFactory';
-export { IGlobalEvent } from './IGlobalEvent';
 export { IRange } from './IRange';
 export { IScenarioEvent } from './IScenarioEvent';
 export { IScenarioEventManager } from './IScenarioEventManager';

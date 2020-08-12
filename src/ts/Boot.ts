@@ -5,9 +5,10 @@ import { GameFlagKeys } from './GameFlagKeys';
 import { GameGlobal } from './GameGlobal';
 import { IGameGlobal } from './core/IGameGlobal';
 import { GameItemIds } from './items/GameItemIds';
-import { TestScene } from './scenes/TestScene';
+import { GameField } from './scenes/GameField';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
+import { Ending } from './scenes/Ending';
 import { UiTest } from './scenes/UiTest';
 import { Ui } from './scenes/Ui';
 
@@ -19,7 +20,7 @@ export class Boot extends Phaser.Game {
   readonly gameGlobal: IGameGlobal;
 
   constructor() {
-    GameGlobal.debug = true;
+    GameGlobal.debug = false;
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
@@ -45,8 +46,9 @@ export class Boot extends Phaser.Game {
     // NOTE: 複数のシーンを同時に動かした時、ここでaddしている順に描写の順番が決まる。
     // (最初にaddしたものが先に描写される。つまり重なった時に下に表示される。)
     this.scene.add('loading', Loading, false);
-    this.scene.add('field', TestScene, false);
+    this.scene.add('field', GameField, false);
     this.scene.add('opening', Opening, false);
+    this.scene.add('ending', Ending, false);
     this.scene.add('ui', Ui, false);
     this.scene.add('test_ui', UiTest, false);
 

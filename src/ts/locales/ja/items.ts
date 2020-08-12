@@ -77,7 +77,7 @@ const items = new Locales.ItemTexts(
   {
     id: id.FlashLight,
     name: '懐中電灯',
-    description: '懐中電灯。本体に「防爆」と書かれてある。',
+    description: '懐中電灯。電池も入っているのですぐに使える。',
   },
 );
 

@@ -21,6 +21,8 @@ import { Passcode } from './commands/Passcode';
 import { MoveActor } from './commands/MoveActor';
 import { ChangeActorDirection } from './commands/ChangeActorDirection';
 import { CameraEffectNight } from './commands/CameraEffectNight';
+import { ActorSpriteAlpha } from './commands/ActorSpriteAlpha';
+import { Ending } from './commands/Ending';
 
 export class ScenarioEventCommandsFactory {
   static messageBufferFactory = new MessageBufferFactory(GameGlobal);
@@ -123,5 +125,13 @@ export class ScenarioEventCommandsFactory {
 
   static actorSpriteTint (actorId: number, color: number, duration: number, isAsync?: boolean): ActorSpriteTint {
     return new ActorSpriteTint(actorId, color, duration, isAsync);
+  }
+
+  static actorSpriteAlpha (actorId: number, alpha: number, duration: number, isAsync?: boolean): ActorSpriteAlpha {
+    return new ActorSpriteAlpha(actorId, alpha, duration, isAsync);
+  }
+
+  static ending (): Ending {
+    return new Ending();
   }
 }

@@ -1,3 +1,4 @@
+import * as Phaser from 'phaser';
 import * as Event from '../../core/events';
 import * as Actor from '../../core/actors';
 import * as Util from '../../core/utils';
@@ -10,16 +11,24 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
   private actorId: number;
   private duration: number;
   private elasped: number;
-  private startColor: number;
-  private targetColor: number;
+  private startR: number;
+  private startG: number;
+  private startB: number;
+  private targetR: number;
+  private targetG: number;
+  private targetB: number;
   private sprite: Actor.IActorSprite;
 
   constructor(actorId: number, color: number, duration: number, async?: boolean) {
     this.actorId = actorId;
-    this.targetColor = color;
     this.duration = duration;
     this.elasped = 0;
-    this.startColor = 0x000000;
+    this.targetR = (color & 0xff0000) >> 16;
+    this.targetG = (color & 0x00ff00) >> 8;
+    this.targetB = (color & 0x0000ff);
+    this.startR = 0xff;
+    this.startG = 0xff;
+    this.startB = 0xff;
     this.isComplete = false;
     this.sprite = null;
     this.isAsync = async ? async : false;
@@ -40,7 +49,12 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
     }
 
     this.sprite = actor.sprite;
-    this.startColor = actor.sprite.tint ? actor.sprite.tint : 0x000000;    
+
+    const currentTint = actor.sprite.isTinted ? actor.sprite.tintTopLeft : 0xffffff;
+
+    this.startR = (currentTint & 0xff0000) >> 16;
+    this.startG = (currentTint & 0x00ff00) >> 8;
+    this.startB = (currentTint & 0x0000ff);
   }
 
   update(scene: Scene.IFieldScene, time: number, delta: number): void {
@@ -51,20 +65,17 @@ export class ActorSpriteTint implements Event.IScenarioEvent {
     const progress = Util.MathUtil.clamp(this.elasped / this.duration, 1, 0);
 
     // delta
-    const dColor = this.targetColor - this.startColor;
-    const dR = (dColor & 0xff0000) >> 16;
-    const dG = (dColor & 0x00ff00) >> 8;
-    const dB = (dColor & 0x0000ff);
-
+    const dG = this.targetR - this.startR;
+    const dR = this.targetG - this.startG;
+    const dB = this.targetB - this.startB;
+    
     // current
-    const cR = dR * progress;
-    const cG = dG * progress;
-    const cB = dB * progress;
+    const cR = this.startR + (dR * progress);
+    const cG = this.startG + (dG * progress);
+    const cB = this.startB + (dB * progress);
 
     // concat
-    const rgb = (cR << 16) | (cG << 8) | cB;
-
-    this.sprite.tint = (this.startColor + rgb);
+    this.sprite.tint = (cR << 16) | (cG << 8) | cB;
 
     if (progress === 1) {
       this.complete();

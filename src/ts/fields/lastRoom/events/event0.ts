@@ -9,38 +9,46 @@ import { SceneEventOprationsFactory as op } from '../../../core/events/operation
 import { ScenarioEventCommandsFactory as cmd } from '../../../events/ScenarioEventCommandsFactory';
 
 // prettier-ignor
-const texts = GameGlobal.texts.event.get('undergroundPathway_event0');
+const texts = GameGlobal.texts.event.get('lastRoom_event0');
 
 /**
- * endingEvent A
+ * endingEvent
  */
 export default Field.EventEntryFactory.create(
   0,
   [
-    cmd.cameraEffectNight(),
-    cmd.actorSpriteTint(3, 0x000000, 0, false),
     cmd.cameraFadeInAll(2000),
-    cmd.changeActorDirection(-1, Model.Direction.Right),
     cmd.message(texts.get(0)),
     cmd.message(texts.get(1)),
-    cmd.moveActor(-1, 512, 352),
-    cmd.changeActorDirection(-1, Model.Direction.Up),
-    cmd.sleep(800),
-    cmd.message(texts.get(2)),
-    cmd.moveActor(-1, 512, 224),
-    cmd.message(texts.get(3)),
-    cmd.actorSpriteTint(3, 0xffffff, 1000, false), 
+    
+    op.if(() => (GameGlobal.flags.get(GameFlagKeys.EndingA)))(
+      cmd.message(texts.get(2)),
+
+    ).else(
+      cmd.message(texts.get(3)),
+    ),
+    
     cmd.message(texts.get(4)),
     cmd.message(texts.get(5)),
     cmd.message(texts.get(6)),
-    cmd.moveActor(3, 512, 300, 260, true, true, false, true),
-    cmd.moveActor(-1, 512, 320),
+
+    cmd.moveActor(-1, 288, 280, 100),
     cmd.message(texts.get(7)),
-    cmd.playSe(Assets.AssetCacheKey.audio('se_knife_stab'), null, null, null, true),
-    cmd.cameraFadeOut(10, false),
-    cmd.message(texts.get(8)),
-    cmd.message(texts.get(9)),
+    cmd.moveActor(-1, 288, 208, 100),
+    cmd.moveActor(-1, 224, 208, 100),
+    cmd.changeActorDirection(-1, Model.Direction.Up),
+    cmd.sleep(1000),
+    cmd.moveActor(-1, 288, 224, 100),
+    cmd.moveActor(-1, 288, 176, 100),
+    
+    cmd.playSe(Assets.AssetCacheKey.audio('se_door'), 1, 0, 1, true),
+    cmd.playActorAnim(1, 'default'),
     cmd.sleep(800),
-    cmd.moveField(FieldIds.LastRoom, 224, 276, Model.Direction.Down),
+    cmd.actorSpriteTint(-1, 0x000000, 1000),
+    cmd.actorSpriteAlpha(-1, 0, 2000),
+
+    // go ending scene
+    cmd.cameraFadeOut(3000),
+    cmd.ending(),
   ],
 );

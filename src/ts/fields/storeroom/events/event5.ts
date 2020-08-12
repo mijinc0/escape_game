@@ -18,7 +18,7 @@ const texts = GameGlobal.texts.event.get('storeroom_event5');
 export default Field.EventEntryFactory.create(
   5,
   [
-    op.if(() => (GameGlobal.flags.get(GameFlagKeys.RoomGSafetyboxOpen)))(
+    op.if(() => (GameGlobal.flags.get(GameFlagKeys.StoreroomSafetyboxOpen)))(
       cmd.message(texts.get(0)),
       cmd.message(texts.get(1)),
 

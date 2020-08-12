@@ -34,7 +34,7 @@ export enum GameFlagKeys {
 
   RoomGSafetyboxOpen,
 
-  StoreroomSafetyboxOpen,
+  StoreroomSafetyboxOpen, //16
 
   SarchRoomDFloor,
 

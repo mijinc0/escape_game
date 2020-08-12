@@ -2,11 +2,9 @@ import * as Phaser from 'phaser';
 import * as Asset from '../core/assets';
 
 export class Loading extends Phaser.Scene {
-  private frame: number;
   private config: Asset.IAssetLoadingConfig;
   private loadingText: Phaser.GameObjects.Text;
   private progressBar: Phaser.GameObjects.Rectangle;
-  private bar: Phaser.GameObjects.Rectangle;
 
   init(config: Asset.IAssetLoadingConfig): void {
     console.log('== start scene Loading ==');
@@ -16,7 +14,6 @@ export class Loading extends Phaser.Scene {
     }
 
     this.config = config;
-    this.frame = -1;
   }
 
   preload(): void {
@@ -27,11 +24,9 @@ export class Loading extends Phaser.Scene {
       fontFamily: 'sans-serif',
     });
     this.progressBar = this.add.rectangle(40, 400, 0, 4, 0xffffff, 1);
-    this.bar = this.add.rectangle(56, 416, 584, 1, 0xffffff, 1);
 
     this.loadingText.setOrigin(0);
     this.progressBar.setOrigin(0);
-    this.bar.setOrigin(0);
 
     const loader = new Asset.AssetLoader(this);
 
@@ -40,18 +35,8 @@ export class Loading extends Phaser.Scene {
     loader.onSuccessful(this._loadingSuccessful.bind(this));
 
     loader.load(this.config);
-  }
 
-  /**
-   * create, updateはpreloadが完全に済んだら開始するので、loader.on('progress')ではなくて
-   * updateに完了後のイベントを仕込む
-   */
-  update(): void {
-    this.frame++;
-    
-    if(this.frame === 1) {
-      this._complete();
-    }
+    loader.onComplete(this._complete.bind(this));
   }
 
   private _updateBar(percentage: number): void {
@@ -78,7 +63,6 @@ export class Loading extends Phaser.Scene {
   private _goNextScene(): void {
     this.loadingText.destroy();
     this.progressBar.destroy();
-    this.bar.destroy();
 
     const nextScene = this.config.nextScene ? this.config.nextScene : 'opening';
     this.scene.start(nextScene);

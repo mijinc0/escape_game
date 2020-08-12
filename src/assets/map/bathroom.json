@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"bathroom.json"
+        }
+    },
  "height":15,
  "infinite":false,
  "layers":[
@@ -88,7 +96,7 @@
                         {
                          "name":"name",
                          "type":"string",
-                         "value":"showerhead\u3078"
+                         "value":"showerhead"
                         }],
                  "rotation":0,
                  "type":"",
@@ -123,6 +131,33 @@
                  "width":64,
                  "x":224,
                  "y":192
+                }, 
+                {
+                 "height":16,
+                 "id":12,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"actorId",
+                         "type":"int",
+                         "value":3
+                        }, 
+                        {
+                         "name":"describe",
+                         "type":"string",
+                         "value":""
+                        }, 
+                        {
+                         "name":"name",
+                         "type":"string",
+                         "value":"keyRoomE"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":408,
+                 "y":248
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -131,7 +166,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":12,
+ "nextobjectid":14,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.3",

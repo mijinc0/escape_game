@@ -19,6 +19,7 @@ const entries: EntryBase[] = [
   { name: 'storeroom', path: 'assets/map/storeroom.json' },
   { name: 'toilet', path: 'assets/map/toilet.json' },
   { name: 'undergroundPathway', path: 'assets/map/undergroundPathway.json' },
+  { name: 'lastRoom', path: 'assets/map/lastRoom.json' },
 ];
 
 export const TileMapAssetEntries: Asset.IAssetEntry[] = entries.map((base: EntryBase) => ({
