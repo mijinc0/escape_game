@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';
+import * as Asset from '../core/assets';
+import * as Audio from '../core/audios';
 import { GameGlobal } from '../GameGlobal';
 import { IGameGlobal } from '../core/IGameGlobal';
 import { GameItems } from '../items/GameItems';
@@ -9,6 +11,7 @@ import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
 import { GettingItemModal } from '../ui/GettingItemModal';
 import { Choices } from '../ui/choices/Choices';
 import { Passcode } from '../ui/passcode/Passcode';
+import { GameConfig } from '../ui/gameConfig/GameConfig';
 
 export class UiTest extends Phaser.Scene {
   frame = 0;
@@ -30,16 +33,22 @@ export class UiTest extends Phaser.Scene {
     const width = 640;
     const height = 480;
 
+    const audioManager = new Audio.AudioManager(this, GameGlobal.audioConfig);
+
     const config = {
       scene: this,
-      digits: 4,
+      gameGlobal: GameGlobal,
     };
 
-    const ui = new Passcode(config, 60, 60);
+    const ui = new GameConfig(config, 50, 50);
+
+    ui.mainConfig.addPlayingTestSeEvent(() => {
+      audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), {});
+    });
 
     this.selector = Ui.SelectorFactory.create(this);
 
-    ui.registToSelector(this.selector);
+    this.selector.setGroup(ui.mainConfig);
   }
 
   update(): void {

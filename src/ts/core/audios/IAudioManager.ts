@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { IAudioConfig } from './IAudioConfig';
+import { IPlayingAudioConfig } from './IPlayingAudioConfig';
 
 /**
  * play系の関数はcacheの中に指定のkeyのオーディオが無い場合は警告を出して返す
@@ -11,7 +11,7 @@ export interface IAudioManager {
 
   seMaster: number;
 
-  playSe(key: string, config: IAudioConfig): Phaser.Sound.BaseSound | null;
+  playSe(key: string, config: IPlayingAudioConfig): Phaser.Sound.BaseSound | null;
 
-  playBgm(key: string, config: IAudioConfig): Phaser.Sound.BaseSound | null;
+  playBgm(key: string, config: IPlayingAudioConfig): Phaser.Sound.BaseSound | null;
 }

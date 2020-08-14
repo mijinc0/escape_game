@@ -58,7 +58,7 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
     this.scenarioEventManager = this._createScenarioEventManager();
     this.cameraEffectManager = CameraEffectManagerFactory.create(this);
     this.actorsManager = this._createActorsManager();
-    this.audioManager = new Audio.AudioManager(this, 1, 1);
+    this.audioManager = new Audio.AudioManager(this, GameGlobal.audioConfig);
   }
 
   create(): void {

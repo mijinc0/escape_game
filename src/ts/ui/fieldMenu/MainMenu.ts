@@ -22,7 +22,7 @@ type ButtonConfig = {
 export class MainMenu extends Ui.Group {
   itemButton: Button;
 
-  saveButton: Button;
+  configButton: Button;
 
   backButton: Button;
 
@@ -53,17 +53,17 @@ export class MainMenu extends Ui.Group {
       backgroundAlpha: 0.9,
     };
 
-    buttonConfig.text = 'ITEM';
+    buttonConfig.text = 'Item';
     this.itemButton = this._createItemButton(config, buttonConfig, buttonWidth, buttonHeight);
 
     // saveとbackの内容はeventの中で付けるのでここでは空のボタン
-    buttonConfig.text = 'SAVE';
-    this.saveButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
+    buttonConfig.text = 'Config';
+    this.configButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
 
-    buttonConfig.text = 'BACK';
+    buttonConfig.text = 'Back';
     this.backButton = new Button(buttonConfig, 0, 0, buttonWidth, buttonHeight);
 
-    this.push(this.itemButton, this.saveButton, this.backButton);
+    this.push(this.itemButton, this.configButton, this.backButton);
   }
 
   private _createItemButton(

@@ -13,6 +13,7 @@ describe('messageBufferFactory.create()', () => {
       ownItems: null,
       texts: null,
       debug: false,
+      audioConfig: null,
     };
 
     testGameGlobal.variables.set(11, 10);
@@ -31,11 +32,12 @@ describe('messageBufferFactory.create()', () => {
   context('normal 2', () => {
     const testGameGlobal: IGameGlobal = {
       flags: null,
-      variables: null,
+      variables: new GameVariables(),
       items: null,
       ownItems: null,
       texts: null,
       debug: false,
+      audioConfig: null,
     };
 
     const mbf = new MessageBufferFactory(testGameGlobal);

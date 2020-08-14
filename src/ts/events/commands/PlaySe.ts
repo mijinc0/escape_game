@@ -7,7 +7,7 @@ export class PlaySe implements Event.IScenarioEvent {
   isComplete: boolean;
 
   private audioKey: string;
-  private audioConfig: Audio.IAudioConfig;
+  private audioConfig: Audio.IPlayingAudioConfig;
   private startAudio: boolean;
 
   constructor(audioKey: string, volume?: number, delay?: number, rate?: number, async?: boolean) {

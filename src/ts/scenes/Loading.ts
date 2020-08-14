@@ -1,10 +1,11 @@
 import * as Phaser from 'phaser';
 import * as Asset from '../core/assets';
+import { ProgressBar } from '../ui/ProgressBar';
 
 export class Loading extends Phaser.Scene {
   private config: Asset.IAssetLoadingConfig;
   private loadingText: Phaser.GameObjects.Text;
-  private progressBar: Phaser.GameObjects.Rectangle;
+  private progressBar: ProgressBar;
 
   init(config: Asset.IAssetLoadingConfig): void {
     console.log('== start scene Loading ==');
@@ -19,14 +20,18 @@ export class Loading extends Phaser.Scene {
   preload(): void {
     console.log('preload');
 
-    this.loadingText = this.add.text(50, 50, 'Loading...', {
+    const loadingTextConfig = {
       fontSize: '24px',
       fontFamily: 'sans-serif',
-    });
-    this.progressBar = this.add.rectangle(40, 400, 0, 4, 0xffffff, 1);
-
+    };
+    this.loadingText = this.add.text(50, 50, 'Loading...', loadingTextConfig);
     this.loadingText.setOrigin(0);
-    this.progressBar.setOrigin(0);
+
+    const progressBarConfig = {
+      scene: this,
+      color: 0xffffff,
+    }; 
+    this.progressBar = new ProgressBar(progressBarConfig, 40, 400, 560, 4);
 
     const loader = new Asset.AssetLoader(this);
 
@@ -40,8 +45,7 @@ export class Loading extends Phaser.Scene {
   }
 
   private _updateBar(percentage: number): void {
-    const maxWidth = 560;
-    this.progressBar.width = maxWidth * percentage;
+    this.progressBar.progress = percentage;
   }
 
   private _loadingSuccessful(file: any): void {

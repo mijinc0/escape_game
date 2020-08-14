@@ -111,14 +111,34 @@ export class Selector extends EventEmitter implements ISelector {
 
     if (!currentGrup) return;
 
-    const current = currentGrup.getCurrent();
-    const next = currentGrup.getNext(direction);
+    const currentElement = currentGrup.getCurrent();
 
-    if (!next || current === next) return;
+    if (currentElement) {
+      switch (direction) {
+        case Direction.Left :
+          this._emitElementEvent(ElementEventNames.CursorLeft, currentElement); 
+          break;
+        case Direction.Right :
+          this._emitElementEvent(ElementEventNames.CursorRight, currentElement); 
+          break;
+        case Direction.Down :
+          this._emitElementEvent(ElementEventNames.CursorDown, currentElement); 
+          break;
+        case Direction.Up :
+          this._emitElementEvent(ElementEventNames.CursorUp, currentElement); 
+          break;
+      }
+
+      this._setCooldownTime();
+    }
+
+    const nextElement = currentGrup.getNext(direction);
+
+    if (!nextElement || currentElement === nextElement) return;
 
     this.emit(SelectorEventNames.GoNext);
 
-    this._moveCursor(next, current);
+    this._moveCursor(nextElement, currentElement);
 
     this._setCooldownTime();
   }
@@ -147,9 +167,7 @@ export class Selector extends EventEmitter implements ISelector {
 
     this.emit(SelectorEventNames.Select, currentElement, this);
 
-    currentElement.emit(ElementEventNames.Select, currentElement, this);
-
-    this._setCooldownTime();
+    this._emitElementEvent(ElementEventNames.Select, currentElement);
   }
 
   private _cancel(): void {
@@ -202,6 +220,10 @@ export class Selector extends EventEmitter implements ISelector {
     this.cursor.visible = true;
     this.cursor.goTo(next);
     next.emit(ElementEventNames.Over, next, this);
+  }
+
+  private _emitElementEvent(eventName: string, element: IElement): void {
+    element.emit(eventName, element, this);
   }
 
   private _logChangeGroup(before: IGroup | null, next: IGroup | null): void {

@@ -14,5 +14,10 @@ export const GameGlobal: IGameGlobal = {
 
   ownItems: new Model.ItemBag(),
 
+  audioConfig: {
+    bgmMaster: 0.5,
+    seMaster: 0.5,
+  },
+
   debug: false,
 };

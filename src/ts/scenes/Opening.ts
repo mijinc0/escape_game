@@ -6,6 +6,7 @@ import * as Model from '../core/models';
 import * as Scene from '../core/scenes';
 import { GameGlobal } from '../GameGlobal';
 import { Button } from '../ui/Button';
+import { GameConfig } from '../ui/gameConfig/GameConfig';
 import { FieldIds } from '../fields/FieldIds';
 
 export class Opening extends Phaser.Scene {
@@ -22,7 +23,7 @@ export class Opening extends Phaser.Scene {
     this.frame = -1;
     this.startOpening = false;
     this.selector = Ui.SelectorFactory.create(this);
-    this.audioManager = new Audio.AudioManager(this, 1, 1);
+    this.audioManager = new Audio.AudioManager(this, GameGlobal.audioConfig);
 
     // add title image & text
     const centerX = 320;
@@ -66,7 +67,7 @@ export class Opening extends Phaser.Scene {
     const menu = new Ui.Group(x, y, 160, 96, null, ah);
 
     const newgameButton = this._createNewgameButton();
-    const continueButton = this._createContinueButton();
+    const continueButton = this._createConfigButton();
 
     menu.push(newgameButton, continueButton);
 
@@ -106,16 +107,30 @@ export class Opening extends Phaser.Scene {
     return button;
   }
 
-  private _createContinueButton(): Button {
+  private _createConfigButton(): Button {
     const buttonConfig = {
       scene: this,
-      text: 'Continue',
+      text: 'Config',
       fontSize: '24px',
       fontFamily: 'serif',
       backgroundAlpha: 0,
     };
 
     const button = new Button(buttonConfig, 0, 0, 144, 40);
+
+    button.on(Ui.ElementEventNames.Select, () => {
+      const config = {
+        scene: this,
+        gameGlobal: GameGlobal,
+      };
+      const gameConfig = new GameConfig(config, 16, 16);
+
+      gameConfig.mainConfig.addPlayingTestSeEvent(() => {
+        this.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), {});
+      });
+
+      this.selector.setGroup(gameConfig.mainConfig, [gameConfig]);
+    });
 
     return button;
   }

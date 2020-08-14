@@ -1,8 +1,9 @@
 import * as Ui from '../core/ui';
-import * as Assets from '../core/assets';
+import * as Asset from '../core/assets';
 import * as Event from '../core/events';
 import * as Scene from '../core/scenes';
 import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
+import { GameConfig } from '../ui/gameConfig/GameConfig';
 
 export class FieldMenuEvent implements Event.IScenarioEvent {
   readonly isAsync = false;
@@ -26,7 +27,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     this.isComplete = false;
 
     const seConfig = {};
-    scene.audioManager.playSe(Assets.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
+    scene.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
 
     this.selector = Ui.SelectorFactory.create(scene.uiScene, scene.keys);
 
@@ -36,9 +37,26 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     });
 
     // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
-    this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this.closeMenu.bind(this));
-    this.selector.setRootCancelEvent(this.closeMenu.bind(this));
+    this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this._closeMenu.bind(this));
+    this.fieldMenu.mainMenu.configButton.on(Ui.ElementEventNames.Select, (() => {
+      console.log('open game config');
 
+      const config = {
+        scene: scene.uiScene,
+        gameGlobal: scene.gameGlobal,
+      };
+
+      const gameConfig = new GameConfig(config, 100, 120);
+
+      gameConfig.mainConfig.addPlayingTestSeEvent(() => {
+        scene.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), {});
+      });
+
+      this.selector.setGroup(gameConfig.mainConfig, [gameConfig]);
+    }).bind(this));
+
+    this.selector.setRootCancelEvent(this._closeMenu.bind(this));
+    
     this.fieldMenu.registSelector(this.selector);
 
     // set SE
@@ -67,7 +85,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     this.isComplete = true;
   }
 
-  private closeMenu(): void {
+  private _closeMenu(): void {
     console.log('close field menu');
     this.complete();
   }

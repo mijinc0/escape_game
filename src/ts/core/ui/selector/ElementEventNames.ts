@@ -5,5 +5,13 @@ export enum ElementEventNames {
 
   Out = 'selectorOut',
 
-  Select = 'selectorSelect',
+  Select = 'select',
+
+  CursorLeft = 'cursorLeft',
+
+  CursorRight = 'cursorRight',
+
+  CursorUp = 'cursorUp',
+
+  CursorDown = 'cursorDown',
 }
