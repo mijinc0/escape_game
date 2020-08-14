@@ -14,7 +14,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "unused-imports"
     ],
     "rules": {
         "prettier/prettier":  [
@@ -30,6 +31,7 @@
         "no-unused-vars": 0,
         "require-jsdoc": 0,
         "valid-jsdoc": 0,
-        "camelcase": "off"
+        "camelcase": "off",
+        "unused-imports/no-unused-imports-ts": "error"
     }
 }

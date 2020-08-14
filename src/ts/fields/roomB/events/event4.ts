@@ -1,7 +1,5 @@
 import * as Assets from '../../../core/assets';
 import * as Field from '../../../core/fields';
-import * as Model from '../../../core/models';
-import { FieldIds } from '../../FieldIds';
 import { GameGlobal } from '../../../GameGlobal';
 import { GameFlagKeys } from '../../../GameFlagKeys';
 import { GameVariableKeys } from '../../../GameVariableKeys';

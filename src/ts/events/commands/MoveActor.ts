@@ -2,7 +2,6 @@ import * as Actor from '../../core/actors';
 import * as Event from '../../core/events';
 import * as Model from '../../core/models';
 import * as Scene from '../../core/scenes';
-import { IGameGlobal } from '../../core/IGameGlobal';
 
 export class MoveActor implements Event.IScenarioEvent {
   readonly isAsync: boolean;

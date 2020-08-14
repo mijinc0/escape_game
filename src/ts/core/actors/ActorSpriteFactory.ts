@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import * as Util from '../utils';
+
 import { IActorSpriteFactory } from './IActorSpriteFactory';
 import { IBodyConfig } from './IBodyConfig';
 import { ActorSprite } from './ActorSprite';

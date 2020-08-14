@@ -2,7 +2,7 @@ import * as Model from '../core/models';
 import * as Locales from '../core/locales';
 import { AllItems } from './AllItems';
 
-export class GameItems{
+export class GameItems {
   static create(itemTexts: Locales.ItemTexts): Model.GameItems {
     console.log('init text of GameItems...');
 

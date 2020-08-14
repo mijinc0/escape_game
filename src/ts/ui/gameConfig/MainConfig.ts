@@ -1,14 +1,12 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../../core/ui';
-import * as Render from '../../core/renders';
 import * as Util from '../../core/utils';
-import { Button } from '../Button';
 import { ProgressBar } from '../ProgressBar';
 import { IGameGlobal } from '../../core/IGameGlobal';
 
 type MainConfigConfig = {
-  scene: Phaser.Scene,
-  gameGlobal: IGameGlobal,
+  scene: Phaser.Scene;
+  gameGlobal: IGameGlobal;
 };
 
 /**
@@ -34,7 +32,7 @@ export class MainConfig extends Ui.Group {
     this.on('testSePlay', callback);
   }
 
-  private _init(config: MainConfigConfig): void { 
+  private _init(config: MainConfigConfig): void {
     const seVolumeBar = this._createSeVolume(config);
 
     const bgmVolumeBar = this._createBgmVolume(config);

@@ -115,17 +115,17 @@ export class Selector extends EventEmitter implements ISelector {
 
     if (currentElement) {
       switch (direction) {
-        case Direction.Left :
-          this._emitElementEvent(ElementEventNames.CursorLeft, currentElement); 
+        case Direction.Left:
+          this._emitElementEvent(ElementEventNames.CursorLeft, currentElement);
           break;
-        case Direction.Right :
-          this._emitElementEvent(ElementEventNames.CursorRight, currentElement); 
+        case Direction.Right:
+          this._emitElementEvent(ElementEventNames.CursorRight, currentElement);
           break;
-        case Direction.Down :
-          this._emitElementEvent(ElementEventNames.CursorDown, currentElement); 
+        case Direction.Down:
+          this._emitElementEvent(ElementEventNames.CursorDown, currentElement);
           break;
-        case Direction.Up :
-          this._emitElementEvent(ElementEventNames.CursorUp, currentElement); 
+        case Direction.Up:
+          this._emitElementEvent(ElementEventNames.CursorUp, currentElement);
           break;
       }
 

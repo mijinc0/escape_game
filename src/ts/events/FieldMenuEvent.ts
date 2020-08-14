@@ -38,7 +38,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
 
     // Backボタンとselectorにmenuを閉じるイベントをそれぞれ設定する
     this.fieldMenu.mainMenu.backButton.on(Ui.ElementEventNames.Select, this._closeMenu.bind(this));
-    this.fieldMenu.mainMenu.configButton.on(Ui.ElementEventNames.Select, (() => {
+    this.fieldMenu.mainMenu.configButton.on(Ui.ElementEventNames.Select, () => {
       console.log('open game config');
 
       const config = {
@@ -53,10 +53,10 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
       });
 
       this.selector.setGroup(gameConfig.mainConfig, [gameConfig]);
-    }).bind(this));
+    });
 
     this.selector.setRootCancelEvent(this._closeMenu.bind(this));
-    
+
     this.fieldMenu.registSelector(this.selector);
 
     // set SE

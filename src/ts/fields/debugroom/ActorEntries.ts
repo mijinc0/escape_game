@@ -1,8 +1,6 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
-import { GameGlobal } from '../../GameGlobal';
-import { GameFlagKeys } from '../../GameFlagKeys';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [

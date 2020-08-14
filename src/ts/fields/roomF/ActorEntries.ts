@@ -1,5 +1,4 @@
 import * as Actor from '../../core/actors';
-import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
 
 // prettier-ignore

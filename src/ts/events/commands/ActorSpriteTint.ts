@@ -1,4 +1,3 @@
-import * as Phaser from 'phaser';
 import * as Event from '../../core/events';
 import * as Actor from '../../core/actors';
 import * as Util from '../../core/utils';

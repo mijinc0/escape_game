@@ -1,6 +1,4 @@
 import * as Event from '../../core/events';
-import * as Actor from '../../core/actors';
-import * as Util from '../../core/utils';
 import * as Scene from '../../core/scenes';
 
 export class ActorSpriteAlpha implements Event.IScenarioEvent {

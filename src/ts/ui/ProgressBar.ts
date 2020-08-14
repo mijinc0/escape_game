@@ -4,9 +4,9 @@ import * as Render from '../core/renders';
 import * as Util from '../core/utils';
 
 type ProgressBarConfig = {
-  scene: Phaser.Scene,
-  color: number,
-  initProgress?: number,
+  scene: Phaser.Scene;
+  color: number;
+  initProgress?: number;
 };
 
 export class ProgressBar extends Ui.Group {
@@ -21,11 +21,11 @@ export class ProgressBar extends Ui.Group {
 
   init(config: ProgressBarConfig): void {
     this.background = this._createBackground(config);
-    
+
     this.progressBar = this._createProgressBar(config);
 
     Render.UiRenderOrder.base(this.background, this.progressBar);
- 
+
     this.push(this.background, this.progressBar);
 
     this.progress = config.initProgress ? config.initProgress : 0;
@@ -33,7 +33,7 @@ export class ProgressBar extends Ui.Group {
 
   get progress(): number {
     const progress = this.progressBar.width / this.width;
-    
+
     return progress;
   }
 
@@ -44,7 +44,6 @@ export class ProgressBar extends Ui.Group {
   }
 
   set color(v: number) {
-
     this.background.setFillStyle(v, 0.3);
     this.progressBar.setFillStyle(v, 0.9);
   }
@@ -54,14 +53,14 @@ export class ProgressBar extends Ui.Group {
     backgroupd.setOrigin(0);
     config.scene.add.existing(backgroupd);
 
-    return backgroupd
+    return backgroupd;
   }
 
   private _createProgressBar(config: ProgressBarConfig): Ui.Rectangle {
     const progressBar = new Ui.Rectangle(config.scene, 0, 0, this.width, this.height, config.color, 1.0);
     progressBar.setOrigin(0);
     config.scene.add.existing(progressBar);
-    
+
     return progressBar;
   }
 }

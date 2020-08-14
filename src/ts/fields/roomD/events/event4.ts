@@ -1,4 +1,3 @@
-import * as Assets from '../../../core/assets';
 import * as Field from '../../../core/fields';
 import * as Model from '../../../core/models';
 import { FieldIds } from '../../FieldIds';

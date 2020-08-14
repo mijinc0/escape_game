@@ -30,7 +30,7 @@ export class Loading extends Phaser.Scene {
     const progressBarConfig = {
       scene: this,
       color: 0xffffff,
-    }; 
+    };
     this.progressBar = new ProgressBar(progressBarConfig, 40, 400, 560, 4);
 
     const loader = new Asset.AssetLoader(this);

@@ -1,16 +1,9 @@
 import * as Phaser from 'phaser';
 import * as Ui from '../core/ui';
-import * as Model from '../core/models';
 import * as Asset from '../core/assets';
 import * as Audio from '../core/audios';
 import { GameGlobal } from '../GameGlobal';
 import { IGameGlobal } from '../core/IGameGlobal';
-import { GameItems } from '../items/GameItems';
-import { GameTexts } from '../locales/GameTexts';
-import { FieldMenu } from '../ui/fieldMenu/FieldMenu';
-import { GettingItemModal } from '../ui/GettingItemModal';
-import { Choices } from '../ui/choices/Choices';
-import { Passcode } from '../ui/passcode/Passcode';
 import { GameConfig } from '../ui/gameConfig/GameConfig';
 
 export class UiTest extends Phaser.Scene {

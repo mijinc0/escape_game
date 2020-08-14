@@ -1,7 +1,6 @@
 import * as Actor from '../../core/actors';
 import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
-import { GameFlagKeys } from '../../GameFlagKeys';
 import { GameGlobal } from '../../GameGlobal';
 import { GameItemIds } from '../../items/GameItemIds';
 

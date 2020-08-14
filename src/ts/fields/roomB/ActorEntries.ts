@@ -3,7 +3,6 @@ import * as Asset from '../../core/assets';
 import * as Field from '../../core/fields';
 import { GameFlagKeys } from '../../GameFlagKeys';
 import { GameGlobal } from '../../GameGlobal';
-import { GameItemIds } from '../../items/GameItemIds';
 
 // prettier-ignore
 const actorEntries: Field.IFieldActorEntry[] = [
