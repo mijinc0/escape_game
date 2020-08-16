@@ -4,7 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = env => {
   console.log(`build args: ${JSON.stringify(env)}`);
   
-  const relativePath = (env && env.electron) ? 'electron/public' : 'dist/';
+  const relativePath = (env && env.electron) ? 'electron/public' : '__build/';
 
   const distDirPath = path.resolve(__dirname, relativePath);
 
