@@ -2,9 +2,10 @@
   "name": "simple_game",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./electron/public/main.js",
   "scripts": {
-    "build": "rm -rf ./dist/* && npx webpack",
+    "buildWeb": "rm -rf ./dist/* && npx webpack",
+    "buildElectron": "rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/* && npx webpack --env.electron && npx electron-builder --linux",
     "serve": "npx http-server ./dist -p 8080 -o -c-1",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')",
     "format": "npx eslint 'src/**/*.ts' --fix"
@@ -22,6 +23,8 @@
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
     "copy-webpack-plugin": "^5.1.1",
+    "electron": "^9.2.0",
+    "electron-builder": "^22.8.0",
     "eslint": "^7.4.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.11.0",
@@ -33,5 +36,20 @@
     "typescript": "^3.8.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
+  },
+  "build": {
+    "appId": "com.blueArcade.simpeEscapeGame",
+    "productName": "simpleEscapeGame",
+    "copyright": "Copyright © 2020 mijinc0",
+    "directories": {
+      "output": "./electron/public/__build"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ]
+    }
   }
 }

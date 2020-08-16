@@ -1,5 +1,10 @@
 /node_modules/
 /dist/
+/__build/
+
+/electron/public/js/
+/electron/public/assets/
+/electron/public/__build/
 
 /src/assets/audio/*.ogg
 /src/assets/audio/*.mp3

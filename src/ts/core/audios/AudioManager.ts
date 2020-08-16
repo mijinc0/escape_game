@@ -68,6 +68,8 @@ export class AudioManager implements IAudioManager {
   private _applyAudioConfigToPlayingConfig(config: IPlayingAudioConfig): IPlayingAudioConfig {
     const result: IPlayingAudioConfig = {};
 
+    Object.assign(result, config);
+
     const v = config.volume ? config.volume * this.seMaster : this.seMaster;
 
     result.volume = Util.MathUtil.clamp(v, 1, 0);
