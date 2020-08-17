@@ -7,10 +7,51 @@
 
     <style type="text/css">
       body{   
-        margin: 8; 
+        margin: 8 auto;
         background:#010909;
         overflow-x: hidden;
         overflow-y: hidden;
+      }
+
+      table{
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+      }
+
+      table tr{
+        border-bottom: solid 1px #eee;
+        cursor: pointer;
+      }
+
+      table th,table td{
+        text-align: center;
+        width: 25%;
+        padding: 8px 0;
+      }
+
+      #launcher {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        color: #f8f7f7;
+      }
+
+      #key_binding {
+        margin: auto;
+        width: 520px;
+      }
+
+      #key_binding_title {
+        margin-bottom: 4px;
+      }
+
+      #key_binding_table {
+        margin: auto;
+      }
+
+      #start_button_container {
+        margin-top: 16px;
       }
 
       #start_button {
@@ -20,18 +61,50 @@
         text-align    : center;
         cursor        : pointer;
         padding       : 12px 31px;
-        background    : #127c08;
+        background    : #1DA1F2;
         color         : #f8f7f7;
         line-height   : 1em;
         transition    : .3s;
-        border        : 2px solid #127c08;
+        border        : 2px solid #1DA1F2;
         margin        : 1em;
       }
     </style>
   </head>
 
   <body>
-    <input id="start_button" type="button" value="start game (Sound will be played)">
+    <div id="launcher">
+      <div id="launcher_title">
+        <h1>Game Launcher</h1>
+      </div>
+
+      <div id="key_binding">
+        <h4 id="key_binding_title">操作方法</h4>
+
+        <table id="key_binding_table">
+          <tr>
+            <th>キー</th>
+            <th>説明</th>
+          </tr>
+          <tr>
+            <td>方向キー</td>
+            <td>キャラクターの移動、選択カーソルの移動</td>
+          </tr>
+          <tr>
+            <td>Selectキー</td>
+            <td>調べる、選択決定</td>
+          </tr>
+          <tr>
+            <td>Shiftキー</td>
+            <td>メニューを開く、キャンセル</td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="start_button_container">
+        <input id="start_button" type="button" value="Start Game"><br>
+        (Sound will be played)
+      </div>
+    </div>
 
     <script src="./js/main.js"></script>
   </body>
