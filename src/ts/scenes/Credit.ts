@@ -3,23 +3,33 @@ import * as Input from '../core/input';
 import * as Locale from '../core/locales';
 import { GameGlobal } from '../GameGlobal';
 
-export class Ending extends Phaser.Scene {
+export class Credit extends Phaser.Scene {
+  private isEndig: boolean;
   private keys: Input.Keys;
   private canSkip: boolean;
   private credits: Locale.ICreditTextEntry[];
   private creditIndex: number;
   private creaditTimeline: Phaser.Tweens.Timeline;
 
-  init(): void {
-    console.log('== start scene Ending ==');
+  init(config: any): void {
+    console.log('== start scene Credit ==');
+
+    this.isEndig = config.isEnding ? config.isEnding : false;
   }
 
   create(): void {
-    this.credits = GameGlobal.texts.credits;
+    this.credits = GameGlobal.texts.credits.slice(0, GameGlobal.texts.credits.length);
     this.creditIndex = 0;
     this.canSkip = false;
     this.keys = this._createKeys();
     this.creaditTimeline = null;
+
+    if (this.isEndig) {
+      this.credits.push({
+        heading: 'THE END',
+        body: ['thank you for playing'],
+      });
+    }
 
     this.time.addEvent({
       delay: 1000,

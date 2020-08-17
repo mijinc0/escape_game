@@ -2,7 +2,7 @@ import * as Locales from '../../core/locales';
 
 const credits: Locales.ICreditTextEntry[] = [
   {
-    heading: 'About Gamedev',
+    heading: 'Credit Title',
     body: ['framework, material, tool'],
   },
 
@@ -19,11 +19,6 @@ const credits: Locales.ICreditTextEntry[] = [
   {
     heading: 'Audio material',
     body: ['魔王魂', '効果音ラボ'],
-  },
-
-  {
-    heading: 'THE END',
-    body: ['thank you for playing'],
   },
 ];
 

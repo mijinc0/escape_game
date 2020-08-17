@@ -8,7 +8,7 @@ import { GameItemIds } from './items/GameItemIds';
 import { GameField } from './scenes/GameField';
 import { Loading } from './scenes/Loading';
 import { Opening } from './scenes/Opening';
-import { Ending } from './scenes/Ending';
+import { Credit } from './scenes/Credit';
 import { UiTest } from './scenes/UiTest';
 import { Ui } from './scenes/Ui';
 
@@ -48,7 +48,7 @@ export class Boot extends Phaser.Game {
     this.scene.add('loading', Loading, false);
     this.scene.add('field', GameField, false);
     this.scene.add('opening', Opening, false);
-    this.scene.add('ending', Ending, false);
+    this.scene.add('credit', Credit, false);
     this.scene.add('ui', Ui, false);
     this.scene.add('test_ui', UiTest, false);
 

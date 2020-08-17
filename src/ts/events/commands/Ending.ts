@@ -12,7 +12,9 @@ export class Ending implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    scene.phaserScene.scene.start('ending');
+    scene.phaserScene.scene.start('credit', {isEnding: true});
+
+    this.complete();
   }
 
   update(): void {}

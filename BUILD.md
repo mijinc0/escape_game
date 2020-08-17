@@ -1,5 +1,18 @@
 # ビルド
 
+パッケージ化は`electron-builder`を利用しています。
+
+https://www.electron.build/
+
+electron-builderによるビルドの場合、ビルドは2段階で行われます。
+
+1. webpackによるソースコードのバンドル、アセットの配置
+2. electron-builderによるパッケージ化
+
+electron-builderによりビルドされたものは、スタンドアロンでゲームを実行することが出来ます。
+
+一方、`1`の状態でも簡易サーバー(`http-server`など)を用意することで普段使っているブラウザを利用してゲームを実行することが可能です。
+
 ## 1. オーディオ素材の用意
 
 [オーディオファイルのライセンス](./src/assets/audio/license.md)
@@ -48,23 +61,6 @@ escape_game
 
 ## 4. ビルド
 
-### 概要
-
-パッケージ化は`electron-builder`を利用しています。
-
-https://www.electron.build/
-
-electron-builderによるビルドの場合、ビルドは2段階で行われます。
-
-1. webpackによるソースコードのバンドル、アセットの配置
-2. electron-builderによるパッケージ化
-
-electron-builderによりビルドされたものは、スタンドアロンでゲームを実行することが出来ます。
-
-一方、`1`の状態でも簡易サーバー(`http-server`など)を用意することで普段使っているブラウザを利用してゲームを実行することが可能です。
-
-### 手順
-
 ```
 // webpackでバンドルするだけでパッケージ化しない
 $ npm run buildWeb
@@ -77,15 +73,16 @@ $ npm run buildElectron -- --mac   // for mac
 
 > [ クロスプラットホームでビルドする場合 ]  
 > クロスプラットホームでビルドする場合(linux機でwin機用のビルドをする場合など)は上記コマンドではビルド出来ない場合があります。  
-> linux機でwindows用のパッケージをビルドする場合は、wineの用意またはビルド用のDockerイメージの利用が必要になります。
+> linux機でwindows用のパッケージをビルドする場合は、wineの用意またはビルド用のDockerイメージの利用が必要になります。  
+> 参考: https://www.electron.build/multi-platform-build
 
 `buildWeb`の場合、ルートディレクトリに`__build`ディレクトリが出来ます。
 
 `buildElectron`の場合、`electron/public/__build`ディレクトリが出来ます。
 
-## 実行
+# 実行
 
-### buildWeb
+## buildWeb
 
 `http-server`を利用する場合。
 
@@ -93,7 +90,7 @@ $ npm run buildElectron -- --mac   // for mac
 $ npx http-server ./__build -p 8080 -o -c-1
 ```
 
-### buildElectron
+## buildElectron
 
 zipファイルを展開後、実行ファイルを実行します。
 

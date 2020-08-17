@@ -13,7 +13,7 @@ export class Opening extends Phaser.Scene {
   private frame: number;
   private selector: Ui.ISelector;
   private audioManager: Audio.AudioManager;
-  private startOpening: boolean;
+  private selectable: boolean;
 
   init(): void {
     console.log('== start scene Opening ==');
@@ -21,7 +21,7 @@ export class Opening extends Phaser.Scene {
 
   create(): void {
     this.frame = -1;
-    this.startOpening = false;
+    this.selectable = false;
     this.selector = Ui.SelectorFactory.create(this);
     this.audioManager = new Audio.AudioManager(this, GameGlobal.audioConfig);
 
@@ -48,7 +48,7 @@ export class Opening extends Phaser.Scene {
     // start
     this.cameras.main.fadeIn(1000, 0, 0, 0, (camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
       if (progress === 1) {
-        this.startOpening = true;
+        this.selectable = true;
       }
     });
   }
@@ -56,20 +56,21 @@ export class Opening extends Phaser.Scene {
   update(): void {
     this.frame++;
 
-    if (!this.startOpening) return;
+    if (!this.selectable) return;
 
     this.selector.update(this.frame);
   }
 
   private _createMenu(x: number, y: number): Ui.Group {
-    const buttonMargin = 8;
+    const buttonMargin = 4;
     const ah = new Ui.RangeAlignmentHandler(buttonMargin, Model.Direction.Down);
     const menu = new Ui.Group(x, y, 160, 96, null, ah);
 
     const newgameButton = this._createNewgameButton();
     const continueButton = this._createConfigButton();
+    const creditButton = this._createCreditButton();
 
-    menu.push(newgameButton, continueButton);
+    menu.push(newgameButton, continueButton, creditButton);
 
     return menu;
   }
@@ -130,6 +131,29 @@ export class Opening extends Phaser.Scene {
       });
 
       this.selector.setGroup(gameConfig.mainConfig, [gameConfig]);
+    });
+
+    return button;
+  }
+
+  private _createCreditButton(): Button {
+    const buttonConfig = {
+      scene: this,
+      text: 'Credit',
+      fontSize: '24px',
+      fontFamily: 'serif',
+      backgroundAlpha: 0,
+    };
+
+    const button = new Button(buttonConfig, 0, 0, 144, 40);
+
+    button.on(Ui.ElementEventNames.Select, () => {
+      this.selectable = false;
+      this.cameras.main.fadeOut(1000, 0, 0, 0, (camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
+        if (progress === 1) {
+          this.scene.start('credit');
+        }
+      });
     });
 
     return button;
