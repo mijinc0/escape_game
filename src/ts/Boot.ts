@@ -20,7 +20,7 @@ export class Boot extends Phaser.Game {
   readonly gameGlobal: IGameGlobal;
 
   constructor() {
-    GameGlobal.debug = true;
+    GameGlobal.debug = false;
 
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,

@@ -1,11 +1,11 @@
 {
-  "name": "simple_game",
+  "name": "simple_escape_game",
   "version": "1.0.0",
   "description": "",
   "main": "./electron/public/main.js",
   "scripts": {
     "buildWeb": "rm -rf ./__build/* && npx webpack",
-    "buildElectron": "rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/* && npx webpack --env.electron && npx electron-builder --linux",
+    "buildElectron": "rm -rf ./electron/public/__build/* && rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/* && npx webpack --env.electron && npx electron-builder",
     "serve": "npx http-server ./__build -p 8080 -o -c-1",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')",
     "format": "npx eslint 'src/**/*.ts' --fix"
@@ -46,10 +46,18 @@
     },
     "linux": {
       "target": [
-        {
-          "target": "AppImage"
-        }
+        {"target": "zip"}
       ]
-    }
+    },
+    "win": {
+      "target": [
+        {"target": "zip"}
+      ]   
+    },
+    "mac": {
+      "target": [
+        {"target": "zip"}
+      ]   
+    } 
   }
 }
