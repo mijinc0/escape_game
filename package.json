@@ -4,9 +4,13 @@
   "description": "",
   "main": "./electron/public/main.js",
   "scripts": {
-    "buildWeb": "rm -rf ./__build/* && npx webpack",
-    "buildElectron": "rm -rf ./electron/public/__build/* && rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/* && npx webpack --env.electron && npx electron-builder",
-    "electron": "rm -rf ./electron/public/__build/* && rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/* && npx webpack --env.electron && npx electron .",
+    "refreshWeb": "rm -rf ./__build/*",
+    "buildWeb": "npm run refreshWeb && npx webpack",
+
+    "refreshElectron": "rm -rf ./electron/public/__build/* && rm -rf ./electron/public/assets/* && rm -rf ./electron/public/js/*",
+    "buildElectron": "npm run refreshElectron && npx webpack --env.electron && npx electron-builder",
+    "electron": "npm run refreshElectron && npx webpack --env.electron && npx electron .",
+    
     "serve": "npx http-server ./__build -p 8080 -o -c-1",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ./node_modules/.bin/mocha -r ts-node/register $(find ./src/test/ -name '*.spec.ts')",
     "format": "npx eslint 'src/**/*.ts' --fix"
