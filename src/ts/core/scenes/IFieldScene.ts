@@ -5,12 +5,14 @@ import * as Event from '../events';
 import * as Field from '../fields';
 import * as Render from '../renders';
 import * as Input from '../input';
+import { ICustomScene } from './ICustomScene';
+import { ICustomSceneManager } from './ICustomSceneManager';
 import { IGameGlobal } from '../IGameGlobal';
 
-export interface IFieldScene {
+export interface IFieldScene extends ICustomScene {
   phaserScene: Phaser.Scene;
 
-  uiScene: Phaser.Scene;
+  customScene: ICustomSceneManager;
 
   frame: number;
 

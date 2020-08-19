@@ -52,7 +52,7 @@ export class Message implements IScenarioEvent {
   init(scene: IFieldScene): void {
     this.isComplete = false;
     this.messageBuffers = this._createMessageBuffer(this.message);
-    this.messageBox = this._createMessageBox(scene.uiScene, this.justify, this.align, this.hasBackground);
+    this.messageBox = this._createMessageBox(scene.customScene.ui.phaserScene, this.justify, this.align, this.hasBackground);
 
     this._hideWaitingCursor();
   }

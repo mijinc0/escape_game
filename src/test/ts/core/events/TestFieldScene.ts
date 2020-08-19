@@ -12,6 +12,8 @@ import { IGameGlobal } from '../../../../ts/core/IGameGlobal';
  * テストで使う時はこのクラスを継承して必要なところだけ動くようなクラスを作る
  */
 export class TestFieldScene implements Scene.IFieldScene {
+  readonly type = -1;
+
   get phaserScene(): Phaser.Scene {
     throw Error(this._getErrorMessage('phaserScene'));
   }
@@ -20,12 +22,12 @@ export class TestFieldScene implements Scene.IFieldScene {
     throw Error(this._getErrorMessage('phaserScene'));
   }
 
-  get uiScene(): Phaser.Scene {
-    throw Error(this._getErrorMessage('uiScene'));
+  get customScene(): Scene.ICustomSceneManager {
+    throw Error(this._getErrorMessage('customScene'));
   }
 
-  set uiScene(v: Phaser.Scene) {
-    throw Error(this._getErrorMessage('uiScene'));
+  set customScene(v: Scene.ICustomSceneManager) {
+    throw Error(this._getErrorMessage('customScene'));
   }
 
   get frame(): number {

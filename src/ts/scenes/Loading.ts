@@ -1,8 +1,11 @@
 import * as Phaser from 'phaser';
 import * as Asset from '../core/assets';
+import * as Scene from '../core/scenes';
 import { ProgressBar } from '../ui/ProgressBar';
 
-export class Loading extends Phaser.Scene {
+export class Loading extends Phaser.Scene implements Scene.ICustomScene {
+  readonly type = Scene.SceneType.Loading;
+
   private config: Asset.IAssetLoadingConfig;
   private loadingText: Phaser.GameObjects.Text;
   private progressBar: ProgressBar;

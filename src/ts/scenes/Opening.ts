@@ -9,7 +9,9 @@ import { Button } from '../ui/Button';
 import { GameConfig } from '../ui/gameConfig/GameConfig';
 import { FieldIds } from '../fields/FieldIds';
 
-export class Opening extends Phaser.Scene {
+export class Opening extends Phaser.Scene implements Scene.ICustomScene {
+  readonly type = Scene.SceneType.Opening;
+
   private frame: number;
   private selector: Ui.ISelector;
   private audioManager: Audio.AudioManager;

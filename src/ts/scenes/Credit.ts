@@ -1,9 +1,12 @@
 import * as Phaser from 'phaser';
 import * as Input from '../core/input';
 import * as Locale from '../core/locales';
+import * as Scene from '../core/scenes';
 import { GameGlobal } from '../GameGlobal';
 
-export class Credit extends Phaser.Scene {
+export class Credit extends Phaser.Scene implements Scene.ICustomScene {
+  readonly type = Scene.SceneType.Credit;
+
   private isEndig: boolean;
   private keys: Input.Keys;
   private canSkip: boolean;

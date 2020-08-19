@@ -29,10 +29,10 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
     const seConfig = {};
     scene.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), seConfig);
 
-    this.selector = Ui.SelectorFactory.create(scene.uiScene, scene.keys);
+    this.selector = Ui.SelectorFactory.create(scene.customScene.ui.phaserScene, scene.keys);
 
     this.fieldMenu = new FieldMenu({
-      scene: scene.uiScene,
+      scene: scene.customScene.ui.phaserScene,
       gameGlobal: scene.gameGlobal,
     });
 
@@ -42,7 +42,7 @@ export class FieldMenuEvent implements Event.IScenarioEvent {
       console.log('open game config');
 
       const config = {
-        scene: scene.uiScene,
+        scene: scene.customScene.ui.phaserScene,
         gameGlobal: scene.gameGlobal,
       };
 

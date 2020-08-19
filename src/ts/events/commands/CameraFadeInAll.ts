@@ -20,7 +20,7 @@ export class CameraFadeInAll implements Event.IScenarioEvent {
   init(scene: Scene.IFieldScene): void {
     this.isComplete = false;
 
-    scene.uiScene.cameras.main.fadeIn(this.duration, 0, 0, 0, (camera: any, progress: number) => {
+    scene.customScene.ui.phaserScene.cameras.main.fadeIn(this.duration, 0, 0, 0, (camera: any, progress: number) => {
       if (progress === 1) {
         this.complete();
       }

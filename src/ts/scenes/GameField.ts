@@ -18,8 +18,10 @@ import { CameraEffectManagerFactory } from '../renders/CameraEffectManagerFactor
 import { GameFields } from '../fields/GameFields';
 
 export class GameField extends Phaser.Scene implements Scene.IFieldScene {
+  readonly type = Scene.SceneType.Field;
+
   phaserScene: Phaser.Scene;
-  uiScene: Phaser.Scene;
+  customScene: Scene.ICustomSceneManager;
   frame: number;
   gameGlobal: IGameGlobal;
   sceneConfig: Scene.IFieldSceneConfig;
@@ -48,7 +50,7 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
     );
 
     this.phaserScene = this;
-    this.uiScene = this._getUiScene();
+    this.customScene = new Scene.CustomSceneManager(this);
     this.sceneConfig = config;
     this.frame = -1;
     this.gameGlobal = GameGlobal;
@@ -84,16 +86,6 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
     }
 
     this.cameraEffectManager.update(time, delta);
-  }
-
-  private _getUiScene(): Phaser.Scene {
-    const scene = this.scene.get('ui');
-
-    if (!scene) {
-      throw Error('ui scene is not found');
-    }
-
-    return scene;
   }
 
   private _createKeys(): Input.Keys {
