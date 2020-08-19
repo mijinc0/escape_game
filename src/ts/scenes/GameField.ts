@@ -72,6 +72,8 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
 
     this._cameraSetting();
 
+    this._playBgm();
+
     this._sceneFadeInIfNeed();
   }
 
@@ -294,5 +296,16 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
     const event = new Event.EventRangeFactory(ScenarioEventCommandsFactory.cameraFadeInAll(300)).create();
 
     this.scenarioEventManager.start(event);
+  }
+
+  private _playBgm(): void {
+    const uiScene = this.customScene.ui;
+    if (uiScene) {
+      const bgmConfig = {
+        volume: 1,
+        fade: {duration: 2000, from: 0, to: 1},
+      };
+      uiScene.audioManager.playBgm(Asset.AssetCacheKey.audio('bgm_field'), bgmConfig, true);
+    }
   }
 }

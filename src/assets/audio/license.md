@@ -6,10 +6,6 @@
 
 https://maoudamashii.jokersounds.com/
 
-### BGM
-
-- 8bit 26 : bgm_maoudamashii_8bit26.ogg
-
 ### SE
 
 - 足音2 : se_maoudamashii_se_footstep02.ogg
@@ -25,7 +21,16 @@ https://maoudamashii.jokersounds.com/
 
 https://soundeffect-lab.info/
 
-## SE
+### SE
 
 - ガラスが割れる3 : se_soundeffect-lab_glass-break3.mp3
 - ナイフで突き刺す1 : se_soundeffect-lab_knife-stab-1.mp3
+
+## MusMus
+
+http://musmus.main.jp/
+
+### BGM
+
+- 呪いのオルゴール : bgm_musmus_112.mp3
+- メザメ : bgm_musmus_106.mp3

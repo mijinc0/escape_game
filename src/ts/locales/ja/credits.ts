@@ -18,7 +18,7 @@ const credits: Locales.ICreditTextEntry[] = [
 
   {
     heading: 'Audio material',
-    body: ['魔王魂', '効果音ラボ'],
+    body: ['魔王魂', '効果音ラボ', 'MusMus'],
   },
 ];
 

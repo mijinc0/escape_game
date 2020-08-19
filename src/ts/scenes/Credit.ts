@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import * as Asset from '../core/assets';
 import * as Input from '../core/input';
 import * as Locale from '../core/locales';
 import * as Scene from '../core/scenes';
@@ -13,6 +14,7 @@ export class Credit extends Phaser.Scene implements Scene.ICustomScene {
   private credits: Locale.ICreditTextEntry[];
   private creditIndex: number;
   private creaditTimeline: Phaser.Tweens.Timeline;
+  private customScene: Scene.ICustomSceneManager;
 
   init(config: any): void {
     console.log('== start scene Credit ==');
@@ -26,6 +28,7 @@ export class Credit extends Phaser.Scene implements Scene.ICustomScene {
     this.canSkip = false;
     this.keys = this._createKeys();
     this.creaditTimeline = null;
+    this.customScene = new Scene.CustomSceneManager(this);
 
     if (this.isEndig) {
       this.credits.push({
@@ -41,6 +44,15 @@ export class Credit extends Phaser.Scene implements Scene.ICustomScene {
         this.canSkip = true;
       },
     });
+
+    const uiScene = this.customScene.ui;
+    if (uiScene) {
+      const bgmConfig = {
+        volume: 0.7,
+        fade: {duration: 1000, from: 0, to: 1},
+      };
+      uiScene.audioManager.playBgm(Asset.AssetCacheKey.audio('bgm_event'), bgmConfig);
+    }
 
     this._showNextCredit();
   }

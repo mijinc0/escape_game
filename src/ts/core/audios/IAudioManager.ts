@@ -13,5 +13,7 @@ export interface IAudioManager {
 
   playSe(key: string, config: IPlayingAudioConfig): Phaser.Sound.BaseSound | null;
 
-  playBgm(key: string, config: IPlayingAudioConfig): Phaser.Sound.BaseSound | null;
+  playBgm(key: string, config: IPlayingAudioConfig, ignoreIfPlaying?: boolean): Phaser.Sound.BaseSound | null;
+
+  stopBgm(duration?: number, onComplete?: () => void): void;
 }

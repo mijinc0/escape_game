@@ -6,7 +6,11 @@ const entries: EntryBase[] = [
   // BGM
   {
     name: 'bgm_field',
-    path: 'assets/audio/bgm_maoudamashii_8bit26.ogg',
+    path: 'assets/audio/bgm_musmus_112.mp3',
+  },
+  {
+    name: 'bgm_event',
+    path: 'assets/audio/bgm_musmus_106.mp3',
   },
 
   // SE

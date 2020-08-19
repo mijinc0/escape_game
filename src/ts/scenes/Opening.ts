@@ -1,5 +1,4 @@
 import * as Phaser from 'phaser';
-import * as Audio from '../core/audios';
 import * as Asset from '../core/assets';
 import * as Ui from '../core/ui';
 import * as Model from '../core/models';
@@ -14,8 +13,8 @@ export class Opening extends Phaser.Scene implements Scene.ICustomScene {
 
   private frame: number;
   private selector: Ui.ISelector;
-  private audioManager: Audio.AudioManager;
   private selectable: boolean;
+  private customScene: Scene.ICustomSceneManager;
 
   init(): void {
     console.log('== start scene Opening ==');
@@ -25,7 +24,7 @@ export class Opening extends Phaser.Scene implements Scene.ICustomScene {
     this.frame = -1;
     this.selectable = false;
     this.selector = Ui.SelectorFactory.create(this);
-    this.audioManager = new Audio.AudioManager(this, GameGlobal.audioConfig);
+    this.customScene = new Scene.CustomSceneManager(this);
 
     // add title image & text
     const centerX = 320;
@@ -46,6 +45,12 @@ export class Opening extends Phaser.Scene implements Scene.ICustomScene {
 
     this._setSelectorSounds(this.selector);
     this.selector.setGroup(menu);
+    
+    // stop bgm
+    const uiScene = this.customScene.ui;
+    if (uiScene) {
+      uiScene.audioManager.stopBgm();
+    }
 
     // start
     this.cameras.main.fadeIn(1000, 0, 0, 0, (camera: Phaser.Cameras.Scene2D.Camera, progress: number) => {
@@ -129,7 +134,7 @@ export class Opening extends Phaser.Scene implements Scene.ICustomScene {
       const gameConfig = new GameConfig(config, 16, 16);
 
       gameConfig.mainConfig.addPlayingTestSeEvent(() => {
-        this.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), {});
+        this.customScene.ui.audioManager.playSe(Asset.AssetCacheKey.audio('se_open_fieldmenu'), {});
       });
 
       this.selector.setGroup(gameConfig.mainConfig, [gameConfig]);
@@ -162,6 +167,6 @@ export class Opening extends Phaser.Scene implements Scene.ICustomScene {
   }
 
   private _setSelectorSounds(selector: Ui.ISelector): void {
-    Ui.SelectorSeRegistrar.regist(selector, this.audioManager);
+    Ui.SelectorSeRegistrar.regist(selector, this.customScene.ui.audioManager);
   }
 }
