@@ -5,7 +5,7 @@ export class ShaderUtil {
     const renderer = game.renderer;
 
     if (renderer instanceof Phaser.Renderer.WebGL.WebGLRenderer) {
-      const pipeline = renderer.getPipeline(key);
+      const pipeline = renderer.pipelines.get(key);
       return pipeline ? pipeline : null;
     } else {
       console.warn('Renderer is not WebGLRenderer.');

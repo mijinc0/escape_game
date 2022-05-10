@@ -5,7 +5,7 @@ import { ILayerData } from './ILayerData';
 import { MapDataFactory } from './MapDataFactory';
 import { TileInfo } from './TileInfo';
 
-type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
+type StaticLayer = Phaser.Tilemaps.TilemapLayer;
 
 export class SceneTilemapFactory {
   private scene: Phaser.Scene;
@@ -74,11 +74,11 @@ export class SceneTilemapFactory {
     // 最後の引数のgidは大事。タイルのidを1からにしないと、マップファイルのデータとindexが1つずれてしまう。
     const tileset = tilemap.addTilesetImage(tileImageKey, undefined, tileSize.width, tileSize.height, 0, 0, 1);
 
-    // 3. create static layer
+    // 3. create layer
     // idは、tilemapオブジェクトの中に含まれているレイヤーデータのインデックスを指定する
     // 今回は、各レイヤーの生データを取り出して一つずつstaticLayerを生成しているので、
     // 全てtilemap中のindexは0になる
-    return tilemap.createStaticLayer(0, tileset, 0, 0);
+    return tilemap.createLayer(0, tileset, 0, 0);
   }
 
   private _addColliders(staticLayer: StaticLayer, tileInfos: TileInfo[]): void {

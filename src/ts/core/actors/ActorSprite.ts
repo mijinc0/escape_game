@@ -48,7 +48,7 @@ export class ActorSprite extends Phaser.Physics.Arcade.Sprite implements IActorS
 
       // onCompleteコールバックがある場合はセットしておく(一度限りなのでonceで)
       if (onCompleteEventCallback) {
-        anim.once('complete', onCompleteEventCallback);
+        this.once(Phaser.Animations.Events.ANIMATION_COMPLETE, onCompleteEventCallback);
       }
 
       // 自身にキャッシュされていればそのアニメーションを実行する

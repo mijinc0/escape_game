@@ -32,9 +32,13 @@ export class PlaySe implements Event.IScenarioEvent {
   update(scene: Scene.IFieldScene): void {
     if (this.startAudio) return;
 
-    scene.customScene.ui.audioManager.playSe(this.audioKey, this.audioConfig);
+    const node = scene.customScene.ui.audioManager.playSe(this.audioKey, this.audioConfig);
 
     this.startAudio = true;
+
+    if (!node) {
+      this.complete();
+    }
   }
 
   complete(): void {

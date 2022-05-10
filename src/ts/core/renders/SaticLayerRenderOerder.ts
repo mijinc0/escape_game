@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser';
 
-type StaticLayer = Phaser.Tilemaps.StaticTilemapLayer;
+type StaticLayer = Phaser.Tilemaps.TilemapLayer;
 
 /**
  * Actorがy座標によって(0~65535)変化するものとしてマップのレイヤーdepthを決める

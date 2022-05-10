@@ -275,7 +275,7 @@ export class GameField extends Phaser.Scene implements Scene.IFieldScene {
   private _tilemapCollisionSetting(spawnActor: Actor.IFieldActor): void {
     // overActorのレイヤーは衝突しない
     const overActorLayerIndex = 2;
-    this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.StaticTilemapLayer, index: number) => {
+    this.tilemapData.staticLayers.forEach((layer: Phaser.Tilemaps.TilemapLayer, index: number) => {
       if (index < overActorLayerIndex) {
         this.actorColliderRegistrar.registActorAndGameObject(spawnActor, layer);
       }

@@ -29,15 +29,20 @@ module.exports = env => {
       ]
     },
     plugins: [
-      new CopyPlugin(
-        [
-          { from: './src/index.html', to: path.resolve(distDirPath, 'index.html') },
-          { from: './src/assets', to: path.resolve(distDirPath, 'assets') },
+      new CopyPlugin({
+        patterns: [
+          {
+            from: './src/index.html',
+            to: path.resolve(distDirPath, 'index.html'),
+            globOptions: {ignore: ['*.ts']}
+          },
+          {
+            from: './src/assets',
+            to: path.resolve(distDirPath, 'assets'),
+            globOptions: {ignore: ['*.ts']}
+          },
         ],
-        {
-          ignore: ['*.ts'],
-        }
-      ),
+      }),
     ],
   };
 };
